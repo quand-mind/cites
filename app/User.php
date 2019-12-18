@@ -33,6 +33,6 @@ class User extends Authenticatable
     }
 
     public function faqsAnswered () {
-        return $this->hasMany(('App\FAQ'));
+        return $this->hasMany('App\FAQ');
     }
 }

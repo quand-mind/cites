@@ -23,4 +23,8 @@ class FAQ extends Model
     public function responser() {
         return $this->belongsTo('App\User');
     }
+
+    public function categories() {
+        return $this->belongsToMany('App\FAQCategory');
+    }
 }

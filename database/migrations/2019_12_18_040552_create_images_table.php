@@ -16,14 +16,11 @@ class CreateImagesTable extends Migration
         Schema::create('images', function (Blueprint $table) {
             $table->increments('id');
             $table->string('author');
-            $table->string('location')->nullable(true);
-            $table->string('alt_image')->nullable(true);
-            $table->timestamp('picture_date')->nullable(true);
-            $table->unsignedInteger('new_id');
+            $table->string('alt_img')->nullable(true);
+            $table->dateTime('date')->nullable(true);
+            $table->string('url');
+            $table->string('label');
             $table->timestamps();
-
-            $table->foreign('new_id')->references('id')->on('news')
-                    ->onDelete('cascade');
         });
     }
 

@@ -17,15 +17,18 @@ class CreateNewsTable extends Migration
             $table->increments('id');
             $table->string('title');
             $table->string('slug');
-            $table->string('meta_description');
-            $table->string('meta_robots');
-            $table->string('meta_keywords');
-            $table->timestamp('publish_date');
+            $table->string('meta_description')->nullable();
+            $table->string('meta_robots')->nullable();
+            $table->string('meta_keywords')->nullable();
+            $table->dateTime('publish_date');
             $table->text('content');
             $table->unsignedInteger('user_id');
+            $table->unsignedInteger('img_id');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('img_id')->references('id')->on('images')
+                    ->onDelete('cascade');
         });
     }
 

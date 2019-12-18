@@ -35,5 +35,9 @@ class UsersTableSeeder extends Seeder
             'username'  => 'writertester',
             'role'      => 'writer'
         ]);
+
+        factory(App\User::class, 5)->create([
+            'role' => 'writer'
+        ]);
     }
 }

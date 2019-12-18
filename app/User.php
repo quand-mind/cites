@@ -35,4 +35,12 @@ class User extends Authenticatable
     public function faqsAnswered () {
         return $this->hasMany('App\FAQ');
     }
+
+    public function createdPages () {
+        return $this->hasMany('App\Page');
+    }
+
+    public function lastModifiedPages () {
+        return $this->hasMany('App\Pages');
+    }
 }

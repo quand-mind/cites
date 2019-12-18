@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Page extends Model
+class Comment extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -12,14 +12,14 @@ class Page extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'slug', 'meta_description', 'meta_keywords', 'meta_robots', 'content'
+        'content'
     ];
 
-    public function lastModifiedBy () {
+    public function getUser () {
         return $this->belongsTo('App\User');
     }
 
-    public function createdBy () {
-        return $this->belongsTo('App\User');
+    public function getNew () {
+        return $this->belongsTo('App\News');
     }
 }

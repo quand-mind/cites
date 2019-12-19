@@ -3,6 +3,6 @@
 @else
     {{-- // render vue component for admins --}}
     <div id="asideAdmin">
-        <aside-admin :user={{auth()->user()}}></aside-admin>
+        <aside-admin :user="{{auth()->user()}}"></aside-admin>
     </div>
 @endif

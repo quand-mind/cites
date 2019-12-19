@@ -16,22 +16,22 @@
     </button>
     <div class="list-group">
       <a href="/dashboard/users" class="list-group-item list-group-item-action">
-        <font-awesome-icon :icon="['fas', 'users']"></font-awesome-icon>Usuarios
+        <font-awesome-icon :icon="['fas', 'users']"></font-awesome-icon>&nbsp;Usuarios
       </a>
       <a href="/dashboard/pages" class="list-group-item list-group-item-action">
-        <font-awesome-icon :icon="['fas', 'book-open']"></font-awesome-icon>Páginas
+        <font-awesome-icon :icon="['fas', 'book-open']"></font-awesome-icon>&nbsp;Páginas
       </a>
       <a href="/dashboard/news" class="list-group-item list-group-item-action">
-        <font-awesome-icon :icon="['fas', 'newspaper']"></font-awesome-icon>Noticias
+        <font-awesome-icon :icon="['fas', 'newspaper']"></font-awesome-icon>&nbsp;Noticias
       </a>
       <a href="/dashboard/FAQs" class="list-group-item list-group-item-action">
-        <font-awesome-icon :icon="['fas', 'question-circle']"></font-awesome-icon>Preguntas frecuentes
+        <font-awesome-icon :icon="['fas', 'question-circle']"></font-awesome-icon>&nbsp;Preguntas frecuentes
       </a>
       <a href="/dashboard/FAQs-categories" class="list-group-item list-group-item-action">
-        <font-awesome-icon :icon="['fas', 'th-list']"></font-awesome-icon>Categorías de preguntas
+        <font-awesome-icon :icon="['fas', 'th-list']"></font-awesome-icon>&nbsp;Categorías de preguntas
       </a>
       <a href="/dashbaord/surveys" class="list-group-item list-group-item-action">
-        <font-awesome-icon :icon="['fas', 'poll']"></font-awesome-icon>Encuestas
+        <font-awesome-icon :icon="['fas', 'poll']"></font-awesome-icon>&nbsp;Encuestas
       </a>
     </div>
   </aside>

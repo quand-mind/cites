@@ -13,13 +13,15 @@
       </div>
 
       <!-- user photo slot -->
-      <img
+      <b-img
+        thumbnail
+        fluid
         slot="foto"
         class="profile-img"
         slot-scope="props"
-        :src="props.row.photo"
+        :src="props.row.photo || '/images/default-user.png'"
         alt="user photo"
-      />
+      ></b-img>
 
       <!-- is active slot -->
       <b-form-checkbox
@@ -65,7 +67,20 @@
         <span>Editando Usuario: {{selectedUser.username}}</span>
       </template>
       <div v-if="selectedUser" class="d-block">
-        <b-form @submit.prevent="onEditSubmit" @reset="onReset">
+        <b-form class="edit-form" @submit.prevent="onEditSubmit" @reset="onReset">
+          <b-form-group class="user-photo">
+            <picture>
+              <b-img thumbnail fluid :src="editPhotoURL || selectedUser.photo" alt="user photo"></b-img>
+            </picture>
+            <b-form-file
+              accept="image/*"
+              v-model="formPhoto"
+              placeholder="Choose a file or drop it here..."
+              drop-placeholder="Drop file here..."
+            ></b-form-file>
+            <div class="mt-3">Selected file: {{ formPhoto ? formPhoto.name : '' }}</div>
+          </b-form-group>
+
           <b-form-group id="input-group-2" label="Nombre:" label-for="input-2">
             <b-form-input id="input-2" v-model="editForm.name" required placeholder="Jose Quintero"></b-form-input>
           </b-form-group>
@@ -126,7 +141,8 @@ export default {
     tableData: [],
     options: {},
     selectedUser: null,
-    editForm: {}
+    editForm: {},
+    formPhoto: null
   }),
   methods: {
     editUser(user) {
@@ -153,31 +169,40 @@ export default {
     },
     hideEditModal() {
       this.$refs["edit-modal"].hide();
+      this.selectedUser = null;
+      this.formPhoto = null;
     },
     hideDeleteModal() {
       this.$refs["delete-modal"].hide();
     },
     handleCheckBoxChange(row) {
-      let uIdx = this.tableData.findIndex(user => row.id === user.id);
-      this.tableData[uIdx].is_active = !this.tableData[uIdx].is_active;
+      let _this = this;
+      let uIdx = _this.tableData.findIndex(user => row.id === user.id);
+      _this.tableData[uIdx].is_active = !_this.tableData[uIdx].is_active;
 
-      // Change user active state on db
+      axios
+        .put(`/dashboard/users/edit/${row.id}`, {
+          is_active: _this.tableData[uIdx].is_active
+        })
+        .then(res => {
+          if (res.status === 200) {
+            _this.makeToast(res.data, "info", 2000);
+          }
+        })
+        .catch(err => console.log(err));
     },
     onEditSubmit() {
       let _this = this;
-
-      //   console.log(_this.editForm);
 
       axios
         .put(`/dashboard/users/edit/${this.selectedUser.id}`, {
           ...this.editForm
         })
         .then(res => {
-          //   console.log(res);
           if (res.status === 200) {
             _this.makeToast(res.data);
             _this.hideEditModal();
-            setTimeout(() => window.location.reload(), 3200);
+            setTimeout(() => window.location.reload(), 3000);
           }
         })
         .catch(err => console.log(err));
@@ -186,13 +211,19 @@ export default {
       this.editForm = {};
     },
 
-    makeToast(msg, append = false, variant = "success") {
+    makeToast(msg, variant = "success", delay = 3000, append = false) {
       this.$bvToast.toast(`${msg}`, {
         title: "Evento de actualización de usuario",
-        autoHideDelay: 3000,
+        autoHideDelay: delay,
         appendToast: append,
         variant
       });
+    }
+  },
+
+  computed: {
+    editPhotoURL() {
+      return this.formPhoto ? URL.createObjectURL(this.formPhoto) : null;
     }
   },
   mounted() {
@@ -203,7 +234,6 @@ export default {
   }
 };
 </script>
-d
 <style lang="scss">
 .action-container {
   display: flex;
@@ -226,5 +256,21 @@ d
   height: 50px;
   margin: 0 auto;
   display: block;
+}
+
+.edit-form {
+  .user-photo {
+    position: relative;
+
+    .edit-photo {
+      position: absolute;
+      bottom: 0;
+      left: 4px;
+    }
+
+    img {
+      max-width: 110px;
+    }
+  }
 }
 </style>

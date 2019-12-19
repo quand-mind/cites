@@ -43,4 +43,9 @@ class User extends Authenticatable
     public function lastModifiedPages () {
         return $this->hasMany('App\Pages');
     }
+
+    // methods
+    public function isWriter () {
+        return $this->role == 'writer';
+    }
 }

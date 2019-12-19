@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use Exception;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -70,7 +71,15 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $values = $request->all();
+
+        try {
+            User::find($id)->update($values);
+        } catch (Exception $err) {
+            return response($err->getMessage(), 500);
+        }
+
+        return response('Usuario actualizado', 200);
     }
 
     /**

@@ -45,6 +45,8 @@
       <span slot="rol" slot-scope="props">{{props.row.role}}</span>
     </v-client-table>
 
+    <!-- Delete modal -->
+
     <b-modal ref="delete-modal" hide-footer>
       <template v-slot:modal-title>
         <span class="text-danger">Deleting User</span>
@@ -55,6 +57,8 @@
 
       <b-button class="mt-3" block @click="hideDeleteModal">Cancel</b-button>
     </b-modal>
+
+    <!-- Edit modal -->
 
     <b-modal ref="edit-modal" hide-footer>
       <template v-slot:modal-title>
@@ -104,6 +108,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   props: ["users"],
   data: () => ({
@@ -132,7 +138,6 @@ export default {
       this.showDeleteModal();
     },
     showEditModal() {
-      this.$refs["edit-modal"].show();
       this.editForm = {
         name: this.selectedUser.name,
         username: this.selectedUser.username,
@@ -141,6 +146,7 @@ export default {
         photo: this.selectedUser.photo,
         is_active: this.selectedUser.is_active
       };
+      this.$refs["edit-modal"].show();
     },
     showDeleteModal() {
       this.$refs["delete-modal"].show();
@@ -158,10 +164,35 @@ export default {
       // Change user active state on db
     },
     onEditSubmit() {
-      console.log(this.editForm);
+      let _this = this;
+
+      //   console.log(_this.editForm);
+
+      axios
+        .put(`/dashboard/users/edit/${this.selectedUser.id}`, {
+          ...this.editForm
+        })
+        .then(res => {
+          //   console.log(res);
+          if (res.status === 200) {
+            _this.makeToast(res.data);
+            _this.hideEditModal();
+            setTimeout(() => window.location.reload(), 3200);
+          }
+        })
+        .catch(err => console.log(err));
     },
     onReset() {
       this.editForm = {};
+    },
+
+    makeToast(msg, append = false, variant = "success") {
+      this.$bvToast.toast(`${msg}`, {
+        title: "Evento de actualización de usuario",
+        autoHideDelay: 3000,
+        appendToast: append,
+        variant
+      });
     }
   },
   mounted() {

@@ -25,5 +25,6 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
 
         // Users Controllers
         Route::get('/users', 'UserController@index')->name('users');
+        Route::put('/users/edit/{id}', 'UserController@update')->name('edit-user');
     });
 });

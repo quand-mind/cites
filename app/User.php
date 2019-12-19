@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'username', 'isActive', 'photo'
+        'name', 'email', 'password', 'username', 'is_active', 'photo', 'role'
     ];
 
     /**
@@ -28,24 +28,29 @@ class User extends Authenticatable
     ];
 
 
-    public function faqsMade () {
+    public function faqsMade()
+    {
         return $this->hasMany('App\FAQ');
     }
 
-    public function faqsAnswered () {
+    public function faqsAnswered()
+    {
         return $this->hasMany('App\FAQ');
     }
 
-    public function createdPages () {
+    public function createdPages()
+    {
         return $this->hasMany('App\Page');
     }
 
-    public function lastModifiedPages () {
+    public function lastModifiedPages()
+    {
         return $this->hasMany('App\Pages');
     }
 
     // methods
-    public function isWriter () {
+    public function isWriter()
+    {
         return $this->role == 'writer';
     }
 }

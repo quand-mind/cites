@@ -64,7 +64,7 @@
 
     <b-modal ref="edit-modal" hide-footer>
       <template v-slot:modal-title>
-        <span>Editando Usuario: {{selectedUser.username}}</span>
+        <span>Editando Usuario: {{selectedUser && selectedUser.username}}</span>
       </template>
       <div v-if="selectedUser" class="d-block">
         <b-form class="edit-form" @submit.prevent="onEditSubmit" @reset="onReset">
@@ -139,7 +139,10 @@ export default {
     ],
     roles: ["writer", "admin"],
     tableData: [],
-    options: {},
+    options: {
+      perPage: 10,
+      perPageValues: [10, 20, 50]
+    },
     selectedUser: null,
     editForm: {},
     formPhoto: null
@@ -169,6 +172,7 @@ export default {
     },
     hideEditModal() {
       this.$refs["edit-modal"].hide();
+      this.editForm = {};
       this.selectedUser = null;
       this.formPhoto = null;
     },
@@ -181,7 +185,7 @@ export default {
       _this.tableData[uIdx].is_active = !_this.tableData[uIdx].is_active;
 
       axios
-        .put(`/dashboard/users/edit/${row.id}`, {
+        .post(`/dashboard/users/edit/${row.id}`, {
           is_active: _this.tableData[uIdx].is_active
         })
         .then(res => {
@@ -193,16 +197,26 @@ export default {
     },
     onEditSubmit() {
       let _this = this;
+      let form = new FormData();
+
+      Object.keys(_this.editForm).forEach(key => {
+        form.append(key, _this.editForm[key]);
+      });
+
+      _this.formPhoto && form.append("editPhoto", _this.formPhoto);
 
       axios
-        .put(`/dashboard/users/edit/${this.selectedUser.id}`, {
-          ...this.editForm
+        .post(`/dashboard/users/edit/${_this.selectedUser.id}`, form, {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
         })
         .then(res => {
           if (res.status === 200) {
+            console.log(res.data);
             _this.makeToast(res.data);
             _this.hideEditModal();
-            setTimeout(() => window.location.reload(), 3000);
+            // setTimeout(() => window.location.reload(), 3000);
           }
         })
         .catch(err => console.log(err));

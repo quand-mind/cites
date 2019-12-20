@@ -72,7 +72,22 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         // Validate inputs
-        $values = $request->all();
+
+
+        if ($request->hasFile('editPhoto')) {
+            // handle user picture
+            $values = $request->except('editPhoto');
+
+            // Save picture
+            $path = $request->file('editPhoto')->store('images');
+            $path = '/storage/' . $path;
+
+            $values['photo'] = $path;
+        } else {
+            $values = $request->all();
+        }
+
+        $request->has('is_active') && $values['is_active'] = $values['is_active'] == 1;
 
         try {
             User::find($id)->update($values);

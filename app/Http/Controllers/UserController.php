@@ -82,6 +82,8 @@ class UserController extends Controller
             $path = $request->file('editPhoto')->store('images');
             $path = '/storage/' . $path;
 
+            // Delete prev picture if exist
+
             $values['photo'] = $path;
         } else {
             $values = $request->all();

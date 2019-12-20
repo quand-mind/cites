@@ -216,7 +216,7 @@ export default {
             console.log(res.data);
             _this.makeToast(res.data);
             _this.hideEditModal();
-            // setTimeout(() => window.location.reload(), 3000);
+            setTimeout(() => window.location.reload(), 3000);
           }
         })
         .catch(err => console.log(err));

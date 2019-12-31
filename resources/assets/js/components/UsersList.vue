@@ -213,7 +213,6 @@ export default {
         })
         .then(res => {
           if (res.status === 200) {
-            console.log(res.data);
             _this.makeToast(res.data);
             _this.hideEditModal();
             setTimeout(() => window.location.reload(), 3000);
@@ -242,7 +241,7 @@ export default {
   },
   mounted() {
     this.tableData = this.users.map(user => {
-      user.is_active === 1 ? (user.is_active = true) : (user.is_active = false);
+      user.is_active = user.is_active === 1;
       return user;
     });
   }

@@ -72,32 +72,40 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         // Validate inputs
+        if ($request->validate([
+            'username' => 'alpha_num | nullable',
+            'name' => 'nullable | string',
+            'email' => 'email | nullable',
+            'is_active' => 'boolean | nullable',
+            'photo' =>  'image | mimes:jpeg,jpg,png | max:1024 | nullable',
+            'role' => 'in:[admin, superuser, client, writer]'
+        ])) {
 
+            if ($request->hasFile('editPhoto')) {
+                // handle user picture
+                $values = $request->except('editPhoto');
 
-        if ($request->hasFile('editPhoto')) {
-            // handle user picture
-            $values = $request->except('editPhoto');
+                // Save picture
+                $path = $request->file('editPhoto')->store('images');
+                $path = '/storage/' . $path;
 
-            // Save picture
-            $path = $request->file('editPhoto')->store('images');
-            $path = '/storage/' . $path;
+                // Delete prev picture if exist
 
-            // Delete prev picture if exist
+                $values['photo'] = $path;
+            } else {
+                $values = $request->all();
+            }
 
-            $values['photo'] = $path;
-        } else {
-            $values = $request->all();
+            $request->has('is_active') && $values['is_active'] = $values['is_active'] == 1;
+
+            try {
+                User::find($id)->update($values);
+            } catch (Exception $err) {
+                return response($err->getMessage(), 500);
+            }
+
+            return response('Usuario actualizado', 200);
         }
-
-        $request->has('is_active') && $values['is_active'] = $values['is_active'] == 1;
-
-        try {
-            User::find($id)->update($values);
-        } catch (Exception $err) {
-            return response($err->getMessage(), 500);
-        }
-
-        return response('Usuario actualizado', 200);
     }
 
     /**

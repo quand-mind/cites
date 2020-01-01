@@ -27,5 +27,6 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         Route::get('/users', 'UserController@index')->name('users');
         Route::post('/users/create', 'UserController@store');
         Route::post('/users/edit/{id}', 'UserController@update');
+        Route::post('/users/changeActiveState/{id}', 'UserController@changeActiveState');
     });
 });

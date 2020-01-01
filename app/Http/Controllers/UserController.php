@@ -73,20 +73,20 @@ class UserController extends Controller
     {
         // Validate inputs
         if ($request->validate([
-            'username' => 'alpha_num | nullable',
-            'name' => 'nullable | string',
-            'email' => 'email | nullable',
-            'is_active' => 'boolean | nullable',
-            'photo' =>  'image | mimes:jpeg,jpg,png | max:1024 | nullable',
-            'role' => 'in:[admin, superuser, client, writer]'
+            'username' => 'alpha_dash',
+            'name' => 'string',
+            'email' => 'email',
+            'is_active' => 'boolean',
+            'photo' =>  'nullable|mimes:jpeg,jpg,png|image|max:1024',
+            'role' => 'in:admin,superuser,client,writer'
         ])) {
 
-            if ($request->hasFile('editPhoto')) {
+            if ($request->hasFile('photo')) {
                 // handle user picture
-                $values = $request->except('editPhoto');
+                $values = $request->except('photo');
 
                 // Save picture
-                $path = $request->file('editPhoto')->store('images');
+                $path = $request->file('photo')->store('images');
                 $path = '/storage/' . $path;
 
                 // Delete prev picture if exist
@@ -95,8 +95,6 @@ class UserController extends Controller
             } else {
                 $values = $request->all();
             }
-
-            $request->has('is_active') && $values['is_active'] = $values['is_active'] == 1;
 
             try {
                 User::find($id)->update($values);
@@ -117,5 +115,18 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function changeActiveState (Request $request, $id) {
+        if ($request->validate([
+            'is_active' => 'boolean'
+        ])) {
+            $user = User::find($id);
+            $user->is_active = $request->input('is_active');
+            $user->save();
+            return response('Usuario actualizado', 200);
+        }
+
+        return response('Error actualizando estado del usuario', 500);
     }
 }

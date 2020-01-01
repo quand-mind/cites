@@ -119,6 +119,65 @@
 
       <b-button class="mt-3" block @click="hideEditModal">Cancelar</b-button>
     </b-modal>
+
+    <!-- Create user modal -->
+    <b-modal ref="create-modal" hide-footer>
+      <template v-slot:modal-title>
+        <span>Nuevo Usuario</span>
+      </template>
+      <div class="d-block">
+        <b-form class="edit-form" @submit.prevent="onCreateSubmit" @reset="onResetCreate">
+          <b-form-group class="user-photo">
+            <picture>
+              <b-img thumbnail fluid src="" alt="user photo"></b-img>
+            </picture>
+            <b-form-file
+              accept="image/*"
+              v-model="newPhoto"
+              placeholder="Choose a file or drop it here..."
+              drop-placeholder="Drop file here..."
+            ></b-form-file>
+            <div class="mt-3">Selected file: {{ newPhoto ? newPhoto.name : '' }}</div>
+          </b-form-group>
+
+          <b-form-group label="Nombre:" label-for="input-2">
+            <b-form-input  v-model="createForm.name" required placeholder="Jose Quintero"></b-form-input>
+          </b-form-group>
+
+          <b-form-group label="Usuario:" label-for="input-2">
+            <b-form-input
+              
+              v-model="createForm.username"
+              required
+              placeholder="jose_usuario"
+            ></b-form-input>
+          </b-form-group>
+
+          <b-form-group label="Correo:" label-for="input-1">
+            <b-form-input
+              
+              v-model="createForm.email"
+              type="email"
+              required
+              placeholder="Enter email"
+            ></b-form-input>
+          </b-form-group>
+
+          <b-form-group label="Rol:" label-for="input-3">
+            <b-form-select  v-model="createForm.role" :options="roles" required></b-form-select>
+          </b-form-group>
+
+          <b-form-group>
+            <b-form-checkbox v-model="createForm.is_active">Usuario activo</b-form-checkbox>
+          </b-form-group>
+
+          <b-button type="submit" variant="success">Crear Usuario</b-button>
+          <b-button type="reset" variant="outline-danger">Limpiar</b-button>
+        </b-form>
+      </div>
+
+      <b-button class="mt-3" block @click="hideCreateModal">Cancelar</b-button>
+    </b-modal>
   </div>
 </template>
 
@@ -145,9 +204,24 @@ export default {
     },
     selectedUser: null,
     editForm: {},
-    formPhoto: null
+    createForm: {
+      name: "",
+      username: "",
+      email: "",
+      role: "",
+      photo: null,
+      is_active: true
+    },
+    formPhoto: null,
+    newPhoto: null
   }),
   methods: {
+    showCreatemodal () {
+      this.$refs["create-modal"].show();
+    },
+    hideCreateModal () {
+      this.$refs["create-modal"].hide();
+    },
     editUser(user) {
       this.selectedUser = user;
       this.showEditModal();
@@ -163,8 +237,9 @@ export default {
         email: this.selectedUser.email,
         role: this.selectedUser.role,
         photo: this.selectedUser.photo,
-        is_active: this.selectedUser.is_active
+        is_active: Boolean(this.selectedUser.is_active)
       };
+      console.log(this.editForm)
       this.$refs["edit-modal"].show();
     },
     showDeleteModal() {
@@ -185,7 +260,7 @@ export default {
       _this.tableData[uIdx].is_active = !_this.tableData[uIdx].is_active;
 
       axios
-        .post(`/dashboard/users/edit/${row.id}`, {
+        .post(`/dashboard/users/changeActiveState/${row.id}`, {
           is_active: _this.tableData[uIdx].is_active
         })
         .then(res => {
@@ -200,10 +275,15 @@ export default {
       let form = new FormData();
 
       Object.keys(_this.editForm).forEach(key => {
-        form.append(key, _this.editForm[key]);
+        if (key === 'is_active') {
+          form.append(key, Number(_this.editForm[key]))
+          return
+        }
+        
+        if (key !== 'photo') form.append(key, _this.editForm[key]);
       });
-
-      _this.formPhoto && form.append("editPhoto", _this.formPhoto);
+      
+      _this.formPhoto && form.append("photo", _this.formPhoto);
 
       axios
         .post(`/dashboard/users/edit/${_this.selectedUser.id}`, form, {
@@ -222,6 +302,16 @@ export default {
     },
     onReset() {
       this.editForm = {};
+    },
+    onResetCreate () {
+      this.createForm = {
+        name: "",
+        username: "",
+        email: "",
+        role: "",
+        photo: null,
+        is_active: true
+      }
     },
 
     makeToast(msg, variant = "success", delay = 3000, append = false) {

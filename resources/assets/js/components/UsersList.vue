@@ -1,5 +1,6 @@
 <template>
   <div>
+    <b-button @click="showCreateModal" variant="primary">Crear nuevo usuario</b-button>
     <v-client-table :data="tableData" :columns="columns" :options="options">
       <!-- actions slot -->
       <div class="action-container" slot="acciones" slot-scope="props">
@@ -75,8 +76,9 @@
             <b-form-file
               accept="image/*"
               v-model="formPhoto"
-              placeholder="Choose a file or drop it here..."
+              placeholder="Choose a photo (Max. 2MB)"
               drop-placeholder="Drop file here..."
+              max-size="2048"
             ></b-form-file>
             <div class="mt-3">Selected file: {{ formPhoto ? formPhoto.name : '' }}</div>
           </b-form-group>
@@ -129,12 +131,12 @@
         <b-form class="edit-form" @submit.prevent="onCreateSubmit" @reset="onResetCreate">
           <b-form-group class="user-photo">
             <picture>
-              <b-img thumbnail fluid src="" alt="user photo"></b-img>
+              <b-img thumbnail fluid :src="newPhotoUrl || '/images/default-user.png'" alt="user photo"></b-img>
             </picture>
             <b-form-file
               accept="image/*"
               v-model="newPhoto"
-              placeholder="Choose a file or drop it here..."
+              placeholder="Choose a photo (Max. 2MB)"
               drop-placeholder="Drop file here..."
             ></b-form-file>
             <div class="mt-3">Selected file: {{ newPhoto ? newPhoto.name : '' }}</div>
@@ -160,6 +162,25 @@
               type="email"
               required
               placeholder="Enter email"
+            ></b-form-input>
+          </b-form-group>
+
+          <b-form-group label="Contraseña:" label-for="input-2">
+            <b-form-input
+              v-model="createForm.password"
+              required
+              type="password"
+              placeholder="********"
+            ></b-form-input>
+          </b-form-group>
+
+          <b-form-group label="Repita la contraseña:" label-for="input-2">
+            <b-form-input
+              
+              v-model="createForm.password_confirmation"
+              required
+              type="password"
+              placeholder="********"
             ></b-form-input>
           </b-form-group>
 
@@ -209,14 +230,15 @@ export default {
       username: "",
       email: "",
       role: "",
-      photo: null,
-      is_active: true
+      is_active: true,
+      password: "",
+      password_confirmation: ""
     },
     formPhoto: null,
     newPhoto: null
   }),
   methods: {
-    showCreatemodal () {
+    showCreateModal () {
       this.$refs["create-modal"].show();
     },
     hideCreateModal () {
@@ -239,7 +261,6 @@ export default {
         photo: this.selectedUser.photo,
         is_active: Boolean(this.selectedUser.is_active)
       };
-      console.log(this.editForm)
       this.$refs["edit-modal"].show();
     },
     showDeleteModal() {
@@ -279,7 +300,7 @@ export default {
           form.append(key, Number(_this.editForm[key]))
           return
         }
-        
+
         if (key !== 'photo') form.append(key, _this.editForm[key]);
       });
       
@@ -298,7 +319,9 @@ export default {
             setTimeout(() => window.location.reload(), 3000);
           }
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+          _this.makeToast(err.response.data, 'danger');
+        });
     },
     onReset() {
       this.editForm = {};
@@ -309,8 +332,9 @@ export default {
         username: "",
         email: "",
         role: "",
-        photo: null,
-        is_active: true
+        is_active: true,
+        password_confirmation: "",
+        password: ""
       }
     },
 
@@ -321,12 +345,44 @@ export default {
         appendToast: append,
         variant
       });
+    },
+    onCreateSubmit () {
+      let _this = this
+
+      let form = new FormData();
+
+      Object.keys(_this.createForm).forEach(key => {
+        if (key === 'is_active') form.append(key, Number(_this.createForm[key]))
+        else form.append(key,_this.createForm[key])
+      });
+
+      _this.newPhoto && form.append("photo", _this.newPhoto);
+
+      axios
+        .post(`/dashboard/users/create/`, form, {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        })
+        .then(res => {
+          if (res.status === 200) {
+            _this.makeToast(res.data);
+            _this.hideEditModal();
+            setTimeout(() => window.location.reload(), 3000);
+          }
+        })
+        .catch(err => {
+          _this.makeToast(err.response.data, 'danger');
+        });
     }
   },
 
   computed: {
     editPhotoURL() {
       return this.formPhoto ? URL.createObjectURL(this.formPhoto) : null;
+    },
+    newPhotoUrl () {
+      return this.newPhoto ? URL.createObjectURL(this.newPhoto) : null;
     }
   },
   mounted() {
@@ -375,5 +431,12 @@ export default {
       max-width: 110px;
     }
   }
+}
+
+// Table styles
+
+// hide default filter
+.VueTables__search {
+  display: none;
 }
 </style>

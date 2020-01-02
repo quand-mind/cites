@@ -37,7 +37,36 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Validate data 
+        if ($request->validate([
+            'username' => 'required|unique:users|alpha_dash',
+            'name' => 'required|string',
+            'email' => 'required|unique:users|email',
+            'is_active' => 'required|boolean',
+            'photo' =>  'nullable|sometimes|mimes:jpeg,jpg,png|image|max:1024',
+            'role' => 'required|in:admin,writer'
+        ])) {
+            if ($request->hasFile('photo')) {
+                // handle user picture
+                $values = $request->except(['photo', 'password_confirmation']);
+
+                // Save picture
+                $path = $request->file('photo')->store('images');
+                $path = '/storage/' . $path;
+
+                $values['photo'] = $path;
+            } else {
+                $values = $request->except('password_confirmation');
+            }
+
+            try {
+                User::create($values);
+            } catch (Exception $err) {
+                return response($err->getMessage(), 500);
+            }
+
+            return response('Usuario creado', 200);
+        }
     }
 
     /**
@@ -77,8 +106,8 @@ class UserController extends Controller
             'name' => 'string',
             'email' => 'email',
             'is_active' => 'boolean',
-            'photo' =>  'nullable|mimes:jpeg,jpg,png|image|max:1024',
-            'role' => 'in:admin,superuser,client,writer'
+            'photo' =>  'nullable|mimes:jpeg,jpg,png|image|max:2048',
+            'role' => 'in:admin,writer'
         ])) {
 
             if ($request->hasFile('photo')) {
@@ -94,6 +123,16 @@ class UserController extends Controller
                 $values['photo'] = $path;
             } else {
                 $values = $request->all();
+            }
+
+            $user = User::where('username', $request->username)->first();
+            if ($user && $user->id != $id) {
+                return response('Este nombre de usuario ya existe', 400);
+            }
+
+            $user = User::where('email', $request->email)->first();
+            if ($user && $user->id != $id) {
+                return response('Ya existe un usuario con este correo', 400);
             }
 
             try {
@@ -121,12 +160,17 @@ class UserController extends Controller
         if ($request->validate([
             'is_active' => 'boolean'
         ])) {
-            $user = User::find($id);
-            $user->is_active = $request->input('is_active');
-            $user->save();
-            return response('Usuario actualizado', 200);
+
+            try {
+                $user = User::find($id);
+                $user->is_active = $request->input('is_active');
+                $user->save();
+                return response('Usuario actualizado', 200);
+            } catch (Exception $err) {
+
+                return response($err->getMessage(), 500);
+            }
         }
 
-        return response('Error actualizando estado del usuario', 500);
     }
 }

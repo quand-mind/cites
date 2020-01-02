@@ -12,10 +12,10 @@ class Image extends Model
      * @var array
      */
     protected $fillable = [
-        'label', 'slug', 'alt_img', 'author_name', 'date', 'location'
+        'url', 'slug', 'alt_img', 'author_name', 'date', 'location'
     ];
 
-    public function getNew () {
-        return $this->belongsTo('App\New');
+    public function getPost () {
+        return $this->belongsTo('App\Post');
     }
 }

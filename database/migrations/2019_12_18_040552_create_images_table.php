@@ -19,7 +19,6 @@ class CreateImagesTable extends Migration
             $table->string('alt_img')->nullable(true);
             $table->dateTime('date')->nullable(true);
             $table->string('url');
-            $table->string('label');
             $table->timestamps();
         });
     }

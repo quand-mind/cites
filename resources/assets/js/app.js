@@ -58,3 +58,10 @@ Vue.component("users-list", require("./components/UsersList.vue"));
 const usersList = new Vue({
     el: "#usersList"
 });
+
+
+Vue.component("posts-list", require("./components/PostsList.vue"));
+
+const postsList = new Vue({
+    el: "#postsList"
+});

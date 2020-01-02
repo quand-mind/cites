@@ -20,6 +20,6 @@ class Comment extends Model
     }
 
     public function getNew () {
-        return $this->belongsTo('App\News');
+        return $this->belongsTo('App\Post');
     }
 }

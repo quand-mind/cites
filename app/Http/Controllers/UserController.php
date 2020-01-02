@@ -44,7 +44,8 @@ class UserController extends Controller
             'email' => 'required|unique:users|email',
             'is_active' => 'required|boolean',
             'photo' =>  'nullable|sometimes|mimes:jpeg,jpg,png|image|max:1024',
-            'role' => 'required|in:admin,writer'
+            'role' => 'required|in:admin,writer',
+            'password' => 'required|confirmed'
         ])) {
             if ($request->hasFile('photo')) {
                 // handle user picture
@@ -60,6 +61,7 @@ class UserController extends Controller
             }
 
             try {
+                $values['password'] = \bcrypt($values['password']);
                 User::create($values);
             } catch (Exception $err) {
                 return response($err->getMessage(), 500);

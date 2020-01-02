@@ -28,5 +28,8 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         Route::post('/users/create', 'UserController@store');
         Route::post('/users/edit/{id}', 'UserController@update');
         Route::post('/users/changeActiveState/{id}', 'UserController@changeActiveState');
+
+        // Post Controllers
+        Route::get('/posts', 'NewsController@index')->name('post');
     });
 });

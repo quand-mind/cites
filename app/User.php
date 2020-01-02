@@ -45,7 +45,12 @@ class User extends Authenticatable
 
     public function lastModifiedPages()
     {
-        return $this->hasMany('App\Pages');
+        return $this->hasMany('App\Page');
+    }
+
+    public function createdPosts()
+    {
+        return $this->hasMany('App\Post');
     }
 
     // methods

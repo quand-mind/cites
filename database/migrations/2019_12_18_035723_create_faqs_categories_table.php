@@ -19,8 +19,8 @@ class CreateFaqsCategoriesTable extends Migration
             $table->unsignedInteger('faq_category_id');
             $table->timestamps();
 
-            $table->foreign('faq_id')->references('id')->on('faqs');
-            $table->foreign('faq_category_id')->references('id')->on('faq_categories');
+            $table->foreign('faq_id')->references('id')->on('faqs')->onDelete('cascade');
+            $table->foreign('faq_category_id')->references('id')->on('faq_categories')->onDelete('cascade');
         });
     }
 

@@ -22,8 +22,8 @@ class CreateFaqsTable extends Migration
             $table->boolean('isFavorite')->default(false);
             $table->timestamps();
 
-            $table->foreign('user_asked_id')->references('id')->on('users');
-            $table->foreign('user_answered_id')->references('id')->on('users');
+            $table->foreign('user_asked_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('user_answered_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

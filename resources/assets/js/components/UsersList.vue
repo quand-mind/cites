@@ -6,7 +6,7 @@
       <div class="action-container" slot="acciones" slot-scope="props">
         <a class="text-dark" @click.prevent="{editUser(props.row)}">
           <font-awesome-icon :icon="['fa', 'edit']"></font-awesome-icon>
-        </a>
+        </a>  
 
         <a class="text-danger" @click.prevent="{deleteUser(props.row)}">
           <font-awesome-icon :icon="['fa', 'trash']"></font-awesome-icon>
@@ -52,13 +52,16 @@
 
     <b-modal ref="delete-modal" hide-footer>
       <template v-slot:modal-title>
-        <span class="text-danger">Deleting User</span>
+        <span class="text-danger">Eliminando usuario {{selectedUser.username}}</span>
       </template>
       <div v-if="selectedUser" class="d-block text-center">
-        <h3>Are you sure that you want delete {{selectedUser.name}} from users?</h3>
+        <h3>¿Estas seguro de que deseas eliminar a {{selectedUser.name}}?</h3>
+        <i>Todos los post y páginas creadas por este usuario serán eliminadas</i>
+        
+        <b-button class="mt-3" block variant="danger" @click="submitDeleteUser">Confirmar</b-button>
+        <b-button class="mt-3" block @click="hideDeleteModal">Cancelar</b-button>
       </div>
 
-      <b-button class="mt-3" block @click="hideDeleteModal">Cancel</b-button>
     </b-modal>
 
     <!-- Edit modal -->
@@ -143,7 +146,7 @@
           </b-form-group>
 
           <b-form-group label="Nombre:" label-for="input-2">
-            <b-form-input  v-model="createForm.name" required placeholder="Jose Quintero"></b-form-input>
+            <b-form-input v-model="createForm.name" required placeholder="Jose Quintero"></b-form-input>
           </b-form-group>
 
           <b-form-group label="Usuario:" label-for="input-2">
@@ -374,6 +377,22 @@ export default {
         .catch(err => {
           _this.makeToast(err.response.data, 'danger');
         });
+    },
+    submitDeleteUser () {
+      let _this = this
+
+      axios
+        .delete(`/dashboard/users/${_this.selectedUser.id}`)
+        .then(res => {
+          if (res.status === 200) {
+            _this.makeToast(res.data);
+            _this.hideEditModal();
+            setTimeout(() => window.location.reload(), 3000);
+          }
+        })
+        .catch(err => {
+          _this.makeToast(err.response.data, 'danger');
+        })
     }
   },
 

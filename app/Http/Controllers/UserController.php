@@ -155,7 +155,12 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            User::find($id)->delete();
+            return response('Usuario eliminado', 200);
+        } catch (Exception $err) {
+            return response($err->getMessage(), 500);
+        }
     }
 
     public function changeActiveState (Request $request, $id) {

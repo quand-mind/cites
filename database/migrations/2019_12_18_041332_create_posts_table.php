@@ -26,7 +26,7 @@ class CreatePostsTable extends Migration
             $table->unsignedInteger('img_id');
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('img_id')->references('id')->on('images')
                     ->onDelete('cascade');
         });

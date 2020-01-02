@@ -25,8 +25,8 @@ class CreatePagesTable extends Migration
             $table->unsignedInteger('lastModified_by');
             $table->timestamps();
 
-            $table->foreign('created_by')->references('id')->on('users');
-            $table->foreign('lastModified_by')->references('id')->on('users');
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('lastModified_by')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Post;
 
-class NewsController extends Controller
+class PostController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -91,5 +91,23 @@ class NewsController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function changeActiveState(Request $request, $id)
+    {
+        if ($request->validate([
+            'is_active' => 'boolean'
+        ])) {
+
+            try {
+                $post = Post::find($id);
+                $post->is_active = $request->input('is_active');
+                $post->save();
+                return response('Post actualizado', 200);
+            } catch (Exception $err) {
+
+                return response($err->getMessage(), 500);
+            }
+        }
     }
 }

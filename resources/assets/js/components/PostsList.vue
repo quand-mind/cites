@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-button @click="showCreateModal" variant="primary">Crear un nuevo post</b-button>
+    <b-button href="posts/create" variant="primary">Crear un nuevo post</b-button>
     <v-client-table :data="tableData" :columns="columns" :options="options">
       <!-- actions slot -->
       <div class="action-container" slot="acciones" slot-scope="props">
@@ -30,7 +30,7 @@
         slot-scope="props"
         name="check-button"
         class="check-active"
-        :checked="props.row.is_active"
+        :checked="Boolean(props.row.is_active)"
         switch
         @change="handleCheckBoxChange(props.row)"
       ></b-form-checkbox>
@@ -54,150 +54,13 @@
 
     <b-modal ref="delete-modal" hide-footer>
       <template v-slot:modal-title>
-        <span class="text-danger">Deleting User</span>
+        <span class="text-danger">Elimnando: {{selectedPost.title}}</span>
       </template>
-      <div v-if="selectedUser" class="d-block text-center">
-        <h3>Are you sure that you want delete {{selectedUser.name}} from users?</h3>
+      <div v-if="selectedPost" class="d-block text-center">
+        <h3>¿Estas seguro de que deseas eliminar este post?</h3>
       </div>
 
       <b-button class="mt-3" block @click="hideDeleteModal">Cancel</b-button>
-    </b-modal>
-
-    <!-- Edit modal -->
-
-    <b-modal ref="edit-modal" hide-footer>
-      <template v-slot:modal-title>
-        <span>Editando Usuario: {{selectedUser && selectedUser.username}}</span>
-      </template>
-      <div v-if="selectedUser" class="d-block">
-        <b-form class="edit-form" @submit.prevent="onEditSubmit" @reset="onReset">
-          <b-form-group class="user-photo">
-            <picture>
-              <b-img thumbnail fluid :src="editPhotoURL || selectedUser.photo" alt="user photo"></b-img>
-            </picture>
-            <b-form-file
-              accept="image/*"
-              v-model="formPhoto"
-              placeholder="Choose a photo (Max. 2MB)"
-              drop-placeholder="Drop file here..."
-              max-size="2048"
-            ></b-form-file>
-            <div class="mt-3">Selected file: {{ formPhoto ? formPhoto.name : '' }}</div>
-          </b-form-group>
-
-          <b-form-group id="input-group-2" label="Nombre:" label-for="input-2">
-            <b-form-input id="input-2" v-model="editForm.name" required placeholder="Jose Quintero"></b-form-input>
-          </b-form-group>
-
-          <b-form-group id="input-group-2" label="Usuario:" label-for="input-2">
-            <b-form-input
-              id="input-2"
-              v-model="editForm.username"
-              required
-              placeholder="jose_usuario"
-            ></b-form-input>
-          </b-form-group>
-
-          <b-form-group id="input-group-1" label="Correo:" label-for="input-1">
-            <b-form-input
-              id="input-1"
-              v-model="editForm.email"
-              type="email"
-              required
-              placeholder="Enter email"
-            ></b-form-input>
-          </b-form-group>
-
-          <b-form-group id="input-group-3" label="Rol:" label-for="input-3">
-            <b-form-select id="input-3" v-model="editForm.role" :options="roles" required></b-form-select>
-          </b-form-group>
-
-          <b-form-group id="input-group-4">
-            <b-form-checkbox v-model="editForm.is_active">Usuario activo</b-form-checkbox>
-          </b-form-group>
-
-          <b-button type="submit" variant="success">Guardar Cambios</b-button>
-          <b-button type="reset" variant="outline-danger">Limpiar</b-button>
-        </b-form>
-      </div>
-
-      <b-button class="mt-3" block @click="hideEditModal">Cancelar</b-button>
-    </b-modal>
-
-    <!-- Create user modal -->
-    <b-modal ref="create-modal" hide-footer>
-      <template v-slot:modal-title>
-        <span>Nuevo Usuario</span>
-      </template>
-      <div class="d-block">
-        <b-form class="edit-form" @submit.prevent="onCreateSubmit" @reset="onResetCreate">
-          <b-form-group class="user-photo">
-            <picture>
-              <b-img
-                thumbnail
-                fluid
-                :src="newPhotoUrl || '/images/default-user.png'"
-                alt="user photo"
-              ></b-img>
-            </picture>
-            <b-form-file
-              accept="image/*"
-              v-model="newPhoto"
-              placeholder="Choose a photo (Max. 2MB)"
-              drop-placeholder="Drop file here..."
-            ></b-form-file>
-            <div class="mt-3">Selected file: {{ newPhoto ? newPhoto.name : '' }}</div>
-          </b-form-group>
-
-          <b-form-group label="Nombre:" label-for="input-2">
-            <b-form-input v-model="createForm.name" required placeholder="Jose Quintero"></b-form-input>
-          </b-form-group>
-
-          <b-form-group label="Usuario:" label-for="input-2">
-            <b-form-input v-model="createForm.username" required placeholder="jose_usuario"></b-form-input>
-          </b-form-group>
-
-          <b-form-group label="Correo:" label-for="input-1">
-            <b-form-input
-              v-model="createForm.email"
-              type="email"
-              required
-              placeholder="Enter email"
-            ></b-form-input>
-          </b-form-group>
-
-          <b-form-group label="Contraseña:" label-for="input-2">
-            <b-form-input
-              v-model="createForm.password"
-              required
-              type="password"
-              placeholder="********"
-            ></b-form-input>
-          </b-form-group>
-
-          <b-form-group label="Repita la contraseña:" label-for="input-2">
-            <b-form-input
-              v-model="createForm.password_confirmation"
-              required
-              type="password"
-              placeholder="********"
-            ></b-form-input>
-          </b-form-group>
-
-          <b-form-group label="Rol:" label-for="input-3">
-            <b-form-select v-model="createForm.role" :options="roles" required></b-form-select>
-          </b-form-group>
-
-          <b-form-group>
-            <b-form-checkbox v-model="createForm.is_active">Usuario activo</b-form-checkbox>
-          </b-form-group>
-
-          <b-button type="submit" variant="success">Crear Usuario</b-button>
-          <b-button type="reset" variant="outline-danger">Limpiar</b-button>
-        </b-form>
-      </div>
-
-      <b-button class="mt-3" block @click="hideCreateModal">Cancelar</b-button>
     </b-modal>
   </div>
 </template>
@@ -217,72 +80,32 @@ export default {
       "activo",
       "acciones"
     ],
-    roles: ["writer", "admin"],
     tableData: [],
     options: {
       perPage: 10,
       perPageValues: [10, 20, 50]
     },
-    selectedUser: null,
-    editForm: {},
-    createForm: {
-      name: "",
-      username: "",
-      email: "",
-      role: "",
-      is_active: true,
-      password: "",
-      password_confirmation: ""
-    },
-    formPhoto: null,
-    newPhoto: null
+    selectedPost: null
   }),
   methods: {
-    showCreateModal() {
-      this.$refs["create-modal"].show();
-    },
-    hideCreateModal() {
-      this.$refs["create-modal"].hide();
-    },
-    editUser(user) {
-      this.selectedUser = user;
-      this.showEditModal();
-    },
-    deleteUser(user) {
-      this.selectedUser = user;
+    deletePost(post) {
+      this.selectedPost = post;
       this.showDeleteModal();
-    },
-    showEditModal() {
-      this.editForm = {
-        name: this.selectedUser.name,
-        username: this.selectedUser.username,
-        email: this.selectedUser.email,
-        role: this.selectedUser.role,
-        photo: this.selectedUser.photo,
-        is_active: Boolean(this.selectedUser.is_active)
-      };
-      this.$refs["edit-modal"].show();
     },
     showDeleteModal() {
       this.$refs["delete-modal"].show();
-    },
-    hideEditModal() {
-      this.$refs["edit-modal"].hide();
-      this.editForm = {};
-      this.selectedUser = null;
-      this.formPhoto = null;
     },
     hideDeleteModal() {
       this.$refs["delete-modal"].hide();
     },
     handleCheckBoxChange(row) {
       let _this = this;
-      let uIdx = _this.tableData.findIndex(user => row.id === user.id);
-      _this.tableData[uIdx].is_active = !_this.tableData[uIdx].is_active;
+      let postIdx = _this.tableData.findIndex(post => row.id === post.id);
+      _this.tableData[postIdx].is_active = !_this.tableData[postIdx].is_active;
 
       axios
-        .post(`/dashboard/users/changeActiveState/${row.id}`, {
-          is_active: _this.tableData[uIdx].is_active
+        .post(`/dashboard/posts/changeActiveState/${row.id}`, {
+          is_active: _this.tableData[postIdx].is_active
         })
         .then(res => {
           if (res.status === 200) {
@@ -307,7 +130,7 @@ export default {
       _this.formPhoto && form.append("photo", _this.formPhoto);
 
       axios
-        .post(`/dashboard/users/edit/${_this.selectedUser.id}`, form, {
+        .post(`/dashboard/posts/edit/${_this.selectedPost.id}`, form, {
           headers: {
             "Content-Type": "multipart/form-data"
           }
@@ -323,24 +146,10 @@ export default {
           _this.makeToast(err.response.data, "danger");
         });
     },
-    onReset() {
-      this.editForm = {};
-    },
-    onResetCreate() {
-      this.createForm = {
-        name: "",
-        username: "",
-        email: "",
-        role: "",
-        is_active: true,
-        password_confirmation: "",
-        password: ""
-      };
-    },
 
     makeToast(msg, variant = "success", delay = 3000, append = false) {
       this.$bvToast.toast(`${msg}`, {
-        title: "Evento de actualización de usuario",
+        title: "Evento de actualización de post",
         autoHideDelay: delay,
         appendToast: append,
         variant
@@ -377,18 +186,8 @@ export default {
         });
     }
   },
-
-  computed: {
-    editPhotoURL() {
-      return this.formPhoto ? URL.createObjectURL(this.formPhoto) : null;
-    },
-    newPhotoUrl() {
-      return this.newPhoto ? URL.createObjectURL(this.newPhoto) : null;
-    }
-  },
   mounted() {
     this.tableData = this.posts;
-    console.log(this.tableData);
   }
 };
 </script>

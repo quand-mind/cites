@@ -31,8 +31,9 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         Route::delete('/users/{id}', 'UserController@destroy');
 
         // Post Controllers
-        Route::get('/posts', 'NewsController@index')->name('post');
-        Route::get('/posts/edit/{id}', 'NewsController@edit');
-        Route::post('/posts/edit/{id}', 'NewsController@update');
+        Route::get('/posts', 'PostController@index')->name('post');
+        Route::get('/posts/edit/{id}', 'PostController@edit');
+        Route::post('/posts/edit/{id}', 'PostController@update');
+        Route::post('/posts/changeActiveState/{id}', 'PostController@changeActiveState');
     });
 });

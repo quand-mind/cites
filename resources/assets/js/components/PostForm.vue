@@ -259,9 +259,10 @@ export default {
         })
         .then(res => {
           // save image
-          console.log(res.data);
+          _this.makeToast(res.data);
+          setTimeout(() => window.location.replace("/dashboard/posts"), 2000);
         })
-        .catch(err => console.log(err));
+        .catch(err => _this.makeToast(err.response.data, "danger"));
     },
     onSubmit() {
       let _this = this;
@@ -294,8 +295,16 @@ export default {
           resetUploader();
         })
         .catch(err => {
-          console.log(err);
+          _this.makeToast(err.response.data, "danger");
         });
+    },
+    makeToast(msg, variant = "success", delay = 3000, append = false) {
+      this.$bvToast.toast(`${msg}`, {
+        title: "Actualización del post",
+        autoHideDelay: delay,
+        appendToast: append,
+        variant
+      });
     }
   }
 };

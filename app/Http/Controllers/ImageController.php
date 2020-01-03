@@ -27,7 +27,7 @@ class ImageController extends Controller
             'file' => 'required|image|mimes:jpg,jpeg,png|max:2048',
             'author' => 'required|string',
             'alt_img' => 'required|string',
-            'date' => 'required|date',
+            'publish_date' => 'required|date',
             'post_id' => 'required|numeric'
         ])) {
             // handle post main picture

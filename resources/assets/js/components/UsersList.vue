@@ -369,7 +369,7 @@ export default {
           if (res.status === 200) {
             _this.makeToast(res.data);
             _this.hideEditModal();
-            setTimeout(() => window.location.reload(), 3000);
+            setTimeout(() => window.location.reload(), 2000);
           }
         })
         .catch(err => {
@@ -385,7 +385,7 @@ export default {
           if (res.status === 200) {
             _this.makeToast(res.data);
             _this.hideDeleteModal();
-            setTimeout(() => window.location.reload(), 3000);
+            setTimeout(() => window.location.reload(), 2000);
           }
         })
         .catch(err => {

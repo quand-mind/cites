@@ -45,7 +45,17 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if ($request->validate([
+            'title' => 'required|unique:posts|string',
+            'meta_description' => 'required|string|min:120|max:158',
+            'meta_robots' => 'nullable|string',
+            'meta_keywords' => 'nullable|string',
+            'is_active' => 'required|boolean',
+            'main_image' =>  'required|mimes:jpeg,jpg,png|image|max:2048',
+            'content' => 'required|string'
+        ])) {
+            // Save image in the local storage
+        }
     }
 
     /**

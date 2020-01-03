@@ -37,5 +37,9 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         Route::post('/posts/edit/{id}', 'PostController@update');
         Route::post('/posts/changeActiveState/{id}', 'PostController@changeActiveState');
         Route::delete('/posts/{id}', 'PostController@destroy');
+
+        // Image Controllers
+        Route::post('/images/post/content', 'ImageController@savePostContentImage');
+        Route::post('/images/post/main', 'ImageController@savePostMainImage');
     });
 });

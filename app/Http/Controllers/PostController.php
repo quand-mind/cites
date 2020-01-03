@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Post;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -15,7 +16,7 @@ class PostController extends Controller
     public function index()
     {
         //
-        $posts = Post::with(['author', 'mainImage'])->select(
+        $posts = Post::with(['author', 'image'])->select(
             'id',
             'publish_date',
             'title',
@@ -51,10 +52,23 @@ class PostController extends Controller
             'meta_robots' => 'nullable|string',
             'meta_keywords' => 'nullable|string',
             'is_active' => 'required|boolean',
-            'main_image' =>  'required|mimes:jpeg,jpg,png|image|max:2048',
             'content' => 'required|string'
         ])) {
-            // Save image in the local storage
+            $values = $request->all();
+
+            // Save Post object
+            try {
+                $post = new Post($values);
+                $post->author()->associate(Auth::user());
+                $post->save();
+
+                return response([
+                    "msg" => "Post guardado exitosamente",
+                    "post_id" => $post->id
+                ], 200);
+            } catch (Exception $err) {
+                return response($err->getMessage, 500);
+            }
         }
     }
 

@@ -34,7 +34,7 @@ class Post extends Model
         return $this->belongsTo('App\User');
     }
 
-    public function mainImage()
+    public function image()
     {
         return $this->hasOne('App\Image');
     }

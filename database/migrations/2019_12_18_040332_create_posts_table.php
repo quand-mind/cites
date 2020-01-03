@@ -21,7 +21,7 @@ class CreatePostsTable extends Migration
             $table->string('meta_robots')->nullable();
             $table->string('meta_keywords')->nullable();
             $table->boolean('is_active')->default(false);
-            $table->dateTime('publish_date');
+            $table->dateTime('publish_date')->nullable();
             $table->text('content');
             $table->unsignedInteger('author_id');
             $table->timestamps();

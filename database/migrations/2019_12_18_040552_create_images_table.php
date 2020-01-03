@@ -17,7 +17,7 @@ class CreateImagesTable extends Migration
             $table->increments('id');
             $table->string('author');
             $table->string('alt_img')->nullable(true);
-            $table->dateTime('date')->nullable(true);
+            $table->date('date')->nullable(true);
             $table->string('url');
             $table->unsignedInteger('post_id');
             $table->timestamps();

@@ -11934,10 +11934,6 @@ a.text-dark:focus {
   padding: 2rem 2rem 2rem 3rem;
 }
 
-.custom-file-input ~ .custom-file-label::after {
-  content: 'Explorar' !important;
-}
-
 body {
   position: relative;
 }

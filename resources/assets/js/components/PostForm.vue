@@ -1,35 +1,77 @@
 <template>
   <div>
-    <b-form @submit="onSubmit" @reset="onReset">
+    <b-form @submit.prevent="onSubmit" @reset="onReset">
       <b-container>
+        <b-row>
+          <b-col>
+            <h2 class="mb-4">Propiedades de la imagen</h2>
+          </b-col>
+        </b-row>
         <b-row>
           <b-col cols="6">
             <b-form-group label="Portada">
               <b-form-file
-                v-model="form.main_image"
-                :state="Boolean(form.main_image)"
+                browse-text="Explorar"
+                v-model="image.file"
+                :state="Boolean(image.file)"
                 placeholder="Selecciona un archivo o arrástralo hasta aquí..."
                 drop-placeholder="Drop file here..."
                 required
               ></b-form-file>
               <b-img-lazy style="margin-top: 10px" :src="mainImageUrl" alt="image preview" fluid></b-img-lazy>
-              <div
-                class="mt-3"
-              >Archivo seleccionado: {{ form.main_image ? form.main_image.name : '' }}</div>
+              <div class="mt-3">
+                Archivo seleccionado:
+                {{
+                image.file
+                ? image.file.name
+                : ""
+                }}
+              </div>
+            </b-form-group>
+          </b-col>
+          <b-col>
+            <b-form-group
+              label="Autor de la imagen"
+              label-for="input-1"
+              description="Protegemos los derechos de autor"
+            >
+              <b-form-input
+                v-model="image.author"
+                type="text"
+                required
+                placeholder="Luis Rodríguez"
+              ></b-form-input>
+            </b-form-group>
+            <b-form-group label="Etiqueta de la imagen" label-for="input-1">
+              <b-form-input
+                v-model="image.alt_img"
+                type="text"
+                required
+                placeholder="Ej: Playa el Ángel, Edo. Vargas"
+              ></b-form-input>
+            </b-form-group>
+            <b-form-group label="Fecha de la imagen" label-for="input-1">
+              <datepicker
+                v-model="image.publish_date"
+                required
+                :language="settings.languages['es']"
+                input-class="form-control"
+                placeholder="Selecciona una fecha"
+              ></datepicker>
             </b-form-group>
           </b-col>
         </b-row>
       </b-container>
-      <b-container>
+      <b-container class="mt-5">
+        <b-row>
+          <b-col>
+            <h2 class="mb-4">Propiedades del contenido</h2>
+          </b-col>
+        </b-row>
         <b-row>
           <b-col>
             <b-form-group label="Título" label-for="input-1">
-              <b-form-input
-                v-model="form.title"
-                data-browse="Explorar"
-                required
-                placeholder="Titulo del Post"
-              ></b-form-input>
+              <b-form-input v-model="postData.title" required placeholder="Titulo del Post"></b-form-input>
             </b-form-group>
           </b-col>
         </b-row>
@@ -41,22 +83,25 @@
               id="input-group-2"
               label="Descripción"
               label-for="input-2"
-              :description="`min: 120 caracteres, max: 158 caracteres. Total de caracteres: ${form.meta_description.length}.`"
+              :description="
+                                `min: 120 caracteres, max: 158 caracteres. Total de caracteres: ${postData.meta_description.length}.`
+                            "
             >
               <b-form-textarea
                 id="input-2"
-                v-model="form.meta_description"
+                v-model="postData.meta_description"
                 required
                 rows="4"
                 placeholder="Meta descripción"
               ></b-form-textarea>
+              <!-- Este es mi primer post con vue-2-editor. Amo programar, amo javascript, y también amo a Issa. Estoy enamorado, y mi mayor deseo es vivir junto a ella. -->
             </b-form-group>
           </b-col>
           <b-col>
             <b-form-group id="input-group-2" label="Robots" label-for="input-2">
               <b-form-textarea
                 id="input-2"
-                v-model="form.meta_robots"
+                v-model="postData.meta_robots"
                 required
                 rows="4"
                 placeholder="Meta robots"
@@ -72,7 +117,7 @@
             <b-form-group id="input-group-2" label="Keywords" label-for="input-2">
               <b-form-textarea
                 id="input-2"
-                v-model="form.meta_keywords"
+                v-model="postData.meta_keywords"
                 required
                 rows="4"
                 placeholder="Palabras claves"
@@ -86,7 +131,7 @@
               label-for="input-3"
               description="Estando activo el post será visible al público"
             >
-              <b-form-checkbox v-model="form.is_active" name="check-button" size="lg" switch></b-form-checkbox>
+              <b-form-checkbox v-model="postData.is_active" name="check-button" size="lg" switch></b-form-checkbox>
             </b-form-group>
           </b-col>
         </b-row>
@@ -98,7 +143,7 @@
               <vue-editor
                 useCustomImageHandler
                 @image-added="handleImageAdded"
-                v-model="form.content"
+                v-model="postData.content"
               ></vue-editor>
             </b-form-group>
           </b-col>
@@ -114,29 +159,55 @@
       </b-container>
     </b-form>
     <b-card class="mt-3" header="Form Data Result">
-      <pre class="m-0">{{ form }}</pre>
+      <pre class="m-0">{{ postData }}</pre>
+    </b-card>
+    <b-card class="mt-3" header="Form Image Result">
+      <pre class="m-0">{{ image }}</pre>
     </b-card>
   </div>
 </template>
 
 <script>
 import { VueEditor } from "vue2-editor";
+import Datepicker from "vuejs-datepicker/dist/vuejs-datepicker.esm.js";
+import * as lang from "vuejs-datepicker/src/locale";
+import moment from "moment";
+
 export default {
   props: ["post"],
   components: {
-    VueEditor
+    VueEditor,
+    Datepicker
   },
   data: () => ({
-    form: {
-      title: "",
-      meta_description: "",
-      meta_robots: "",
-      meta_keywords: "",
-      is_active: false,
-      content: "",
-      main_image: null
+    postData: {
+      title: "Mi primer post",
+      meta_description:
+        "Este es mi primer post con vue-2-editor. Amo programar, amo javascript, y también amo a Issa. Estoy enamorado, y mi mayor deseo es vivir junto a ella.",
+      meta_robots: "asdasdasdasasasa",
+      meta_keywords: " ads asdas asasfdfghgfn    v<arwCB",
+      is_active: true,
+      content:
+        '<p>ASDA AADSVB       dsgsfa fsa vs<img src="/storage/images/posts/tFAdPO1sRnXDCLpYz5zazyEjLhrGv9cS7pfYqir8.jpeg"></p>'
+      //   title: "",
+      //   meta_description: "",
+      //   meta_robots: "",
+      //   meta_keywords: "",
+      //   is_active: false,
+      //   content: ""
     },
-    errors: {
+    image: {
+      author: "asdasdasd ",
+      alt_img: "asdasdas",
+      publish_date: "2020-01-01T16:04:00.000Z",
+      post_id: null,
+      //   author: "",
+      //   alt_img: "",
+      //   publish_date: "",
+      //   post_id: null,
+      file: null
+    },
+    postErrors: {
       title: [],
       meta_description: [],
       meta_robots: [],
@@ -144,34 +215,64 @@ export default {
       is_active: [],
       content: [],
       main_image: []
+    },
+    settings: {
+      languages: lang
     }
   }),
   computed: {
     mainImageUrl() {
-      return this.form.main_image
-        ? URL.createObjectURL(this.form.main_image)
+      return this.image.file
+        ? URL.createObjectURL(this.image.file)
         : "/images/default-preview.png";
     }
   },
   methods: {
-    onSubmit() {
+    savePost(formData) {
+      let _this = this;
+
+      axios
+        .post(`/dashboard/posts/create`, formData)
+        .then(res => {
+          // save image
+          _this.saveImage(res.data.post_id);
+        })
+        .catch(err => console.log(err));
+    },
+
+    saveImage(post_id) {
       let _this = this;
       let formData = new FormData();
 
-      Object.keys(_this.form).forEach(el => {
-        formData.append(el, _this.form[el]);
+      Object.keys(_this.image).forEach(el => {
+        if (el === "date")
+          formData.append(el, moment(_this.image[el]).format("YYYY-MM-DD"));
+        else formData.append(el, _this.image[el]);
       });
 
+      formData.append("post_id", post_id);
       axios
-        .post(`/dashboard/posts/create`, formData, {
+        .post(`/dashboard/images/post/main`, formData, {
           headers: {
             "Content-Type": "multipart/form-data"
           }
         })
         .then(res => {
+          // save image
           console.log(res.data);
         })
         .catch(err => console.log(err));
+    },
+    onSubmit() {
+      let _this = this;
+      let formData = new FormData();
+
+      Object.keys(_this.postData).forEach(el => {
+        if (el === "is_active") formData.append(el, Number(_this.postData[el]));
+        else formData.append(el, _this.postData[el]);
+      });
+
+      _this.savePost(formData);
     },
     onReset() {},
     handleImageAdded: function(file, Editor, cursorLocation, resetUploader) {

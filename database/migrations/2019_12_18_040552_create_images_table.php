@@ -19,7 +19,10 @@ class CreateImagesTable extends Migration
             $table->string('alt_img')->nullable(true);
             $table->dateTime('date')->nullable(true);
             $table->string('url');
+            $table->unsignedInteger('post_id');
             $table->timestamps();
+
+            $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade');
         });
     }
 

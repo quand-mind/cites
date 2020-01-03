@@ -17,10 +17,11 @@
       <b-img
         thumbnail
         fluid
-        slot="foto"
         class="profile-img"
+        slot="foto"
         slot-scope="props"
-        :alt="props.row.img.alt_img"
+        :src="props.row.main_image && '/storage/images/posts/' + props.row.main_image.url"
+        :alt="props.row.main_image && props.row.main_image.alt_img"
       ></b-img>
 
       <!-- is active slot -->
@@ -38,13 +39,15 @@
       <span slot="descripcion" slot-scope="props">{{props.row.meta_description}}</span>
 
       <!-- username slot -->
-      <span slot="titulo" slot-scope="props">{{props.row.title}}</span>
+      <span slot="titulo" slot-scope="props">
+        <a :href="`posts/edit/${props.row.id}`">{{props.row.title}}</a>
+      </span>
 
       <!-- email slot -->
-      <span slot="correo" slot-scope="props">{{props.row.email}}</span>
+      <span slot="autor" slot-scope="props">{{props.row.author.username}}</span>
 
       <!-- role slot -->
-      <span slot="rol" slot-scope="props">{{props.row.role}}</span>
+      <span slot="fecha_de_publicacion" slot-scope="props">{{props.row.publish_date}}</span>
     </v-client-table>
 
     <!-- Delete modal -->
@@ -130,7 +133,12 @@
         <b-form class="edit-form" @submit.prevent="onCreateSubmit" @reset="onResetCreate">
           <b-form-group class="user-photo">
             <picture>
-              <b-img thumbnail fluid :src="newPhotoUrl || '/images/default-user.png'" alt="user photo"></b-img>
+              <b-img
+                thumbnail
+                fluid
+                :src="newPhotoUrl || '/images/default-user.png'"
+                alt="user photo"
+              ></b-img>
             </picture>
             <b-form-file
               accept="image/*"
@@ -142,21 +150,15 @@
           </b-form-group>
 
           <b-form-group label="Nombre:" label-for="input-2">
-            <b-form-input  v-model="createForm.name" required placeholder="Jose Quintero"></b-form-input>
+            <b-form-input v-model="createForm.name" required placeholder="Jose Quintero"></b-form-input>
           </b-form-group>
 
           <b-form-group label="Usuario:" label-for="input-2">
-            <b-form-input
-              
-              v-model="createForm.username"
-              required
-              placeholder="jose_usuario"
-            ></b-form-input>
+            <b-form-input v-model="createForm.username" required placeholder="jose_usuario"></b-form-input>
           </b-form-group>
 
           <b-form-group label="Correo:" label-for="input-1">
             <b-form-input
-              
               v-model="createForm.email"
               type="email"
               required
@@ -175,7 +177,6 @@
 
           <b-form-group label="Repita la contraseña:" label-for="input-2">
             <b-form-input
-              
               v-model="createForm.password_confirmation"
               required
               type="password"
@@ -184,7 +185,7 @@
           </b-form-group>
 
           <b-form-group label="Rol:" label-for="input-3">
-            <b-form-select  v-model="createForm.role" :options="roles" required></b-form-select>
+            <b-form-select v-model="createForm.role" :options="roles" required></b-form-select>
           </b-form-group>
 
           <b-form-group>
@@ -211,7 +212,8 @@ export default {
       "foto",
       "titulo",
       "descripcion",
-      "fecha de publicacion",
+      "fecha_de_publicacion",
+      "autor",
       "activo",
       "acciones"
     ],
@@ -236,10 +238,10 @@ export default {
     newPhoto: null
   }),
   methods: {
-    showCreateModal () {
+    showCreateModal() {
       this.$refs["create-modal"].show();
     },
-    hideCreateModal () {
+    hideCreateModal() {
       this.$refs["create-modal"].hide();
     },
     editUser(user) {
@@ -294,14 +296,14 @@ export default {
       let form = new FormData();
 
       Object.keys(_this.editForm).forEach(key => {
-        if (key === 'is_active') {
-          form.append(key, Number(_this.editForm[key]))
-          return
+        if (key === "is_active") {
+          form.append(key, Number(_this.editForm[key]));
+          return;
         }
 
-        if (key !== 'photo') form.append(key, _this.editForm[key]);
+        if (key !== "photo") form.append(key, _this.editForm[key]);
       });
-      
+
       _this.formPhoto && form.append("photo", _this.formPhoto);
 
       axios
@@ -318,13 +320,13 @@ export default {
           }
         })
         .catch(err => {
-          _this.makeToast(err.response.data, 'danger');
+          _this.makeToast(err.response.data, "danger");
         });
     },
     onReset() {
       this.editForm = {};
     },
-    onResetCreate () {
+    onResetCreate() {
       this.createForm = {
         name: "",
         username: "",
@@ -333,7 +335,7 @@ export default {
         is_active: true,
         password_confirmation: "",
         password: ""
-      }
+      };
     },
 
     makeToast(msg, variant = "success", delay = 3000, append = false) {
@@ -344,14 +346,15 @@ export default {
         variant
       });
     },
-    onCreateSubmit () {
-      let _this = this
+    onCreateSubmit() {
+      let _this = this;
 
       let form = new FormData();
 
       Object.keys(_this.createForm).forEach(key => {
-        if (key === 'is_active') form.append(key, Number(_this.createForm[key]))
-        else form.append(key,_this.createForm[key])
+        if (key === "is_active")
+          form.append(key, Number(_this.createForm[key]));
+        else form.append(key, _this.createForm[key]);
       });
 
       _this.newPhoto && form.append("photo", _this.newPhoto);
@@ -370,7 +373,7 @@ export default {
           }
         })
         .catch(err => {
-          _this.makeToast(err.response.data, 'danger');
+          _this.makeToast(err.response.data, "danger");
         });
     }
   },
@@ -379,12 +382,13 @@ export default {
     editPhotoURL() {
       return this.formPhoto ? URL.createObjectURL(this.formPhoto) : null;
     },
-    newPhotoUrl () {
+    newPhotoUrl() {
       return this.newPhoto ? URL.createObjectURL(this.newPhoto) : null;
     }
   },
   mounted() {
-    console.log(this.posts)
+    this.tableData = this.posts;
+    console.log(this.tableData);
   }
 };
 </script>

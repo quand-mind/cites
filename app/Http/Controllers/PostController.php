@@ -15,7 +15,15 @@ class NewsController extends Controller
     public function index()
     {
         //
-        $posts = Post::all();
+        $posts = Post::with(['author', 'mainImage'])->select(
+            'id',
+            'publish_date',
+            'title',
+            'slug',
+            'meta_description',
+            'author_id',
+            'is_active'
+        )->get();
         return view('panel.posts.index', compact('posts'));
     }
 

@@ -32,5 +32,7 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
 
         // Post Controllers
         Route::get('/posts', 'NewsController@index')->name('post');
+        Route::get('/posts/edit/{id}', 'NewsController@edit');
+        Route::post('/posts/edit/{id}', 'NewsController@update');
     });
 });

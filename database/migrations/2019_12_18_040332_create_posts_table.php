@@ -20,15 +20,13 @@ class CreatePostsTable extends Migration
             $table->string('meta_description')->nullable();
             $table->string('meta_robots')->nullable();
             $table->string('meta_keywords')->nullable();
+            $table->boolean('is_active')->default(false);
             $table->dateTime('publish_date');
             $table->text('content');
-            $table->unsignedInteger('user_id');
-            $table->unsignedInteger('img_id');
+            $table->unsignedInteger('author_id');
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('img_id')->references('id')->on('images')
-                    ->onDelete('cascade');
+            $table->foreign('author_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

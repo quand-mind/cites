@@ -29,16 +29,18 @@ class Post extends Model
 
     // Relationships
 
-    public function author () {
+    public function author()
+    {
         return $this->belongsTo('App\User');
     }
 
-    public function getMainImage () {
+    public function mainImage()
+    {
         return $this->hasOne('App\Image');
     }
 
-    public function getComments () {
+    public function comments()
+    {
         return $this->hasMany('App\Comment');
     }
-
 }

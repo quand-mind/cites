@@ -6,7 +6,7 @@
       <div class="action-container" slot="acciones" slot-scope="props">
         <a class="text-dark" @click.prevent="{editUser(props.row)}">
           <font-awesome-icon :icon="['fa', 'edit']"></font-awesome-icon>
-        </a>  
+        </a>
 
         <a class="text-danger" @click.prevent="{deleteUser(props.row)}">
           <font-awesome-icon :icon="['fa', 'trash']"></font-awesome-icon>
@@ -57,11 +57,10 @@
       <div v-if="selectedUser" class="d-block text-center">
         <h3>¿Estas seguro de que deseas eliminar a {{selectedUser.name}}?</h3>
         <i>Todos los post y páginas creadas por este usuario serán eliminadas</i>
-        
+
         <b-button class="mt-3" block variant="danger" @click="submitDeleteUser">Confirmar</b-button>
         <b-button class="mt-3" block @click="hideDeleteModal">Cancelar</b-button>
       </div>
-
     </b-modal>
 
     <!-- Edit modal -->
@@ -134,7 +133,12 @@
         <b-form class="edit-form" @submit.prevent="onCreateSubmit" @reset="onResetCreate">
           <b-form-group class="user-photo">
             <picture>
-              <b-img thumbnail fluid :src="newPhotoUrl || '/images/default-user.png'" alt="user photo"></b-img>
+              <b-img
+                thumbnail
+                fluid
+                :src="newPhotoUrl || '/images/default-user.png'"
+                alt="user photo"
+              ></b-img>
             </picture>
             <b-form-file
               accept="image/*"
@@ -150,17 +154,11 @@
           </b-form-group>
 
           <b-form-group label="Usuario:" label-for="input-2">
-            <b-form-input
-              
-              v-model="createForm.username"
-              required
-              placeholder="jose_usuario"
-            ></b-form-input>
+            <b-form-input v-model="createForm.username" required placeholder="jose_usuario"></b-form-input>
           </b-form-group>
 
           <b-form-group label="Correo:" label-for="input-1">
             <b-form-input
-              
               v-model="createForm.email"
               type="email"
               required
@@ -179,7 +177,6 @@
 
           <b-form-group label="Repita la contraseña:" label-for="input-2">
             <b-form-input
-              
               v-model="createForm.password_confirmation"
               required
               type="password"
@@ -188,7 +185,7 @@
           </b-form-group>
 
           <b-form-group label="Rol:" label-for="input-3">
-            <b-form-select  v-model="createForm.role" :options="roles" required></b-form-select>
+            <b-form-select v-model="createForm.role" :options="roles" required></b-form-select>
           </b-form-group>
 
           <b-form-group>
@@ -241,10 +238,10 @@ export default {
     newPhoto: null
   }),
   methods: {
-    showCreateModal () {
+    showCreateModal() {
       this.$refs["create-modal"].show();
     },
-    hideCreateModal () {
+    hideCreateModal() {
       this.$refs["create-modal"].hide();
     },
     editUser(user) {
@@ -299,14 +296,14 @@ export default {
       let form = new FormData();
 
       Object.keys(_this.editForm).forEach(key => {
-        if (key === 'is_active') {
-          form.append(key, Number(_this.editForm[key]))
-          return
+        if (key === "is_active") {
+          form.append(key, Number(_this.editForm[key]));
+          return;
         }
 
-        if (key !== 'photo') form.append(key, _this.editForm[key]);
+        if (key !== "photo") form.append(key, _this.editForm[key]);
       });
-      
+
       _this.formPhoto && form.append("photo", _this.formPhoto);
 
       axios
@@ -323,13 +320,13 @@ export default {
           }
         })
         .catch(err => {
-          _this.makeToast(err.response.data, 'danger');
+          _this.makeToast(err.response.data, "danger");
         });
     },
     onReset() {
       this.editForm = {};
     },
-    onResetCreate () {
+    onResetCreate() {
       this.createForm = {
         name: "",
         username: "",
@@ -338,7 +335,7 @@ export default {
         is_active: true,
         password_confirmation: "",
         password: ""
-      }
+      };
     },
 
     makeToast(msg, variant = "success", delay = 3000, append = false) {
@@ -349,14 +346,15 @@ export default {
         variant
       });
     },
-    onCreateSubmit () {
-      let _this = this
+    onCreateSubmit() {
+      let _this = this;
 
       let form = new FormData();
 
       Object.keys(_this.createForm).forEach(key => {
-        if (key === 'is_active') form.append(key, Number(_this.createForm[key]))
-        else form.append(key,_this.createForm[key])
+        if (key === "is_active")
+          form.append(key, Number(_this.createForm[key]));
+        else form.append(key, _this.createForm[key]);
       });
 
       _this.newPhoto && form.append("photo", _this.newPhoto);
@@ -375,24 +373,24 @@ export default {
           }
         })
         .catch(err => {
-          _this.makeToast(err.response.data, 'danger');
+          _this.makeToast(err.response.data, "danger");
         });
     },
-    submitDeleteUser () {
-      let _this = this
+    submitDeleteUser() {
+      let _this = this;
 
       axios
         .delete(`/dashboard/users/${_this.selectedUser.id}`)
         .then(res => {
           if (res.status === 200) {
             _this.makeToast(res.data);
-            _this.hideEditModal();
+            _this.hideDeleteModal();
             setTimeout(() => window.location.reload(), 3000);
           }
         })
         .catch(err => {
-          _this.makeToast(err.response.data, 'danger');
-        })
+          _this.makeToast(err.response.data, "danger");
+        });
     }
   },
 
@@ -400,7 +398,7 @@ export default {
     editPhotoURL() {
       return this.formPhoto ? URL.createObjectURL(this.formPhoto) : null;
     },
-    newPhotoUrl () {
+    newPhotoUrl() {
       return this.newPhoto ? URL.createObjectURL(this.newPhoto) : null;
     }
   },

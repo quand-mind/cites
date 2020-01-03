@@ -32,8 +32,10 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
 
         // Post Controllers
         Route::get('/posts', 'PostController@index')->name('post');
+        Route::get('/posts/create', 'PostController@create');
         Route::get('/posts/edit/{id}', 'PostController@edit');
         Route::post('/posts/edit/{id}', 'PostController@update');
         Route::post('/posts/changeActiveState/{id}', 'PostController@changeActiveState');
+        Route::delete('/posts/{id}', 'PostController@destroy');
     });
 });

@@ -34,7 +34,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('panel.posts.form');
     }
 
     /**
@@ -90,7 +90,12 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            Post::find($id)->delete();
+            return response('Post eliminado', 200);
+        } catch (Exception $err) {
+            return response($err->getMessage(), 500);
+        }
     }
 
     public function changeActiveState(Request $request, $id)
@@ -98,14 +103,12 @@ class PostController extends Controller
         if ($request->validate([
             'is_active' => 'boolean'
         ])) {
-
             try {
                 $post = Post::find($id);
                 $post->is_active = $request->input('is_active');
                 $post->save();
                 return response('Post actualizado', 200);
             } catch (Exception $err) {
-
                 return response($err->getMessage(), 500);
             }
         }

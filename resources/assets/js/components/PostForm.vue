@@ -13,7 +13,7 @@
               <b-form-file
                 browse-text="Explorar"
                 v-model="image.file"
-                :state="Boolean(image.file)"
+                :state="Boolean(image.file || image.url)"
                 placeholder="Selecciona un archivo o arrástralo hasta aquí..."
                 drop-placeholder="Drop file here..."
                 required
@@ -181,30 +181,18 @@ export default {
   },
   data: () => ({
     postData: {
-      title: "Mi primer post",
-      meta_description:
-        "Este es mi primer post con vue-2-editor. Amo programar, amo javascript, y también amo a Issa. Estoy enamorado, y mi mayor deseo es vivir junto a ella.",
-      meta_robots: "asdasdasdasasasa",
-      meta_keywords: " ads asdas asasfdfghgfn    v<arwCB",
-      is_active: true,
-      content:
-        '<p>ASDA AADSVB       dsgsfa fsa vs<img src="/storage/images/posts/tFAdPO1sRnXDCLpYz5zazyEjLhrGv9cS7pfYqir8.jpeg"></p>'
-      //   title: "",
-      //   meta_description: "",
-      //   meta_robots: "",
-      //   meta_keywords: "",
-      //   is_active: false,
-      //   content: ""
+      title: "",
+      meta_description: "",
+      meta_robots: "",
+      meta_keywords: "",
+      is_active: false,
+      content: ""
     },
     image: {
-      author: "asdasdasd ",
-      alt_img: "asdasdas",
-      publish_date: "2020-01-01T16:04:00.000Z",
+      author: "",
+      alt_img: "",
+      publish_date: "",
       post_id: null,
-      //   author: "",
-      //   alt_img: "",
-      //   publish_date: "",
-      //   post_id: null,
       file: null
     },
     postErrors: {
@@ -222,9 +210,9 @@ export default {
   }),
   computed: {
     mainImageUrl() {
-      return this.image.file
-        ? URL.createObjectURL(this.image.file)
-        : "/images/default-preview.png";
+      if (this.image.file) return URL.createObjectURL(this.image.file);
+      else if (this.image.url) return this.image.url;
+      else return "/images/default-preview.png";
     }
   },
   methods: {
@@ -305,6 +293,22 @@ export default {
         appendToast: append,
         variant
       });
+    }
+  },
+  mounted() {
+    let _this = this;
+    if (_this.post) {
+      Object.keys(_this.postData).forEach(key => {
+        if (key !== "image") {
+          _this.postData[key] = _this.post[key];
+        }
+      });
+
+      Object.keys(_this.image).forEach(key => {
+        _this.image[key] = _this.post.image[key];
+      });
+
+      if (_this.post.image.url) _this.image.url = _this.post.image.url;
     }
   }
 };

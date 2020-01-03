@@ -80,7 +80,7 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        //
+        // Post preview (?)
     }
 
     /**
@@ -91,7 +91,8 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+        $post = Post::with(['image'])->find($id);
+        return view('panel.posts.form', compact('post'));
     }
 
     /**

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Post;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -91,8 +92,15 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        $post = Post::with(['image'])->find($id);
-        return view('panel.posts.form', compact('post'));
+        $post = Post::with(['image', 'author'])->find($id);
+
+        // Not allow another user different to the author can edit the document
+        if (Auth::id() == $post->author->id) {
+
+            return view('panel.posts.form', compact('post'));
+        }
+
+        return redirect()->route('posts');
     }
 
     /**
@@ -104,7 +112,31 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        if ($request->validate([
+            'title' => 'required|string',
+            'meta_description' => 'required|string|min:120|max:158',
+            'meta_robots' => 'nullable|string',
+            'meta_keywords' => 'nullable|string',
+            'is_active' => 'required|boolean',
+            'content' => 'required|string'
+        ])) {
+            $values = $request->all();
+
+            // Save Post object
+            try {
+                $post = Post::find($id);
+                $post->update($values);
+                $post->author()->associate(Auth::user());
+                $post->save();
+
+                return response([
+                    "msg" => "Post guardado exitosamente",
+                    "post_id" => $post->id
+                ], 200);
+            } catch (Exception $err) {
+                return response($err->getMessage, 500);
+            }
+        }
     }
 
     /**
@@ -116,7 +148,9 @@ class PostController extends Controller
     public function destroy($id)
     {
         try {
-            Post::find($id)->delete();
+            $post = Post::find($id);
+            Storage::delete($post->image->url);
+            $post->delete();
             return response('Post eliminado', 200);
         } catch (Exception $err) {
             return response($err->getMessage(), 500);

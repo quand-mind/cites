@@ -16,7 +16,7 @@
                 :state="Boolean(image.file || image.url)"
                 placeholder="Selecciona un archivo o arrástralo hasta aquí..."
                 drop-placeholder="Drop file here..."
-                required
+                :required="!image.url && image.file"
               ></b-form-file>
               <b-img-lazy style="margin-top: 10px" :src="mainImageUrl" alt="image preview" fluid></b-img-lazy>
               <div class="mt-3">
@@ -225,7 +225,19 @@ export default {
           // save image
           _this.saveImage(res.data.post_id);
         })
-        .catch(err => console.log(err));
+        .catch(err => _this.makeToast(err.response.data, "danger"));
+    },
+
+    updatePost(formData) {
+      let _this = this;
+
+      axios
+        .post(`/dashboard/posts/edit/${_this.post.id}`, formData)
+        .then(res => {
+          // save image
+          _this.updateImage(res.data.post_id);
+        })
+        .catch(err => _this.makeToast(err.response.data, "danger"));
     },
 
     saveImage(post_id) {
@@ -252,6 +264,35 @@ export default {
         })
         .catch(err => _this.makeToast(err.response.data, "danger"));
     },
+
+    updateImage(post_id) {
+      let _this = this;
+      let formData = new FormData();
+
+      Object.keys(_this.image).forEach(el => {
+        if (el === "date")
+          formData.append(el, moment(_this.image[el]).format("YYYY-MM-DD"));
+        else formData.append(el, _this.image[el]);
+      });
+
+      formData.append("post_id", post_id);
+      axios
+        .post(
+          `/dashboard/images/post/main/update/${_this.post.image.id}`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data"
+            }
+          }
+        )
+        .then(res => {
+          // save image
+          _this.makeToast(res.data);
+          //   setTimeout(() => window.location.replace("/dashboard/posts"), 2000);
+        })
+        .catch(err => _this.makeToast(err.response.data, "danger"));
+    },
     onSubmit() {
       let _this = this;
       let formData = new FormData();
@@ -261,7 +302,9 @@ export default {
         else formData.append(el, _this.postData[el]);
       });
 
-      _this.savePost(formData);
+      _this.post !== null || _this.post !== undefined
+        ? _this.updatePost(formData)
+        : _this.savePost(formData);
     },
     onReset() {},
     handleImageAdded: function(file, Editor, cursorLocation, resetUploader) {
@@ -305,7 +348,11 @@ export default {
       });
 
       Object.keys(_this.image).forEach(key => {
-        _this.image[key] = _this.post.image[key];
+        if (key === "publish_date") {
+          _this.image.publish_date = moment(_this.post.image[key]).format(
+            "YYYY-MM-DD"
+          );
+        } else _this.image[key] = _this.post.image[key];
       });
 
       if (_this.post.image.url) _this.image.url = _this.post.image.url;

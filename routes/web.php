@@ -31,7 +31,7 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         Route::delete('/users/{id}', 'UserController@destroy');
 
         // Post Controllers
-        Route::get('/posts', 'PostController@index')->name('post');
+        Route::get('/posts', 'PostController@index')->name('posts');
         Route::get('/posts/create', 'PostController@create');
         Route::post('/posts/create', 'PostController@store');
         Route::get('/posts/edit/{id}', 'PostController@edit');
@@ -42,5 +42,6 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         // Image Controllers
         Route::post('/images/post/content', 'ImageController@savePostContentImage');
         Route::post('/images/post/main', 'ImageController@savePostMainImage');
+        Route::post('/images/post/main/update/{id}', 'ImageController@updatePostMainImage');
     });
 });

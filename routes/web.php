@@ -41,6 +41,7 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
 
         // Image Controllers
         Route::post('/images/post/content', 'ImageController@savePostContentImage');
+        Route::post('/images/post/content/delete', 'ImageController@deletePostContentImage');
         Route::post('/images/post/main', 'ImageController@savePostMainImage');
         Route::post('/images/post/main/update/{id}', 'ImageController@updatePostMainImage');
     });

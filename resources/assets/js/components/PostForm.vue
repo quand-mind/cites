@@ -16,7 +16,7 @@
                 :state="Boolean(image.file || image.url)"
                 placeholder="Selecciona un archivo o arrástralo hasta aquí..."
                 drop-placeholder="Drop file here..."
-                :required="!image.url && image.file"
+                :required="!image.url && !image.file"
               ></b-form-file>
               <b-img-lazy style="margin-top: 10px" :src="mainImageUrl" alt="image preview" fluid></b-img-lazy>
               <div class="mt-3">
@@ -143,6 +143,7 @@
               <vue-editor
                 useCustomImageHandler
                 @image-added="handleImageAdded"
+                @image-removed="handleImageRemoved"
                 v-model="postData.content"
               ></vue-editor>
             </b-form-group>
@@ -245,7 +246,7 @@ export default {
       let formData = new FormData();
 
       Object.keys(_this.image).forEach(el => {
-        if (el === "date")
+        if (el === "publish_date")
           formData.append(el, moment(_this.image[el]).format("YYYY-MM-DD"));
         else formData.append(el, _this.image[el]);
       });
@@ -270,7 +271,7 @@ export default {
       let formData = new FormData();
 
       Object.keys(_this.image).forEach(el => {
-        if (el === "date")
+        if (el === "publish_date")
           formData.append(el, moment(_this.image[el]).format("YYYY-MM-DD"));
         else formData.append(el, _this.image[el]);
       });
@@ -302,9 +303,9 @@ export default {
         else formData.append(el, _this.postData[el]);
       });
 
-      _this.post !== null || _this.post !== undefined
-        ? _this.updatePost(formData)
-        : _this.savePost(formData);
+      _this.post === null || _this.post === undefined
+        ? _this.savePost(formData)
+        : _this.updatePost(formData);
     },
     onReset() {},
     handleImageAdded: function(file, Editor, cursorLocation, resetUploader) {
@@ -323,6 +324,28 @@ export default {
         .then(result => {
           let url = result.data.url; // Get url from response
           Editor.insertEmbed(cursorLocation, "image", url);
+          resetUploader();
+        })
+        .catch(err => {
+          _this.makeToast(err.response.data, "danger");
+        });
+    },
+    handleImageRemoved: function(file, Editor, cursorLocation, resetUploader) {
+      // An example of using FormData
+      // NOTE: Your key could be different such as:
+      // formData.append('file', file)
+
+      var formData = new FormData();
+      formData.append("path", file);
+
+      axios({
+        url: "/dashboard/images/post/content/delete",
+        method: "POST",
+        data: formData
+      })
+        .then(result => {
+          let url = result.data.url; // Get url from response
+          // Editor.insertEmbed(cursorLocation, "image", url);
           resetUploader();
         })
         .catch(err => {

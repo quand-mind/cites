@@ -27,10 +27,14 @@ class ImageController extends Controller
         if ($request->validate([
             'path' => 'required|string'
         ])) {
-            // handle post content picture
-            Storage::delete($request->input('path'));
+            try {
+                // handle post content picture
+                Storage::delete(str_replace("/storage/", "", $request->input('path')));
 
-            return response('Deleted image', 200);
+                return response('Deleted image', 200);
+            } catch (Exception $err) {
+                return response($err->getMessage, 500);
+            }
         }
     }
 

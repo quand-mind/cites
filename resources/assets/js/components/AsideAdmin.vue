@@ -24,13 +24,13 @@
       <a href="/dashboard/posts" class="list-group-item list-group-item-action">
         <font-awesome-icon :icon="['fas', 'newspaper']"></font-awesome-icon>&nbsp;Noticias
       </a>
-      <a href="/dashboard/FAQs" class="list-group-item list-group-item-action">
+      <a href="/dashboard/questions" class="list-group-item list-group-item-action">
         <font-awesome-icon :icon="['fas', 'question-circle']"></font-awesome-icon>&nbsp;Preguntas frecuentes
       </a>
-      <a href="/dashboard/FAQs-categories" class="list-group-item list-group-item-action">
+      <!-- <a href="/dashboard/questions-categories" class="list-group-item list-group-item-action">
         <font-awesome-icon :icon="['fas', 'th-list']"></font-awesome-icon>&nbsp;Categorías de preguntas
-      </a>
-      <a href="/dashbaord/surveys" class="list-group-item list-group-item-action">
+      </a>-->
+      <a href="/dashboard/surveys" class="list-group-item list-group-item-action">
         <font-awesome-icon :icon="['fas', 'poll']"></font-awesome-icon>&nbsp;Encuestas
       </a>
     </div>

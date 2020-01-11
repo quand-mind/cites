@@ -71,3 +71,9 @@ Vue.component("post-form", require("./components/PostForm.vue"));
 const postForm = new Vue({
     el: "#postForm"
 });
+
+Vue.component("questions-list", require("./components/QuestionsList.vue"));
+
+const questionsList = new Vue({
+    el: "#questionsList"
+});

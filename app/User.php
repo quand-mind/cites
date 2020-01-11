@@ -27,15 +27,9 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-
-    public function faqsMade()
+    public function questionsAnswered()
     {
-        return $this->hasMany('App\FAQ');
-    }
-
-    public function faqsAnswered()
-    {
-        return $this->hasMany('App\FAQ');
+        return $this->hasMany('App\Question');
     }
 
     public function createdPages()

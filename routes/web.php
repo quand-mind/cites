@@ -44,5 +44,13 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         Route::post('/images/post/content/delete', 'ImageController@deletePostContentImage');
         Route::post('/images/post/main', 'ImageController@savePostMainImage');
         Route::post('/images/post/main/update/{id}', 'ImageController@updatePostMainImage');
+
+        // Question Controllers
+        Route::get('/questions', 'QuestionController@index');
+        Route::get('/question', 'QuestionController@create'); // Test form in the admin panel
+        Route::post('/question/changeStatus/{id}', 'QuestionController@changeStatus');
     });
 });
+
+// Question client routes
+Route::post('/question', 'QuestionController@store');

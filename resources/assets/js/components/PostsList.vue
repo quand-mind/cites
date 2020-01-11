@@ -233,7 +233,6 @@ export default {
   },
   mounted() {
     this.tableData = this.posts;
-    console.log(this.posts);
   }
 };
 </script>

@@ -15,7 +15,8 @@ class Question extends Model
         'question', 'answer', 'is_faq', 'asked_by'
     ];
 
-    public function answeredBy () {
-        return $this->belongsTo('App\User');
+    public function answeredBy()
+    {
+        return $this->belongsTo('App\User', 'answered_by');
     }
 }

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Question;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class QuestionController extends Controller
 {
@@ -14,7 +16,7 @@ class QuestionController extends Controller
      */
     public function index()
     {
-        $questions = Question::all();
+        $questions = Question::with(['answeredBy'])->get();
 
         return view('panel.dashboard.questions', compact('questions'));
     }
@@ -39,10 +41,23 @@ class QuestionController extends Controller
     {
         if ($request->validate([
             "asked_by" => "required|email",
-            "question" => "required|min:5|max:300"
+            "question" => "required|min:5|max:300",
+            "answer" => "nullable"
         ])) {
-            Question::create($request->all());
-            return response("Sent question. Thanks for asking", 200);
+            $values = $request->except(["answered_by"]);
+            $question = new Question($values);
+
+            try {
+
+                if ($values['answer'] != "" || $values['answer'] != null) {
+                    $question->answeredBy()->associate(Auth::user());
+                }
+                $question->save();
+
+                return response("Sent question. Thanks for asking", 200);
+            } catch (Exception $err) {
+                return response($err->getMessage(), 500);
+            }
         }
     }
 
@@ -72,12 +87,36 @@ class QuestionController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Question  $question
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Question $question)
+    public function update(Request $request, $id)
     {
-        //
+        if ($request->validate([
+            "asked_by" => "required|email",
+            "question" => "required|min:5|max:300",
+            "answer" => "nullable"
+        ])) {
+            $values = $request->except(["answered_by", "id"]);
+
+            try {
+                $question = Question::find($id);
+
+                // Update values
+                $question->question = $values['question'];
+                $question->asked_by = $values['asked_by'];
+
+                if ($values['answer'] != $question->answer) {
+                    $question->answer = $values['answer'];
+                    $question->answeredBy()->associate(Auth::user());
+                }
+
+                $question->save();
+
+                return response("Updated question.", 200);
+            } catch (Exception $err) {
+                return response($err->getMessage(), 500);
+            }
+        }
     }
 
     /**

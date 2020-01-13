@@ -64,7 +64,7 @@
       <template v-slot:modal-title>
         <span>Editar pregunta</span>
       </template>
-      <b-form id="questionForm" @submit.prevent="onSubmit" @reset="onResetEdit">
+      <b-form id="questionForm" @submit.prevent="onSubmitEdit" @reset="onResetEdit">
         <b-form-group label="Correo electrónico: " label-for="asked_by">
           <b-form-input
             id="asked_by"
@@ -142,6 +142,7 @@ export default {
       this.$refs["edit-question-modal"].show();
       this.selectedQuestion = row;
       this.form = {
+        id: this.selectedQuestion.id,
         asked_by: this.selectedQuestion.asked_by,
         question: this.selectedQuestion.question,
         answer: this.selectedQuestion.answer,
@@ -165,6 +166,21 @@ export default {
         .catch(err => console.log(err.response));
     },
     onReset() {},
+    onSubmitEdit() {
+      let formData = new FormData();
+
+      for (let prop in this.form)
+        prop !== "id" && formData.append(prop, this.form[prop]);
+
+      axios
+        .post(`/question/update/${this.form.id}`, formData)
+        .then(res => {
+          console.log(res);
+          window.location.reload();
+        })
+        .catch(err => console.log(err.response));
+    },
+    onResetEdit() {},
     changeQuestionStatus(id) {
       let _this = this;
       let postIdx = _this.tableSettings.data.findIndex(post => id === post.id);
@@ -198,6 +214,7 @@ export default {
       let newQuest = { ...question };
       newQuest.created_at = moment(newQuest.created_at).format("DD/MM/YYYY");
       newQuest.is_faq = Boolean(newQuest.is_faq);
+      newQuest.answered_by = newQuest.answered_by.username;
       return newQuest;
     });
     console.log(this.questions);

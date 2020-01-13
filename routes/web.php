@@ -54,3 +54,4 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
 
 // Question client routes
 Route::post('/question', 'QuestionController@store');
+Route::post('/question/update/{id}', 'QuestionController@update');

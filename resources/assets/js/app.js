@@ -202,12 +202,8 @@ if ($("#app").length !== 0) {
 
     let app = new Vue({
         el: "#app",
-        router <<
-        << << < HEAD
-    }); ===
-    === =
-}); >>>
->>> > cc7ee170dff43eb8b0eb81ccdefa2be6af5b6528
+        router
+    });
 }
 
 // // VUE-SLICK
@@ -225,11 +221,4 @@ if ($("#app").length !== 0) {
 //             },
 //         };
 //     },
-<<
-<< << < HEAD
-    // });
-    ===
-    === =
-    // });
-    >>>
-    >>> > cc7ee170dff43eb8b0eb81ccdefa2be6af5b6528
+// });

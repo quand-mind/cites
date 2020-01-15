@@ -47,7 +47,7 @@
 				</div>
 			</div>
 			<!--Boton de hacer preguntas-->
-			<a href="#" onclick="return false" class="text-uppercase ml-4 btn font-weight-bold btn-lg" style="background-color: #2c3e50; color: #fff"> Hacer una pregunta</a>
+			<router-link to="/hacer-pregunta" class="text-uppercase ml-4 btn font-weight-bold btn-lg" style="background-color: #2c3e50; color: #fff">Hacer una pregunta</router-link>
 		</div>
     </div>
 </template>

@@ -74,15 +74,20 @@ if ($("#postsList").length !== 0) {
 
 Vue.component("post-form", require("./components/PostForm.vue"));
 
-const postForm = new Vue({
-    el: "#postForm"
-});
+if ($("#postForm").length !== 0) {
+    const postForm = new Vue({
+        el: "#postForm"
+    });
+}
 
 Vue.component("questions-list", require("./components/QuestionsList.vue"));
 
-const questionsList = new Vue({
-    el: "#questionsList"
-});
+if ($("#questionsList").length !== 0) {
+    const questionsList = new Vue({
+        el: "#questionsList"
+    });
+}
+
 Vue.component("cabecera", require("./components/Cabecera.vue"));
 
 Vue.component("navi", require("./components/Nav.vue"));

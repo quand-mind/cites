@@ -1,8 +1,19 @@
+<!-- 
+Ultima Actualización: 16/01/2020
+
+Tipo de componente: Vista
+
+Ruta:/
+
+Descripción:
+	La Pagina principal de el sitio, contiene una pequeña descripción del proyecto, muestra las noticias en un slider, las preguntas frecuentes y permite hacer una pregunta  
+ -->
+
 <template>
 	<div>
 <!-- Acerca de  -->
 		<div class="p-4 card">
-			<h2 class="m-5 text-center display-4">Acerca del proyecto</h2>
+			<h2 class="mb-5 m-lg-5 m-xs-5 text-center display-4">Acerca del proyecto</h2>
 			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
 			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
@@ -11,28 +22,12 @@
 			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 		</div>
 <!-- Slider -->
-	<!-- <slick class="slide" style="max-width: 130vh">
-		<a href="#" onclick="return false"><img src="/images/slides/4.jpg" style="width: 100%">
-			<div class="position-absolute bg-dark w-100 text-white h-25 rounded d-flex" style="z-index: 300; bottom:0%; opacity: 0.8">
-			<p class="h4 m-auto text-center">Noticia #1 Aqui va la noticia</p>
-			</div>
-		</a>
-		<a href="#" onclick="return false"><img src="/images/slides/2.jpg" style="width: 100%">
-			<div class="position-absolute bg-dark w-100 text-white h-25 rounded d-flex" style="z-index: 300; bottom:0%; opacity: 0.8">
-			<p class="h4 m-auto text-center">Noticia #2 Aqui va la noticia</p>
-			</div>
-		</a>
-		<a href="#" onclick="return false"><img src="/images/slides/3.jpg" style="width: 100%">
-			<div class="position-absolute bg-dark w-100 text-white h-25 rounded d-flex" style="z-index: 300; bottom:0%; opacity: 0.8">
-			<p class="h4 m-auto text-center">Noticia #3 Aqui va la noticia</p>
-			</div>
-		</a>
-		<a href="#" onclick="return false"><img src="/images/slides/1.jpg" style="width: 100%">
-			<div class="position-absolute bg-dark w-100 text-white h-25 rounded d-flex" style="z-index: 300; bottom:0%; opacity: 0.8">
-			<p class="h4 m-auto text-center">Noticia #4 Aqui va la noticia</p>
-			</div>
-		</a>
-	</slick> -->
+	<!-- <div class="w-100 d-flex justify-content-center verde"> -->
+			<!-- <slick ref="slick">
+				<a href="#" onclick="return false"><img src="/images/slides/1.jpg"></a>
+				<a href="#" onclick="return false"><img src="/images/slides/2.jpg"></a>
+			</slick> -->
+	<!-- </div> -->
 <!--FAQS -->
 		<div class="p-5 p-lg-4 p-xl-4">
 			<h3 class="font-weight-bold">Preguntas frecuentes</h3>
@@ -65,14 +60,9 @@ export default {
 </script>
 
 <style>
-        li:hover,a:hover, li, a{
-          text-decoration: none;
-          color: #000;
+    li:hover,a:hover, li, a{
+      text-decoration: none;
+      color: #000;
         }
-        
-	.slide a div:hover p{
-		font-size: 30px;
-		transition: all 500ms ease;
-	}
 </style>
 				

@@ -1,3 +1,14 @@
+<!-- 
+Ultima Actualización: 16/01/2020
+
+Tipo de componente: Vista
+
+Ruta:/protocolo/faqs
+
+Descripción:
+	Muestra las preguntas más frecuentes acerca de el protocolo de Cartagena leyendolas de la base de datos
+ -->
+
 <template>
 	<div>
 		<titulo msg="Protocolo de cartagena"/>

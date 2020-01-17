@@ -1,7 +1,16 @@
-<template><!-- 
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>|
-      <router-link to="/noticias">Noticias</router-link> -->
+<!-- 
+Ultima Actualización: 16/01/2020
+
+Tipo de componente: Módulo
+
+Donde se usa:
+ Home.blade.php (layout)
+
+Descripción:
+  Menu con links a las paginas principales, se oculta en los dispositivos moviles
+ -->
+
+ <template>
   <div>
     <!-- Barra de menu2 -->
     <nav class="d-lg-flex d-xl-flex justify-content-center verde p-0  text-uppercase mw-100 collapse ">
@@ -10,7 +19,7 @@
         <li class="px-2 d-flex align-items-center btn-verde"><a class="btn px-1 font-weight-bold text-white" onclick="return false">Proyecto</a>
           <!-- Submenu -->
           <ul class="verde position-absolute submenu " style="top: 60%" >
-            <router-link to="/proyecto/comision-nacional-de-bioseguridad"><li class="p-3 text-white font-weight-bold btn-verde">Comisión Nacional de Bioseguridad</li></router-link>
+            <router-link to="/proyecto/comision-nacional-de-bioseguridad"><li class="p-3 text-white font-weight-bold btn-verde">Comisión Nacional de Bioética y Bioseguridad en Salud</li></router-link>
             <router-link to="/proyecto/acuerdos-internacionales"><li class="p-3 text-white font-weight-bold btn-verde">Acuerdos Internacionales</li></router-link>
             <router-link to="/proyecto/legislacion-internacional"><li class="p-3 text-white font-weight-bold btn-verde">Legislación Internacional</li></router-link>
             <router-link to="/proyecto/antecedentes-y-justificacion"><li class="p-3 text-white font-weight-bold btn-verde">Antecedentes y Justificación</li></router-link>

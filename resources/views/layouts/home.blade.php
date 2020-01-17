@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{ env('APP_NAME') }}</title>
-
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
     <style>
@@ -43,10 +42,10 @@
         <navi></navi>
         <navmobile></navmobile>
         <div class="container-fluid container-lg container-xl d-flex justify-content-center flex-column flex-xl-row flex-lg-row m-0 p-0 m-lg-auto p-lg-auto m-xl-auto p-xl-auto">
-              <main class="px-5 w-100 min-vh-100">
+              <main class="px-lg-5 px-xs-5 mb-5 w-100 min-vh-100">
                 <router-view></router-view>
               </main>
-              <sidebar></sidebar>
+              <!-- <sidebar></sidebar> -->
         </div>
         <pie></pie>
     </div>

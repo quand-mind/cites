@@ -1,3 +1,15 @@
+<!-- 
+Ultima Actualización: 16/01/2020
+
+Tipo de componente: Vista
+
+Ruta:/noticias
+
+Descripción:
+	Muestra las últimas noticias leyendolas desde la base de datos
+
+ -->
+
 <template>
 	<div>
 		<titulo msg="Noticias"/>

@@ -1,3 +1,13 @@
+<!-- 
+Ultima Actualización: 16/01/2020
+
+Tipo de componente: Vista
+
+Ruta:/proyecto/antecedentes-y-justificacion
+
+Descripción:
+	Contiene la historia de tal
+ -->
 <template>
 	<div>
 		<titulo msg="Antecedentes y Justificación"/>

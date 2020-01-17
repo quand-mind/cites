@@ -1,3 +1,15 @@
+<!-- 
+Ultima Actualización: 16/01/2020
+
+Tipo de componente: Vista
+
+Ruta:/somos/mision
+
+Descripción:
+	Manifiesto de la misión del programa
+
+ -->
+
 <template>
 	<div>
 		<titulo msg="Mision"/>

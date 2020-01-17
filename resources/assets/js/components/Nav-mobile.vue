@@ -1,4 +1,16 @@
-<template>
+<!-- 
+Ultima Actualización: 16/01/2020
+
+Tipo de componente: Módulo
+
+Donde se usa:
+  Home.blade.php (layout)
+
+Descripción:
+  Versión movil del menu, esta oculto en la versión para escritorio, y en los dispositivos moviles aparece al apretar el boton
+ -->
+
+ <template>
   <div>
     <!-- Boton Burger -->
     <a href="#menu-mov" class="navbar-toggler rounded-circle p-3  m-3 shadow border fixed-bottom d-xl-none d-lg-none" style="right: 0; left: auto; background-color: #dadada" type="button" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="menu-mov" arial-label="Toggle navigation"> <span class="icon icon-menu h3" style="color: #000;"></span></a>
@@ -10,7 +22,7 @@
         <li class="p-2 d-flex align-items-center"><a class="btn px-1 font-weight-bold text-white" href="#" onclick="return false">Proyecto</a>
           <!-- Submenu -->
           <ul class="verde position-absolute submenu-movil" style="left: 20%; top:10%" >
-            <router-link to="/proyecto/comision-nacional-de-bioseguridad"><li class="p-3 text-white font-weight-bold btn-verde">Comisión Nacional de Bioseguridad</li></router-link>
+            <router-link to="/proyecto/comision-nacional-de-bioseguridad"><li class="p-3 text-white font-weight-bold btn-verde">Comisión Nacional de Bioética y Bioseguridad en Salud</li></router-link>
             <router-link to="/proyecto/acuerdos-internacionales"><li class="p-3 text-white font-weight-bold btn-verde">Acuerdos Internacionales</li></router-link>
             <router-link to="/proyecto/legislacion-internacional"><li class="p-3 text-white font-weight-bold btn-verde">Legislación Internacional</li></router-link>
             <router-link to="/proyecto/antecedentes-y-justificacion"><li class="p-3 text-white font-weight-bold btn-verde">Antecedentes y Justificación</li></router-link>

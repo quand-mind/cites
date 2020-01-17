@@ -1,3 +1,15 @@
+<!-- 
+Ultima Actualización: 16/01/2020
+
+Tipo de componente: Vista
+
+Ruta:/faqs-encuestas
+
+Descripción:
+	Lee las Preguntas Frecuentes de la base de datos y las muestra de 10 en 10, y las encuestas
+
+ -->
+
 <template>
 	<div>
 		<titulo msg="Preguntas frecuentes"/>

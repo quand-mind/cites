@@ -1,8 +1,19 @@
-<template>
+<!-- 
+Ultima Actualización: 16/01/2020
+
+Tipo de componente: Vista
+
+Ruta:/asociados/nagoya-lumpur
+
+Descripción:
+	Contiene la información acerca del proyecto asociado de Nagoya-lumpur
+ -->
+
+ <template>
 	<div>
-		<titulo msg="Comision Nacional de Bioseguridad"/>
+		<titulo msg="Nagoya-lumpur"/>
 <!-- Escrito -->
-		<div class="d-flex flex-column p-5 text-justify">
+		<div class="d-flex flex-column p-3 p-xs-5 p-lg-5 text-justify">
 				<div class="d-flex flex-column flex-lg-row flex-xl-row my-3 align-items-center">
 					<p class="">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 					tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,

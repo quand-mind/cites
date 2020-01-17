@@ -1,3 +1,14 @@
+<!-- 
+Ultima Actualización: 16/01/2020
+
+Tipo de componente: Vista
+
+Ruta:/protocolo/recursos
+
+Descripción:
+	Muestra una galeria de imagenes y videos acerca de los OVM y los proyectos
+ -->
+
 <template>
 	<div>
 		<titulo msg="Protocolo de cartagena"/>

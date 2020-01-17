@@ -1,4 +1,16 @@
-<template>
+<!-- 
+Ultima Actualización: 16/01/2020
+
+Tipo de componente: Módulo
+
+Donde se usa:
+	Home.vue (vista)
+
+Descripción:
+	Slide con noticias 
+ -->
+
+ <template>
   <div>
 <!-- Slider -->
 	<div class="slide" style="max-width: 130vh">

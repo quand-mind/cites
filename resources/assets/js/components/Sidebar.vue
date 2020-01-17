@@ -1,4 +1,16 @@
-<template>
+<!-- 
+Ultima Actualización: 16/01/2020
+
+Tipo de componente: Módulo
+
+Donde se usa:
+	Home.blade.php (layout)
+
+Descripción:
+	aside con algunas noticias y logos asociados
+ -->
+
+ <template>
 	<!-- SideBar -->
 			<aside class="d-flex flex-column justify-content-between align-items-center " style="background-color: #dadada; flex-shrink: 2; min-width: 300px" >
 					<!-- Enlaces de interes -->

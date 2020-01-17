@@ -1,3 +1,14 @@
+<!-- 
+Ultima Actualización: 16/01/2020
+
+Tipo de componente: Vista
+
+Ruta:/proyecto/legislacion-internacional
+
+Descripción:
+	Contiene las leyes internacionales
+ -->
+
 <template>
 	<div>
 		<titulo msg="Legislacion Internacional"/>

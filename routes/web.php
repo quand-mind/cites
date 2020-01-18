@@ -11,8 +11,21 @@
 |
 */
 
+// Frontend routes
+// Manda a todas esas urls a renderizar la vista "welcome"
 Route::get('/', function () {
     return view('welcome');
+});
+Route::get('/somos/grupos', function () {
+    return view('welcome');
+})->name('somos-grupos');
+
+Route::get('/foo', function () {
+    $exitCode = Artisan::call('email:send', [
+        'user' => 1, '--queue' => 'default'
+    ]);
+
+    //
 });
 
 Auth::routes();

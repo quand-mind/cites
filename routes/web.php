@@ -11,9 +11,17 @@
 |
 */
 
+// Frontend routes
+// Manda a todas esas urls a renderizar la vista "welcome"
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/somos/grupos', function () {
+    return view('welcome');
+})->name('somos-grupos');
+Route::get('/faqs-encuestas', function () {
+    return view('welcome');
+})->name('faqs-encuestas');
 
 Auth::routes();
 
@@ -53,5 +61,6 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
 });
 
 // Question client routes
+Route::get('/questions', 'QuestionController@getFAQs');
 Route::post('/question', 'QuestionController@store');
 Route::post('/question/update/{id}', 'QuestionController@update');

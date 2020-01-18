@@ -139,4 +139,16 @@ class QuestionController extends Controller
             return response($request->input('is_faq') ? "La pregunta fue agregada a la lista de preguntas frecuentes" : "La pregunta fue eliminada de la lista de preguntas frecuentes", 200);
         }
     }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getFAQs()
+    {
+        $questions = Question::where(['is_faq' => true])->get();
+
+        return $questions;
+    }
 }

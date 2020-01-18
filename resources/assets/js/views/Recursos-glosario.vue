@@ -1,3 +1,15 @@
+<!-- 
+Ultima Actualización: 16/01/2020
+
+Tipo de componente: Vista
+
+Ruta:/recursos/glosario
+
+Descripción:
+	Definicion de palabras comunmente utilizadas
+	
+ -->
+
 <template>
 	<div>
 		<titulo msg="Glosario"/>

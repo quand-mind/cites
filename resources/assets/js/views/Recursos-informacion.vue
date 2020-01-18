@@ -1,3 +1,14 @@
+<!-- 
+Ultima Actualización: 16/01/2020
+
+Tipo de componente: Vista
+
+Ruta:/recursos/ovm-venezuela
+
+Descripción:
+	Información de los OVM en venezuela
+ -->
+
 <template>
 	<div>
 		<titulo msg="OVM en Venezuela"/>

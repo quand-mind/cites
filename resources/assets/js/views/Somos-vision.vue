@@ -1,3 +1,14 @@
+<!-- 
+Ultima Actualización: 16/01/2020
+
+Tipo de componente: Vista
+
+Ruta:/somos/vision
+
+Descripción:
+	Manifiesto de la visión 
+ -->
+
 <template>
 	<div>
 		<titulo msg="Vision"/>

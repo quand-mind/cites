@@ -1,3 +1,14 @@
+<!-- 
+Ultima Actualización: 16/01/2020
+
+Tipo de componente: Vista
+
+Ruta:/transgenico
+
+Descripción:
+	Explicación de qué es un transgénico
+ -->
+
 <template>
 	<div>
 		<titulo msg="¿Qué es un Transgénico?"/>

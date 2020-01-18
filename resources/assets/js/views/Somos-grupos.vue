@@ -1,3 +1,14 @@
+<!-- 
+Ultima Actualización: 16/01/2020
+
+Tipo de componente: Vista
+
+Ruta:/somos/grupos
+
+Descripción:
+	Descripción de los distintos grupos
+ -->
+
 <template>
 	<div>
 		<titulo msg="Grupos"/>

@@ -1,3 +1,14 @@
+<!-- 
+Ultima Actualización: 16/01/2020
+
+Tipo de componente: Vista
+
+Ruta:/recursos/portales
+
+Descripción:
+	
+ -->
+
 <template>
 	<div>
 		<titulo msg="Portales"/>

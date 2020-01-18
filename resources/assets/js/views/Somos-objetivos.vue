@@ -1,3 +1,14 @@
+<!-- 
+Ultima Actualización: 16/01/2020
+
+Tipo de componente: Vista
+
+Ruta:/somos/objetivos
+
+Descripción:
+	Descripción de los objetivos del proyecto
+ -->
+
 <template>
 	<div>
 		<titulo msg="Objetivos"/>

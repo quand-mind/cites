@@ -1,55 +1,29 @@
-<template>
+<!-- 
+Ultima Actualización: 16/01/2020
+
+Tipo de componente: Vista
+
+Ruta:/proyecto/acuerdos-internacionales
+
+Descripción:
+	Contiene los acuerdos internacionales
+ -->
+
+ <template>
 	<div>
 		<titulo msg="Acuerdos Internacionales"/>
 <!-- Escrito Leyes-->
 		<div class="d-flex flex-column p-5 text-justify">
 			
-			<p class="">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam:</p>
-			<ul class="">
-				<li class= "my-3" style="list-style: disc;"><b>Lorem ipsum dolor sit amet:</b> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.</li>
-				<li class= "my-3" style="list-style: disc;"><b>Lorem ipsum dolor sit amet:</b> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.</li>
-				<li class= "my-3" style="list-style: disc;"><b>Lorem ipsum dolor sit amet:</b> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.</li>
-				<li class= "my-3" style="list-style: disc;"><b>Lorem ipsum dolor sit amet:</b> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.</li>
-				<li class= "my-3" style="list-style: disc;"><b>Lorem ipsum dolor sit amet:</b> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.</li>
-				
-				<li class= "my-3" style="list-style: disc;"><b>Lorem ipsum dolor sit amet:</b> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.</li>
-				<li class= "my-3" style="list-style: disc;"><b>Lorem ipsum dolor sit amet:</b> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.</li>
-				<li class= "my-3" style="list-style: disc;"><b>Lorem ipsum dolor sit amet:</b> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.</li>
-				<li class= "my-3" style="list-style: disc;"><b>Lorem ipsum dolor sit amet:</b> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.</li>
-				<li class= "my-3" style="list-style: disc;"><b>Lorem ipsum dolor sit amet:</b> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.</li>
+				<div class="d-flex flex-column flex-lg-row flex-xl-row my-3 align-items-center">
+					<p>El  Convenio sobre Diversidad Biológica (CDB) es el primer acuerdo mundial enfocado a la conservación y el uso sustentable de la diversidad biológica. Lo han ratificado 191 países. </p>
+				</div>
+				<p>El CDB tiene tres objetivos principales: </p>
+				<ul>
+					<li>La conservación de la biodiversidad</li>
+					<li>El uso sostenible de los componentes de la diversidad biológica</li>
+					<li>La participación justa y equitativa en los beneficios derivados del uso de los recursos genéticos.</li>
+				</ul>
 
 			</ul>
 		</div>

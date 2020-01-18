@@ -214,19 +214,5 @@ if ($("#app").length !== 0) {
     });
 }
 
-// // VUE-SLICK
-// import Slick from 'vue-slick';
 
-// new Vue({
 
-//     components: { Slick },
-
-//     data() {
-//         return {
-//             slickOptions: {
-//                 slidesToShow: 3,
-//                 // Any other options that can be got from plugin documentation
-//             },
-//         };
-//     },
-// });

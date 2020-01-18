@@ -1,5 +1,17 @@
-<template>
-	<div class="cabecera">
+<!-- 
+Ultima Actualización: 16/01/2020
+
+Tipo de componente: Módulo
+
+Donde se usa:
+	Home.blade.php (layout)
+
+Descripción:
+	Contiene el header con la primera imagen con parallax, el logo y el nombre 
+ -->
+
+ <template>
+	<div class="cabecera" id="up">
 	<header class="verde">
 		<div class="navbar flex-wrap flex-xl-nowrap flex-lg-nowrap" > 
 				<router-link to="/">

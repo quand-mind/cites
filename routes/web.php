@@ -16,12 +16,51 @@
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/somos/grupos', function () {
-    return view('welcome');
-})->name('somos-grupos');
+
+// Frontend routes for "proyecto"
+Route::group(['prefix' => 'proyecto'], function () {
+    Route::get('/{any}', function () {
+        return view('welcome');
+    });
+});
+
+// Frontend routes for "¿Quienes somos?"
+Route::group(['prefix' => 'somos'], function () {
+    Route::get('/{any}', function () {
+        return view('welcome');
+    });
+});
+
+// Frontend routes for "FAQs"
 Route::get('/faqs-encuestas', function () {
     return view('welcome');
 })->name('faqs-encuestas');
+
+// Frontend routes for "Protocolo de Cartagena"
+Route::group(['prefix' => 'protocolo'], function () {
+    Route::get('/{any}', function () {
+        return view('welcome');
+    });
+});
+
+// Frontend routes for "Proyectos asociados"
+Route::group(['prefix' => 'asociados'], function () {
+    Route::get('/{any}', function () {
+        return view('welcome');
+    });
+});
+
+// Frontend routes for "Laboratorio Nacional OVM"
+Route::get('/laboratorio-nacional-ovm', function () {
+    return view('welcome');
+})->name('laboratorio-nacional-ovm');
+
+// Frontend routes for "Recursos"
+Route::group(['prefix' => 'recursos'], function () {
+    Route::get('/{any}', function () {
+        return view('welcome');
+    });
+});
 
 Auth::routes();
 

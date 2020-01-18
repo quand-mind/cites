@@ -3,7 +3,7 @@
     <titulo msg="Preguntas frecuentes" />
     <!--FAQS -->
     <div class="p-5 p-lg-4 p-xl-4">
-      <div class="p-3 my-5" style="background-color: #e6e6e6">
+      <div v-if="faqs.length > 0" class="p-3 my-5" style="background-color: #e6e6e6">
         <div v-for="(item,index) of faqs" :key="index">
           <!-- Preguntas -->
           <a href="#">
@@ -12,6 +12,9 @@
           </a>
           <hr />
         </div>
+      </div>
+      <div v-else class="p-3 my-5" style="background-color: #e6e6e6">
+        <h4 class="font-weight-bold" style="color: #2c3e50">No hay preguntas.</h4>
       </div>
       <!--Boton de hacer preguntas-->
       <a

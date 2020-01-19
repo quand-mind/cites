@@ -88,6 +88,14 @@ if ($("#questionsList").length !== 0) {
     });
 }
 
+Vue.component("surveys-list", require("./components/SurveysList.vue"));
+
+if ($("#surveysList").length !== 0) {
+    const surveysList = new Vue({
+        el: "#surveysList"
+    });
+}
+
 Vue.component("cabecera", require("./components/Cabecera.vue"));
 
 Vue.component("navi", require("./components/Nav.vue"));
@@ -213,6 +221,3 @@ if ($("#app").length !== 0) {
         router
     });
 }
-
-
-

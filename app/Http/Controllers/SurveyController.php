@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Survey;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SurveyController extends Controller
 {
@@ -14,7 +15,9 @@ class SurveyController extends Controller
      */
     public function index()
     {
-        //
+        $surveys = Survey::with(['createdBy'])->get();
+
+        return view('panel.dashboard.surveys', compact('surveys'));
     }
 
     /**
@@ -35,7 +38,24 @@ class SurveyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if ($request->validate([
+            'title' => 'required|string',
+            'description' => 'required|string',
+            'url' => 'required|url|unique:surveys',
+            'published_date' => 'required|date'
+        ])) {
+            // Store the survey info
+
+            try {
+                $survey = new Survey($request->all());
+                $survey->createdBy()->associate(Auth::user());
+
+                $survey->save();
+                return response("Encuesta guardada exitosamente", 200);
+            } catch (Exception $err) {
+                return response($err->getMessage(), 500);
+            }
+        }
     }
 
     /**

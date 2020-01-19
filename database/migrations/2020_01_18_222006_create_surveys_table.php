@@ -16,10 +16,13 @@ class CreateSurveysTable extends Migration
         Schema::create('surveys', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title', 100);
-            $table->text('url');
+            $table->text('description');
+            $table->text('url')->unique();
             $table->date('published_date');
-            $table->integer('created_by');
+            $table->unsignedInteger('created_by');
             $table->timestamps();
+
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

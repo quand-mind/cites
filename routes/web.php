@@ -12,7 +12,6 @@
 */
 
 // Frontend routes
-// Manda a todas esas urls a renderizar la vista "welcome"
 Route::get('/', function () {
     return view('welcome');
 });
@@ -70,14 +69,14 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
     Route::group(['prefix' => 'dashboard'], function () {
         Route::get('/', 'DashboardController@index');
 
-        // Users Controllers
+        // Users Routes
         Route::get('/users', 'UserController@index')->name('users');
         Route::post('/users/create', 'UserController@store');
         Route::post('/users/edit/{id}', 'UserController@update');
         Route::post('/users/changeActiveState/{id}', 'UserController@changeActiveState');
         Route::delete('/users/{id}', 'UserController@destroy');
 
-        // Post Controllers
+        // Post Routes
         Route::get('/posts', 'PostController@index')->name('posts');
         Route::get('/posts/create', 'PostController@create');
         Route::post('/posts/create', 'PostController@store');
@@ -86,16 +85,21 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         Route::post('/posts/changeActiveState/{id}', 'PostController@changeActiveState');
         Route::delete('/posts/{id}', 'PostController@destroy');
 
-        // Image Controllers
+        // Image Routes
         Route::post('/images/post/content', 'ImageController@savePostContentImage');
         Route::post('/images/post/content/delete', 'ImageController@deletePostContentImage');
         Route::post('/images/post/main', 'ImageController@savePostMainImage');
         Route::post('/images/post/main/update/{id}', 'ImageController@updatePostMainImage');
 
-        // Question Controllers
+        // Question Routes
         Route::get('/questions', 'QuestionController@index');
         Route::get('/question', 'QuestionController@create'); // Test form in the admin panel
         Route::post('/question/changeStatus/{id}', 'QuestionController@changeStatus');
+
+        // Surveys Routes
+        Route::get('/surveys', 'SurveyController@index');
+        Route::post('/survey', 'SurveyController@store');
+        Route::post('/survey/update/{id}', 'SurveyController@update');
     });
 });
 

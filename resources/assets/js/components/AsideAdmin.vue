@@ -23,7 +23,7 @@
       </a>
       <!-- <a href="/dashboard/posts" class="list-group-item list-group-item-action">
         <font-awesome-icon :icon="['fas', 'newspaper']"></font-awesome-icon>&nbsp;Noticias
-      </a> -->
+      </a>-->
       <a href="/dashboard/questions" class="list-group-item list-group-item-action">
         <font-awesome-icon :icon="['fas', 'question-circle']"></font-awesome-icon>&nbsp;Preguntas frecuentes
       </a>

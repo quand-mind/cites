@@ -17,7 +17,7 @@ Descripción:
 				<router-link to="/">
 					<div class="d-flex flex-wrap align-items-center justify-content-start">
 						<img src="/images/logos/minec-thumb.png" class="figure">
-						<p class="ml-2 p-1 font-weight-bold w-75 h6 d-none d-lg-flex d-xl-flex">Implementación del Marco Nacional de Bioseguridad en Venezuela,
+						<p class="ml-2 p-1 font-weight-bold w-75 h6 d-none d-lg-flex d-xl-flex text-black">Implementación del Marco Nacional de Bioseguridad en Venezuela,
 						de acuerdo con el Protocolo de Cartagena sobre Seguridad de la
 						Biotecnología 
 						</p>
@@ -39,6 +39,13 @@ export default {
 </script>
 
 <style scoped>
+	li:hover,
+a:hover,
+li,
+a {
+    text-decoration: none;
+    color: #000;
+}
 	header{
 	height: 50vh;
 	background-image: url("/images/bg-header.jpg");

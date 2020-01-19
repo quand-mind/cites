@@ -1,5 +1,5 @@
 <!--
-Ultima Actualización: 16/01/2020
+Ultima Actualización: 19/01/2020
 
 Tipo de componente: Vista
 
@@ -24,29 +24,6 @@ Descripción:
                 sunt in culpa qui officia deserunt mollit anim id est laborum.
             </p>
         </div>
-        <!-- Slider -->
-        <!-- <slick class="slide" style="max-width: 130vh">
-		<a href="#" onclick="return false"><img src="/images/slides/4.jpg" style="width: 100%">
-			<div class="position-absolute bg-dark w-100 text-white h-25 rounded d-flex" style="z-index: 300; bottom:0%; opacity: 0.8">
-			<p class="h4 m-auto text-center">Noticia #1 Aqui va la noticia</p>
-			</div>
-		</a>
-		<a href="#" onclick="return false"><img src="/images/slides/2.jpg" style="width: 100%">
-			<div class="position-absolute bg-dark w-100 text-white h-25 rounded d-flex" style="z-index: 300; bottom:0%; opacity: 0.8">
-			<p class="h4 m-auto text-center">Noticia #2 Aqui va la noticia</p>
-			</div>
-		</a>
-		<a href="#" onclick="return false"><img src="/images/slides/3.jpg" style="width: 100%">
-			<div class="position-absolute bg-dark w-100 text-white h-25 rounded d-flex" style="z-index: 300; bottom:0%; opacity: 0.8">
-			<p class="h4 m-auto text-center">Noticia #3 Aqui va la noticia</p>
-			</div>
-		</a>
-		<a href="#" onclick="return false"><img src="/images/slides/1.jpg" style="width: 100%">
-			<div class="position-absolute bg-dark w-100 text-white h-25 rounded d-flex" style="z-index: 300; bottom:0%; opacity: 0.8">
-			<p class="h4 m-auto text-center">Noticia #4 Aqui va la noticia</p>
-			</div>
-		</a>
-    </slick>-->
         <!--FAQS -->
         <div class="p-5 p-lg-4 p-xl-4">
             <h3 class="font-weight-bold">Preguntas frecuentes</h3>
@@ -72,18 +49,19 @@ Descripción:
                 </h4>
             </div>
             <!--Boton de hacer preguntas-->
-            <router-link
-                to="/hacer-pregunta"
-                class="text-uppercase ml-4 btn font-weight-bold btn-lg"
-                style="background-color: #2c3e50; color: #fff"
-                >Hacer una pregunta</router-link
-            >
+                <pregunta></pregunta>
         </div>
     </div>
 </template>
 
 <script>
+import pregunta from "../components/Hacer-pregunta.vue"
+
+
 export default {
+    components:{
+        pregunta,
+    },
     data() {
         return {
             faqs: []

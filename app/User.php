@@ -47,6 +47,11 @@ class User extends Authenticatable
         return $this->hasMany('App\Post');
     }
 
+    public function createdSurveys()
+    {
+        return $this->hasMany('App\Survey');
+    }
+
     // methods
     public function isWriter()
     {

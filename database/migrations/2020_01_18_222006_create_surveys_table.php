@@ -17,7 +17,7 @@ class CreateSurveysTable extends Migration
             $table->increments('id');
             $table->string('title', 100);
             $table->text('description');
-            $table->text('url')->unique();
+            $table->string('url')->unique();
             $table->date('published_date');
             $table->unsignedInteger('created_by');
             $table->timestamps();

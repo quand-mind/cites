@@ -167,6 +167,10 @@ if ($("#app").length !== 0) {
             component: require('./views/Asociados-nagoya-lumpur')
         },
         {
+            path: '/protocolo/',
+            component: require('./views/Protocolo')
+        },
+        {
             path: '/protocolo/mitos-realidades',
             component: require('./views/Protocolo-mitos-realidades')
         },
@@ -202,14 +206,6 @@ if ($("#app").length !== 0) {
             path: '/recursos/glosario',
             component: require('./views/Recursos-glosario')
         },
-        {
-            path: '/hacer-pregunta',
-            component: require('./views/Hacer-pregunta')
-        },
-        {
-            path: '/pregunta-hecha',
-            component: require('./views/Pregunta-hecha')
-        }
     ];
     const router = new VueRouter({
         mode: 'history',

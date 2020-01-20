@@ -1,5 +1,5 @@
 <!-- 
-Ultima Actualización: 16/01/2020
+Ultima Actualización: 19/01/2020
 
 Tipo de componente: Vista
 
@@ -29,12 +29,7 @@ Descripción:
         <h4 class="font-weight-bold" style="color: #2c3e50">No hay preguntas.</h4>
       </div>
       <!--Boton de hacer preguntas-->
-      <a
-        href="#"
-        onclick="return false"
-        class="text-uppercase ml-4 btn font-weight-bold btn-lg"
-        style="background-color: #2c3e50; color: #fff"
-      >Hacer una pregunta</a>
+       <pregunta></pregunta>
     </div>
     <titulo msg="Encuestas" />
   </div>
@@ -43,10 +38,12 @@ Descripción:
 <script>
 import titulo from "../components/Titulo.vue";
 import axios from "axios";
+import pregunta from "../components/Hacer-pregunta.vue"
 
 export default {
   components: {
-    titulo
+    titulo,
+    pregunta
   },
   data() {
     return {

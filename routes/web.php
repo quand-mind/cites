@@ -22,6 +22,10 @@ Route::group(['prefix' => 'proyecto'], function () {
         return view('welcome');
     });
 });
+// Frontend routes for "Transgenico"
+Route::get('/transgenico', function () {
+    return view('welcome');
+})->name('trangenico');
 
 // Frontend routes for "¿Quienes somos?"
 Route::group(['prefix' => 'somos'], function () {
@@ -34,6 +38,11 @@ Route::group(['prefix' => 'somos'], function () {
 Route::get('/faqs-encuestas', function () {
     return view('welcome');
 })->name('faqs-encuestas');
+
+// Frontend routes for "Protocolo de Cartagena"
+Route::get('/protocolo', function () {
+    return view('welcome');
+})->name('protocolo');
 
 // Frontend routes for "Protocolo de Cartagena"
 Route::group(['prefix' => 'protocolo'], function () {

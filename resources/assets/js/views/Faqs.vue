@@ -32,12 +32,18 @@ Descripción:
       <pregunta></pregunta>
     </div>
     <titulo msg="Encuestas" />
-    <div class="mt-5">
-      <b-button href="#" target="_blank" block variant="info" class="text-uppercase ml-4 btn font-weight-bold btn-lg my-3">Encuesta #1 - Sobre algo de lo que trate la encuesta</b-button>
-      <b-button href="#" target="_blank" block variant="info" class="text-uppercase ml-4 btn font-weight-bold btn-lg my-3">Encuesta #2 - Sobre algo de lo que trate la encuesta</b-button>
-      <b-button href="#" target="_blank" block variant="info" class="text-uppercase ml-4 btn font-weight-bold btn-lg my-3">Encuesta #3 - Sobre algo de lo que trate la encuesta</b-button>
-      <b-button href="#" target="_blank" block variant="info" class="text-uppercase ml-4 btn font-weight-bold btn-lg my-3">Encuesta #4 - Sobre algo de lo que trate la encuesta</b-button>
+    <div v-if="surveys.length > 0" class="mt-5">
+      <b-button
+        v-for="survey in surveys"
+        :key="survey.id + survey.title"
+        :href="survey.url"
+        target="_blank"
+        block
+        variant="info"
+        class="text-uppercase ml-4 btn font-weight-bold btn-lg my-3"
+      >{{survey.title}}</b-button>
     </div>
+    <div v-else class="mt-5">No hay encuestas disponibles</div>
   </div>
 </template>
 
@@ -53,7 +59,8 @@ export default {
   },
   data() {
     return {
-      faqs: []
+      faqs: [],
+      surveys: []
     };
   },
   created() {
@@ -63,6 +70,13 @@ export default {
       .get("/questions")
       .then(res => {
         _this.faqs = [...res.data];
+      })
+      .catch(err => console.log(err.response));
+
+    axios
+      .get("/surveys-list")
+      .then(res => {
+        _this.surveys = [...res.data];
       })
       .catch(err => console.log(err.response));
   }

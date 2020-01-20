@@ -1,5 +1,5 @@
 <!-- 
-Ultima Actualización: 18/01/2020
+Ultima Actualización: 19/01/2020
 
 Tipo de componente: Módulo
 
@@ -36,14 +36,14 @@ Descripción:
             <router-link to="/somos/vision"><li class="p-3 text-white font-weight-bold btn-verde">Visión</li></router-link>
           </ul>
         </li>
-        <li class="p-2 d-flex align-items-center btn-verde"><router-link to="/faqs-encuestas" class="btn p-1 font-weight-bold text-white">Preguntas Frecuentes y Encuestas</router-link></li>
+        <li class="p-2 d-flex align-items-center btn-verde"><router-link to="/preguntas-frecuentes-encuestas" class="btn p-1 font-weight-bold text-white">Preguntas Frecuentes y Encuestas</router-link></li>
         <li class="p-2 d-flex align-items-center btn-verde"><a onclick="return false" class="btn p-1 font-weight-bold text-white">Protocolo de Cartagena</a>
           <!-- Submenu -->
           <ul class="verde position-absolute submenu" style="top: 60%;" >
             <router-link to="/protocolo/"><li class="p-3 text-white font-weight-bold btn-verde">El Protocolo</li></router-link>
             <router-link to="/protocolo/mitos-realidades"><li class="p-3 text-white font-weight-bold btn-verde">Mitos y Realidades</li></router-link>
             <router-link to="/protocolo/ovm-territorio-nacional"><li class="p-3 text-white font-weight-bold btn-verde">¿Qué hacer si entra otro tipo de OVM al territorio nacional?</li></router-link>
-            <router-link to="/protocolo/faqs"><li class="p-3 text-white font-weight-bold btn-verde">Preguntas Frecuentes sobre el protocolo</li></router-link>
+            <router-link to="/protocolo/preguntas-frecuentes"><li class="p-3 text-white font-weight-bold btn-verde">Preguntas Frecuentes sobre el protocolo</li></router-link>
             <router-link to="/protocolo/recursos"><li class="p-3 text-white font-weight-bold btn-verde">Recursos</li></router-link>
           </ul>
         </li>

@@ -32,6 +32,12 @@ Descripción:
        <pregunta></pregunta>
     </div>
     <titulo msg="Encuestas" />
+    <div class="mt-5">
+      <b-button href="#" target="_blank" block variant="info" class="text-uppercase ml-4 btn font-weight-bold btn-lg my-3">Encuesta #1 - Sobre algo de lo que trate la encuesta</b-button>
+      <b-button href="#" target="_blank" block variant="info" class="text-uppercase ml-4 btn font-weight-bold btn-lg my-3">Encuesta #2 - Sobre algo de lo que trate la encuesta</b-button>
+      <b-button href="#" target="_blank" block variant="info" class="text-uppercase ml-4 btn font-weight-bold btn-lg my-3">Encuesta #3 - Sobre algo de lo que trate la encuesta</b-button>
+      <b-button href="#" target="_blank" block variant="info" class="text-uppercase ml-4 btn font-weight-bold btn-lg my-3">Encuesta #4 - Sobre algo de lo que trate la encuesta</b-button>
+    </div>
   </div>
 </template>
 

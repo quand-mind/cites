@@ -71,6 +71,11 @@ Route::group(['prefix' => 'recursos'], function () {
     });
 });
 
+// Frontend routes for "Transgénico"
+Route::get('/transgenico', function () {
+    return view('welcome');
+});
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

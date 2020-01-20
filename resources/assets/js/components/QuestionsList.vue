@@ -201,6 +201,7 @@ export default {
         });
     },
     makeToast(msg, variant = "success", delay = 3000, append = false) {
+      // Create a new toast
       this.$bvToast.toast(`${msg}`, {
         title: "Actualización de la pregunta",
         autoHideDelay: delay,
@@ -211,13 +212,13 @@ export default {
   },
   mounted() {
     this.tableSettings.data = this.questions.map(question => {
+      // Format the data to render in the panel
       let newQuest = { ...question };
       newQuest.created_at = moment(newQuest.created_at).format("DD/MM/YYYY");
       newQuest.is_faq = Boolean(newQuest.is_faq);
       newQuest.answered_by = newQuest.answered_by.username;
       return newQuest;
     });
-    console.log(this.questions);
   }
 };
 </script>

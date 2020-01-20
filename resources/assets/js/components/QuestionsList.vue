@@ -13,7 +13,6 @@
       <div slot="pregunta_frecuente" slot-scope="props">
         <b-form-checkbox
           v-model="props.row.is_faq"
-          :checked="props.row.is_faq"
           name="check-button"
           switch
           :data-id="props.row.id"
@@ -215,7 +214,8 @@ export default {
       // Format the data to render in the panel
       let newQuest = { ...question };
       newQuest.created_at = moment(newQuest.created_at).format("DD/MM/YYYY");
-      newQuest.is_faq = Boolean(newQuest.is_faq);
+      newQuest.is_faq = parseInt(newQuest.is_faq) === 1;
+      console.log(newQuest.question, newQuest.is_faq);
       newQuest.answered_by = newQuest.answered_by
         ? newQuest.answered_by.username
         : null;

@@ -12,6 +12,7 @@
 */
 
 // Frontend routes
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -116,3 +117,6 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
 Route::get('/questions', 'QuestionController@getFAQs');
 Route::post('/question', 'QuestionController@store');
 Route::post('/question/update/{id}', 'QuestionController@update');
+
+// Migration routes
+Route::get('/migrate/seed', 'MigrationsController@seed');

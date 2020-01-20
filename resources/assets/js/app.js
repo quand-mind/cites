@@ -179,7 +179,7 @@ if ($("#app").length !== 0) {
             component: require('./views/Protocolo-ovm-territorio-nacional')
         },
         {
-            path: '/protocolo/faqs',
+            path: '/protocolo/preguntas-frecuentes',
             component: require('./views/Protocolo-faqs')
         },
         {

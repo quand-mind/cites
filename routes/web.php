@@ -36,9 +36,9 @@ Route::group(['prefix' => 'somos'], function () {
 });
 
 // Frontend routes for "FAQs"
-Route::get('/faqs-encuestas', function () {
+Route::get('/preguntas-frecuentes-encuestas', function () {
     return view('welcome');
-})->name('faqs-encuestas');
+})->name('preguntas-frecuentes-encuestas');
 
 // Frontend routes for "Protocolo de Cartagena"
 Route::get('/protocolo', function () {

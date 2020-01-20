@@ -70,6 +70,7 @@ export default {
   top: 57px;
   width: 250px;
   height: calc(100% - 55px);
+  min-height: calc(100vh - 55px);
   padding: 2rem;
   z-index: 700;
   transform: translateX(-215px);

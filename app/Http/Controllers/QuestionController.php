@@ -42,14 +42,14 @@ class QuestionController extends Controller
         if ($request->validate([
             "asked_by" => "required|email",
             "question" => "required|min:5|max:300",
-            "answer" => "nullable"
+            "answer" => "sometimes|nullable"
         ])) {
             $values = $request->except(["answered_by"]);
             $question = new Question($values);
 
             try {
 
-                if ($values['answer'] != "" || $values['answer'] != null) {
+                if (isset($values['answer']) && ($values['answer'] != null || $values['answer'] != "")) {
                     $question->answeredBy()->associate(Auth::user());
                 }
                 $question->save();

@@ -1,9 +1,9 @@
-<!-- 
+<!--
 Ultima Actualización: 19/01/2020
 
 Tipo de componente: Vista
 
-Ruta:/faqs-encuestas
+Ruta:/preguntas-frecuentes-y-encuestas
 
 Descripción:
 	Lee las Preguntas Frecuentes de la base de datos y las muestra de 10 en 10, y las encuestas
@@ -29,7 +29,7 @@ Descripción:
         <h4 class="font-weight-bold" style="color: #2c3e50">No hay preguntas.</h4>
       </div>
       <!--Boton de hacer preguntas-->
-       <pregunta></pregunta>
+      <pregunta></pregunta>
     </div>
     <titulo msg="Encuestas" />
   </div>
@@ -38,7 +38,7 @@ Descripción:
 <script>
 import titulo from "../components/Titulo.vue";
 import axios from "axios";
-import pregunta from "../components/Hacer-pregunta.vue"
+import pregunta from "../components/Hacer-pregunta.vue";
 
 export default {
   components: {

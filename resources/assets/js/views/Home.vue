@@ -24,6 +24,7 @@ Descripción:
                 sunt in culpa qui officia deserunt mollit anim id est laborum.
             </p>
         </div>
+        <slide></slide>
         <!--FAQS -->
         <div class="p-5 p-lg-4 p-xl-4">
             <h3 class="font-weight-bold">Preguntas frecuentes</h3>
@@ -56,11 +57,13 @@ Descripción:
 
 <script>
 import pregunta from "../components/Hacer-pregunta.vue"
+import slide from "../components/Slide.vue"
 
 
 export default {
     components:{
         pregunta,
+        slide,
     },
     data() {
         return {

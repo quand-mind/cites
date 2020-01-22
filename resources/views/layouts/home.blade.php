@@ -43,11 +43,11 @@
         <cabecera></cabecera>
         <navi></navi>
         <navmobile></navmobile>
-        <div class="container-fluid container-lg container-xl d-flex justify-content-center flex-column flex-xl-row flex-lg-row m-0 p-0 m-lg-auto p-lg-auto m-xl-auto p-xl-auto">
+        <div class="mt-5 container-fluid container-lg d-flex justify-content-center flex-column flex-lg-row m-0 p-0 mx-lg-auto p-lg-auto">
               <main class="px-lg-5 px-xs-5 mb-5 w-100 min-vh-100">
                 <router-view></router-view>
               </main>
-              <!-- <sidebar></sidebar> -->
+              <sidebar></sidebar>
           </div>
         <pie></pie>
     </div>

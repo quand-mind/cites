@@ -162,6 +162,7 @@ export default {
   justify-content: center;
   position: relative;
   transition: all 0.5s ease;
+  overflow: hidden;
 
   & a {
     color: white;
@@ -176,6 +177,7 @@ export default {
   &:hover {
     background: #55ef6d;
     transition: all 0.5s ease;
+    overflow: visible;
 
     a {
       color: #212529;
@@ -190,10 +192,16 @@ export default {
   .sub-nav {
     transition: all 0.5s ease;
     position: absolute;
-    top: 80px;
+    flex-direction: column;
+    top: 88px;
     left: 0;
     opacity: 0;
     z-index: 5;
+    width: 100%;
+
+    .nav-item {
+      width: 100%;
+    }
   }
 }
 </style>

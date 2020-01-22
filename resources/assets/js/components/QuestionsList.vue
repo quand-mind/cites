@@ -9,11 +9,10 @@
       <span slot="fecha" slot-scope="props">{{props.row.created_at}}</span>
       <span slot="pregunta" slot-scope="props">{{props.row.question}}</span>
       <span slot="respuesta" slot-scope="props">{{props.row.answer || ""}}</span>
-      <span slot="respondida_por" slot-scope="props">{{props.row.answered_by}}</span>
+      <span slot="respondida_por" slot-scope="props">{{props.row.answered_by || ""}}</span>
       <div slot="pregunta_frecuente" slot-scope="props">
         <b-form-checkbox
           v-model="props.row.is_faq"
-          :checked="props.row.is_faq"
           name="check-button"
           switch
           :data-id="props.row.id"
@@ -201,6 +200,7 @@ export default {
         });
     },
     makeToast(msg, variant = "success", delay = 3000, append = false) {
+      // Create a new toast
       this.$bvToast.toast(`${msg}`, {
         title: "Actualización de la pregunta",
         autoHideDelay: delay,
@@ -211,13 +211,16 @@ export default {
   },
   mounted() {
     this.tableSettings.data = this.questions.map(question => {
+      // Format the data to render in the panel
       let newQuest = { ...question };
       newQuest.created_at = moment(newQuest.created_at).format("DD/MM/YYYY");
-      newQuest.is_faq = Boolean(newQuest.is_faq);
-      newQuest.answered_by = newQuest.answered_by.username;
+      newQuest.is_faq = parseInt(newQuest.is_faq) === 1;
+      console.log(newQuest.question, newQuest.is_faq);
+      newQuest.answered_by = newQuest.answered_by
+        ? newQuest.answered_by.username
+        : null;
       return newQuest;
     });
-    console.log(this.questions);
   }
 };
 </script>

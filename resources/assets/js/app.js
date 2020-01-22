@@ -139,7 +139,7 @@ if ($("#app").length !== 0) {
             component: require('./views/Noticias')
         },
         {
-            path: '/preguntas-frecuentes-encuestas',
+            path: '/preguntas-frecuentes-y-encuestas',
             component: require('./views/Faqs')
         },
         {

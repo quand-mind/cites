@@ -68,11 +68,12 @@ Descripción:
 
 <script>
 export default {
-  name: 'nav1',
-}
+  name: "nav1"
+};
 </script>
 
 <style scoped>
+<<<<<<< HEAD
   .verde{
     background-color: #00a96d!important
   }
@@ -92,27 +93,29 @@ export default {
   }
 
 /*li:hover,
+=======
+li:hover,
 a:hover,
 li,
 a {
-    text-decoration: none;
-    color: #000;
+  text-decoration: none;
+  color: #000;
 }
-  .submenu{
-    max-width: 250px;
-    display: none;
-  }
-  nav ul li:hover > .submenu{
-    display: block;
-    z-index: 1000;
-  }
-  
-*{
+.submenu {
+  max-width: 250px;
+  display: none;
+}
+nav ul li:hover > .submenu {
+  display: block;
+  z-index: 1000;
+}
+
+* {
   box-sizing: content-box;
   padding: 0px;
   margin: 0px;
 }
-li{
+li {
   list-style: none;
 }*/
 </style>

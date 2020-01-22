@@ -27,12 +27,12 @@ Descripción:
 					<li>f) Recomendar al Ministro o Ministra del Poder popular para la Salud la aprobación o desaprobación de los protocolos de investigaciones nacionales o internacionales que requieren la utilización de procedimientos que afectan de manera directa o indirecta la salud o integridad del ser humano. </li>
 
 				</ul>
-				<div class="d-flex flex-column flex-lg-row flex-xl-row justify-content-center align-items-center">
+				<!-- <div class="d-flex flex-column flex-lg-row flex-xl-row justify-content-center align-items-center">
 					<div class="m-3">
 							<img src="/images/coordinador-comision.jpg" class="m-1 p-1 border border-succes rounded-sm" width="100">
 						</div>
 					<b>Dr. Ramón Portillo, Coordinador</b>
-				</div>
+				</div> -->
 		</div>
     </div>
 </template>

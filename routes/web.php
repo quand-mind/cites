@@ -12,6 +12,7 @@
 */
 
 // Frontend routes
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -35,7 +36,7 @@ Route::group(['prefix' => 'somos'], function () {
 });
 
 // Frontend routes for "FAQs"
-Route::get('/preguntas-frecuentes-encuestas', function () {
+Route::get('/preguntas-frecuentes-y-encuestas', function () {
     return view('welcome');
 })->name('preguntas-frecuentes-encuestas');
 
@@ -68,6 +69,11 @@ Route::group(['prefix' => 'recursos'], function () {
     Route::get('/{any}', function () {
         return view('welcome');
     });
+});
+
+// Frontend routes for "Transgénico"
+Route::get('/transgenico', function () {
+    return view('welcome');
 });
 
 Auth::routes();
@@ -116,3 +122,9 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
 Route::get('/questions', 'QuestionController@getFAQs');
 Route::post('/question', 'QuestionController@store');
 Route::post('/question/update/{id}', 'QuestionController@update');
+
+// Survey client routes
+Route::get('/surveys-list', 'SurveyController@getSurveysList');
+
+// Migration routes
+Route::get('/migrate/seed', 'MigrationsController@seed');

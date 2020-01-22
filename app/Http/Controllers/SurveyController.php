@@ -102,4 +102,9 @@ class SurveyController extends Controller
     {
         //
     }
+
+    public function getSurveysList(Request $request)
+    {
+        return Survey::all();
+    }
 }

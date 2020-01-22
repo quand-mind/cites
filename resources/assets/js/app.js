@@ -28,6 +28,7 @@ Vue.use(BootstrapVue);
 
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
+import "slick-carousel/slick/slick.css";
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

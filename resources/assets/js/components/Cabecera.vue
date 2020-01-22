@@ -52,6 +52,7 @@ export default {
 .navbar {
   align-items: flex-start;
   .brand {
+    color: #212529;
     width: 80%;
     font-size: 14px;
 
@@ -66,21 +67,11 @@ export default {
         display: none;
       }
     }
-
-    a {
-      color: #212529;
-      display: inline-block;
-      box-sizing: border-box;
-
-      &:hover {
-        text-decoration: none;
-      }
-    }
   }
 
   .navbar-nav {
     img {
-      height: 160px;
+      height: 100px;
       margin: 0 5px;
     }
   }

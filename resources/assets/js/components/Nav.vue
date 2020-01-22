@@ -53,7 +53,7 @@ export default {
       },
       {
         name: "¿Qué es un transgénico?",
-        url: "/transgénico"
+        url: "/transgenico"
       },
       {
         name: "¿Quiénes somos?",
@@ -79,11 +79,30 @@ export default {
       },
       {
         name: "Preguntas frecuentes y encuestas",
-        url: "preguntas-frecuentes-y-encuestas"
+        url: "/preguntas-frecuentes-y-encuestas"
       },
       {
         name: "Protocolo de Cartagena",
-        url: "#"
+        url: "#",
+        sublinks: [
+          {
+            name: "Mitos y Realidades",
+            url: "/protocolo/mitos-realidades"
+          },
+          {
+            name:
+              "¿Qué hacer si entra otro tipo de OVM al territorio nacional?",
+            url: "/protocolo/ovm-territorio-nacional"
+          },
+          {
+            name: "FAQS sobre el protocolo",
+            url: "/protocolo/preguntas-frecuentes"
+          },
+          {
+            name: "Recursos",
+            url: "/protocolo/recursos"
+          }
+        ]
       },
       {
         name: "Proyectos asociados",
@@ -146,6 +165,12 @@ export default {
 
   & a {
     color: white;
+    display: flex;
+    justify-content: center;
+    text-decoration: none;
+    align-items: center;
+    height: 100%;
+    width: 100%;
   }
 
   &:hover {

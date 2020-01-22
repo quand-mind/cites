@@ -48,7 +48,7 @@
                 <router-view></router-view>
               </main>
               <!-- <sidebar></sidebar> -->
-        </div>
+          </div>
         <pie></pie>
     </div>
 </body>

@@ -124,8 +124,8 @@ if ($("#app").length !== 0) {
             component: require('./views/Proyecto-acuerdos-internacionales')
         },
         {
-            path: '/proyecto/legislacion-internacional',
-            component: require('./views/Proyecto-legislacion-internacional')
+            path: '/proyecto/legislacion',
+            component: require('./views/Proyecto-legislacion')
         },
         {
             path: '/proyecto/comision-nacional-de-bioseguridad',

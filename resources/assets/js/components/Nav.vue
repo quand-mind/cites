@@ -42,8 +42,8 @@ export default {
             url: "/proyecto/acuerdos-internacionales"
           },
           {
-            name: "Legislación Internacional",
-            url: "/proyecto/legislacion-internacional"
+            name: "Legislación",
+            url: "/proyecto/legislacion"
           },
           {
             name: "Antecedentes y Justificación",

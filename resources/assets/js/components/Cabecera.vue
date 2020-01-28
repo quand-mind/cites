@@ -18,7 +18,7 @@ Descripción:
         <p class="d-none d-xl-flex d-lg-flex align-items-center">
           Implementación del Marco Nacional de Bioseguridad en Venezuela,
           de acuerdo con el Protocolo de Cartagena sobre Seguridad de la
-          Biotecnología
+          Biotecnología y mas jajaja
         </p>
       </router-link>
 
@@ -78,11 +78,7 @@ export default {
 }
 
 header {
-  height: 50vh;
-  background-image: url("/images/bg-header.jpg");
-  background-repeat: no-repeat; /* Indicamos que no se repetira */
-  background-size: auto 100%; /* Encajamos la imagen al 100% del ancho */
-  background-attachment: fixed;
-  background-position: center;
+  height: 40vh;
+
 }
 </style>

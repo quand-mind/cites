@@ -15,7 +15,7 @@ Descripción:
     <b-navbar class="d-flex">
       <router-link class="brand d-flex align-items-center" to="/">
         <img src="/images/logos/minec-thumb.png" class="figure" />
-        <p class="d-flex align-items-center">
+        <p class="d-none d-xl-flex d-lg-flex align-items-center">
           Implementación del Marco Nacional de Bioseguridad en Venezuela,
           de acuerdo con el Protocolo de Cartagena sobre Seguridad de la
           Biotecnología
@@ -54,7 +54,7 @@ export default {
   .brand {
     color: #212529;
     width: 80%;
-    font-size: 14px;
+    font-size: 18px;
 
     img {
       height: 100%;

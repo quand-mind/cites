@@ -11,21 +11,44 @@ Descripción:
 
 <template>
 	<div>
-		<titulo msg="Protocolo de Cartagena"/>
+
+		<titulo msg="Titulo de Pagina"/>
 <!-- Escrito -->
-		<div class="d-flex flex-column p-5 text-justify">
-
-				<p>El Protocolo de Cartagena sobre Seguridad de la Biotecnología es un marco jurídico para avalar el Convenio sobre Diversidad Biológica.</p>
-
-				<p><b>Objetivo:</b> contribuir a garantizar un nivel adecuado de protección en la esfera de la transferencia, manipulación y utilización seguras de los <i>organismos vivos modificados</i> resultantes de la biotecnología moderna que puedan tener efectos adversos para la conservación y la utilización sostenible de la diversidad biológica, teniendo también en cuenta los riesgos para la salud humana, y centrándose concretamente en los <i>movimientos transfronterizos</i></p>
-
-				<p>Es  el primer acuerdo internacional que rige la transferencia, manejo y uso de organismos vivos modificados obtenidos de la biotecnología moderna (básicamente semillas). No se aplica a productos farmacéuticos o alimentos procesados.</p>
+			<div class="mt-5">
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+				consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+				cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+				proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 				
-				<p>El Protocolo de Cartagena sobre Seguridad de la Biotecnología <a href="http://www.bioseguridadecuador.gob.ec/protocolo.pdf/" target="_blank">(PCSB)</a> en su Art. 20 determina la creación de un sistema de intercambio de información entre las Partes, con este objetivo implementó una plataforma en la que se encuentra alojada la información de cada país referente a los organismos genéticamente modificados (OGM) como: leyes, decisiones, material informativo, análisis de riesgos, entre otros. </p>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+				consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+				cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+				proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+				consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+				cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+				proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 
-				<p>Venezuela, a través de su Autoridad Nacional Competente en Bioseguridad (MINEC) publica información oficial validada en este tema, tanto en su página nacional <a href="#">(www.xxxxxxxxxx)</a> como en la página oficial de los países firmantes del protocolo PCSB (Biosafety Clearing House O CIISB).</p>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+				consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+				cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+				proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 
-		</div>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+				consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+				cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+				proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+			</div>
+	
     </div>
 </template>
 
@@ -38,3 +61,11 @@ Descripción:
 		}
 	}
 </script>
+
+
+<style scoped>
+	p{
+		margin: 30px 0px;
+	}
+
+</style>

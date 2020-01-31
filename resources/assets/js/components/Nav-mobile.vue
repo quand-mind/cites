@@ -176,7 +176,62 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+.nav-item {
+  flex: 1;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: all 0.5s ease;
+  overflow: hidden;
+
+  & a {
+    color: white;
+    display: flex;
+    justify-content: center;
+    text-decoration: none;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+  }
+
+  &:hover {
+    background: #55ef6d;
+    transition: all 0.5s ease;
+    overflow: visible;
+
+    a {
+      color: #212529;
+    }
+
+    .sub-nav {
+      opacity: 1;
+      transition: all 0.5s ease;
+    }
+  }
+
+  .sub-nav {
+    transition: all 0.5s ease;
+    position: absolute;
+    flex-direction: column;
+    /*top: 0;*/
+    left: 49vw;
+    opacity: 0;
+    z-index: 5;
+    width: 80%;
+    .nav-item {
+      width: 100%;
+    }
+  }
+  .nav-link:last-child{
+    .sub-nav{
+      bottom: 0px;
+    }
+  }
+}
+
 li:hover,
 a:hover,
 li,
@@ -192,5 +247,8 @@ a {
   display: flex;
   flex-direction: column;
 }
+
+
+</style>
 
 </style>

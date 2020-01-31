@@ -97,6 +97,22 @@ if ($("#surveysList").length !== 0) {
     });
 }
 
+Vue.component("pages-list", require("./components/admin/PagesList.vue"));
+
+if ($("#pagesList").length !== 0) {
+    const pagesList = new Vue({
+        el: "#pagesList"
+    });
+}
+
+Vue.component("page-form", require("./components/admin/PageForm.vue"));
+
+if ($("#pageForm").length !== 0) {
+    const pageForm = new Vue({
+        el: "#pageForm"
+    });
+}
+
 Vue.component("cabecera", require("./components/Cabecera.vue"));
 
 Vue.component("navi", require("./components/Nav.vue"));

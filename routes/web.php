@@ -17,6 +17,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// Frontend pages controller
+Route::get('/{slug}', 'PageController@show');
+
 // Frontend routes for "proyecto"
 Route::group(['prefix' => 'proyecto'], function () {
     Route::get('/{any}', function () {

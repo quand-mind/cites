@@ -20,22 +20,20 @@
         </a>
       </div>
 
-      <!-- is active slot -->
-      <b-form-checkbox
-        slot="activo"
-        slot-scope="props"
-        name="check-button"
-        class="check-active"
-        :checked="Boolean(props.row.is_active)"
-        switch
-        @change="handleCheckBoxChange(props.row)"
-      ></b-form-checkbox>
-
       <!-- name slot -->
       <span slot="descripcion" slot-scope="props">
         {{
         props.row.meta_description
         }}
+      </span>
+
+      <!-- slug slot -->
+      <span class="url" slot="url" slot-scope="props">
+        <a :href="`/${props.row.slug}`">
+          {{
+            props.row.slug
+          }}
+        </a>
       </span>
 
       <!-- username slot -->
@@ -48,16 +46,23 @@
       </span>
 
       <!-- email slot -->
-      <span slot="autor" slot-scope="props">
+      <span slot="creada_por" slot-scope="props">
         {{
-        props.row.author.username
+        props.row.created_by.username
+        }}
+      </span>
+
+      <!-- email slot -->
+      <span slot="ultima_modificacion_por" slot-scope="props">
+        {{
+        props.row.last_modified_by.username
         }}
       </span>
 
       <!-- role slot -->
-      <span slot="fecha_de_publicacion" slot-scope="props">
+      <span slot="fecha_de_creacion" slot-scope="props">
         {{
-        props.row.publish_date
+        props.row.created_at
         }}
       </span>
     </v-client-table>
@@ -72,7 +77,7 @@
         </span>
       </template>
       <div v-if="selectedPost" class="d-block text-center">
-        <h3>¿Estas seguro de que deseas eliminar este post?</h3>
+        <h3>¿Estas seguro de que deseas eliminar esta página?</h3>
       </div>
 
       <b-button class="mt-3" block @click="submitDeletePost" variant="danger">Eliminar</b-button>
@@ -89,9 +94,11 @@ export default {
   data: () => ({
     columns: [
       "titulo",
+      "url",
       "descripcion",
-      "fecha_de_publicacion",
-      "autor",
+      "fecha_de_creacion",
+      "creada_por",
+      "ultima_modificacion_por",
       "activo",
       "acciones"
     ],
@@ -244,6 +251,11 @@ export default {
 .title {
   width: 200px;
   display: block;
+}
+
+.url {
+  display: block;
+  width: 200px;
 }
 
 .edit-form {

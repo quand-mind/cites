@@ -63,16 +63,7 @@
               ></b-form-textarea>
             </b-form-group>
           </b-col>
-          <b-col>
-            <b-form-group
-              id="input-group-3"
-              label="Publicar page"
-              label-for="input-3"
-              description="Estando activo el page será visible al público"
-            >
-              <b-form-checkbox v-model="pageData.is_active" name="check-button" size="lg" switch></b-form-checkbox>
-            </b-form-group>
-          </b-col>
+          <b-col></b-col>
         </b-row>
       </b-container>
       <b-container>
@@ -101,9 +92,6 @@
     <b-card class="mt-3" header="Form Data Result">
       <pre class="m-0">{{ pageData }}</pre>
     </b-card>
-    <b-card class="mt-3" header="Form Image Result">
-      <pre class="m-0">{{ image }}</pre>
-    </b-card>
   </div>
 </template>
 
@@ -125,7 +113,6 @@ export default {
       meta_description: "",
       meta_robots: "",
       meta_keywords: "",
-      is_active: false,
       content: ""
     },
     pageErrors: {
@@ -133,7 +120,6 @@ export default {
       meta_description: [],
       meta_robots: [],
       meta_keywords: [],
-      is_active: [],
       content: []
     },
     settings: {
@@ -147,8 +133,8 @@ export default {
       axios
         .post(`/dashboard/pages/create`, formData)
         .then(res => {
-          // save image
-          _this.saveImage(res.data.page_id);
+          _this.makeToast(res.data);
+          setTimeout(() => window.location.replace("/dashboard/pages"), 2000);
         })
         .catch(err => _this.makeToast(err.response.data, "danger"));
     },
@@ -159,7 +145,6 @@ export default {
       axios
         .post(`/dashboard/pages/edit/${_this.page.id}`, formData)
         .then(res => {
-          // save image
           _this.makeToast(res.data);
           setTimeout(() => window.location.replace("/dashboard/pages"), 2000);
         })
@@ -236,9 +221,7 @@ export default {
     let _this = this;
     if (_this.page) {
       Object.keys(_this.pageData).forEach(key => {
-        if (key !== "image") {
           _this.pageData[key] = _this.page[key];
-        }
       });
 
       Object.keys(_this.image).forEach(key => {
@@ -246,10 +229,8 @@ export default {
           _this.image.publish_date = moment(_this.page.image[key]).format(
             "YYYY-MM-DD"
           );
-        } else _this.image[key] = _this.page.image[key];
+        }
       });
-
-      if (_this.page.image.url) _this.image.url = _this.page.image.url;
     }
   }
 };

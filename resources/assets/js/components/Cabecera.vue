@@ -1,5 +1,5 @@
 <!--
-Ultima Actualización: 30/01/2020
+Ultima Actualización: 31/01/2020
 
 Tipo de componente: Módulo
 
@@ -11,7 +11,7 @@ Descripción:
  -->
 
  <template>
-  <header >
+  <header>
     <slide class="slide"></slide>
     <b-navbar class="d-flex">
       <router-link class="brand d-flex align-items-center" to="/">
@@ -57,6 +57,7 @@ export default {
 <style scoped lang="scss">
 .slide{
   position: absolute;
+  height: 100%;
   width: 100%;
   z-index: -1000;
   overflow: hidden;
@@ -93,6 +94,7 @@ export default {
 header {
   height: 40vh;
   overflow: hidden;
+  position: relative;
 
 }
 </style>

@@ -47,7 +47,7 @@ export default {
       slickOptions: {
         infinite: true,
         autoplay: true,
-        autoplaySpeed: 2000,
+        autoplaySpeed: 4000,
         arrows: false,
         speed: 1000,
         fade: true,

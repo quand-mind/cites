@@ -33,11 +33,11 @@ Descripción:
       id="menu-mov"
       style="background-color: #2c3e50 "
     >
-      <b-nav-item class="nav-item" v-for="(link, index) in links" :key="link.url + index">
+      <b-nav-item v-on:click="() => link.sublinks ? false : closeNav()" class="nav-item" v-for="(link, index) in links" :key="link.url + index">
       <router-link :to="link.url">{{link.name}}</router-link>
 
       <b-nav class="sub-nav verde" v-if="link.sublinks">
-        <b-nav-item v-for="sublink in link.sublinks" :key="sublink.url">
+        <b-nav-item v-on:click="closeNav" v-for="sublink in link.sublinks" :key="sublink.url">
           <router-link :to="sublink.url" class="text-white">{{sublink.name}}</router-link>
         </b-nav-item>
       </b-nav>
@@ -167,7 +167,12 @@ export default {
         ]
       }
     ]
-  })
+  }),
+  methods: {
+    closeNav () {
+      document.getElementById('menu-mov').classList.toggle('show');
+    }
+  }
 };
 </script>
 

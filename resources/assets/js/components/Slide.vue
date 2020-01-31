@@ -28,10 +28,9 @@ Descripción:
       @lazyLoaded="handleLazyLoaded"
       @lazyLoadError="handleLazeLoadError"
     >
+      <img src="/images/bg-header.jpg" alt />
       <img src="/images/slides/1.jpg" alt />
-      <img src="/images/slides/2.jpg" alt />
-      <img src="/images/slides/3.jpg" alt />
-      <img src="/images/slides/4.jpg" alt />
+      <img src="/images/slides/slides1.jpg" alt />
     </slick>
   </div>
 </template>

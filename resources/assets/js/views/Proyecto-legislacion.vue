@@ -11,7 +11,7 @@ Descripción:
 
 <template>
   <div>
-    <titulo msg="Legislacion Internacional" />
+    <titulo msg="Legislación" />
     <!-- Escrito Leyes-->
     <div class="d-flex flex-column p-5 text-justify">
       <div class="law-item" v-for="law in laws" :key="law.name">

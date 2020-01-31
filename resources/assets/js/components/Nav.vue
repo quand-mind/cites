@@ -11,7 +11,7 @@ Descripción:
  -->
 
 <template>
-  <b-nav class="main-nav verde">
+  <b-nav class="d-none d-xl-flex d-lg-flex main-nav verde">
     <b-nav-item class="nav-item" v-for="(link, index) in links" :key="link.url + index">
       <router-link :to="link.url">{{link.name}}</router-link>
 
@@ -42,8 +42,8 @@ export default {
             url: "/proyecto/acuerdos-internacionales"
           },
           {
-            name: "Legislación Internacional",
-            url: "/proyecto/legislacion-internacional"
+            name: "Legislación",
+            url: "/proyecto/legislacion"
           },
           {
             name: "Antecedentes y Justificación",

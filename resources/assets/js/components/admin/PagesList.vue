@@ -30,7 +30,7 @@
       <!-- slug slot -->
       <span class="url" slot="url" slot-scope="props">
         <a :href="`/${props.row.slug}`">
-          {{
+          /{{
             props.row.slug
           }}
         </a>
@@ -99,7 +99,6 @@ export default {
       "fecha_de_creacion",
       "creada_por",
       "ultima_modificacion_por",
-      "activo",
       "acciones"
     ],
     tableData: [],

@@ -48,7 +48,7 @@ Vue.use(TablePlugin);
 
 Vue.use(ClientTable, {}, false, 'bootstrap3', 'default');
 
-Vue.component("aside-admin", require("./components/AsideAdmin.vue"));
+Vue.component("aside-admin", require("./components/admin/AsideAdmin.vue"));
 
 if ($("#asideAdmin").length !== 0) {
     let asideAdmin = new Vue({
@@ -56,7 +56,7 @@ if ($("#asideAdmin").length !== 0) {
     });
 }
 
-Vue.component("users-list", require("./components/UsersList.vue"));
+Vue.component("users-list", require("./components/admin/UsersList.vue"));
 
 if ($("#usersList").length !== 0) {
     let usersList = new Vue({
@@ -64,7 +64,7 @@ if ($("#usersList").length !== 0) {
     });
 }
 
-Vue.component("posts-list", require("./components/PostsList.vue"));
+Vue.component("posts-list", require("./components/admin/PostsList.vue"));
 
 if ($("#postsList").length !== 0) {
     let postsList = new Vue({
@@ -73,7 +73,7 @@ if ($("#postsList").length !== 0) {
 }
 
 
-Vue.component("post-form", require("./components/PostForm.vue"));
+Vue.component("post-form", require("./components/admin/PostForm.vue"));
 
 if ($("#postForm").length !== 0) {
     const postForm = new Vue({
@@ -81,7 +81,7 @@ if ($("#postForm").length !== 0) {
     });
 }
 
-Vue.component("questions-list", require("./components/QuestionsList.vue"));
+Vue.component("questions-list", require("./components/admin/QuestionsList.vue"));
 
 if ($("#questionsList").length !== 0) {
     const questionsList = new Vue({
@@ -89,7 +89,7 @@ if ($("#questionsList").length !== 0) {
     });
 }
 
-Vue.component("surveys-list", require("./components/SurveysList.vue"));
+Vue.component("surveys-list", require("./components/admin/SurveysList.vue"));
 
 if ($("#surveysList").length !== 0) {
     const surveysList = new Vue({

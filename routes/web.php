@@ -100,6 +100,15 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         Route::post('/posts/changeActiveState/{id}', 'PostController@changeActiveState');
         Route::delete('/posts/{id}', 'PostController@destroy');
 
+        // Post Routes
+        Route::get('/pages', 'PageController@index')->name('pages');
+        Route::get('/pages/create', 'PageController@create');
+        Route::post('/pages/create', 'PageController@store');
+        Route::get('/pages/edit/{id}', 'PageController@edit');
+        Route::post('/pages/edit/{id}', 'PageController@update');
+        Route::post('/pages/changeActiveState/{id}', 'PageController@changeActiveState');
+        Route::delete('/pages/{id}', 'PageController@destroy');
+
         // Image Routes
         Route::post('/images/post/content', 'ImageController@savePostContentImage');
         Route::post('/images/post/content/delete', 'ImageController@deletePostContentImage');

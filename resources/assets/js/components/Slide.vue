@@ -28,9 +28,11 @@ Descripción:
       @lazyLoaded="handleLazyLoaded"
       @lazyLoadError="handleLazeLoadError"
     >
-      <img src="/images/bg-header.jpg" alt />
       <img src="/images/slides/1.jpg" alt />
-      <img src="/images/slides/slides1.jpg" alt />
+      <img src="/images/slides/2.jpg" alt />
+      <img src="/images/slides/3.jpg" alt />
+      <img src="/images/slides/4.jpg" alt />
+      <img src="/images/slides/5.jpg" alt />
     </slick>
   </div>
 </template>
@@ -47,9 +49,9 @@ export default {
       slickOptions: {
         infinite: true,
         autoplay: true,
-        autoplaySpeed: 4000,
+        autoplaySpeed: 5000,
         arrows: false,
-        speed: 1000,
+        speed: 3000,
         fade: true,
         slidesToShow: 1,
         slidesToScroll: 1

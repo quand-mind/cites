@@ -120,6 +120,7 @@ Vue.component("navi", require("./components/Nav.vue"));
 Vue.component("navmobile", require("./components/Nav-mobile.vue"));
 Vue.component("sidebar", require("./components/Sidebar.vue"));
 Vue.component("pie", require("./components/Pie-de-pagina.vue"));
+Vue.component("error", require("./components/Error404.vue"));
 
 
 import VueRouter from 'vue-router'

@@ -16,7 +16,7 @@ class PageController extends Controller
     public function index()
     {
         //
-        $pages = Page::with(['createdBy', 'lastModifiedBy'])->select(
+        $pages = Page::with(['createdBy', 'lastModifiedBy', 'getMainPage'])->select(
             'id',
             'title',
             'slug',
@@ -24,8 +24,10 @@ class PageController extends Controller
             'created_by',
             'is_subpage',
             'lastModified_by',
+            'main_page',
             'created_at'
         )->get();
+
         return view('panel.pages.index', compact('pages'));
     }
 
@@ -53,21 +55,26 @@ class PageController extends Controller
             'meta_description' => 'required|string|min:120|max:158',
             'meta_robots' => 'nullable|string',
             'meta_keywords' => 'nullable|string',
-            'content' => 'required|string'
+            'content' => 'required|string',
+            'is_subpage' => 'required|boolean',
+            'main_page' => 'nullable|integer'
         ])) {
-            $values = $request->all();
+            $values = $request->except(['main_page']);
 
             // Save Page object
             try {
                 $page = new Page($values);
+                $page->is_subpage = $values['is_subpage'];
                 $page->createdBy()->associate(Auth::user());
                 $page->lastModifiedBy()->associate(Auth::user());
+                $mainPageId = $request->input('main_page');
+                
+                if ($mainPageId !== null)
+                    $page->getMainPage()->associate(Page::find($mainPageId));
+
                 $page->save();
 
-                return response([
-                    "msg" => "Página guardada exitosamente",
-                    "page_id" => $page->id
-                ], 200);
+                return response("Página guardada exitosamente", 200);
             } catch (Exception $err) {
                 return response($err->getMessage, 500);
             }
@@ -97,7 +104,8 @@ class PageController extends Controller
     public function edit($id)
     {
         $page = Page::find($id);
-        return view('panel.pages.form', compact('page'));
+        $mainPages = Page::where('is_subpage', false)->get();
+        return view('panel.pages.form', compact('page', 'mainPages'));
     }
 
     /**
@@ -114,21 +122,27 @@ class PageController extends Controller
             'meta_description' => 'required|string|min:120|max:158',
             'meta_robots' => 'nullable|string',
             'meta_keywords' => 'nullable|string',
-            'content' => 'required|string'
+            'content' => 'required|string',
+            'is_subpage' => 'required|boolean',
+            'main_page' => 'nullable|integer'
         ])) {
-            $values = $request->all();
+            $values = $request->except(['main_page']);
 
             // Save Page object
             try {
                $page = Page::find($id);
+               $page->is_subpage = $values['is_subpage'];
                $page->update($values);
                $page->lastModifiedBy()->associate(Auth::user());
+
+               $mainPageId = $request->input('main_page');
+                
+                if ($mainPageId !== null)
+                    $page->getMainPage()->associate(Page::find($mainPageId));
+
                $page->save();
 
-                return response([
-                    "msg" => "Página guardada exitosamente",
-                    "page_id" =>$page->id
-                ], 200);
+                return response("Página guardada exitosamente", 200);
             } catch (Exception $err) {
                 return response($err->getMessage, 500);
             }

@@ -33,4 +33,12 @@ class Page extends Model
     public function createdBy () {
         return $this->belongsTo('App\User', 'created_by');
     }
+
+    public function getMainPage () {
+        return $this->belongsTo('App\Page', 'main_page');
+    }
+
+    public function getSubpages () {
+        return $this->hasMany('App\Page');
+    }
 }

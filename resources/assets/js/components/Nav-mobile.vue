@@ -212,22 +212,23 @@ export default {
     }
   }
 
+  &:last-child {
+    .sub-nav{
+      bottom: 0px;
+    }
+  }
+
   .sub-nav {
     transition: all 0.5s ease;
     position: absolute;
     flex-direction: column;
-    /*top: 0;*/
-    left: 49vw;
+    top: 0;
+    left: 100%;
     opacity: 0;
     z-index: 5;
     width: 80%;
     .nav-item {
       width: 100%;
-    }
-  }
-  .nav-link:last-child{
-    .sub-nav{
-      bottom: 0px;
     }
   }
 }
@@ -248,7 +249,5 @@ a {
   flex-direction: column;
 }
 
-
-</style>
 
 </style>

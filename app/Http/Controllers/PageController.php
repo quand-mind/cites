@@ -22,6 +22,7 @@ class PageController extends Controller
             'slug',
             'meta_description',
             'created_by',
+            'is_subpage',
             'lastModified_by',
             'created_at'
         )->get();
@@ -35,7 +36,8 @@ class PageController extends Controller
      */
     public function create()
     {
-        return view('panel.pages.form');
+        $mainPages = Page::where('is_subpage', false)->get();
+        return view('panel.pages.form', compact('mainPages'));
     }
 
     /**

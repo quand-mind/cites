@@ -63,7 +63,16 @@
               ></b-form-textarea>
             </b-form-group>
           </b-col>
-          <b-col></b-col>
+          <b-col>
+            <b-form-group label="" label-for="input-3">
+              <b-form-checkbox v-model="pageData.is_subpage" name="check-button" switch>
+                It is a subpage
+              </b-form-checkbox>
+            </b-form-group>
+            <b-form-group label="Seleccione una página raíz:" label-for="input-3">
+              <b-form-select :disabled="!pageData.is_subpage" v-model="pageData.mainPage" :options="mainPagesOptions"></b-form-select>
+            </b-form-group>
+          </b-col>
         </b-row>
       </b-container>
       <b-container>
@@ -102,7 +111,7 @@ import * as lang from "vuejs-datepicker/src/locale";
 import moment from "moment";
 
 export default {
-  props: ["page"],
+  props: ["page", "mainpages"],
   components: {
     VueEditor,
     Datepicker
@@ -113,7 +122,9 @@ export default {
       meta_description: "",
       meta_robots: "",
       meta_keywords: "",
-      content: ""
+      content: "",
+      is_subpage: false,
+      main_page: null
     },
     pageErrors: {
       title: [],
@@ -124,7 +135,8 @@ export default {
     },
     settings: {
       languages: lang
-    }
+    },
+    mainPagesOptions: []
   }),
   methods: {
     savePage(formData) {
@@ -232,6 +244,8 @@ export default {
         }
       });
     }
+
+    _this.mainPagesOptions = _this.mainpages.map(page => ({ text: page.title, value: page.id }));
   }
 };
 </script>

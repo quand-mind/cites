@@ -101,7 +101,17 @@ export default {
       },
       {
         name: "Preguntas frecuentes y encuestas",
-        url: "/preguntas-frecuentes-y-encuestas"
+        url: "#",
+        sublinks: [
+          {
+            name: "Preguntas Frecuentes",
+            url: "/preguntas-frecuentes"
+          },
+          {
+            name: "Encuestas",
+            url: "/encuestas"
+          }
+        ]
       },
       {
         name: "Protocolo de Cartagena",

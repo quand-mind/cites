@@ -75,7 +75,7 @@ export default {
 li:hover,
 a:hover,
 li,
-a {
+a { 
   text-decoration: none;
   color: #000;
 }

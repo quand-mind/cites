@@ -123,7 +123,8 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         // Surveys Routes
         Route::get('/surveys', 'SurveyController@index');
         Route::post('/survey', 'SurveyController@store');
-        Route::post('/survey/update/{id}', 'SurveyController@update');
+        Route::post('/surveys/edit/{id}', 'SurveyController@update');
+        Route::delete('/surveys/{id}', 'SurveyController@destroy');
     });
 });
 

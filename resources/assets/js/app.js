@@ -157,8 +157,12 @@ if ($("#app").length !== 0) {
             component: require('./views/Noticias')
         },
         {
-            path: '/preguntas-frecuentes-y-encuestas',
+            path: '/preguntas-frecuentes',
             component: require('./views/Faqs')
+        },
+        {
+            path: '/encuestas',
+            component: require('./views/Encuestas')
         },
         {
             path: '/laboratorio-nacional-ovm',

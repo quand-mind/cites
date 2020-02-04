@@ -18,6 +18,7 @@ class CreatePagesTable extends Migration
             $table->string('title');
             $table->string('slug');
             $table->boolean('is_subpage')->default(false);
+            $table->boolean('is_onMenu')->default(false);
             $table->string('meta_description')->nullable();
             $table->string('meta_robots')->nullable();
             $table->string('meta_keywords')->nullable();

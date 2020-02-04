@@ -113,6 +113,14 @@ if ($("#pageForm").length !== 0) {
     });
 }
 
+Vue.component("page-template", require("./views/PageTemplate.vue"));
+
+if ($("#pageTemplate").length !== 0) {
+    const pageTemplate = new Vue({
+        el: "#pageTemplate"
+    });
+}
+
 Vue.component("cabecera", require("./components/Cabecera.vue"));
 
 Vue.component("navi", require("./components/Nav.vue"));
@@ -223,7 +231,7 @@ if ($("#app").length !== 0) {
         {
             path: '/recursos/glosario',
             component: require('./views/Recursos-glosario')
-        },
+        }
     ];
     const router = new VueRouter({
         mode: 'history',

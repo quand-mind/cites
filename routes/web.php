@@ -140,3 +140,6 @@ Route::get('/migrate/seed', 'MigrationsController@seed');
 
 // Frontend pages controller
 Route::get('/{slug}', 'PageController@show');
+
+// Frontend pages controller
+Route::get('/{slug}/{subpage}', 'PageController@showSubPage');

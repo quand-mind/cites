@@ -84,15 +84,32 @@ class PageController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  string  $slug
      * @return \Illuminate\Http\Response
      */
     public function show($slug)
     {
         $page = Page::where('slug', $slug)->first();
-        $pages = Page::all();
 
-        return $page !== null ? 'Found page' : response()->view('errors.' . '404', [], 404);;
+        return $page !== null ? view('frontend.template', compact('page')) : response()->view('errors.' . '404', [], 404);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  string  $slug
+     * @param  string  $subpage
+     * @return \Illuminate\Http\Response
+     */
+    public function showSubPage($slug, $subpage)
+    {
+        $page = Page::where('slug', $subpage)->first();
+
+        if ($page->getMainPage->slug === $slug) {
+            return view('frontend.template', compact('page'));
+        }
+
+        return response()->view('errors.' . '404', [], 404);
     }
 
     /**

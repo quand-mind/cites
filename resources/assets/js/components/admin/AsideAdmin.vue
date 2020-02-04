@@ -21,9 +21,12 @@
       <a href="/dashboard/pages" class="list-group-item list-group-item-action">
         <font-awesome-icon :icon="['fas', 'book-open']"></font-awesome-icon>&nbsp;Páginas
       </a>
+      <a href="/dashboard/menu" class="list-group-item list-group-item-action">
+        <font-awesome-icon :icon="['fas', 'pager']"></font-awesome-icon>&nbsp;Menú
+      </a>
       <!-- <a href="/dashboard/posts" class="list-group-item list-group-item-action">
         <font-awesome-icon :icon="['fas', 'newspaper']"></font-awesome-icon>&nbsp;Noticias
-      </a>-->
+      </a> -->
       <a href="/dashboard/questions" class="list-group-item list-group-item-action">
         <font-awesome-icon :icon="['fas', 'question-circle']"></font-awesome-icon>&nbsp;Preguntas frecuentes
       </a>

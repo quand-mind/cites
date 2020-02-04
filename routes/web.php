@@ -123,7 +123,8 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         // Surveys Routes
         Route::get('/surveys', 'SurveyController@index');
         Route::post('/survey', 'SurveyController@store');
-        Route::post('/survey/update/{id}', 'SurveyController@update');
+        Route::post('/surveys/edit/{id}', 'SurveyController@update');
+        Route::delete('/surveys/{id}', 'SurveyController@destroy');
     });
 });
 
@@ -140,3 +141,6 @@ Route::get('/migrate/seed', 'MigrationsController@seed');
 
 // Frontend pages controller
 Route::get('/{slug}', 'PageController@show');
+
+// Frontend pages controller
+Route::get('/{slug}/{subpage}', 'PageController@showSubPage');

@@ -84,23 +84,47 @@ class SurveyController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Survey  $survey
+     * @param  integer $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Survey $survey)
+    public function update(Request $request, $id)
     {
-        //
+        if ($request->validate([
+            'title' => 'required|string',
+            'description' => 'required|string',
+            'url' => 'required|url',
+            'published_date' => 'required|date'
+        ])) {
+            // Store the survey info
+
+            try {
+                $survey = Survey::find($id);
+                $survey->update($request->all());
+                $survey->createdBy()->associate(Auth::user());
+
+                $survey->save();
+                return response("Encuesta guardada exitosamente", 200);
+            } catch (Exception $err) {
+                return response($err->getMessage(), 500);
+            }
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Survey  $survey
+     * @param  integer  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Survey $survey)
+    public function destroy($id)
     {
-        //
+        try {
+            $survey = Survey::find($id);
+            $survey->delete();
+            return response('Encuesta eliminada', 200);
+        } catch (Exception $err) {
+            return response($err->getMessage(), 500);
+        }
     }
 
     public function getSurveysList(Request $request)

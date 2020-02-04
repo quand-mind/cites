@@ -11,6 +11,18 @@
       <span slot="url" slot-scope="props">{{props.row.url}}</span>
       <span slot="fecha_de_publicación" slot-scope="props">{{props.row.published_date}}</span>
       <span slot="creada_por" slot-scope="props">{{props.row.created_by.username}}</span>
+      <div class="action-container" slot="acciones" slot-scope="props">
+        <a class="text-dark" @click.prevent="{showEditSurveyModal(props.row)}">
+          <font-awesome-icon :icon="['fa', 'edit']"></font-awesome-icon>
+        </a>
+
+        <a
+          class="text-danger"
+          @click.prevent="{deleteSurvey(props.row);}"
+        >
+          <font-awesome-icon :icon="['fa', 'trash']"></font-awesome-icon>
+        </a>
+      </div>
     </v-client-table>
 
     <b-modal ref="create-survey-modal" hide-footer>
@@ -99,6 +111,22 @@
         <b-button type="reset" variant="danger">Cancelar</b-button>
       </b-form>
     </b-modal>
+
+
+    <!-- Delete modal -->
+
+    <b-modal ref="delete-modal" hide-footer>
+      <template v-slot:modal-title>
+        <span class="text-danger">Eliminando la encuesta {{selectedSurvey.title}}</span>
+      </template>
+      <div v-if="selectedSurvey" class="d-block text-center">
+        <h3>¿Estas seguro de que deseas eliminar la encuesta {{selectedSurvey.title}}?</h3>
+
+        <b-button class="mt-3" block variant="danger" @click="submitDeleteSurvey">Confirmar</b-button>
+        <b-button class="mt-3" block @click="hideDeleteModal">Cancelar</b-button>
+      </div>
+    </b-modal>
+    
   </div>
 </template>
 
@@ -116,7 +144,8 @@ export default {
         "descripción",
         "url",
         "fecha_de_publicación",
-        "creada_por"
+        "creada_por",
+        "acciones"
       ],
       options: {
         perPage: 10,
@@ -135,6 +164,7 @@ export default {
     showCreateSurveyModal() {
       this.$refs["create-survey-modal"].show();
       this.form = {
+        id: null,
         title: "",
         description: "",
         url: "",
@@ -145,7 +175,6 @@ export default {
       this.$refs["create-survey-modal"].hide();
     },
     showEditSurveyModal(row) {
-      this.$refs["edit-survey-modal"].show();
       this.selectedSurvey = row;
       this.form = {
         id: this.selectedSurvey.id,
@@ -154,9 +183,62 @@ export default {
         url: this.selectedSurvey.url,
         published_date: this.selectedSurvey.published_date
       };
+      this.$refs["edit-survey-modal"].show();
     },
     hideEditSurveyModal() {
       this.$refs["edit-survey-modal"].hide();
+    },
+    deleteSurvey(survey) {
+      this.selectedSurvey = survey;
+      this.showDeleteModal();
+    },
+    showDeleteModal() {
+      this.$refs["delete-modal"].show();
+    },
+    hideDeleteModal() {
+      this.$refs["delete-modal"].hide();
+    },
+    onSubmitEdit() {
+      let _this = this;
+
+      axios
+        .post(`/dashboard/surveys/edit/${_this.selectedSurvey.id}`, {
+          ..._this.form
+        })
+        .then(res => {
+          if (res.status === 200) {
+            _this.makeToast(res.data);
+            _this.hideEditSurveyModal();
+            setTimeout(() => window.location.reload(), 3000);
+          }
+        })
+        .catch(err => {
+          _this.makeToast(err.response.data, "danger");
+        });
+    },
+    submitDeleteSurvey() {
+      let _this = this;
+
+      axios
+        .delete(`/dashboard/surveys/${_this.selectedSurvey.id}`)
+        .then(res => {
+          if (res.status === 200) {
+            _this.makeToast(res.data);
+            _this.hideDeleteModal();
+            setTimeout(() => window.location.reload(), 2000);
+          }
+        })
+        .catch(err => {
+          _this.makeToast(err.response.data, "danger");
+        });
+    },
+    makeToast(msg, variant = "success", delay = 3000, append = false) {
+      this.$bvToast.toast(`${msg}`, {
+        title: "Evento de actualización de usuario",
+        autoHideDelay: delay,
+        appendToast: append,
+        variant
+      });
     },
     onSubmit() {
       let formData = new FormData();
@@ -172,29 +254,7 @@ export default {
         .catch(err => console.log(err.response));
     },
     onReset() {},
-    onSubmitEdit() {
-      let formData = new FormData();
-
-      for (let prop in this.form)
-        prop !== "id" && formData.append(prop, this.form[prop]);
-
-      axios
-        .post(`/dashboard/survey/update/${this.form.id}`, formData)
-        .then(res => {
-          console.log(res);
-          window.location.reload();
-        })
-        .catch(err => console.log(err.response));
-    },
-    onResetEdit() {},
-    makeToast(msg, variant = "success", delay = 3000, append = false) {
-      this.$bvToast.toast(`${msg}`, {
-        title: "Actualización de la encuesta",
-        autoHideDelay: delay,
-        appendToast: append,
-        variant
-      });
-    }
+    onResetEdit() {}, 
   },
   mounted() {
     this.tableSettings.data = this.surveys.map(survey => {

@@ -2,15 +2,24 @@
     <div>
         <draggable v-model="pagesList">
             <transition-group type="transition" name="flip-list">
-                <div v-for="element in pagesList" :key="element.id">
-                    <b-button v-b-toggle.collapse-1 variant="primary">
-                        <span>{{element.title}}</span>
+                <div v-for="menuItem in pagesList" :key="menuItem.id">
+                    <b-button v-b-toggle.:aria-controls="menuItem.title" variant="primary">
+                        <span>{{menuItem.title}}</span>
                     </b-button>
-                    <b-collapse id="collapse-1" class="mt-2">
-                        <b-card>
-                            <span>{{element.id}}</span>
-                        </b-card>
-                    </b-collapse>
+                    <div v-if="menuItem.get_subpages.length > 0">
+                        <draggable v-model="pagesList.getsubpages">
+                            <transition-group type="transition" name="flip-list">
+                                <div v-for="submenuItem in menuItem.get_subpages" :key="submenuItem.id">
+                                    <b-collapse :id="menuItem.title" class="mt-2">
+                                        <b-card>
+                                            <span>{{submenuItem.title}}</span>
+                                        </b-card>
+                                    </b-collapse>
+                                </div>
+                            </transition-group>
+                        </draggable>
+                    </div>
+                        
                 </div>
             </transition-group>
         </draggable>
@@ -27,9 +36,9 @@ export default {
     components: {
         draggable
     },
-    mounted () {
-        console.log(this.pages)
+    mounted () {        
         this.pagesList = [...this.pages]
+        
     }
 }
 </script>

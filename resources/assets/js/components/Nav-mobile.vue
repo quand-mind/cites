@@ -72,10 +72,10 @@ export default {
           }
         ]
       },
-      // {
-      //   name: "¿Qué es un transgénico?",
-      //   url: "/transgenico"
-      // },
+      {
+        name: "¿Qué es un transgénico?",
+        url: "/transgenico"
+      },
       {
         name: "¿Quiénes somos?",
         url: "#",

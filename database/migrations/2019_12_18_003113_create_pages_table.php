@@ -23,6 +23,7 @@ class CreatePagesTable extends Migration
             $table->string('meta_robots')->nullable();
             $table->string('meta_keywords')->nullable();
             $table->text('content');
+            $table->unsignedInteger('menu_order')->nullable();
             $table->unsignedInteger('created_by');
             $table->unsignedInteger('lastModified_by');
             $table->unsignedInteger('main_page')->nullable();

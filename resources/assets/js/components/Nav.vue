@@ -78,12 +78,18 @@ export default {
         ]
       },
       {
-        name: "Preguntas frecuentes",
-        url: "/preguntas-frecuentes"
-      },
-      {
-        name: "Encuestas",
-        url: "/encuestas"
+        name: "Preguntas frecuentes y encuestas",
+        url: "#",
+        sublinks: [
+          {
+            name: "Preguntas Frecuentes",
+            url: "/preguntas-frecuentes"
+          },
+          {
+            name: "Encuestas",
+            url: "/encuestas"
+          }
+        ]
       },
       {
         name: "Protocolo de Cartagena",
@@ -197,7 +203,7 @@ export default {
     transition: all 0.5s ease;
     position: absolute;
     flex-direction: column;
-    top: 88px;
+    top: 100%;
     left: 0;
     opacity: 0;
     z-index: 5;

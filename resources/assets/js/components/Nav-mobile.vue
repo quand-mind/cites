@@ -29,7 +29,7 @@ Descripción:
 
     <!-- barra movil -->
     <b-nav
-      class="nav justify-content-center p-0 text-uppercase w-50 fixed-top h-100  d-xl-none d-lg-none navbar-expand fade"
+      class="nav justify-content-center p-0 text-uppercase fixed-top h-100  d-xl-none d-lg-none navbar-expand fade"
       id="menu-mov"
       style="background-color: #2c3e50 "
     >
@@ -229,6 +229,7 @@ export default {
     .sub-nav{
       bottom: 0px;
     }
+    }
   }
 }
 
@@ -246,6 +247,10 @@ a {
 .nav{
   display: flex;
   flex-direction: column;
+  width: 50vw;
+    @media (max-width: 460px) {
+          width: 75vw;
+        }
 }
 
 

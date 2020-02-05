@@ -19,7 +19,8 @@ class MenuController extends Controller
             'id',
             'slug',
             'title',
-            'is_onMenu'
+            'is_onMenu',
+            'menu_order'
         )
         ->where('is_subpage', false)
         ->get();

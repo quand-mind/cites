@@ -13,15 +13,11 @@
 
 // Frontend routes
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'MenuController@renderFrontPage');
 
 // Frontend routes for "proyecto"
 Route::group(['prefix' => 'proyecto'], function () {
-    Route::get('/{any}', function () {
-        return view('welcome');
-    });
+    Route::get('/{any}', 'MenuController@renderFrontPage');
 });
 // Frontend routes for "Transgenico"
 Route::get('/transgenico', function () {
@@ -30,9 +26,7 @@ Route::get('/transgenico', function () {
 
 // Frontend routes for "¿Quienes somos?"
 Route::group(['prefix' => 'somos'], function () {
-    Route::get('/{any}', function () {
-        return view('welcome');
-    });
+    Route::get('/{any}', 'MenuController@renderFrontPage');
 });
 
 // Frontend routes for "FAQs"
@@ -52,16 +46,12 @@ Route::get('/protocolo', function () {
 
 // Frontend routes for "Protocolo de Cartagena"
 Route::group(['prefix' => 'protocolo'], function () {
-    Route::get('/{any}', function () {
-        return view('welcome');
-    });
+    Route::get('/{any}', 'MenuController@renderFrontPage');
 });
 
 // Frontend routes for "Proyectos asociados"
 Route::group(['prefix' => 'asociados'], function () {
-    Route::get('/{any}', function () {
-        return view('welcome');
-    });
+    Route::get('/{any}', 'MenuController@renderFrontPage');
 });
 
 // Frontend routes for "Laboratorio Nacional OVM"
@@ -71,9 +61,7 @@ Route::get('/laboratorio-nacional-ovm', function () {
 
 // Frontend routes for "Recursos"
 Route::group(['prefix' => 'recursos'], function () {
-    Route::get('/{any}', function () {
-        return view('welcome');
-    });
+    Route::get('/{any}', 'MenuController@renderFrontPage');
 });
 
 // Frontend routes for "Transgénico"

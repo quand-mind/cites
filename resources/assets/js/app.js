@@ -113,6 +113,14 @@ if ($("#pageForm").length !== 0) {
     });
 }
 
+Vue.component("menu-list", require("./components/admin/MenuList.vue"));
+
+if ($("#menuList").length !== 0) {
+    const menuList = new Vue({
+        el: "#menuList"
+    });
+}
+
 Vue.component("page-template", require("./views/PageTemplate.vue"));
 
 if ($("#pageTemplate").length !== 0) {

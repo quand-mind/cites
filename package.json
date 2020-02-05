@@ -37,6 +37,7 @@
         "vue-slick": "^1.1.15",
         "vue-tables-2": "^1.6.22",
         "vue2-editor": "^2.10.2",
+        "vuedraggable": "^2.23.2",
         "vuejs-datepicker": "^1.6.2"
     }
 }

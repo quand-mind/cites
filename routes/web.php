@@ -91,6 +91,12 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         Route::post('/users/changeActiveState/{id}', 'UserController@changeActiveState');
         Route::delete('/users/{id}', 'UserController@destroy');
 
+        // Menu Routes
+        Route::get('/menu', 'MenuController@index')->name('menu');
+        Route::post('/menu/changeMenuVisibility/{id}', 'MenuController@changeMenuVisibility');
+        Route::delete('/menu/{id}', 'MenuController@destroy');
+
+
         // Post Routes
         Route::get('/posts', 'PostController@index')->name('posts');
         Route::get('/posts/create', 'PostController@create');
@@ -100,7 +106,7 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         Route::post('/posts/changeActiveState/{id}', 'PostController@changeActiveState');
         Route::delete('/posts/{id}', 'PostController@destroy');
 
-        // Post Routes
+        // Pages Routes
         Route::get('/pages', 'PageController@index')->name('pages');
         Route::get('/pages/create', 'PageController@create');
         Route::post('/pages/create', 'PageController@store');

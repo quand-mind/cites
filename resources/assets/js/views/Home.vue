@@ -14,7 +14,7 @@ Descripción:
     <!-- Acerca de  -->
     <div class="p-4 card">
       <h2 class="m-0 m-lg-5 m-xl-5 text-center display-4">Acerca del proyecto</h2>
-      <p class="mt-2">
+      <p class="mt-5">
         El proyecto tiene como objetivo: establecer una plataforma de medidas legislativas, reglamentarias, sociales y de infraestructura para aplicar el Protocolo de Cartagena en la República Bolivariana de Venezuela, con el fin de contribuir a la conservación global y el uso sostenible de la diversidad biológica.
       </p>
       <p>

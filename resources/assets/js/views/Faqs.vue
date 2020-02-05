@@ -58,13 +58,6 @@ export default {
         _this.faqs = [...res.data];
       })
       .catch(err => console.log(err.response));
-/*
-    axios
-      .get("/surveys-list")
-      .then(res => {
-        _this.surveys = [...res.data];
-      })
-      .catch(err => console.log(err.response));*/
   }
 };
 </script>

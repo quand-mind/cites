@@ -25,6 +25,9 @@ Descripción:
 
       <b-navbar-nav class="w-20 d-flex align-items-center ml-auto">
         <a href="#" onclick="return false">
+          <img src="/images/logos/logo-minec.png" />
+        </a>
+        <a href="#" onclick="return false">
           <img src="/images/logos/logo-gef.png" />
         </a>
         <a href="#" onclick="return false">
@@ -35,10 +38,6 @@ Descripción:
         </a>
       </b-navbar-nav>
 
-      <!-- <div class="d-flex flex-nowrap align-self-end">
-				<a href="ingreso.html"  class="btn m-1 border border-secondary rounded py-1 px-3">Ingresar</a>
-				<a href="registro.html"  class="btn m-1 text-white verde btn-verde">Registrarse</a>
-      </div>-->
     </b-navbar>
   </header>
 </template>
@@ -90,11 +89,17 @@ export default {
     }
   }
 }
-
 header {
   height: 40vh;
   overflow: hidden;
   position: relative;
 
+}
+li:hover,
+a:hover,
+li,
+a { 
+text-decoration: none;
+color: #000;
 }
 </style>

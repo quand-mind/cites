@@ -113,6 +113,22 @@ if ($("#pageForm").length !== 0) {
     });
 }
 
+Vue.component("menu-list", require("./components/admin/MenuList.vue"));
+
+if ($("#menuList").length !== 0) {
+    const menuList = new Vue({
+        el: "#menuList"
+    });
+}
+
+Vue.component("page-template", require("./views/PageTemplate.vue"));
+
+if ($("#pageTemplate").length !== 0) {
+    const pageTemplate = new Vue({
+        el: "#pageTemplate"
+    });
+}
+
 Vue.component("cabecera", require("./components/Cabecera.vue"));
 
 Vue.component("navi", require("./components/Nav.vue"));
@@ -157,8 +173,12 @@ if ($("#app").length !== 0) {
             component: require('./views/Noticias')
         },
         {
-            path: '/preguntas-frecuentes-y-encuestas',
+            path: '/preguntas-frecuentes',
             component: require('./views/Faqs')
+        },
+        {
+            path: '/encuestas',
+            component: require('./views/Encuestas')
         },
         {
             path: '/laboratorio-nacional-ovm',
@@ -223,7 +243,7 @@ if ($("#app").length !== 0) {
         {
             path: '/recursos/glosario',
             component: require('./views/Recursos-glosario')
-        },
+        }
     ];
     const router = new VueRouter({
         mode: 'history',

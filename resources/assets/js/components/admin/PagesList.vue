@@ -29,9 +29,9 @@
 
       <!-- slug slot -->
       <span class="url" slot="url" slot-scope="props">
-        <a :href="`/${props.row.slug}`">
-          /{{
-            props.row.slug
+        <a :href="generateSlug(props.row)">
+          {{
+            generateSlug(props.row)
           }}
         </a>
       </span>
@@ -119,53 +119,6 @@ export default {
     hideDeleteModal() {
       this.$refs["delete-modal"].hide();
     },
-    handleCheckBoxChange(row) {
-      let _this = this;
-      let postIdx = _this.tableData.findIndex(post => row.id === post.id);
-      _this.tableData[postIdx].is_active = !_this.tableData[postIdx].is_active;
-
-      axios
-        .post(`/dashboard/pages/changeActiveState/${row.id}`, {
-          is_active: _this.tableData[postIdx].is_active
-        })
-        .then(res => {
-          if (res.status === 200) {
-            _this.makeToast(res.data, "info", 2000);
-          }
-        })
-        .catch(err => console.log(err));
-    },
-    onEditSubmit() {
-      let _this = this;
-      let form = new FormData();
-
-      Object.keys(_this.editForm).forEach(key => {
-        if (key === "is_active") {
-          form.append(key, Number(_this.editForm[key]));
-          return;
-        }
-        
-        form.append(key, _this.editForm[key]);
-      });
-
-      axios
-        .post(`/dashboard/pages/edit/${_this.selectedPost.id}`, form, {
-          headers: {
-            "Content-Type": "multipart/form-data"
-          }
-        })
-        .then(res => {
-          if (res.status === 200) {
-            _this.makeToast(res.data);
-            _this.hideEditModal();
-            setTimeout(() => window.location.reload(), 3000);
-          }
-        })
-        .catch(err => {
-          _this.makeToast(err.response.data, "danger");
-        });
-    },
-
     makeToast(msg, variant = "success", delay = 3000, append = false) {
       this.$bvToast.toast(`${msg}`, {
         title: "Evento de actualización de post",
@@ -173,34 +126,6 @@ export default {
         appendToast: append,
         variant
       });
-    },
-    onCreateSubmit() {
-      let _this = this;
-
-      let form = new FormData();
-
-      Object.keys(_this.createForm).forEach(key => {
-        if (key === "is_active")
-          form.append(key, Number(_this.createForm[key]));
-        else form.append(key, _this.createForm[key]);
-      });
-
-      axios
-        .post(`/dashboard/users/create/`, form, {
-          headers: {
-            "Content-Type": "multipart/form-data"
-          }
-        })
-        .then(res => {
-          if (res.status === 200) {
-            _this.makeToast(res.data);
-            _this.hideEditModal();
-            setTimeout(() => window.location.reload(), 3000);
-          }
-        })
-        .catch(err => {
-          _this.makeToast(err.response.data, "danger");
-        });
     },
     submitDeletePost() {
       let _this = this;
@@ -217,6 +142,13 @@ export default {
         .catch(err => {
           _this.makeToast(err.response.data, "danger");
         });
+    },
+    generateSlug(row) {
+      if (row.is_subpage) {
+        return '/' + row.get_main_page.slug + '/' + row.slug
+      }
+
+      return '/' + row.slug
     }
   },
   mounted() {

@@ -3,7 +3,7 @@ Ultima Actualización: 19/01/2020
 
 Tipo de componente: Vista
 
-Ruta:/preguntas-frecuentes-y-encuestas
+Ruta:/preguntas-frecuentes
 
 Descripción:
 	Lee las Preguntas Frecuentes de la base de datos y las muestra de 10 en 10, y las encuestas
@@ -46,8 +46,7 @@ export default {
   },
   data() {
     return {
-      faqs: [],
-      surveys: []
+      faqs: []
     };
   },
   created() {

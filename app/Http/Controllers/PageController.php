@@ -23,9 +23,9 @@ class PageController extends Controller
             'meta_description',
             'created_by',
             'is_subpage',
+            'is_active',
             'lastModified_by',
             'main_page',
-            'created_at'
         )->get();
 
         return view('panel.pages.index', compact('pages'));

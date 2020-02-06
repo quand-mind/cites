@@ -59,6 +59,17 @@
         }}
       </span>
 
+      <!-- is active slot -->
+      <b-form-checkbox
+        slot="activo"
+        slot-scope="props"
+        name="check-button"
+        class="check-active"
+        :checked="Boolean(props.row.is_active)"
+        switch
+        @change="handleCheckBoxChange(props.row)"
+      ></b-form-checkbox>
+
       <!-- role slot -->
       <span slot="fecha_de_creacion" slot-scope="props">
         {{
@@ -98,6 +109,7 @@ export default {
       "descripcion",
       "fecha_de_creacion",
       "creada_por",
+      "activo",
       "ultima_modificacion_por",
       "acciones"
     ],
@@ -142,6 +154,22 @@ export default {
         .catch(err => {
           _this.makeToast(err.response.data, "danger");
         });
+    },
+    handleCheckBoxChange(row) {
+      let _this = this;
+      let pageIdx = _this.tableData.findIndex(page => row.id === page.id);
+      _this.tableData[pageIdx].is_active = !_this.tableData[pageIdx].is_active;
+
+      axios
+        .post(`/dashboard/pages/changeActiveState/${row.id}`, {
+          is_active: _this.tableData[pageIdx].is_active
+        })
+        .then(res => {
+          if (res.status === 200) {
+            _this.makeToast(res.data, "info", 2000);
+          }
+        })
+        .catch(err => console.log(err));
     },
     generateSlug(row) {
       if (row.is_subpage) {

@@ -29,17 +29,18 @@ Descripción:
 
     <!-- barra movil -->
     <b-nav
-      class="nav justify-content-center p-0 text-uppercase fixed-top h-100  d-xl-none d-lg-none navbar-expand fade azul"
+      class="nav justify-content-center p-0 text-uppercase fixed-top h-100  d-xl-none d-lg-none navbar-expand fade"
       id="menu-mov"
+      style="background-color: #2c3e50 "
     >
       <b-nav-item v-on:click="() => link.sublinks ? false : closeNav()" class="nav-item" v-for="(link, index) in links" :key="link.url + index">
-      <b-button class="p-0 bg-transparent border-0 " v-b-toggle.collapse-menu :to="link.url">{{link.name}}</b-button>
+      <router-link :to="link.url">{{link.name}}</router-link>
 
-      <b-collapse id="collapse-menu" class="sub-nav azul" v-if="link.sublinks">
+      <b-nav class="sub-nav verde" v-if="link.sublinks">
         <b-nav-item v-on:click="closeNav" v-for="sublink in link.sublinks" :key="sublink.url">
           <router-link :to="sublink.url" class="text-white">{{sublink.name}}</router-link>
         </b-nav-item>
-      </b-collapse>
+      </b-nav>
     </b-nav-item>
     </b-nav>
   </div>
@@ -110,8 +111,7 @@ export default {
             name: "Encuestas",
             url: "/encuestas"
           }
-        ]
-      },
+        ]      },
       {
         name: "Protocolo de Cartagena",
         url: "#",
@@ -186,48 +186,33 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.nav{
-  display: flex;
-  flex-direction: column;
-  width: 50vw;
-   @media (max-width: 460px) {
-        width: 75vw;
-      }
-}
-b-button:active, b-button:focus, b-button:hover{
-    border: 0px;
-}
 .nav-item {
   flex: 1;
   text-align: center;
   display: flex;
   align-items: center;
   justify-content: center;
-  /*position: relative;*/
+  position: relative;
   transition: all 0.5s ease;
   overflow: hidden;
 
   & a {
     color: white;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     text-decoration: none;
     align-items: center;
-    flex-wrap: wrap;
     height: 100%;
     width: 100%;
   }
 
   &:hover {
-    /*background: #55ef6d;*/
+    background: #55ef6d;
     transition: all 0.5s ease;
     overflow: visible;
 
     a {
-      /*color: #212529;*/
-      display: flex;
-      flex-wrap: nowrap;
+      color: #212529;
     }
 
     .sub-nav {
@@ -236,20 +221,12 @@ b-button:active, b-button:focus, b-button:hover{
     }
   }
 
-  /*&:last-child {
-    .sub-nav{
-      top: auto;
-      bottom: 0px;
-    }
-  }
-*/
-
   .sub-nav {
     transition: all 0.5s ease;
-    /*position: absolute;*/
+    position: absolute;
     flex-direction: column;
-    /*top: 0;*/
-    /*left: 100%;*/
+    top: 0;
+    left: 49vw;
     opacity: 0;
     z-index: 5;
     width: 80%;
@@ -257,7 +234,13 @@ b-button:active, b-button:focus, b-button:hover{
       width: 100%;
     }
   }
-}
+  .nav-link:last-child{
+    .sub-nav{
+     top: auto;
+      bottom: 0px;
+    }
+    }
+  }
 
 li:hover,
 a:hover,
@@ -266,9 +249,19 @@ a {
   text-decoration: none;
   color: #fff;
 }
-.azul{
-background-color: #2c3e50
+.submenu-movil {
+  max-width: 250px;
+  display: none;
+}
+.nav{
+  display: flex;
+  flex-direction: column;
+  width: 50vw;
+    @media (max-width: 460px) {
+          width: 75vw;
+        }
 }
 
 
 </style>
+

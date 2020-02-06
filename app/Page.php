@@ -15,7 +15,9 @@ class Page extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'slug', 'meta_description', 'meta_keywords', 'meta_robots', 'content', 'is_subpage', 'is_onMenu'
+        'title', 'slug', 'meta_description', 'meta_keywords', 'meta_robots',
+        'content','is_subpage', 'is_onMenu', 'is_active', 'is_static',
+        'menu_order'
     ];
 
     // Slug helper

@@ -27,6 +27,7 @@ Descripción:
 <script>
 export default {
   name: "nav1",
+  props: ['menu-links'],
   data: () => ({
     links: [
       {
@@ -155,7 +156,10 @@ export default {
         ]
       }
     ]
-  })
+  }),
+  mounted () {
+    let _this = this
+  }
 };
 </script>
 
@@ -203,7 +207,7 @@ export default {
     transition: all 0.5s ease;
     position: absolute;
     flex-direction: column;
-    top: 88px;
+    top: 100%;
     left: 0;
     opacity: 0;
     z-index: 5;

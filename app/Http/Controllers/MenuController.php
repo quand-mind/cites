@@ -19,77 +19,50 @@ class MenuController extends Controller
             'id',
             'slug',
             'title',
-            'is_onMenu'
+            'is_onMenu',
+            'menu_order'
         )
         ->where('is_subpage', false)
+        ->orderBy('menu_order')
         ->get();
 
         return view('panel.dashboard.menu', compact('pages'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function renderFrontPage ()
     {
-        //
+        $links = Page::with(['getSubpages'])
+            ->select(
+                'id',
+                'slug',
+                'title',
+                'is_onMenu',
+                'menu_order'
+            )
+            ->where([
+                ['is_subpage', false],
+                ['is_onMenu', false],
+                ['is_active', true]
+            ])
+            ->orderBy('menu_order')
+            ->get();
+
+        return view('welcome', compact('links'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+    public function updateOrder (Request $request) {
+        $pages = $request->all();
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
+        foreach($pages as $page) {
+            Page::find($page["id"])->update($page);
+            
+            if (count($page["get_subpages"]) > 0) {
+                foreach ($page["get_subpages"] as $subpage) {
+                    Page::find($subpage["id"])->update($page);
+                }
+            }
+        };
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        return response('Menú actualizado', 200);
     }
 }

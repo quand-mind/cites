@@ -1,5 +1,5 @@
 <!--
-Ultima Actualización: 19/01/2020
+Ultima Actualización: 6/02/2020
 
 Tipo de componente: Módulo
 
@@ -43,15 +43,6 @@ Descripción:
         </b-nav>
       </b-collapse>
       </b-nav-item>
-      <!-- <b-nav-item v-on:click="() => link.sublinks ? false : closeNav()" class="nav-item" v-for="(link, index) in links" :key="link.url + index">
-      <router-link :to="link.url">{{link.name}}</router-link>
-
-      <b-nav class="sub-nav verde" v-if="link.sublinks">
-        <b-nav-item v-on:click="closeNav" v-for="sublink in link.sublinks" :key="sublink.url">
-          <router-link :to="sublink.url" class="text-white">{{sublink.name}}</router-link>
-        </b-nav-item>
-      </b-nav>
-    </b-nav-item> -->
     </b-nav>
   </div>
 </template>
@@ -196,62 +187,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-/*.nav-item {
-  flex: 1;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  transition: all 0.5s ease;
-  overflow: hidden;
 
-  & a {
-    color: white;
-    display: flex;
-    justify-content: center;
-    text-decoration: none;
-    align-items: center;
-    height: 100%;
-    width: 100%;
-  }
-
-  &:hover {
-    background: #55ef6d;
-    transition: all 0.5s ease;
-    overflow: visible;
-
-    a {
-      color: #212529;
-    }*/
-
-   /* .sub-nav {
-      opacity: 1;
-      transition: all 0.5s ease;
-    }*/
-  /*}*/
-
-  /*.sub-nav {
-    transition: all 0.5s ease;
-    position: absolute;
-    flex-direction: column;
-    top: 0;
-    left: 49vw;
-    opacity: 0;
-    z-index: 5;
-    width: 80%;
-    .nav-item {
-      width: 100%;
-    }
-  }
-  .nav-link:last-child{
-    .sub-nav{
-     top: auto;
-      bottom: 0px;
-    }
-    }*/
-  /*}*/
 .btn{
   padding: 10px;
   border-radius: 0px;

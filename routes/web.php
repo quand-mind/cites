@@ -113,6 +113,8 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         Route::post('/images/post/content/delete', 'ImageController@deletePostContentImage');
         Route::post('/images/post/main', 'ImageController@savePostMainImage');
         Route::post('/images/post/main/update/{id}', 'ImageController@updatePostMainImage');
+        Route::post('/images/page/content', 'ImageController@savePageContentImage');
+        Route::post('/images/page/content/delete', 'ImageController@deletePageContentImage');
 
         // Question Routes
         Route::get('/questions', 'QuestionController@index');

@@ -31,6 +31,25 @@ class PageController extends Controller
         return view('panel.pages.index', compact('pages'));
     }
 
+    public function getMenuLinks () {
+        $links = Page::with(['getSubpages'])
+            ->select(
+                'id',
+                'slug',
+                'title',
+                'is_onMenu',
+                'menu_order'
+            )
+            ->where([
+                ['is_subpage', false],
+                ['is_onMenu', false]
+            ])
+            ->orderBy('menu_order')
+            ->get();
+
+        return $links;
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -90,8 +109,9 @@ class PageController extends Controller
     public function show($slug)
     {
         $page = Page::where('slug', $slug)->first();
+        $links = $this->getMenuLinks();
 
-        return $page !== null ? view('frontend.template', compact('page')) : response()->view('errors.' . '404', [], 404);
+        return $page !== null ? view('frontend.template', compact('page', 'links')) : response()->view('errors.' . '404', [], 404);
     }
 
     /**
@@ -104,9 +124,10 @@ class PageController extends Controller
     public function showSubPage($slug, $subpage)
     {
         $page = Page::where('slug', $subpage)->first();
+        $links = $this->getMenuLinks();
 
         if ($page->getMainPage->slug === $slug) {
-            return view('frontend.template', compact('page'));
+            return view('frontend.template', compact('page', 'links'));
         }
 
         return response()->view('errors.' . '404', [], 404);

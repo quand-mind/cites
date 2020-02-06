@@ -101,7 +101,17 @@ export default {
       },
       {
         name: "Preguntas frecuentes y encuestas",
-        url: "/preguntas-frecuentes-y-encuestas"
+        url: "#",
+        sublinks: [
+          {
+            name: "Preguntas Frecuentes",
+            url: "/preguntas-frecuentes"
+          },
+          {
+            name: "Encuestas",
+            url: "/encuestas"
+          }
+        ]
       },
       {
         name: "Protocolo de Cartagena",
@@ -212,12 +222,18 @@ export default {
     }
   }
 
+  &:last-child {
+    .sub-nav{
+      bottom: 0px;
+    }
+  }
+
   .sub-nav {
     transition: all 0.5s ease;
     position: absolute;
     flex-direction: column;
-    /*top: 0;*/
-    left: 49vw;
+    top: 0;
+    left: 100%;
     opacity: 0;
     z-index: 5;
     width: 80%;
@@ -225,12 +241,15 @@ export default {
       width: 100%;
     }
   }
+<<<<<<< HEAD
   .nav-link:last-child{
     .sub-nav{
       bottom: 0px;
     }
     }
   }
+=======
+>>>>>>> b7b218880a1d4c3a0e2a020044877dd627c1dac9
 }
 
 li:hover,
@@ -253,7 +272,5 @@ a {
         }
 }
 
-
-</style>
 
 </style>

@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>{{ env('APP_NAME') }}</title>
+    @yield('title')
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    @yield('meta')
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -41,11 +42,11 @@
 <body>
     <div id="app">
         <cabecera></cabecera>
-        <navi></navi>
-        <navmobile></navmobile>
+        <navi :menu-links="{{ $links->toJson() }}"></navi>
+        <navmobile :menu-links="{{ $links->toJson() }}"></navmobile>
         <div class="mt-5 container-fluid container-lg d-flex justify-content-center flex-column flex-lg-row m-0 p-0 mx-lg-auto p-lg-auto">
               <main class="px-lg-5 px-xs-5 mb-5 w-100 min-vh-100">
-                <router-view></router-view>
+                  <router-view></router-view>
               </main>
               <sidebar></sidebar>
           </div>

@@ -16,16 +16,38 @@ class PageController extends Controller
     public function index()
     {
         //
-        $pages = Page::with(['createdBy', 'lastModifiedBy'])->select(
+        $pages = Page::with(['createdBy', 'lastModifiedBy', 'getMainPage'])->select(
             'id',
             'title',
             'slug',
             'meta_description',
             'created_by',
+            'is_subpage',
+            'is_active',
             'lastModified_by',
-            'created_at'
+            'main_page',
         )->get();
+
         return view('panel.pages.index', compact('pages'));
+    }
+
+    public function getMenuLinks () {
+        $links = Page::with(['getSubpages'])
+            ->select(
+                'id',
+                'slug',
+                'title',
+                'is_onMenu',
+                'menu_order'
+            )
+            ->where([
+                ['is_subpage', false],
+                ['is_onMenu', false]
+            ])
+            ->orderBy('menu_order')
+            ->get();
+
+        return $links;
     }
 
     /**
@@ -35,7 +57,8 @@ class PageController extends Controller
      */
     public function create()
     {
-        return view('panel.pages.form');
+        $mainPages = Page::where('is_subpage', false)->get();
+        return view('panel.pages.form', compact('mainPages'));
     }
 
     /**
@@ -51,21 +74,27 @@ class PageController extends Controller
             'meta_description' => 'required|string|min:120|max:158',
             'meta_robots' => 'nullable|string',
             'meta_keywords' => 'nullable|string',
-            'content' => 'required|string'
+            'content' => 'required|string',
+            'is_subpage' => 'required|boolean',
+            'is_active' => 'required|boolean',
+            'main_page' => 'nullable|integer'
         ])) {
-            $values = $request->all();
+            $values = $request->except(['main_page']);
 
             // Save Page object
             try {
                 $page = new Page($values);
+                $page->is_subpage = $values['is_subpage'];
                 $page->createdBy()->associate(Auth::user());
                 $page->lastModifiedBy()->associate(Auth::user());
+                $mainPageId = $request->input('main_page');
+                
+                if ($mainPageId !== null)
+                    $page->getMainPage()->associate(Page::find($mainPageId));
+
                 $page->save();
 
-                return response([
-                    "msg" => "Página guardada exitosamente",
-                    "page_id" => $page->id
-                ], 200);
+                return response("Página guardada exitosamente", 200);
             } catch (Exception $err) {
                 return response($err->getMessage, 500);
             }
@@ -75,15 +104,34 @@ class PageController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  string  $slug
      * @return \Illuminate\Http\Response
      */
     public function show($slug)
     {
         $page = Page::where('slug', $slug)->first();
-        $pages = Page::all();
+        $links = $this->getMenuLinks();
 
-        return $page !== null ? 'Found page' : response()->view('errors.' . '404', [], 404);;
+        return $page !== null && $page->is_active ? view('frontend.template', compact('page', 'links')) : response()->view('errors.' . '404', [], 404);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  string  $slug
+     * @param  string  $subpage
+     * @return \Illuminate\Http\Response
+     */
+    public function showSubPage($slug, $subpage)
+    {
+        $page = Page::where('slug', $subpage)->first();
+        $links = $this->getMenuLinks();
+
+        if ($page->getMainPage->slug === $slug) {
+            return view('frontend.template', compact('page', 'links'));
+        }
+
+        return response()->view('errors.' . '404', [], 404);
     }
 
     /**
@@ -95,7 +143,8 @@ class PageController extends Controller
     public function edit($id)
     {
         $page = Page::find($id);
-        return view('panel.pages.form', compact('page'));
+        $mainPages = Page::where('is_subpage', false)->get();
+        return view('panel.pages.form', compact('page', 'mainPages'));
     }
 
     /**
@@ -112,21 +161,28 @@ class PageController extends Controller
             'meta_description' => 'required|string|min:120|max:158',
             'meta_robots' => 'nullable|string',
             'meta_keywords' => 'nullable|string',
-            'content' => 'required|string'
+            'content' => 'required|string',
+            'is_subpage' => 'required|boolean',
+            'is_active' => 'required|boolean',
+            'main_page' => 'nullable|integer'
         ])) {
-            $values = $request->all();
+            $values = $request->except(['main_page']);
 
             // Save Page object
             try {
                $page = Page::find($id);
+               $page->is_subpage = $values['is_subpage'];
                $page->update($values);
                $page->lastModifiedBy()->associate(Auth::user());
+
+               $mainPageId = $request->input('main_page');
+                
+                if ($mainPageId !== null)
+                    $page->getMainPage()->associate(Page::find($mainPageId));
+
                $page->save();
 
-                return response([
-                    "msg" => "Página guardada exitosamente",
-                    "page_id" =>$page->id
-                ], 200);
+                return response("Página guardada exitosamente", 200);
             } catch (Exception $err) {
                 return response($err->getMessage, 500);
             }
@@ -147,6 +203,22 @@ class PageController extends Controller
             return response('Página eliminada', 200);
         } catch (Exception $err) {
             return response($err->getMessage(), 500);
+        }
+    }
+
+    public function changeActiveState(Request $request, $id)
+    {
+        if ($request->validate([
+            'is_active' => 'boolean'
+        ])) {
+            try {
+                $post = Page::find($id);
+                $post->is_active = $request->input('is_active');
+                $post->save();
+                return response('Página actualizada', 200);
+            } catch (Exception $err) {
+                return response($err->getMessage(), 500);
+            }
         }
     }
 }

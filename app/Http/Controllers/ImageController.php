@@ -38,6 +38,35 @@ class ImageController extends Controller
         }
     }
 
+    public function savePageContentImage(Request $request)
+    {
+        if ($request->validate([
+            'image' => 'required|image|mimes:jpg,jpeg,png|max:2048'
+        ])) {
+            // handle post content picture
+            $path = $request->file('image')->store('images/pages');
+            $path = '/storage/' . $path;
+
+            return response(['url' => $path], 200);
+        }
+    }
+
+    public function deletePageContentImage(Request $request)
+    {
+        if ($request->validate([
+            'path' => 'required|string'
+        ])) {
+            try {
+                // handle post content picture
+                Storage::delete(str_replace("/storage/", "", $request->input('path')));
+
+                return response('Deleted image', 200);
+            } catch (Exception $err) {
+                return response($err->getMessage, 500);
+            }
+        }
+    }
+
     public function savePostMainImage(Request $request)
     {
         if ($request->validate([

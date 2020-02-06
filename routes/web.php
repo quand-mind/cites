@@ -13,32 +13,31 @@
 
 // Frontend routes
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'MenuController@renderFrontPage');
 
 // Frontend routes for "proyecto"
 Route::group(['prefix' => 'proyecto'], function () {
-    Route::get('/{any}', function () {
-        return view('welcome');
-    });
+    Route::get('/{any}', 'MenuController@renderFrontPage');
 });
 // Frontend routes for "Transgenico"
 Route::get('/transgenico', function () {
     return view('welcome');
-})->name('trangenico');
+})->name('transgenico');
 
 // Frontend routes for "¿Quienes somos?"
 Route::group(['prefix' => 'somos'], function () {
-    Route::get('/{any}', function () {
-        return view('welcome');
-    });
+    Route::get('/{any}', 'MenuController@renderFrontPage');
 });
 
 // Frontend routes for "FAQs"
-Route::get('/preguntas-frecuentes-y-encuestas', function () {
+Route::get('/preguntas-frecuentes', function () {
     return view('welcome');
-})->name('preguntas-frecuentes-encuestas');
+})->name('preguntas-frecuentes');
+
+// Frontend routes for "Encuestas"
+Route::get('/encuestas', function () {
+    return view('welcome');
+})->name('encuestas');
 
 // Frontend routes for "Protocolo de Cartagena"
 Route::get('/protocolo', function () {
@@ -47,16 +46,12 @@ Route::get('/protocolo', function () {
 
 // Frontend routes for "Protocolo de Cartagena"
 Route::group(['prefix' => 'protocolo'], function () {
-    Route::get('/{any}', function () {
-        return view('welcome');
-    });
+    Route::get('/{any}', 'MenuController@renderFrontPage');
 });
 
 // Frontend routes for "Proyectos asociados"
 Route::group(['prefix' => 'asociados'], function () {
-    Route::get('/{any}', function () {
-        return view('welcome');
-    });
+    Route::get('/{any}', 'MenuController@renderFrontPage');
 });
 
 // Frontend routes for "Laboratorio Nacional OVM"
@@ -66,9 +61,7 @@ Route::get('/laboratorio-nacional-ovm', function () {
 
 // Frontend routes for "Recursos"
 Route::group(['prefix' => 'recursos'], function () {
-    Route::get('/{any}', function () {
-        return view('welcome');
-    });
+    Route::get('/{any}', 'MenuController@renderFrontPage');
 });
 
 // Frontend routes for "Transgénico"
@@ -91,6 +84,13 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         Route::post('/users/changeActiveState/{id}', 'UserController@changeActiveState');
         Route::delete('/users/{id}', 'UserController@destroy');
 
+        // Menu Routes
+        Route::get('/menu', 'MenuController@index')->name('menu');
+        Route::post('/menu/changeMenuVisibility/{id}', 'MenuController@changeMenuVisibility');
+        Route::post('/menu/updateOrder', 'MenuController@updateOrder');
+        Route::delete('/menu/{id}', 'MenuController@destroy');
+
+
         // Post Routes
         Route::get('/posts', 'PostController@index')->name('posts');
         Route::get('/posts/create', 'PostController@create');
@@ -100,7 +100,7 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         Route::post('/posts/changeActiveState/{id}', 'PostController@changeActiveState');
         Route::delete('/posts/{id}', 'PostController@destroy');
 
-        // Post Routes
+        // Pages Routes
         Route::get('/pages', 'PageController@index')->name('pages');
         Route::get('/pages/create', 'PageController@create');
         Route::post('/pages/create', 'PageController@store');
@@ -114,6 +114,8 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         Route::post('/images/post/content/delete', 'ImageController@deletePostContentImage');
         Route::post('/images/post/main', 'ImageController@savePostMainImage');
         Route::post('/images/post/main/update/{id}', 'ImageController@updatePostMainImage');
+        Route::post('/images/page/content', 'ImageController@savePageContentImage');
+        Route::post('/images/page/content/delete', 'ImageController@deletePageContentImage');
 
         // Question Routes
         Route::get('/questions', 'QuestionController@index');
@@ -123,7 +125,8 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         // Surveys Routes
         Route::get('/surveys', 'SurveyController@index');
         Route::post('/survey', 'SurveyController@store');
-        Route::post('/survey/update/{id}', 'SurveyController@update');
+        Route::post('/surveys/edit/{id}', 'SurveyController@update');
+        Route::delete('/surveys/{id}', 'SurveyController@destroy');
     });
 });
 
@@ -140,3 +143,6 @@ Route::get('/migrate/seed', 'MigrationsController@seed');
 
 // Frontend pages controller
 Route::get('/{slug}', 'PageController@show');
+
+// Frontend pages controller
+Route::get('/{slug}/{subpage}', 'PageController@showSubPage');

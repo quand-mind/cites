@@ -63,7 +63,21 @@
               ></b-form-textarea>
             </b-form-group>
           </b-col>
-          <b-col></b-col>
+          <b-col>
+            <b-form-group label="" label-for="input-3">
+              <b-form-checkbox v-model="pageData.is_subpage" name="check-button" switch>
+                It is a subpage
+              </b-form-checkbox>
+            </b-form-group>
+            <b-form-group label="" label-for="input-3">
+              <b-form-checkbox v-model="pageData.is_active" name="check-button" switch>
+                It is an active page
+              </b-form-checkbox>
+            </b-form-group>
+            <b-form-group label="Seleccione una página raíz:" label-for="input-3">
+              <b-form-select :disabled="!pageData.is_subpage" v-model="pageData.main_page" :options="mainPagesOptions"></b-form-select>
+            </b-form-group>
+          </b-col>
         </b-row>
       </b-container>
       <b-container>
@@ -102,7 +116,7 @@ import * as lang from "vuejs-datepicker/src/locale";
 import moment from "moment";
 
 export default {
-  props: ["page"],
+  props: ["page", "mainpages"],
   components: {
     VueEditor,
     Datepicker
@@ -113,7 +127,10 @@ export default {
       meta_description: "",
       meta_robots: "",
       meta_keywords: "",
-      content: ""
+      content: "",
+      is_subpage: false,
+      is_active: false,
+      main_page: 0
     },
     pageErrors: {
       title: [],
@@ -124,7 +141,8 @@ export default {
     },
     settings: {
       languages: lang
-    }
+    },
+    mainPagesOptions: []
   }),
   methods: {
     savePage(formData) {
@@ -155,8 +173,10 @@ export default {
       let formData = new FormData();
 
       Object.keys(_this.pageData).forEach(el => {
-        if (el === "is_active") formData.append(el, Number(_this.pageData[el]));
-        else formData.append(el, _this.pageData[el]);
+        if (el === "is_subpage" || el === "is_active")
+          formData.append(el, Number(_this.pageData[el]));
+        else
+          formData.append(el, _this.pageData[el]);
       });
 
       _this.page === null || _this.page === undefined
@@ -221,17 +241,12 @@ export default {
     let _this = this;
     if (_this.page) {
       Object.keys(_this.pageData).forEach(key => {
-          _this.pageData[key] = _this.page[key];
-      });
-
-      Object.keys(_this.image).forEach(key => {
-        if (key === "publish_date") {
-          _this.image.publish_date = moment(_this.page.image[key]).format(
-            "YYYY-MM-DD"
-          );
-        }
+          if (key === 'is_subpage' || key === 'is_active') _this.pageData[key] = Boolean(_this.page[key]);
+          else _this.pageData[key] = _this.page[key];
       });
     }
+
+    _this.mainPagesOptions = _this.mainpages.map(page => ({ text: page.title, value: page.id }));
   }
 };
 </script>

@@ -3,7 +3,7 @@ Ultima Actualización: 19/01/2020
 
 Tipo de componente: Vista
 
-Ruta:/preguntas-frecuentes-y-encuestas
+Ruta:/preguntas-frecuentes
 
 Descripción:
 	Lee las Preguntas Frecuentes de la base de datos y las muestra de 10 en 10, y las encuestas
@@ -31,19 +31,6 @@ Descripción:
       <!--Boton de hacer preguntas-->
       <pregunta></pregunta>
     </div>
-    <titulo msg="Encuestas" />
-    <div v-if="surveys.length > 0" class="mt-5">
-      <b-button
-        v-for="survey in surveys"
-        :key="survey.id + survey.title"
-        :href="survey.url"
-        target="_blank"
-        block
-        variant="info"
-        class="text-uppercase ml-4 btn font-weight-bold btn-lg my-3"
-      >{{survey.title}}</b-button>
-    </div>
-    <div v-else class="mt-5">No hay encuestas disponibles</div>
   </div>
 </template>
 
@@ -59,8 +46,7 @@ export default {
   },
   data() {
     return {
-      faqs: [],
-      surveys: []
+      faqs: []
     };
   },
   created() {
@@ -70,13 +56,6 @@ export default {
       .get("/questions")
       .then(res => {
         _this.faqs = [...res.data];
-      })
-      .catch(err => console.log(err.response));
-
-    axios
-      .get("/surveys-list")
-      .then(res => {
-        _this.surveys = [...res.data];
       })
       .catch(err => console.log(err.response));
   }

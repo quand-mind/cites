@@ -76,6 +76,7 @@ class PageController extends Controller
             'meta_keywords' => 'nullable|string',
             'content' => 'required|string',
             'is_subpage' => 'required|boolean',
+            'is_active' => 'required|boolean',
             'main_page' => 'nullable|integer'
         ])) {
             $values = $request->except(['main_page']);
@@ -162,6 +163,7 @@ class PageController extends Controller
             'meta_keywords' => 'nullable|string',
             'content' => 'required|string',
             'is_subpage' => 'required|boolean',
+            'is_active' => 'required|boolean',
             'main_page' => 'nullable|integer'
         ])) {
             $values = $request->except(['main_page']);
@@ -201,6 +203,22 @@ class PageController extends Controller
             return response('Página eliminada', 200);
         } catch (Exception $err) {
             return response($err->getMessage(), 500);
+        }
+    }
+
+    public function changeActiveState(Request $request, $id)
+    {
+        if ($request->validate([
+            'is_active' => 'boolean'
+        ])) {
+            try {
+                $post = Page::find($id);
+                $post->is_active = $request->input('is_active');
+                $post->save();
+                return response('Página actualizada', 200);
+            } catch (Exception $err) {
+                return response($err->getMessage(), 500);
+            }
         }
     }
 }

@@ -69,6 +69,11 @@
                 It is a subpage
               </b-form-checkbox>
             </b-form-group>
+            <b-form-group label="" label-for="input-3">
+              <b-form-checkbox v-model="pageData.is_active" name="check-button" switch>
+                It is an active page
+              </b-form-checkbox>
+            </b-form-group>
             <b-form-group label="Seleccione una página raíz:" label-for="input-3">
               <b-form-select :disabled="!pageData.is_subpage" v-model="pageData.main_page" :options="mainPagesOptions"></b-form-select>
             </b-form-group>
@@ -124,6 +129,7 @@ export default {
       meta_keywords: "",
       content: "",
       is_subpage: false,
+      is_active: false,
       main_page: 0
     },
     pageErrors: {
@@ -235,7 +241,7 @@ export default {
     let _this = this;
     if (_this.page) {
       Object.keys(_this.pageData).forEach(key => {
-          if (key === 'is_subpage') _this.pageData[key] = Boolean(_this.page[key]);
+          if (key === 'is_subpage' || key === 'is_active') _this.pageData[key] = Boolean(_this.page[key]);
           else _this.pageData[key] = _this.page[key];
       });
     }

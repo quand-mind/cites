@@ -14,7 +14,7 @@ class PagesTableSeeder extends Seeder
         DB::table('pages')->insert([
             'title'      => 'Página 1',
             'is_subpage'     => false,
-            'slug'     => '/pagina-1',
+            'slug'     => 'pagina-1',
             'is_onMenu'  => false,
             'meta_description'  => 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.',
             'meta_robots'      => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris in pulvinar neque, et sagittis dui. Integer finibus, felis ac pellentesque.',
@@ -25,7 +25,7 @@ class PagesTableSeeder extends Seeder
         ]);
         DB::table('pages')->insert([
             'title'      => 'Página 2',
-            'slug'     => '/pagina-2',
+            'slug'     => 'pagina-2',
             'is_subpage'     => false,
             'is_onMenu'  => false,
             'meta_description'  => 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.',
@@ -37,7 +37,7 @@ class PagesTableSeeder extends Seeder
         ]);
         DB::table('pages')->insert([
             'title'      => 'Página 3',
-            'slug'     => '/pagina-3',
+            'slug'     => 'pagina-3',
             'is_subpage'     => false,
             'is_onMenu'  => false,
             'meta_description'  => 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.',
@@ -49,7 +49,7 @@ class PagesTableSeeder extends Seeder
         ]);
         DB::table('pages')->insert([
             'title'      => 'Subpágina 1.1',
-            'slug'     => '/pagina-1/subpagina1-1',
+            'slug'     => 'subpagina1-1',
             'is_subpage'     => true,
             'is_onMenu'  => false,
             'meta_description'  => 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.',
@@ -62,7 +62,7 @@ class PagesTableSeeder extends Seeder
         ]);
         DB::table('pages')->insert([
             'title'      => 'Subpágina 1.2',
-            'slug'     => '/pagina-1/subpagina1-2',
+            'slug'     => 'subpagina1-2',
             'is_subpage'     => true,
             'is_onMenu'  => false,
             'meta_description'  => 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.',
@@ -75,7 +75,7 @@ class PagesTableSeeder extends Seeder
         ]);
         DB::table('pages')->insert([
             'title'      => 'Subpágina 3.1',
-            'slug'     => '/pagina-1/subpagina3-1',
+            'slug'     => 'subpagina3-1',
             'is_subpage'     => true,
             'is_onMenu'  => false,
             'meta_description'  => 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.',

@@ -40,7 +40,8 @@ class MenuController extends Controller
             )
             ->where([
                 ['is_subpage', false],
-                ['is_onMenu', false]
+                ['is_onMenu', false],
+                ['is_active', true]
             ])
             ->orderBy('menu_order')
             ->get();

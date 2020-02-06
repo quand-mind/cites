@@ -14,7 +14,8 @@ class AddIsStaticAndIsActiveColumnToPagesTable extends Migration
     public function up()
     {
         Schema::table('pages', function (Blueprint $table) {
-            //
+            $table->boolean('is_static')->default(false);
+            $table->boolean('is_active')->default(true);
         });
     }
 
@@ -26,7 +27,8 @@ class AddIsStaticAndIsActiveColumnToPagesTable extends Migration
     public function down()
     {
         Schema::table('pages', function (Blueprint $table) {
-            //
+            $table->dropColumn('is_static');
+            $table->dropColumn('is_active');
         });
     }
 }

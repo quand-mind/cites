@@ -36,14 +36,12 @@
                             </draggable>
                         </div>
                     </b-list-group>
-                    
-                        
                 </div>
             </transition-group>
         </draggable>
         <b-row class="mt-5">
           <b-col class="ml-5">
-            <b-button class="submit-btn " size="lg" type="submit" variant="primary">Guardar</b-button>
+            <b-button @click="saveMenu" class="submit-btn " size="lg" type="submit" variant="primary">Guardar</b-button>
           </b-col>
         </b-row>
     </div>
@@ -51,6 +49,8 @@
 
 <script>
 import draggable from 'vuedraggable'
+import axios from 'axios'
+
 export default {
     props: ['pages'],
     data: () => ({
@@ -83,7 +83,23 @@ export default {
             y = this.pagesList[order].get_subpages[e.draggedContext.index].menu_order
             this.pagesList[order].get_subpages[e.draggedContext.index].menu_order = this.pagesList[order].get_subpages[e.relatedContext.index].menu_order
             this.pagesList[order].get_subpages[e.relatedContext.index].menu_order = y
-        }
+        },
+        saveMenu () {
+            let _this = this
+
+            axios
+                .post('/dashboard/menu/updateOrder', _this.pagesList)
+                .then(res => _this.makeToast(res.data))
+                .catch(err => _this.makeToast(err.response.message))
+        },
+        makeToast(msg, variant = "success", delay = 3000, append = false) {
+            this.$bvToast.toast(`${msg}`, {
+                title: "Evento de actualización del menú",
+                autoHideDelay: delay,
+                appendToast: append,
+                variant
+            });
+        },
     },
     mounted () {        
         this.pagesList = this.pages.map((page, mainIdx) => {

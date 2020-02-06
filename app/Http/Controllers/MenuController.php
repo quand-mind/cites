@@ -23,6 +23,7 @@ class MenuController extends Controller
             'menu_order'
         )
         ->where('is_subpage', false)
+        ->orderBy('menu_order')
         ->get();
 
         return view('panel.dashboard.menu', compact('pages'));
@@ -40,11 +41,28 @@ class MenuController extends Controller
             )
             ->where([
                 ['is_subpage', false],
-                ['is_onMenu', false]
+                ['is_onMenu', false],
+                ['is_active', true]
             ])
             ->orderBy('menu_order')
             ->get();
 
         return view('welcome', compact('links'));
+    }
+
+    public function updateOrder (Request $request) {
+        $pages = $request->all();
+
+        foreach($pages as $page) {
+            Page::find($page["id"])->update($page);
+            
+            if (count($page["get_subpages"]) > 0) {
+                foreach ($page["get_subpages"] as $subpage) {
+                    Page::find($subpage["id"])->update($page);
+                }
+            }
+        };
+
+        return response('Menú actualizado', 200);
     }
 }

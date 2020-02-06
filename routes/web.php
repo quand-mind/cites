@@ -87,6 +87,7 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         // Menu Routes
         Route::get('/menu', 'MenuController@index')->name('menu');
         Route::post('/menu/changeMenuVisibility/{id}', 'MenuController@changeMenuVisibility');
+        Route::post('/menu/updateOrder', 'MenuController@updateOrder');
         Route::delete('/menu/{id}', 'MenuController@destroy');
 
 

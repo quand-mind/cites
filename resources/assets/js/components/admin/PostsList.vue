@@ -39,7 +39,7 @@
         slot-scope="props"
         name="check-button"
         class="check-active"
-        :checked="Boolean(props.row.is_active)"
+        v-model="props.row.is_active"
         switch
         @change="handleCheckBoxChange(props.row)"
       ></b-form-checkbox>
@@ -232,7 +232,10 @@ export default {
     }
   },
   mounted() {
-    this.tableData = this.posts;
+    this.tableData = this.posts.map(post => {
+      post.is_active = post.is_active === 1;
+      return post;
+    });
   }
 };
 </script>

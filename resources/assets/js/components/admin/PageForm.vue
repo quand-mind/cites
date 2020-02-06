@@ -173,7 +173,7 @@ export default {
       let formData = new FormData();
 
       Object.keys(_this.pageData).forEach(el => {
-        if (el === "is_subpage")
+        if (el === "is_subpage" || el === "is_active")
           formData.append(el, Number(_this.pageData[el]));
         else
           formData.append(el, _this.pageData[el]);

@@ -112,7 +112,7 @@ class PageController extends Controller
         $page = Page::where('slug', $slug)->first();
         $links = $this->getMenuLinks();
 
-        return $page !== null ? view('frontend.template', compact('page', 'links')) : response()->view('errors.' . '404', [], 404);
+        return $page !== null && $page->is_active ? view('frontend.template', compact('page', 'links')) : response()->view('errors.' . '404', [], 404);
     }
 
     /**

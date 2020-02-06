@@ -71,39 +71,21 @@ export default {
             console.log(e)
         },
         handleMoveSub (e,a) {
-            var y = 0
-            var order = e.draggedContext.element.main_page - 1
+            var item
+            var y
+            var id = e.draggedContext.element.main_page
+            var order
+            for(item of this.pagesList){
+                if(item.id === id){
+                    order = item.menu_order - 1
+                    break
+                }
+            }
             y = this.pagesList[order].get_subpages[e.draggedContext.index].menu_order
             this.pagesList[order].get_subpages[e.draggedContext.index].menu_order = this.pagesList[order].get_subpages[e.relatedContext.index].menu_order
             this.pagesList[order].get_subpages[e.relatedContext.index].menu_order = y
             console.log(e)
-        },
-        updatePage(formData) {
-        let _this = this;
-
-        axios
-            .post(`/dashboard/pages/edit/${_this.page.id}`, formData)
-            .then(res => {
-            _this.makeToast(res.data);
-            setTimeout(() => window.location.replace("/dashboard/pages"), 2000);
-            })
-            .catch(err => _this.makeToast(err.response.data, "danger"));
-        },
-        onSubmit() {
-        let _this = this;
-        let formData = new FormData();
-
-        Object.keys(_this.pageData).forEach(el => {
-            if (el === "is_subpage")
-            formData.append(el, Number(_this.pageData[el]));
-            else
-            formData.append(el, _this.pageData[el]);
-        });
-
-        _this.page === null || _this.page === undefined
-            ? _this.savePage(formData)
-            : _this.updatePage(formData);
-        },
+        }
     },
     mounted () {        
         this.pagesList = this.pages.map((page, mainIdx) => {

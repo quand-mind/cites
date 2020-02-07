@@ -1,5 +1,5 @@
 <!--
-Ultima Actualización: 19/01/2020
+Ultima Actualización: 6/02/2020
 
 Tipo de componente: Módulo
 
@@ -34,14 +34,15 @@ Descripción:
       style="background-color: #2c3e50 "
     >
       <b-nav-item v-on:click="() => link.sublinks ? false : closeNav()" class="nav-item" v-for="(link, index) in links" :key="link.url + index">
-      <router-link :to="link.url">{{link.name}}</router-link>
-
-      <b-nav class="sub-nav verde" v-if="link.sublinks">
-        <b-nav-item v-on:click="closeNav" v-for="sublink in link.sublinks" :key="sublink.url">
-          <router-link :to="sublink.url" class="text-white">{{sublink.name}}</router-link>
-        </b-nav-item>
-      </b-nav>
-    </b-nav-item>
+        <b-button v-b-toggle="'collapse-' + index" variant="transparent" class="text-white text-uppercase font-weight-bold w-100" :to="link.url">{{link.name}}</b-button>
+        <b-collapse v-if="link.sublinks" :id="'collapse-' + index" class="w-100">
+          <b-nav class="sub-nav w-100">
+              <b-nav-item v-on:click="closeNav" v-for="sublink in link.sublinks" :key="sublink.url">
+                <b-button :to="sublink.url" variant="transparent"  class="text-white sub-link">{{sublink.name}}</b-button>
+              </b-nav-item>
+          </b-nav>
+        </b-collapse>
+      </b-nav-item>
     </b-nav>
   </div>
 </template>
@@ -111,8 +112,7 @@ export default {
             name: "Encuestas",
             url: "/encuestas"
           }
-        ]
-      },
+        ]      },
       {
         name: "Protocolo de Cartagena",
         url: "#",
@@ -187,69 +187,27 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.nav-item {
-  flex: 1;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  transition: all 0.5s ease;
-  overflow: hidden;
 
-  & a {
-    color: white;
-    display: flex;
-    justify-content: center;
-    text-decoration: none;
-    align-items: center;
-    height: 100%;
-    width: 100%;
-  }
-
-  &:hover {
-    background: #55ef6d;
-    transition: all 0.5s ease;
-    overflow: visible;
-
-    a {
-      color: #212529;
+.btn{
+  padding: 10px;
+  border-radius: 0px;
+  &:hover{
+      background-color: #00a96d;
     }
-
-    .sub-nav {
-      opacity: 1;
-      transition: all 0.5s ease;
-    }
-  }
-
-  &:last-child {
-    .sub-nav{
-      bottom: 0px;
-    }
-  }
-
-  .sub-nav {
-    transition: all 0.5s ease;
-    position: absolute;
+}
+.sub-nav {
+    transition: all 2s ease;
     flex-direction: column;
-    top: 0;
-    left: 100%;
-    opacity: 0;
-    z-index: 5;
-    width: 80%;
-    .nav-item {
-      width: 100%;
+    align-items: center;
+    background-color: #2c3e50;
+  width: 70%;
+    .nav-link{
+      width: 250px;
+      text-align: center;
     }
-  }
-<<<<<<< HEAD
-  .nav-link:last-child{
-    .sub-nav{
-      bottom: 0px;
+    a:hover,{
+      background-color: #00a96d;
     }
-    }
-  }
-=======
->>>>>>> b7b218880a1d4c3a0e2a020044877dd627c1dac9
 }
 
 li:hover,
@@ -267,10 +225,11 @@ a {
   display: flex;
   flex-direction: column;
   width: 50vw;
-    @media (max-width: 460px) {
-          width: 75vw;
+    @media (max-width: 560px) {
+          width: 80vw;
         }
 }
 
 
 </style>
+

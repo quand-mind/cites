@@ -25,7 +25,7 @@ class PageController extends Controller
             'is_subpage',
             'is_active',
             'lastModified_by',
-            'main_page',
+            'main_page'
         )->get();
 
         return view('panel.pages.index', compact('pages'));

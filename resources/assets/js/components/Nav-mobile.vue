@@ -34,14 +34,14 @@ Descripción:
       style="background-color: #2c3e50 "
     >
       <b-nav-item v-on:click="() => link.sublinks ? false : closeNav()" class="nav-item" v-for="(link, index) in links" :key="link.url + index">
-        <b-button v-b-toggle.collapse-1 variant="transparent" class="text-white text-uppercase font-weight-bold w-100" :to="link.url">{{link.name}}</b-button>
-      <b-collapse id="collapse-1" class="w-100">
-        <b-nav class="sub-nav w-100" v-if="link.sublinks">
-            <b-nav-item v-on:click="closeNav" v-for="sublink in link.sublinks" :key="sublink.url">
-              <b-button :to="sublink.url" variant="transparent"  class="text-white sub-link">{{sublink.name}}</b-button>
-            </b-nav-item>
-        </b-nav>
-      </b-collapse>
+        <b-button v-b-toggle="'collapse-' + link.index" variant="transparent" class="text-white text-uppercase font-weight-bold w-100" :to="link.url">{{link.name}}</b-button>
+        <b-collapse v-if="link.sublinks" :id="'collapse-' + link.index" class="w-100">
+          <b-nav class="sub-nav w-100">
+              <b-nav-item v-on:click="closeNav" v-for="sublink in link.sublinks" :key="sublink.url">
+                <b-button :to="sublink.url" variant="transparent"  class="text-white sub-link">{{sublink.name}}</b-button>
+              </b-nav-item>
+          </b-nav>
+        </b-collapse>
       </b-nav-item>
     </b-nav>
   </div>

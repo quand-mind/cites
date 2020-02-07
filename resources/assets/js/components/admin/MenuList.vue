@@ -128,7 +128,6 @@ export default {
         dragOptionsSub() {
             return {
                 animation: 200,
-                group: "sub",
                 disabled: false,
                 ghostClass: "ghost"
             };

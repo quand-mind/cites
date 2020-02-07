@@ -68,7 +68,6 @@ export default {
             aux = this.pagesList[e.draggedContext.index].menu_order
             this.pagesList[e.draggedContext.index].menu_order = this.pagesList[e.relatedContext.index].menu_order
             this.pagesList[e.relatedContext.index].menu_order = aux
-            console.log(e)
         },
         handleMoveSub (e,a) {
             var item
@@ -84,7 +83,6 @@ export default {
             y = this.pagesList[order].get_subpages[e.draggedContext.index].menu_order
             this.pagesList[order].get_subpages[e.draggedContext.index].menu_order = this.pagesList[order].get_subpages[e.relatedContext.index].menu_order
             this.pagesList[order].get_subpages[e.relatedContext.index].menu_order = y
-            console.log(e)
         },
         saveMenu () {
             let _this = this

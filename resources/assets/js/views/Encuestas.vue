@@ -33,6 +33,7 @@ import titulo from "../components/Titulo.vue";
 import axios from "axios";
 
 export default {
+  
   components: {
     titulo
   },

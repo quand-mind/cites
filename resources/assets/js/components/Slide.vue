@@ -11,9 +11,9 @@ Descripción:
  -->
 
  <template>
-  <div>
+  <div class="">
     <!-- Slider -->
-    <slick
+    <slick 
       ref="slick"
       :options="slickOptions"
     >

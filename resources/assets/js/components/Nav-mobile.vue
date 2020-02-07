@@ -12,38 +12,38 @@ Descripción:
 
  <template>
   <div>
-    <!-- Boton Burger -->
-    <a
-      href="#menu-mov"
-      class="navbar-toggler rounded-circle p-3 m-3 shadow border fixed-bottom d-xl-none d-lg-none"
-      style="right: 0; left: auto; background-color: #dadada"
+    <div id="menu-div" class="w-100">
+      <a
+      @click="changeBackground"
+      v-b-toggle="'menu-mov'"
+      id="menu-icon"
+      class="navbar-toggler rounded-circle p-3 m-3 shadow border d-xl-none d-lg-none"
+      style="background-color: #dadada; cursor: pointer;"
       type="button"
       data-toggle="collapse"
       role="button"
       aria-expanded="false"
-      aria-controls="menu-mov"
       arial-label="Toggle navigation"
     >
       <span class="icon icon-menu h3" style="color: #000;"></span>
-    </a>
-
-    <!-- barra movil -->
-    <b-nav
-      class="nav justify-content-center p-0 text-uppercase fixed-top h-100  d-xl-none d-lg-none navbar-expand fade"
-      id="menu-mov"
-      style="background-color: #2c3e50 "
-    >
-      <b-nav-item v-on:click="() => link.sublinks ? false : closeNav()" class="nav-item" v-for="(link, index) in links" :key="link.url + index">
-        <b-button v-b-toggle="'collapse-' + index" variant="transparent" class="text-white text-uppercase font-weight-bold w-100" :to="link.url">{{link.name}}</b-button>
-        <b-collapse v-if="link.sublinks" :id="'collapse-' + index" class="w-100">
-          <b-nav class="sub-nav w-100">
-              <b-nav-item v-on:click="closeNav" v-for="sublink in link.sublinks" :key="sublink.url">
-                <b-button :to="sublink.url" variant="transparent"  class="text-white sub-link">{{sublink.name}}</b-button>
+    </a></div>
+    <!-- Boton Burger -->
+    
+    <b-collapse id="menu-mov" class="nav">
+      <b-nav class="text-uppercase d-xl-none d-lg-none">
+        <b-nav-item :to="link.url" button v-b-toggle="'collapse-' + index" class=" nav-item w-100 text-center py-2 text-uppercase font-weight-bold" v-for="(link, index) in links" :key="link.url + index">
+          {{link.name}}
+          <b-collapse v-if="link.sublinks" :id="'collapse-' + index">
+            <b-nav class="w-100 mt-2">
+              <b-nav-item class="w-100 nav-item" v-for="sublink in link.sublinks" :key="sublink.url">
+                <b-button :to="sublink.url" variant="transparent" class=" w-100">{{sublink.name}}</b-button>
               </b-nav-item>
-          </b-nav>
-        </b-collapse>
-      </b-nav-item>
-    </b-nav>
+            </b-nav>
+          </b-collapse>
+        </b-nav-item>
+      </b-nav>
+    </b-collapse>
+    
   </div>
 </template>
 
@@ -176,11 +176,18 @@ export default {
           }
         ]
       }
-    ]
+    ],
+    menu_show: true
   }),
   methods: {
-    closeNav () {
-      document.getElementById('menu-mov').classList.toggle('show');
+    
+    changeBackground(){
+      var menu = document.getElementById('menu-div')
+
+      if(this.menu_show) menu.style ="background-color:#2c3e50;"
+      else menu.style ="background-color:#fff;"
+
+      this.menu_show = !this.menu_show
     }
   }
 };
@@ -188,13 +195,6 @@ export default {
 
 <style lang="scss" scoped>
 
-.btn{
-  padding: 10px;
-  border-radius: 0px;
-  &:hover{
-      background-color: #00a96d;
-    }
-}
 .sub-nav {
     transition: all 2s ease;
     flex-direction: column;
@@ -205,7 +205,7 @@ export default {
       width: 250px;
       text-align: center;
     }
-    a:hover,{
+    a:hover{
       background-color: #00a96d;
     }
 }
@@ -215,21 +215,23 @@ a:hover,
 li,
 a {
   text-decoration: none;
-  color: #fff;
+  color: #fff !important;
 }
-.submenu-movil {
-  max-width: 250px;
-  display: none;
+.nav-item{
+  background-color: #2c3e50;
+  &:hover{
+      background-color: #00a96d !important;
+    }
 }
 .nav{
-  display: flex;
-  flex-direction: column;
-  width: 50vw;
-    @media (max-width: 560px) {
-          width: 80vw;
-        }
+  background-color: #2c3e50;
 }
-
-
+.nav-link{
+  padding: 0 !important;
+}
+#menu-div{
+  background-color: white;
+  transition: 0.2s;
+}
 </style>
 

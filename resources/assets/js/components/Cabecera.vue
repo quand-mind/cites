@@ -95,6 +95,10 @@ header {
   position: relative;
 
 }
+.figure{
+    z-index: 900;
+    position: relative;
+}
 li:hover,
 a:hover,
 li,

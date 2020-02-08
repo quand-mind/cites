@@ -11,14 +11,14 @@ Descripción:
  -->
 
  <template>
-  <div>
-    <div id="menu-div" class="w-100">
+  <div class="h-100 fixed-top" id="all" style=" z-index: 800 !important; ">
+    <div id="menu-div" class="d-flex w-100 justify-content-end">
       <a
       @click="changeBackground"
       v-b-toggle="'menu-mov'"
       id="menu-icon"
       class="navbar-toggler rounded-circle p-3 m-3 shadow border d-xl-none d-lg-none"
-      style="background-color: #dadada; cursor: pointer;"
+      style="background-color: #dadada; cursor: pointer; position: relative;"
       type="button"
       data-toggle="collapse"
       role="button"
@@ -29,14 +29,14 @@ Descripción:
     </a></div>
     <!-- Boton Burger -->
     
-    <b-collapse id="menu-mov" class="nav">
-      <b-nav class="text-uppercase d-xl-none d-lg-none">
-        <b-nav-item :to="link.url" button v-b-toggle="'collapse-' + index" class=" nav-item w-100 text-center py-2 text-uppercase font-weight-bold" v-for="(link, index) in links" :key="link.url + index">
-          {{link.name}}
+    <b-collapse id="menu-mov" class="nav h-100">
+      <b-nav class="text-uppercase d-xl-none d-lg-none d-flex align-items-center justify-content-start">
+        <b-nav-item :to="link.slug" button v-b-toggle="'collapse-' + index" class=" nav-item w-100 text-center py-2 text-uppercase font-weight-bold" v-for="(link, index) in links" :key="link.slug + index">
+          {{link.title}}
           <b-collapse v-if="link.sublinks" :id="'collapse-' + index">
             <b-nav class="w-100 mt-2">
-              <b-nav-item class="w-100 nav-item" v-for="sublink in link.sublinks" :key="sublink.url">
-                <b-button :to="sublink.url" variant="transparent" class=" w-100">{{sublink.name}}</b-button>
+              <b-nav-item class="w-100 nav-item" v-for="sublink in link.sublinks" :key="sublink.slug">
+                <b-button :to="sublink.url" variant="transparent" class=" w-100">{{sublink.title}}</b-button>
               </b-nav-item>
             </b-nav>
           </b-collapse>
@@ -183,9 +183,16 @@ export default {
     
     changeBackground(){
       var menu = document.getElementById('menu-div')
+      var all = document.getElementById('all')
 
-      if(this.menu_show) menu.style ="background-color:#2c3e50;"
-      else menu.style ="background-color:#fff;"
+      if(this.menu_show){ 
+        menu.style ="background-color:#2c3e50;"
+        all.style="z-index:1000;"
+      }
+      else{
+        all.style="z-index:800;"
+        menu.style ="background: none;"
+      } 
 
       this.menu_show = !this.menu_show
     }
@@ -219,18 +226,21 @@ a {
 }
 .nav-item{
   background-color: #2c3e50;
+  height: fit-content;
   &:hover{
       background-color: #00a96d !important;
     }
 }
 .nav{
   background-color: #2c3e50;
+  flex-wrap: nowrap !important;
+  flex-direction: column;
 }
 .nav-link{
   padding: 0 !important;
 }
 #menu-div{
-  background-color: white;
+  background-color: none;
   transition: 0.2s;
 }
 </style>

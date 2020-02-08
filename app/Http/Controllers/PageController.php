@@ -42,6 +42,7 @@ class PageController extends Controller
             )
             ->where([
                 ['is_subpage', false],
+                ['is_active', true],
                 ['is_onMenu', false]
             ])
             ->orderBy('menu_order')
@@ -107,7 +108,7 @@ class PageController extends Controller
      * @param  string  $slug
      * @return \Illuminate\Http\Response
      */
-    public function show($slug)
+    public function show($slug = '')
     {
         $page = Page::where('slug', $slug)->first();
         $links = $this->getMenuLinks();

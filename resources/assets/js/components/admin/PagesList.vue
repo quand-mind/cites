@@ -69,13 +69,6 @@
         switch
         @change="handleCheckBoxChange(props.row)"
       ></b-form-checkbox>
-
-      <!-- role slot -->
-      <span slot="fecha_de_creacion" slot-scope="props">
-        {{
-        props.row.created_at
-        }}
-      </span>
     </v-client-table>
 
     <!-- Delete modal -->
@@ -107,7 +100,6 @@ export default {
       "titulo",
       "url",
       "descripcion",
-      "fecha_de_creacion",
       "creada_por",
       "activo",
       "ultima_modificacion_por",
@@ -172,7 +164,7 @@ export default {
         .catch(err => console.log(err));
     },
     generateSlug(row) {
-      if (row.is_subpage) {
+      if (Boolean(row.is_subpage)) {
         return '/' + row.get_main_page.slug + '/' + row.slug
       }
 

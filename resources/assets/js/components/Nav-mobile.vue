@@ -11,39 +11,60 @@ Descripción:
  -->
 
  <template>
-  <div>
-    <!-- Boton Burger -->
-    <a
-      href="#menu-mov"
-      class="navbar-toggler rounded-circle p-3 m-3 shadow border fixed-bottom d-xl-none d-lg-none"
-      style="right: 0; left: auto; background-color: #dadada"
+  <div class="h-100 fixed-top d-block d-xl-none d-lg-none" id="all" style=" z-index: 800 !important; ">
+    <div id="menu-div" class="d-flex w-100 justify-content-around align-items-center">
+      <router-link class="brand d-flex align-items-center" to="/">
+        <img src="/images/logos/minec-thumb.png" class="figure" />
+        <p class="d-none d-xl-flex d-lg-flex align-items-center">
+          Implementación del Marco Nacional de Bioseguridad en Venezuela,
+          de acuerdo con el Protocolo de Cartagena sobre Seguridad de la
+          Biotecnología 
+        </p>
+      </router-link>
+        <a href="#" onclick="return false">
+          <img src="/images/logos/logo-minec.png" />
+        </a>
+        <a href="#" onclick="return false">
+          <img src="/images/logos/logo-gef.png" />
+        </a>
+        <a href="#" onclick="return false">
+          <img src="/images/logos/logo-pnud.png" />
+        </a>
+        <a href="#" onclick="return false">
+          <img src="/images/logos/logo-unep.png" />
+        </a>
+      
+      <a
+      @click="changeBackground"
+      v-b-toggle="'menu-mov'"
+      id="menu-icon"
+      class="navbar-toggler rounded-circle p-3 m-3 shadow border d-xl-none d-lg-none"
+      style="background-color: #dadada; cursor: pointer; position: relative;"
       type="button"
       data-toggle="collapse"
       role="button"
       aria-expanded="false"
-      aria-controls="menu-mov"
       arial-label="Toggle navigation"
     >
       <span class="icon icon-menu h3" style="color: #000;"></span>
-    </a>
-
-    <!-- barra movil -->
-    <b-nav
-      class="nav justify-content-center p-0 text-uppercase fixed-top h-100  d-xl-none d-lg-none navbar-expand fade"
-      id="menu-mov"
-      style="background-color: #2c3e50 "
-    >
-      <b-nav-item v-on:click="() => link.sublinks ? false : closeNav()" class="nav-item" v-for="(link, index) in links" :key="link.url + index">
-        <b-button v-b-toggle="'collapse-' + index" variant="transparent" class="text-white text-uppercase font-weight-bold w-100" :to="link.url">{{link.name}}</b-button>
-        <b-collapse v-if="link.sublinks" :id="'collapse-' + index" class="w-100">
-          <b-nav class="sub-nav w-100">
-              <b-nav-item v-on:click="closeNav" v-for="sublink in link.sublinks" :key="sublink.url">
-                <b-button :to="sublink.url" variant="transparent"  class="text-white sub-link">{{sublink.name}}</b-button>
+    </a></div>
+    <!-- Boton Burger -->
+    
+    <b-collapse id="menu-mov" class="nav h-100">
+      <b-nav class="text-uppercase d-xl-none d-lg-none d-flex align-items-center justify-content-start">
+        <b-nav-item :to="link.slug" button v-b-toggle="'collapse-' + index" class=" nav-item w-100 text-center py-2 text-uppercase font-weight-bold" v-for="(link, index) in links" :key="link.slug + index">
+          {{link.title}}
+          <b-collapse v-if="link.sublinks" :id="'collapse-' + index">
+            <b-nav class="w-100 mt-2">
+              <b-nav-item class="w-100 nav-item" v-for="sublink in link.sublinks" :key="sublink.slug">
+                <b-button :to="sublink.url" variant="transparent" class=" w-100">{{sublink.title}}</b-button>
               </b-nav-item>
-          </b-nav>
-        </b-collapse>
-      </b-nav-item>
-    </b-nav>
+            </b-nav>
+          </b-collapse>
+        </b-nav-item>
+      </b-nav>
+    </b-collapse>
+    
   </div>
 </template>
 
@@ -176,11 +197,25 @@ export default {
           }
         ]
       }
-    ]
+    ],
+    menu_show: true
   }),
   methods: {
-    closeNav () {
-      document.getElementById('menu-mov').classList.toggle('show');
+    
+    changeBackground(){
+      var menu = document.getElementById('menu-div')
+      var all = document.getElementById('all')
+
+      if(this.menu_show){ 
+        menu.style ="background-color:#2c3e50;"
+        all.style="z-index:1000;"
+      }
+      else{
+        all.style="z-index:800;"
+        menu.style ="background: white;"
+      } 
+
+      this.menu_show = !this.menu_show
     }
   }
 };
@@ -188,13 +223,6 @@ export default {
 
 <style lang="scss" scoped>
 
-.btn{
-  padding: 10px;
-  border-radius: 0px;
-  &:hover{
-      background-color: #00a96d;
-    }
-}
 .sub-nav {
     transition: all 2s ease;
     flex-direction: column;
@@ -205,31 +233,40 @@ export default {
       width: 250px;
       text-align: center;
     }
-    a:hover,{
+    a:hover{
       background-color: #00a96d;
     }
 }
+img {
+    height: 70px;
+    margin: 0 5px;
+  }
 
 li:hover,
 a:hover,
 li,
 a {
   text-decoration: none;
-  color: #fff;
+  color: #fff !important;
 }
-.submenu-movil {
-  max-width: 250px;
-  display: none;
+.nav-item{
+  background-color: #2c3e50;
+  height: fit-content;
+  &:hover{
+      background-color: #00a96d !important;
+    }
 }
 .nav{
-  display: flex;
+  background-color: #2c3e50;
+  flex-wrap: nowrap !important;
   flex-direction: column;
-  width: 50vw;
-    @media (max-width: 560px) {
-          width: 80vw;
-        }
 }
-
-
+.nav-link{
+  padding: 0 !important;
+}
+#menu-div{
+  background-color: white;
+  transition: 0.2s;
+}
 </style>
 

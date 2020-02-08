@@ -19,11 +19,13 @@ class MenuController extends Controller
             'id',
             'slug',
             'title',
-            'is_onMenu',
             'menu_order'
         )
-        ->where('is_subpage', false)
-        ->orderBy('menu_order')
+        ->where([
+            ['is_subpage', false],
+            ['is_active', true],
+            ['is_onMenu', true]
+        ])->orderBy('menu_order')
         ->get();
 
         return view('panel.dashboard.menu', compact('pages'));
@@ -58,7 +60,7 @@ class MenuController extends Controller
             
             if (count($page["get_subpages"]) > 0) {
                 foreach ($page["get_subpages"] as $subpage) {
-                    Page::find($subpage["id"])->update($page);
+                    Page::find($subpage["id"])->update($subpage);
                 }
             }
         };

@@ -110,11 +110,12 @@ export default {
                     if (!subpage.menu_order) subpage.menu_order = index + 1
                     return subpage
                 })
+
+                page.get_subpages.sort((link1, link2) => link1.menu_order - link2.menu_order)
             }
 
             return page
         })
-        console.log(this.pagesList)
     },
     computed: {
         dragOptions() {
@@ -128,7 +129,6 @@ export default {
         dragOptionsSub() {
             return {
                 animation: 200,
-                group: "sub",
                 disabled: false,
                 ghostClass: "ghost"
             };

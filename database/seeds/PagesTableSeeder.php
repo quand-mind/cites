@@ -11,80 +11,191 @@ class PagesTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('pages')->insert([
-            'title'      => 'Página 1',
-            'is_subpage'     => false,
-            'slug'     => 'pagina-1',
-            'is_onMenu'  => false,
-            'meta_description'  => 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.',
-            'meta_robots'      => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris in pulvinar neque, et sagittis dui. Integer finibus, felis ac pellentesque.',
-            'meta_keywords'  => 'false Lorem ipsum dolor sit amet',
-            'content'  => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla leo augue, convallis eget aliquam non, imperdiet at elit. In facilisis mattis risus, id efficitur justo finibus ac. Mauris eget hendrerit leo, ac scelerisque massa. Donec imperdiet blandit ipsum. Proin quis vestibulum ligula. Donec maximus quam ut felis consectetur gravida. Praesent a purus eu libero eleifend pharetra. Sed fringilla neque et risus facilisis, eget tempus nibh molestie. Aliquam ultricies dui metus, ut viverra orci volutpat sit amet. Aliquam dapibus, risus et interdum tincidunt, neque libero lobortis massa, sit amet hendrerit diam nunc sit amet leo. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Proin pharetra congue porttitor. Curabitur lorem sapien, efficitur et arcu quis, elementum imperdiet purus. Proin elementum elit hendrerit tristique mattis. Donec posuere libero commodo ante efficitur, nec porta lorem suscipit. Fusce non aliquet turpis. Nullam efficitur nisi sit amet justo ultrices, at imperdiet nisl tristique. Integer aliquet ante ullamcorper ornare euismod. Aliquam massa enim, bibendum et orci ut, porttitor euismod est. Vestibulum vitae lacus nibh. Donec dui turpis, porta ac nisi eget, volutpat ornare tellus. Etiam nec lacinia lorem. Nulla facilisi. Phasellus sit amet lacus nec sem ullamcorper blandit. Nam dui ex, fermentum quis eros et, mollis laoreet magna. Nullam cursus velit metus, nec luctus erat tincidunt a. Ut iaculis, turpis sed fringilla tempor, risus libero ultrices erat, a elementum mi metus eu orci. Praesent vitae augue sodales, cursus augue a, pellentesque neque. Nam laoreet lobortis arcu, at rhoncus arcu aliquet vel. Nam maximus imperdiet aliquet. Pellentesque tincidunt cursus risus, quis tempus nibh ultrices sit amet. Donec tristique laoreet lectus, id feugiat nunc aliquet vel. Suspendisse viverra lorem vel tortor pharetra pretium. Morbi convallis tellus vitae arcu hendrerit interdum. Cras sed enim est.Suspendisse cursus metus dignissim, ultricies magna non, blandit odio. Duis tincidunt tristique augue a ullamcorper. Quisque vestibulum, ante sagittis tincidunt faucibus, orci velit ornare arcu, eu placerat sapien turpis at augue. Proin semper felis vitae leo maximus facilisis. Aliquam et vulputate lorem, at vestibulum metus. Suspendisse egestas ac lectus vitae pulvinar. Interdum et malesuada fames ac ante ipsum primis in faucibus. Aenean eu neque arcu. Ut ultricies urna dui, in ultricies justo eleifend ac. Duis dignissim, est in pharetra interdum, leo est tempus lacus, nec laoreet felis ipsum vel lorem. Fusce sed magna in tortor ullamcorper eleifend eget nec tellus. Maecenas bibendum a orci id viverra. Pellentesque posuere leo diam, in semper dolor mollis sed. Cras fringilla volutpat ligula sed gravida. Quisque nec tempor tellus, id tincidunt metus. Nunc lacinia lectus non orci laoreet, et iaculis ligula dignissim. Pellentesque sit amet est eu dui tempor tristique vitae vitae elit. In hac habitasse platea dictumst. Sed suscipit, dolor at semper rutrum, risus quam venenatis elit, quis lacinia eros elit et ex. Quisque ac odio vehicula, posuere leo ut, dapibus ex. Quisque egestas massa quis convallis tristique. Vivamus a feugiat mauris. Maecenas tincidunt tortor eu nisl rutrum placerat. Vivamus ut nisi urna. Phasellus rutrum consectetur dolor, vel viverra nisi sagittis a. Nunc gravida sagittis velit, sit amet faucibus lacus luctus at. Sed a ipsum nec sem feugiat aliquet. In efficitur tempus enim, malesuada placerat felis volutpat interdum.',
-            'created_by'  => 1,
-            'lastModified_by'  => 1
+        // El proyecto
+        factory(App\Page::class, 1)->create([
+            'title' => 'El Proyecto',
+            'is_onMenu' => true
         ]);
-        DB::table('pages')->insert([
-            'title'      => 'Página 2',
-            'slug'     => 'pagina-2',
-            'is_subpage'     => false,
-            'is_onMenu'  => false,
-            'meta_description'  => 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.',
-            'meta_robots'      => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris in pulvinar neque, et sagittis dui. Integer finibus, felis ac pellentesque.',
-            'meta_keywords'  => 'false Lorem ipsum dolor sit amet',
-            'content'  => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla leo augue, convallis eget aliquam non, imperdiet at elit. In facilisis mattis risus, id efficitur justo finibus ac. Mauris eget hendrerit leo, ac scelerisque massa. Donec imperdiet blandit ipsum. Proin quis vestibulum ligula. Donec maximus quam ut felis consectetur gravida. Praesent a purus eu libero eleifend pharetra. Sed fringilla neque et risus facilisis, eget tempus nibh molestie. Aliquam ultricies dui metus, ut viverra orci volutpat sit amet. Aliquam dapibus, risus et interdum tincidunt, neque libero lobortis massa, sit amet hendrerit diam nunc sit amet leo. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Proin pharetra congue porttitor. Curabitur lorem sapien, efficitur et arcu quis, elementum imperdiet purus. Proin elementum elit hendrerit tristique mattis. Donec posuere libero commodo ante efficitur, nec porta lorem suscipit. Fusce non aliquet turpis. Nullam efficitur nisi sit amet justo ultrices, at imperdiet nisl tristique. Integer aliquet ante ullamcorper ornare euismod. Aliquam massa enim, bibendum et orci ut, porttitor euismod est. Vestibulum vitae lacus nibh. Donec dui turpis, porta ac nisi eget, volutpat ornare tellus. Etiam nec lacinia lorem. Nulla facilisi. Phasellus sit amet lacus nec sem ullamcorper blandit. Nam dui ex, fermentum quis eros et, mollis laoreet magna. Nullam cursus velit metus, nec luctus erat tincidunt a. Ut iaculis, turpis sed fringilla tempor, risus libero ultrices erat, a elementum mi metus eu orci. Praesent vitae augue sodales, cursus augue a, pellentesque neque. Nam laoreet lobortis arcu, at rhoncus arcu aliquet vel. Nam maximus imperdiet aliquet. Pellentesque tincidunt cursus risus, quis tempus nibh ultrices sit amet. Donec tristique laoreet lectus, id feugiat nunc aliquet vel. Suspendisse viverra lorem vel tortor pharetra pretium. Morbi convallis tellus vitae arcu hendrerit interdum. Cras sed enim est.Suspendisse cursus metus dignissim, ultricies magna non, blandit odio. Duis tincidunt tristique augue a ullamcorper. Quisque vestibulum, ante sagittis tincidunt faucibus, orci velit ornare arcu, eu placerat sapien turpis at augue. Proin semper felis vitae leo maximus facilisis. Aliquam et vulputate lorem, at vestibulum metus. Suspendisse egestas ac lectus vitae pulvinar. Interdum et malesuada fames ac ante ipsum primis in faucibus. Aenean eu neque arcu. Ut ultricies urna dui, in ultricies justo eleifend ac. Duis dignissim, est in pharetra interdum, leo est tempus lacus, nec laoreet felis ipsum vel lorem. Fusce sed magna in tortor ullamcorper eleifend eget nec tellus. Maecenas bibendum a orci id viverra. Pellentesque posuere leo diam, in semper dolor mollis sed. Cras fringilla volutpat ligula sed gravida. Quisque nec tempor tellus, id tincidunt metus. Nunc lacinia lectus non orci laoreet, et iaculis ligula dignissim. Pellentesque sit amet est eu dui tempor tristique vitae vitae elit. In hac habitasse platea dictumst. Sed suscipit, dolor at semper rutrum, risus quam venenatis elit, quis lacinia eros elit et ex. Quisque ac odio vehicula, posuere leo ut, dapibus ex. Quisque egestas massa quis convallis tristique. Vivamus a feugiat mauris. Maecenas tincidunt tortor eu nisl rutrum placerat. Vivamus ut nisi urna. Phasellus rutrum consectetur dolor, vel viverra nisi sagittis a. Nunc gravida sagittis velit, sit amet faucibus lacus luctus at. Sed a ipsum nec sem feugiat aliquet. In efficitur tempus enim, malesuada placerat felis volutpat interdum.',
-            'created_by'  => 1,
-            'lastModified_by'  => 1
+
+        factory(App\Page::class, 1)->create([
+            'title' => 'Antecedentes',
+            'is_onMenu' => true,
+            'is_subpage' => true,
+            'main_page' => 1
         ]);
-        DB::table('pages')->insert([
-            'title'      => 'Página 3',
-            'slug'     => 'pagina-3',
-            'is_subpage'     => false,
-            'is_onMenu'  => false,
-            'meta_description'  => 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.',
-            'meta_robots'      => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris in pulvinar neque, et sagittis dui. Integer finibus, felis ac pellentesque.',
-            'meta_keywords'  => 'false Lorem ipsum dolor sit amet',
-            'content'  => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla leo augue, convallis eget aliquam non, imperdiet at elit. In facilisis mattis risus, id efficitur justo finibus ac. Mauris eget hendrerit leo, ac scelerisque massa. Donec imperdiet blandit ipsum. Proin quis vestibulum ligula. Donec maximus quam ut felis consectetur gravida. Praesent a purus eu libero eleifend pharetra. Sed fringilla neque et risus facilisis, eget tempus nibh molestie. Aliquam ultricies dui metus, ut viverra orci volutpat sit amet. Aliquam dapibus, risus et interdum tincidunt, neque libero lobortis massa, sit amet hendrerit diam nunc sit amet leo. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Proin pharetra congue porttitor. Curabitur lorem sapien, efficitur et arcu quis, elementum imperdiet purus. Proin elementum elit hendrerit tristique mattis. Donec posuere libero commodo ante efficitur, nec porta lorem suscipit. Fusce non aliquet turpis. Nullam efficitur nisi sit amet justo ultrices, at imperdiet nisl tristique. Integer aliquet ante ullamcorper ornare euismod. Aliquam massa enim, bibendum et orci ut, porttitor euismod est. Vestibulum vitae lacus nibh. Donec dui turpis, porta ac nisi eget, volutpat ornare tellus. Etiam nec lacinia lorem. Nulla facilisi. Phasellus sit amet lacus nec sem ullamcorper blandit. Nam dui ex, fermentum quis eros et, mollis laoreet magna. Nullam cursus velit metus, nec luctus erat tincidunt a. Ut iaculis, turpis sed fringilla tempor, risus libero ultrices erat, a elementum mi metus eu orci. Praesent vitae augue sodales, cursus augue a, pellentesque neque. Nam laoreet lobortis arcu, at rhoncus arcu aliquet vel. Nam maximus imperdiet aliquet. Pellentesque tincidunt cursus risus, quis tempus nibh ultrices sit amet. Donec tristique laoreet lectus, id feugiat nunc aliquet vel. Suspendisse viverra lorem vel tortor pharetra pretium. Morbi convallis tellus vitae arcu hendrerit interdum. Cras sed enim est.Suspendisse cursus metus dignissim, ultricies magna non, blandit odio. Duis tincidunt tristique augue a ullamcorper. Quisque vestibulum, ante sagittis tincidunt faucibus, orci velit ornare arcu, eu placerat sapien turpis at augue. Proin semper felis vitae leo maximus facilisis. Aliquam et vulputate lorem, at vestibulum metus. Suspendisse egestas ac lectus vitae pulvinar. Interdum et malesuada fames ac ante ipsum primis in faucibus. Aenean eu neque arcu. Ut ultricies urna dui, in ultricies justo eleifend ac. Duis dignissim, est in pharetra interdum, leo est tempus lacus, nec laoreet felis ipsum vel lorem. Fusce sed magna in tortor ullamcorper eleifend eget nec tellus. Maecenas bibendum a orci id viverra. Pellentesque posuere leo diam, in semper dolor mollis sed. Cras fringilla volutpat ligula sed gravida. Quisque nec tempor tellus, id tincidunt metus. Nunc lacinia lectus non orci laoreet, et iaculis ligula dignissim. Pellentesque sit amet est eu dui tempor tristique vitae vitae elit. In hac habitasse platea dictumst. Sed suscipit, dolor at semper rutrum, risus quam venenatis elit, quis lacinia eros elit et ex. Quisque ac odio vehicula, posuere leo ut, dapibus ex. Quisque egestas massa quis convallis tristique. Vivamus a feugiat mauris. Maecenas tincidunt tortor eu nisl rutrum placerat. Vivamus ut nisi urna. Phasellus rutrum consectetur dolor, vel viverra nisi sagittis a. Nunc gravida sagittis velit, sit amet faucibus lacus luctus at. Sed a ipsum nec sem feugiat aliquet. In efficitur tempus enim, malesuada placerat felis volutpat interdum.',
-            'created_by'  => 1,
-            'lastModified_by'  => 1
+        
+        factory(App\Page::class, 1)->create([
+            'title' => 'Objetivos',
+            'is_onMenu' => true,
+            'is_subpage' => true,
+            'main_page' => 1
         ]);
-        DB::table('pages')->insert([
-            'title'      => 'Subpágina 1.1',
-            'slug'     => 'subpagina1-1',
-            'is_subpage'     => true,
-            'is_onMenu'  => false,
-            'meta_description'  => 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.',
-            'meta_robots'      => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris in pulvinar neque, et sagittis dui. Integer finibus, felis ac pellentesque.',
-            'meta_keywords'  => 'false Lorem ipsum dolor sit amet',
-            'content'  => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla leo augue, convallis eget aliquam non, imperdiet at elit. In facilisis mattis risus, id efficitur justo finibus ac. Mauris eget hendrerit leo, ac scelerisque massa. Donec imperdiet blandit ipsum. Proin quis vestibulum ligula. Donec maximus quam ut felis consectetur gravida. Praesent a purus eu libero eleifend pharetra. Sed fringilla neque et risus facilisis, eget tempus nibh molestie. Aliquam ultricies dui metus, ut viverra orci volutpat sit amet. Aliquam dapibus, risus et interdum tincidunt, neque libero lobortis massa, sit amet hendrerit diam nunc sit amet leo. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Proin pharetra congue porttitor. Curabitur lorem sapien, efficitur et arcu quis, elementum imperdiet purus. Proin elementum elit hendrerit tristique mattis. Donec posuere libero commodo ante efficitur, nec porta lorem suscipit. Fusce non aliquet turpis. Nullam efficitur nisi sit amet justo ultrices, at imperdiet nisl tristique. Integer aliquet ante ullamcorper ornare euismod. Aliquam massa enim, bibendum et orci ut, porttitor euismod est. Vestibulum vitae lacus nibh. Donec dui turpis, porta ac nisi eget, volutpat ornare tellus. Etiam nec lacinia lorem. Nulla facilisi. Phasellus sit amet lacus nec sem ullamcorper blandit. Nam dui ex, fermentum quis eros et, mollis laoreet magna. Nullam cursus velit metus, nec luctus erat tincidunt a. Ut iaculis, turpis sed fringilla tempor, risus libero ultrices erat, a elementum mi metus eu orci. Praesent vitae augue sodales, cursus augue a, pellentesque neque. Nam laoreet lobortis arcu, at rhoncus arcu aliquet vel. Nam maximus imperdiet aliquet. Pellentesque tincidunt cursus risus, quis tempus nibh ultrices sit amet. Donec tristique laoreet lectus, id feugiat nunc aliquet vel. Suspendisse viverra lorem vel tortor pharetra pretium. Morbi convallis tellus vitae arcu hendrerit interdum. Cras sed enim est.Suspendisse cursus metus dignissim, ultricies magna non, blandit odio. Duis tincidunt tristique augue a ullamcorper. Quisque vestibulum, ante sagittis tincidunt faucibus, orci velit ornare arcu, eu placerat sapien turpis at augue. Proin semper felis vitae leo maximus facilisis. Aliquam et vulputate lorem, at vestibulum metus. Suspendisse egestas ac lectus vitae pulvinar. Interdum et malesuada fames ac ante ipsum primis in faucibus. Aenean eu neque arcu. Ut ultricies urna dui, in ultricies justo eleifend ac. Duis dignissim, est in pharetra interdum, leo est tempus lacus, nec laoreet felis ipsum vel lorem. Fusce sed magna in tortor ullamcorper eleifend eget nec tellus. Maecenas bibendum a orci id viverra. Pellentesque posuere leo diam, in semper dolor mollis sed. Cras fringilla volutpat ligula sed gravida. Quisque nec tempor tellus, id tincidunt metus. Nunc lacinia lectus non orci laoreet, et iaculis ligula dignissim. Pellentesque sit amet est eu dui tempor tristique vitae vitae elit. In hac habitasse platea dictumst. Sed suscipit, dolor at semper rutrum, risus quam venenatis elit, quis lacinia eros elit et ex. Quisque ac odio vehicula, posuere leo ut, dapibus ex. Quisque egestas massa quis convallis tristique. Vivamus a feugiat mauris. Maecenas tincidunt tortor eu nisl rutrum placerat. Vivamus ut nisi urna. Phasellus rutrum consectetur dolor, vel viverra nisi sagittis a. Nunc gravida sagittis velit, sit amet faucibus lacus luctus at. Sed a ipsum nec sem feugiat aliquet. In efficitur tempus enim, malesuada placerat felis volutpat interdum.',
-            'created_by'  => 1,
-            'lastModified_by'  => 1,
-            'main_page'  => 1
+
+        factory(App\Page::class, 1)->create([
+            'title' => 'Componentes',
+            'is_onMenu' => true,
+            'is_subpage' => true,
+            'main_page' => 1
         ]);
-        DB::table('pages')->insert([
-            'title'      => 'Subpágina 1.2',
-            'slug'     => 'subpagina1-2',
-            'is_subpage'     => true,
-            'is_onMenu'  => false,
-            'meta_description'  => 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.',
-            'meta_robots'      => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris in pulvinar neque, et sagittis dui. Integer finibus, felis ac pellentesque.',
-            'meta_keywords'  => 'false Lorem ipsum dolor sit amet',
-            'content'  => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla leo augue, convallis eget aliquam non, imperdiet at elit. In facilisis mattis risus, id efficitur justo finibus ac. Mauris eget hendrerit leo, ac scelerisque massa. Donec imperdiet blandit ipsum. Proin quis vestibulum ligula. Donec maximus quam ut felis consectetur gravida. Praesent a purus eu libero eleifend pharetra. Sed fringilla neque et risus facilisis, eget tempus nibh molestie. Aliquam ultricies dui metus, ut viverra orci volutpat sit amet. Aliquam dapibus, risus et interdum tincidunt, neque libero lobortis massa, sit amet hendrerit diam nunc sit amet leo. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Proin pharetra congue porttitor. Curabitur lorem sapien, efficitur et arcu quis, elementum imperdiet purus. Proin elementum elit hendrerit tristique mattis. Donec posuere libero commodo ante efficitur, nec porta lorem suscipit. Fusce non aliquet turpis. Nullam efficitur nisi sit amet justo ultrices, at imperdiet nisl tristique. Integer aliquet ante ullamcorper ornare euismod. Aliquam massa enim, bibendum et orci ut, porttitor euismod est. Vestibulum vitae lacus nibh. Donec dui turpis, porta ac nisi eget, volutpat ornare tellus. Etiam nec lacinia lorem. Nulla facilisi. Phasellus sit amet lacus nec sem ullamcorper blandit. Nam dui ex, fermentum quis eros et, mollis laoreet magna. Nullam cursus velit metus, nec luctus erat tincidunt a. Ut iaculis, turpis sed fringilla tempor, risus libero ultrices erat, a elementum mi metus eu orci. Praesent vitae augue sodales, cursus augue a, pellentesque neque. Nam laoreet lobortis arcu, at rhoncus arcu aliquet vel. Nam maximus imperdiet aliquet. Pellentesque tincidunt cursus risus, quis tempus nibh ultrices sit amet. Donec tristique laoreet lectus, id feugiat nunc aliquet vel. Suspendisse viverra lorem vel tortor pharetra pretium. Morbi convallis tellus vitae arcu hendrerit interdum. Cras sed enim est.Suspendisse cursus metus dignissim, ultricies magna non, blandit odio. Duis tincidunt tristique augue a ullamcorper. Quisque vestibulum, ante sagittis tincidunt faucibus, orci velit ornare arcu, eu placerat sapien turpis at augue. Proin semper felis vitae leo maximus facilisis. Aliquam et vulputate lorem, at vestibulum metus. Suspendisse egestas ac lectus vitae pulvinar. Interdum et malesuada fames ac ante ipsum primis in faucibus. Aenean eu neque arcu. Ut ultricies urna dui, in ultricies justo eleifend ac. Duis dignissim, est in pharetra interdum, leo est tempus lacus, nec laoreet felis ipsum vel lorem. Fusce sed magna in tortor ullamcorper eleifend eget nec tellus. Maecenas bibendum a orci id viverra. Pellentesque posuere leo diam, in semper dolor mollis sed. Cras fringilla volutpat ligula sed gravida. Quisque nec tempor tellus, id tincidunt metus. Nunc lacinia lectus non orci laoreet, et iaculis ligula dignissim. Pellentesque sit amet est eu dui tempor tristique vitae vitae elit. In hac habitasse platea dictumst. Sed suscipit, dolor at semper rutrum, risus quam venenatis elit, quis lacinia eros elit et ex. Quisque ac odio vehicula, posuere leo ut, dapibus ex. Quisque egestas massa quis convallis tristique. Vivamus a feugiat mauris. Maecenas tincidunt tortor eu nisl rutrum placerat. Vivamus ut nisi urna. Phasellus rutrum consectetur dolor, vel viverra nisi sagittis a. Nunc gravida sagittis velit, sit amet faucibus lacus luctus at. Sed a ipsum nec sem feugiat aliquet. In efficitur tempus enim, malesuada placerat felis volutpat interdum.',
-            'created_by'  => 1,
-            'lastModified_by'  => 1,
-            'main_page'  => 1
+
+        factory(App\Page::class, 1)->create([
+            'title' => 'Productos',
+            'is_onMenu' => true,
+            'is_subpage' => true,
+            'main_page' => 1
         ]);
+
+        // Protocolo de Cartagena
+        factory(App\Page::class, 1)->create([
+            'title' => 'Protocolo de Cartagena',
+            'is_onMenu' => true
+        ]);
+
+        factory(App\Page::class, 1)->create([
+            'title' => 'El Protocolo',
+            'is_onMenu' => true,
+            'is_subpage' => true,
+            'main_page' => 6
+        ]);
+
+        factory(App\Page::class, 1)->create([
+            'title' => 'Linea de tiempo',
+            'is_onMenu' => true,
+            'is_subpage' => true,
+            'main_page' => 6
+        ]);
+
+        factory(App\Page::class, 1)->create([
+            'title' => 'FAQs sobre el protocolo',
+            'is_onMenu' => true,
+            'is_subpage' => true,
+            'main_page' => 6
+        ]);
+
+        // Legislación
+        factory(App\Page::class, 1)->create([
+            'title' => 'Legislación',
+            'is_onMenu' => true
+        ]);
+
+        factory(App\Page::class, 1)->create([
+            'title' => 'Legislación nacional',
+            'is_onMenu' => true,
+            'is_subpage' => true,
+            'main_page' => 10
+        ]);
+        
+        factory(App\Page::class, 1)->create([
+            'title' => 'Legislación internacional',
+            'is_onMenu' => true,
+            'is_subpage' => true,
+            'main_page' => 10
+        ]);
+
+         // Bioseguridad y Ambiente
+        factory(App\Page::class, 1)->create([
+            'title' => 'Bioseguridad y Ambiente',
+            'is_onMenu' => true
+        ]);
+
+        // Lab. Nacional de detección de OVM
+        factory(App\Page::class, 1)->create([
+            'title' => 'Lab. Nacional de detección de OVM',
+            'is_onMenu' => true
+        ]);
+
+        factory(App\Page::class, 1)->create([
+            'title' => 'El laboratorio',
+            'is_onMenu' => true,
+            'is_subpage' => true,
+            'main_page' => 14
+        ]);
+
+        factory(App\Page::class, 1)->create([
+            'title' => 'Capacitaciones',
+            'is_onMenu' => true,
+            'is_subpage' => true,
+            'main_page' => 14
+        ]);
+
+        // Preguntas frecuentes
+        factory(App\Page::class, 1)->create([
+            'title' => 'Preguntas frecuentes',
+            'is_onMenu' => true
+        ]);
+
+        // ¿Cómo participar?
+        factory(App\Page::class, 1)->create([
+            'title' => '¿Cómo participar?',
+            'is_onMenu' => true
+        ]);
+
+        factory(App\Page::class, 1)->create([
+            'title' => 'Encuesta',
+            'is_onMenu' => true,
+            'is_subpage' => true,
+            'main_page' => 18
+        ]);
+
+        factory(App\Page::class, 1)->create([
+            'title' => '¿Desea hacer una pregunta adicional?',
+            'is_onMenu' => true,
+            'is_subpage' => true,
+            'main_page' => 18
+        ]);
+
+        // Recursos
+        factory(App\Page::class, 1)->create([
+            'title' => 'Recursos',
+            'is_onMenu' => true
+        ]);
+
+        factory(App\Page::class, 1)->create([
+            'title' => 'Portales de la temática',
+            'is_onMenu' => true,
+            'is_subpage' => true,
+            'main_page' => 21
+        ]);
+
+        factory(App\Page::class, 1)->create([
+            'title' => 'Formularios de solicitud',
+            'is_onMenu' => true,
+            'is_subpage' => true,
+            'main_page' => 21
+        ]);
+
+        factory(App\Page::class, 1)->create([
+            'title' => 'Glosario',
+            'is_onMenu' => true,
+            'is_subpage' => true,
+            'main_page' => 21
+        ]);
+
+        factory(App\Page::class, 1)->create([
+            'title' => 'Acrónimos',
+            'is_onMenu' => true,
+            'is_subpage' => true,
+            'main_page' => 21
+        ]);
+
+        factory(App\Page::class, 1)->create([
+            'title' => 'Mapa del sitio',
+            'is_onMenu' => true,
+            'is_subpage' => true,
+            'main_page' => 21
+        ]);
+
         DB::table('pages')->insert([
-            'title'      => 'Subpágina 3.1',
-            'slug'     => 'subpagina3-1',
-            'is_subpage'     => true,
-            'is_onMenu'  => false,
-            'meta_description'  => 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.',
-            'meta_robots'      => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris in pulvinar neque, et sagittis dui. Integer finibus, felis ac pellentesque.',
-            'meta_keywords'  => 'false Lorem ipsum dolor sit amet',
-            'content'  => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla leo augue, convallis eget aliquam non, imperdiet at elit. In facilisis mattis risus, id efficitur justo finibus ac. Mauris eget hendrerit leo, ac scelerisque massa. Donec imperdiet blandit ipsum. Proin quis vestibulum ligula. Donec maximus quam ut felis consectetur gravida. Praesent a purus eu libero eleifend pharetra. Sed fringilla neque et risus facilisis, eget tempus nibh molestie. Aliquam ultricies dui metus, ut viverra orci volutpat sit amet. Aliquam dapibus, risus et interdum tincidunt, neque libero lobortis massa, sit amet hendrerit diam nunc sit amet leo. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Proin pharetra congue porttitor. Curabitur lorem sapien, efficitur et arcu quis, elementum imperdiet purus. Proin elementum elit hendrerit tristique mattis. Donec posuere libero commodo ante efficitur, nec porta lorem suscipit. Fusce non aliquet turpis. Nullam efficitur nisi sit amet justo ultrices, at imperdiet nisl tristique. Integer aliquet ante ullamcorper ornare euismod. Aliquam massa enim, bibendum et orci ut, porttitor euismod est. Vestibulum vitae lacus nibh. Donec dui turpis, porta ac nisi eget, volutpat ornare tellus. Etiam nec lacinia lorem. Nulla facilisi. Phasellus sit amet lacus nec sem ullamcorper blandit. Nam dui ex, fermentum quis eros et, mollis laoreet magna. Nullam cursus velit metus, nec luctus erat tincidunt a. Ut iaculis, turpis sed fringilla tempor, risus libero ultrices erat, a elementum mi metus eu orci. Praesent vitae augue sodales, cursus augue a, pellentesque neque. Nam laoreet lobortis arcu, at rhoncus arcu aliquet vel. Nam maximus imperdiet aliquet. Pellentesque tincidunt cursus risus, quis tempus nibh ultrices sit amet. Donec tristique laoreet lectus, id feugiat nunc aliquet vel. Suspendisse viverra lorem vel tortor pharetra pretium. Morbi convallis tellus vitae arcu hendrerit interdum. Cras sed enim est.Suspendisse cursus metus dignissim, ultricies magna non, blandit odio. Duis tincidunt tristique augue a ullamcorper. Quisque vestibulum, ante sagittis tincidunt faucibus, orci velit ornare arcu, eu placerat sapien turpis at augue. Proin semper felis vitae leo maximus facilisis. Aliquam et vulputate lorem, at vestibulum metus. Suspendisse egestas ac lectus vitae pulvinar. Interdum et malesuada fames ac ante ipsum primis in faucibus. Aenean eu neque arcu. Ut ultricies urna dui, in ultricies justo eleifend ac. Duis dignissim, est in pharetra interdum, leo est tempus lacus, nec laoreet felis ipsum vel lorem. Fusce sed magna in tortor ullamcorper eleifend eget nec tellus. Maecenas bibendum a orci id viverra. Pellentesque posuere leo diam, in semper dolor mollis sed. Cras fringilla volutpat ligula sed gravida. Quisque nec tempor tellus, id tincidunt metus. Nunc lacinia lectus non orci laoreet, et iaculis ligula dignissim. Pellentesque sit amet est eu dui tempor tristique vitae vitae elit. In hac habitasse platea dictumst. Sed suscipit, dolor at semper rutrum, risus quam venenatis elit, quis lacinia eros elit et ex. Quisque ac odio vehicula, posuere leo ut, dapibus ex. Quisque egestas massa quis convallis tristique. Vivamus a feugiat mauris. Maecenas tincidunt tortor eu nisl rutrum placerat. Vivamus ut nisi urna. Phasellus rutrum consectetur dolor, vel viverra nisi sagittis a. Nunc gravida sagittis velit, sit amet faucibus lacus luctus at. Sed a ipsum nec sem feugiat aliquet. In efficitur tempus enim, malesuada placerat felis volutpat interdum.',
-            'created_by'  => 1,
-            'lastModified_by'  => 1,
-            'main_page'  => 3
+            'title'             => 'Home',
+            'slug'              => '',
+            'meta_description'  => 'Descripción del sitio',
+            'meta_keywords'     => 'Palabras claves',
+            'is_active'         => true,
+            'is_static'         => true,
+            'is_onMenu'         => false,
+            'created_by'        => 1,
+            'lastModified_by'   => 1,
+            'content'           => 'Modifique el contenido en el panel de administración'
         ]);
     }
 }

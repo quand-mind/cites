@@ -42,6 +42,7 @@ class PageController extends Controller
             )
             ->where([
                 ['is_subpage', false],
+                ['is_active', true],
                 ['is_onMenu', false]
             ])
             ->orderBy('menu_order')

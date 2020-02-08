@@ -6,7 +6,6 @@
       :columns="tableSettings.columns"
       :options="tableSettings.options"
     >
-      <span slot="fecha" slot-scope="props">{{props.row.created_at}}</span>
       <span slot="pregunta" slot-scope="props">{{props.row.question}}</span>
       <span slot="respuesta" slot-scope="props">{{props.row.answer || ""}}</span>
       <span slot="respondida_por" slot-scope="props">{{props.row.answered_by || ""}}</span>
@@ -104,7 +103,6 @@ export default {
     tableSettings: {
       data: [],
       columns: [
-        "fecha",
         "pregunta",
         "respuesta",
         "respondida_por",

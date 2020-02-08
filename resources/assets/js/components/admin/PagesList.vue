@@ -172,7 +172,7 @@ export default {
         .catch(err => console.log(err));
     },
     generateSlug(row) {
-      if (row.is_subpage) {
+      if (Boolean(row.is_subpage)) {
         return '/' + row.get_main_page.slug + '/' + row.slug
       }
 

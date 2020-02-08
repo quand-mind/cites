@@ -13,7 +13,7 @@ Descripción:
  <template>
   <header>
     <slide class="slide"></slide>
-    <b-navbar class="d-flex">
+    <b-navbar class="d-none d-lg-flex">
       <router-link class="brand d-flex align-items-center" to="/">
         <img src="/images/logos/minec-thumb.png" class="figure" />
         <p class="d-none d-xl-flex d-lg-flex align-items-center">

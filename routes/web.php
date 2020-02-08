@@ -13,61 +13,61 @@
 
 // Frontend routes
 
-Route::get('/', 'MenuController@renderFrontPage');
+// Route::get('/', 'MenuController@renderFrontPage');
 
-// Frontend routes for "proyecto"
-Route::group(['prefix' => 'proyecto'], function () {
-    Route::get('/{any}', 'MenuController@renderFrontPage');
-});
-// Frontend routes for "Transgenico"
-Route::get('/transgenico', function () {
-    return view('welcome');
-})->name('transgenico');
+// // Frontend routes for "proyecto"
+// Route::group(['prefix' => 'proyecto'], function () {
+//     Route::get('/{any}', 'MenuController@renderFrontPage');
+// });
+// // Frontend routes for "Transgenico"
+// Route::get('/transgenico', function () {
+//     return view('welcome');
+// })->name('transgenico');
 
-// Frontend routes for "¿Quienes somos?"
-Route::group(['prefix' => 'somos'], function () {
-    Route::get('/{any}', 'MenuController@renderFrontPage');
-});
+// // Frontend routes for "¿Quienes somos?"
+// Route::group(['prefix' => 'somos'], function () {
+//     Route::get('/{any}', 'MenuController@renderFrontPage');
+// });
 
-// Frontend routes for "FAQs"
-Route::get('/preguntas-frecuentes', function () {
-    return view('welcome');
-})->name('preguntas-frecuentes');
+// // Frontend routes for "FAQs"
+// Route::get('/preguntas-frecuentes', function () {
+//     return view('welcome');
+// })->name('preguntas-frecuentes');
 
-// Frontend routes for "Encuestas"
-Route::get('/encuestas', function () {
-    return view('welcome');
-})->name('encuestas');
+// // Frontend routes for "Encuestas"
+// Route::get('/encuestas', function () {
+//     return view('welcome');
+// })->name('encuestas');
 
-// Frontend routes for "Protocolo de Cartagena"
-Route::get('/protocolo', function () {
-    return view('welcome');
-})->name('protocolo');
+// // Frontend routes for "Protocolo de Cartagena"
+// Route::get('/protocolo', function () {
+//     return view('welcome');
+// })->name('protocolo');
 
-// Frontend routes for "Protocolo de Cartagena"
-Route::group(['prefix' => 'protocolo'], function () {
-    Route::get('/{any}', 'MenuController@renderFrontPage');
-});
+// // Frontend routes for "Protocolo de Cartagena"
+// Route::group(['prefix' => 'protocolo'], function () {
+//     Route::get('/{any}', 'MenuController@renderFrontPage');
+// });
 
-// Frontend routes for "Proyectos asociados"
-Route::group(['prefix' => 'asociados'], function () {
-    Route::get('/{any}', 'MenuController@renderFrontPage');
-});
+// // Frontend routes for "Proyectos asociados"
+// Route::group(['prefix' => 'asociados'], function () {
+//     Route::get('/{any}', 'MenuController@renderFrontPage');
+// });
 
-// Frontend routes for "Laboratorio Nacional OVM"
-Route::get('/laboratorio-nacional-ovm', function () {
-    return view('welcome');
-})->name('laboratorio-nacional-ovm');
+// // Frontend routes for "Laboratorio Nacional OVM"
+// Route::get('/laboratorio-nacional-ovm', function () {
+//     return view('welcome');
+// })->name('laboratorio-nacional-ovm');
 
-// Frontend routes for "Recursos"
-Route::group(['prefix' => 'recursos'], function () {
-    Route::get('/{any}', 'MenuController@renderFrontPage');
-});
+// // Frontend routes for "Recursos"
+// Route::group(['prefix' => 'recursos'], function () {
+//     Route::get('/{any}', 'MenuController@renderFrontPage');
+// });
 
-// Frontend routes for "Transgénico"
-Route::get('/transgenico', function () {
-    return view('welcome');
-});
+// // Frontend routes for "Transgénico"
+// Route::get('/transgenico', function () {
+//     return view('welcome');
+// });
 
 Auth::routes();
 
@@ -142,7 +142,7 @@ Route::get('/surveys-list', 'SurveyController@getSurveysList');
 Route::get('/migrate/seed', 'MigrationsController@seed');
 
 // Frontend pages controller
-Route::get('/{slug}', 'PageController@show');
+Route::get('/{slug?}', 'PageController@show');
 
 // Frontend pages controller
 Route::get('/{slug}/{subpage}', 'PageController@showSubPage');

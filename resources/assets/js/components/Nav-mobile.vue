@@ -11,8 +11,29 @@ Descripción:
  -->
 
  <template>
-  <div class="h-100 fixed-top" id="all" style=" z-index: 800 !important; ">
-    <div id="menu-div" class="d-flex w-100 justify-content-end">
+  <div class="h-100 fixed-top d-block d-xl-none d-lg-none" id="all" style=" z-index: 800 !important; ">
+    <div id="menu-div" class="d-flex w-100 justify-content-around align-items-center">
+      <router-link class="brand d-flex align-items-center" to="/">
+        <img src="/images/logos/minec-thumb.png" class="figure" />
+        <p class="d-none d-xl-flex d-lg-flex align-items-center">
+          Implementación del Marco Nacional de Bioseguridad en Venezuela,
+          de acuerdo con el Protocolo de Cartagena sobre Seguridad de la
+          Biotecnología 
+        </p>
+      </router-link>
+        <a href="#" onclick="return false">
+          <img src="/images/logos/logo-minec.png" />
+        </a>
+        <a href="#" onclick="return false">
+          <img src="/images/logos/logo-gef.png" />
+        </a>
+        <a href="#" onclick="return false">
+          <img src="/images/logos/logo-pnud.png" />
+        </a>
+        <a href="#" onclick="return false">
+          <img src="/images/logos/logo-unep.png" />
+        </a>
+      
       <a
       @click="changeBackground"
       v-b-toggle="'menu-mov'"
@@ -191,7 +212,7 @@ export default {
       }
       else{
         all.style="z-index:800;"
-        menu.style ="background: none;"
+        menu.style ="background: white;"
       } 
 
       this.menu_show = !this.menu_show
@@ -216,6 +237,10 @@ export default {
       background-color: #00a96d;
     }
 }
+img {
+    height: 70px;
+    margin: 0 5px;
+  }
 
 li:hover,
 a:hover,
@@ -240,7 +265,7 @@ a {
   padding: 0 !important;
 }
 #menu-div{
-  background-color: none;
+  background-color: white;
   transition: 0.2s;
 }
 </style>

@@ -48,6 +48,14 @@ Vue.use(TablePlugin);
 
 Vue.use(ClientTable, {}, false, 'bootstrap3', 'default');
 
+Vue.component("home-dashboard", require("./components/admin/HomeDashboard.vue"));
+
+if ($("#homeDashboard").length !== 0) {
+    let asideAdmin = new Vue({
+        el: "#homeDashboard"
+    });
+}
+
 Vue.component("aside-admin", require("./components/admin/AsideAdmin.vue"));
 
 if ($("#asideAdmin").length !== 0) {

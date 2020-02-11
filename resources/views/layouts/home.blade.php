@@ -46,7 +46,7 @@
         <navmobile :menu-links="{{ $links->toJson() }}"></navmobile>
         <div class="mt-5 container-fluid container-lg d-flex justify-content-center flex-column flex-lg-row m-0 p-0 mx-lg-auto p-lg-auto">
               <main class="px-lg-5 px-xs-5 mb-5 w-100 min-vh-100">
-                  <router-view></router-view>
+                @yield('content')
               </main>
               <sidebar></sidebar>
           </div>

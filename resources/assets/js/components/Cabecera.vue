@@ -14,14 +14,14 @@ Descripción:
   <header>
     <slide class="slide"></slide>
     <b-navbar class="d-none d-lg-flex">
-      <router-link class="brand d-flex align-items-center" to="/">
+      <a class="brand d-flex align-items-center" href="/">
         <img src="/images/logos/minec-thumb.png" class="figure" />
         <p class="d-none d-xl-flex d-lg-flex align-items-center">
           Implementación del Marco Nacional de Bioseguridad en Venezuela,
           de acuerdo con el Protocolo de Cartagena sobre Seguridad de la
           Biotecnología 
         </p>
-      </router-link>
+      </a>
 
       <b-navbar-nav class="w-20 d-flex align-items-center ml-auto">
         <a href="#" onclick="return false">

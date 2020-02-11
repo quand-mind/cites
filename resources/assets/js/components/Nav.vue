@@ -12,12 +12,12 @@ Descripción:
 
 <template>
   <b-nav class="d-none d-xl-flex d-lg-flex main-nav verde">
-    <b-nav-item class="nav-item" v-for="(link, index) in links" :key="link.url + index">
-      <router-link :to="link.url">{{link.name}}</router-link>
+    <b-nav-item class="nav-item" v-for="(link, index) in menuLinks" :key="link.slug + index" :href="'/' + link.slug">
+      {{link.title}}
 
-      <b-nav class="sub-nav verde" v-if="link.sublinks">
-        <b-nav-item v-for="sublink in link.sublinks" :key="sublink.url">
-          <router-link :to="sublink.url">{{sublink.name}}</router-link>
+      <b-nav class="sub-nav verde" v-if="link.get_subpages">
+        <b-nav-item v-for="sublink in link.get_subpages" :key="sublink.slug" :href="`/${link.slug}/${sublink.slug}`">
+          {{sublink.title}}
         </b-nav-item>
       </b-nav>
     </b-nav-item>
@@ -29,133 +29,6 @@ export default {
   name: "nav1",
   props: ['menu-links'],
   data: () => ({
-    links: [
-      {
-        name: "Proyecto",
-        url: "#",
-        sublinks: [
-          {
-            name: "Comisión Nacional de Bioética y Bioseguridad en Salud",
-            url: "/proyecto/comision-nacional-de-bioseguridad"
-          },
-          {
-            name: "Acuerdos Internacionales",
-            url: "/proyecto/acuerdos-internacionales"
-          },
-          {
-            name: "Legislación",
-            url: "/proyecto/legislacion"
-          },
-          {
-            name: "Antecedentes y Justificación",
-            url: "/proyecto/antecedentes-y-justificacion"
-          }
-        ]
-      },
-      {
-        name: "¿Qué es un transgénico?",
-        url: "/transgenico"
-      },
-      {
-        name: "¿Quiénes somos?",
-        url: "#",
-        sublinks: [
-          {
-            name: "Grupos",
-            url: "/somos/grupos"
-          },
-          {
-            name: "Objetivos",
-            url: "/somos/objetivos"
-          },
-          {
-            name: "Misión",
-            url: "/somos/mision"
-          },
-          {
-            name: "Visión",
-            url: "/somos/vision"
-          }
-        ]
-      },
-      {
-        name: "Preguntas frecuentes y encuestas",
-        url: "#",
-        sublinks: [
-          {
-            name: "Preguntas Frecuentes",
-            url: "/preguntas-frecuentes"
-          },
-          {
-            name: "Encuestas",
-            url: "/encuestas"
-          }
-        ]
-      },
-      {
-        name: "Protocolo de Cartagena",
-        url: "#",
-        sublinks: [
-          {
-            name: "Mitos y Realidades",
-            url: "/protocolo/mitos-realidades"
-          },
-          {
-            name:
-              "¿Qué hacer si entra otro tipo de OVM al territorio nacional?",
-            url: "/protocolo/ovm-territorio-nacional"
-          },
-          {
-            name: "FAQS sobre el protocolo",
-            url: "/protocolo/preguntas-frecuentes"
-          },
-          {
-            name: "Recursos",
-            url: "/protocolo/recursos"
-          }
-        ]
-      },
-      {
-        name: "Proyectos asociados",
-        url: "#",
-        sublinks: [
-          {
-            name: "Nagoya-Lumpur",
-            url: "/asociados/nagoya-lumpur"
-          }
-        ]
-      },
-      {
-        name: "Lab. Nacional de detección de OVM",
-        url: "/laboratorio-nacional-ovm"
-      },
-      {
-        name: "Recursos",
-        url: "#",
-        sublinks: [
-          {
-            name: "Información sobre OVM en Venezuela",
-            url: "/recursos/ovm-venezuela"
-          },
-          {
-            name: "Portales de la temática",
-            url: "/recursos/portales"
-          },
-          {
-            name: "Formularios de uso común",
-            url: "/recursos/formularios"
-          },
-          {
-            name: "Mapa del sitio",
-            url: "/recursos/mapa-del-sitio"
-          },
-          {
-            name: "Glosario",
-            url: "/recursos/glosario"
-          }
-        ]
-      }
-    ]
   }),
   mounted () {
     let _this = this

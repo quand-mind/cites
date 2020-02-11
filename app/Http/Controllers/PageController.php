@@ -43,7 +43,7 @@ class PageController extends Controller
             ->where([
                 ['is_subpage', false],
                 ['is_active', true],
-                ['is_onMenu', false]
+                ['is_onMenu', true]
             ])
             ->orderBy('menu_order')
             ->get();
@@ -89,6 +89,8 @@ class PageController extends Controller
                 $page->createdBy()->associate(Auth::user());
                 $page->lastModifiedBy()->associate(Auth::user());
                 $mainPageId = $request->input('main_page');
+
+                return response($mainPageId, 200);
                 
                 if ($mainPageId !== null)
                     $page->getMainPage()->associate(Page::find($mainPageId));

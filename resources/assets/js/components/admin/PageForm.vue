@@ -65,17 +65,17 @@
           </b-col>
           <b-col>
             <b-form-group label="" label-for="input-3">
-              <b-form-checkbox v-model="pageData.is_subpage" name="check-button" switch>
+              <b-form-checkbox v-model="pageData.is_subpage" :checked="pageData.is_subpage" name="check-button" switch>
                 It is a subpage
               </b-form-checkbox>
             </b-form-group>
             <b-form-group label="" label-for="input-3">
-              <b-form-checkbox v-model="pageData.is_active" name="check-button" switch>
+              <b-form-checkbox v-model="pageData.is_active" :checked="pageData.is_active" name="check-button" switch>
                 It is an active page
               </b-form-checkbox>
             </b-form-group>
             <b-form-group label="Seleccione una página raíz:" label-for="input-3">
-              <b-form-select :disabled="!pageData.is_subpage" v-model="pageData.main_page" :options="mainPagesOptions"></b-form-select>
+              <b-form-select v-model="pageData.main_page" :disabled="!pageData.is_subpage" :options="mainPagesOptions"></b-form-select>
             </b-form-group>
           </b-col>
         </b-row>
@@ -175,6 +175,10 @@ export default {
       Object.keys(_this.pageData).forEach(el => {
         if (el === "is_subpage" || el === "is_active")
           formData.append(el, Number(_this.pageData[el]));
+
+        else if (el === 'main_page' && _this.pageData[el] === undefined)
+          formData.append(el, null);
+          
         else
           formData.append(el, _this.pageData[el]);
       });
@@ -240,8 +244,9 @@ export default {
   mounted() {
     let _this = this;
     if (_this.page) {
-      Object.keys(_this.pageData).forEach(key => {
-          if (key === 'is_subpage' || key === 'is_active') _this.pageData[key] = Boolean(_this.page[key]);
+      Object.keys(_this.page).forEach(key => {
+          if (key === 'is_subpage' || key === 'is_active') _this.pageData[key] = Boolean(parseInt(_this.page[key]));
+          else if (key === 'main_page')  _this.pageData[key] = parseInt(_this.page[key]);
           else _this.pageData[key] = _this.page[key];
       });
     }

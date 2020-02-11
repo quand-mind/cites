@@ -13,14 +13,14 @@ Descripción:
  <template>
   <div class="h-100 fixed-top d-block d-xl-none d-lg-none" id="all" style=" z-index: 800 !important; ">
     <div id="menu-div" class="d-flex w-100 justify-content-around align-items-center">
-      <router-link class="brand d-flex align-items-center" to="/">
+      <a class="brand d-flex align-items-center" href="/">
         <img src="/images/logos/minec-thumb.png" class="figure" />
         <p class="d-none d-xl-flex d-lg-flex align-items-center">
           Implementación del Marco Nacional de Bioseguridad en Venezuela,
           de acuerdo con el Protocolo de Cartagena sobre Seguridad de la
           Biotecnología 
         </p>
-      </router-link>
+      </a>
         <a href="#" onclick="return false">
           <img src="/images/logos/logo-minec.png" />
         </a>
@@ -52,13 +52,11 @@ Descripción:
     
     <b-collapse id="menu-mov" class="nav h-100">
       <b-nav class="text-uppercase d-xl-none d-lg-none d-flex align-items-center justify-content-start">
-        <b-nav-item :to="link.slug" button v-b-toggle="'collapse-' + index" class=" nav-item w-100 text-center py-2 text-uppercase font-weight-bold" v-for="(link, index) in links" :key="link.slug + index">
+        <b-nav-item v-for="(link, index) in menuLinks" :href="link.slug" button v-b-toggle="'collapse-' + index" class=" nav-item w-100 text-center py-2 text-uppercase font-weight-bold"  :key="link.slug + index">
           {{link.title}}
-          <b-collapse v-if="link.sublinks" :id="'collapse-' + index">
+          <b-collapse v-if="link.get_subpages" :id="'collapse-' + index">
             <b-nav class="w-100 mt-2">
-              <b-nav-item class="w-100 nav-item" v-for="sublink in link.sublinks" :key="sublink.slug">
-                <b-button :to="sublink.url" variant="transparent" class=" w-100">{{sublink.title}}</b-button>
-              </b-nav-item>
+              <b-nav-item class="w-100 nav-item" :href="sublink.slug" v-for="sublink in link.get_subpages" :key="sublink.slug">{{sublink.title}}</b-nav-item>
             </b-nav>
           </b-collapse>
         </b-nav-item>
@@ -71,133 +69,9 @@ Descripción:
 <script>
 export default {
   name: "nav-mobile",
+  props: ["menu-links"],
   data: () => ({
-    links: [
-      {
-        name: "Proyecto",
-        url: "#",
-        sublinks: [
-          {
-            name: "Comisión Nacional de Bioética y Bioseguridad en Salud",
-            url: "/proyecto/comision-nacional-de-bioseguridad"
-          },
-          {
-            name: "Acuerdos Internacionales",
-            url: "/proyecto/acuerdos-internacionales"
-          },
-          {
-            name: "Legislación",
-            url: "/proyecto/legislacion"
-          },
-          {
-            name: "Antecedentes y Justificación",
-            url: "/proyecto/antecedentes-y-justificacion"
-          }
-        ]
-      },
-      {
-        name: "¿Qué es un transgénico?",
-        url: "/transgenico"
-      },
-      {
-        name: "¿Quiénes somos?",
-        url: "#",
-        sublinks: [
-          {
-            name: "Grupos",
-            url: "/somos/grupos"
-          },
-          {
-            name: "Objetivos",
-            url: "/somos/objetivos"
-          },
-          {
-            name: "Misión",
-            url: "/somos/mision"
-          },
-          {
-            name: "Visión",
-            url: "/somos/vision"
-          }
-        ]
-      },
-      {
-        name: "Preguntas frecuentes y encuestas",
-        url: "#",
-        sublinks: [
-          {
-            name: "Preguntas Frecuentes",
-            url: "/preguntas-frecuentes"
-          },
-          {
-            name: "Encuestas",
-            url: "/encuestas"
-          }
-        ]      },
-      {
-        name: "Protocolo de Cartagena",
-        url: "#",
-        sublinks: [
-          {
-            name: "Mitos y Realidades",
-            url: "/protocolo/mitos-realidades"
-          },
-          {
-            name:
-              "¿Qué hacer si entra otro tipo de OVM al territorio nacional?",
-            url: "/protocolo/ovm-territorio-nacional"
-          },
-          {
-            name: "FAQS sobre el protocolo",
-            url: "/protocolo/preguntas-frecuentes"
-          },
-          {
-            name: "Recursos",
-            url: "/protocolo/recursos"
-          }
-        ]
-      },
-      {
-        name: "Proyectos asociados",
-        url: "#",
-        sublinks: [
-          {
-            name: "Nagoya-Lumpur",
-            url: "/asociados/nagoya-lumpur"
-          }
-        ]
-      },
-      {
-        name: "Lab. Nacional de detección de OVM",
-        url: "/laboratorio-nacional-ovm"
-      },
-      {
-        name: "Recursos",
-        url: "#",
-        sublinks: [
-          {
-            name: "Información sobre OVM en Venezuela",
-            url: "/recursos/ovm-venezuela"
-          },
-          {
-            name: "Portales de la temática",
-            url: "/recursos/portales"
-          },
-          {
-            name: "Formularios de uso común",
-            url: "/recursos/formularios"
-          },
-          {
-            name: "Mapa del sitio",
-            url: "/recursos/mapa-del-sitio"
-          },
-          {
-            name: "Glosario",
-            url: "/recursos/glosario"
-          }
-        ]
-      }
-    ],
+    links: [],
     menu_show: true
   }),
   methods: {
@@ -217,6 +91,9 @@ export default {
 
       this.menu_show = !this.menu_show
     }
+  },
+  mounted () {
+    let _this = this
   }
 };
 </script>

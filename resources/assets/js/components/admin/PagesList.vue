@@ -66,6 +66,7 @@
         name="check-button"
         class="check-active"
         v-model="props.row.is_active"
+        :checked="Boolean(props.row.is_active)"
         switch
         @change="handleCheckBoxChange(props.row)"
       ></b-form-checkbox>
@@ -164,7 +165,7 @@ export default {
         .catch(err => console.log(err));
     },
     generateSlug(row) {
-      if (Boolean(row.is_subpage)) {
+      if (row.main_page !== null) {
         return '/' + row.get_main_page.slug + '/' + row.slug
       }
 
@@ -173,7 +174,7 @@ export default {
   },
   mounted() {
     this.tableData = this.pages.map(page => {
-      page.is_active = page.is_active === 1;
+      page.is_active = Boolean(page.is_active);
       return page;
     });
   }

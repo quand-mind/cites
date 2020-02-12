@@ -146,7 +146,18 @@ class PageController extends Controller
      */
     public function edit($id)
     {
-        $page = Page::find($id);
+        $page = Page::select(
+            'id',
+            'meta_description',
+            'is_active',
+            'is_subpage',
+            'main_page',
+            'title',
+            'meta_robots',
+            'meta_keywords',
+            'content'
+        )->where('id', $id)->first();
+
         $mainPages = Page::where('is_subpage', false)->get();
         return view('panel.pages.form', compact('page', 'mainPages'));
     }

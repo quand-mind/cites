@@ -159,12 +159,6 @@
         </b-row>
       </b-container>
     </b-form>
-    <b-card class="mt-3" header="Form Data Result">
-      <pre class="m-0">{{ postData }}</pre>
-    </b-card>
-    <b-card class="mt-3" header="Form Image Result">
-      <pre class="m-0">{{ image }}</pre>
-    </b-card>
   </div>
 </template>
 

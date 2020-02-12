@@ -174,7 +174,7 @@ export default {
   },
   mounted() {
     this.tableData = this.pages.map(page => {
-      page.is_active = Boolean(page.is_active);
+      page.is_active = Boolean(parseInt(page.is_active));
       return page;
     });
   }

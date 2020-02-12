@@ -53,7 +53,7 @@
       <b-container>
         <b-row>
           <b-col>
-            <b-form-group id="input-group-2" label="Keywords" label-for="input-2">
+            <b-form-group id="input-group-2" label="Palabras claves" label-for="input-2">
               <b-form-textarea
                 id="input-2"
                 v-model="pageData.meta_keywords"
@@ -65,13 +65,13 @@
           </b-col>
           <b-col>
             <b-form-group label="" label-for="input-3">
-              <b-form-checkbox v-model="pageData.is_subpage" :checked="pageData.is_subpage" name="check-button" switch>
-                It is a subpage
+              <b-form-checkbox v-model="pageData.is_subpage" :checked="pageData.is_subpage" name="check-button" switch @change="showSubpagePrompt">
+                Marcar como una subpágina
               </b-form-checkbox>
             </b-form-group>
             <b-form-group label="" label-for="input-3">
               <b-form-checkbox v-model="pageData.is_active" :checked="pageData.is_active" name="check-button" switch>
-                It is an active page
+                Marcar como página activa
               </b-form-checkbox>
             </b-form-group>
             <b-form-group label="Seleccione una página raíz:" label-for="input-3">
@@ -145,6 +145,12 @@ export default {
     mainPagesOptions: []
   }),
   methods: {
+    showSubpagePrompt () {
+        this.$dialog.alert("Esto podría dejar huérfanas a las subpáginas que dependan de esta página si esto es una página principal")
+          .then(function(dialog) {
+            console.log('Closed');
+          });
+    },
     savePage(formData) {
       let _this = this;
 
@@ -154,7 +160,16 @@ export default {
           _this.makeToast(res.data);
           setTimeout(() => window.location.replace("/dashboard/pages"), 2000);
         })
-        .catch(err => _this.makeToast(err.response.data, "danger"));
+        .catch(err => {
+          let { data } = err.response
+
+          if (data.errors !== undefined || data.errors !== null) {
+            let errors = Object.values(data.errors).toString()
+            _this.makeToast(errors, "danger");
+          } else {
+            _this.makeToast(data, "danger");
+          }
+        });
     },
 
     updatePage(formData) {
@@ -166,7 +181,16 @@ export default {
           _this.makeToast(res.data);
           setTimeout(() => window.location.replace("/dashboard/pages"), 2000);
         })
-        .catch(err => _this.makeToast(err.response.data, "danger"));
+        .catch(async err => {
+          let { data } =  err.response
+          
+          if (data.errors !== undefined || data.errors !== null) {
+            let errors = Object.values(data.errors).toString()
+            _this.makeToast(errors, "danger");
+          } else {
+            _this.makeToast(data, "danger");
+          }
+        });
     },
     onSubmit() {
       let _this = this;
@@ -229,7 +253,14 @@ export default {
           resetUploader();
         })
         .catch(err => {
-          _this.makeToast(err.response.data, "danger");
+          let { data } = err.response
+          console.log(data)
+          if (data.errors !== undefined || data.errors !== null) {
+            errors = Object.keys(data.errors).toString()
+            _this.makeToast(errors, "danger");
+          } else {
+            _this.makeToast(data, "danger");
+          }
         });
     },
     makeToast(msg, variant = "success", delay = 3000, append = false) {
@@ -251,7 +282,11 @@ export default {
       });
     }
 
-    _this.mainPagesOptions = _this.mainpages.map(page => ({ text: page.title, value: page.id }));
+    _this.mainpages.forEach(page => {
+      if (page.id !== _this.page.id) {
+        _this.mainPagesOptions.push({ text: page.title, value: page.id })
+      }
+    });
   }
 };
 </script>

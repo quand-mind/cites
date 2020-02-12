@@ -85,6 +85,7 @@ class PageController extends Controller
             // Save Page object
             try {
                 $page = new Page($values);
+
                 $page->is_subpage = $values['is_subpage'];
                 $page->createdBy()->associate(Auth::user());
                 $page->lastModifiedBy()->associate(Auth::user());
@@ -167,23 +168,34 @@ class PageController extends Controller
             'content' => 'required|string',
             'is_subpage' => 'required|boolean',
             'is_active' => 'required|boolean',
-            'main_page' => 'nullable|integer'
+            'main_page' => 'nullable'
         ])) {
             $values = $request->except(['main_page']);
 
             // Save Page object
             try {
-               $page = Page::find($id);
-               $page->is_subpage = $values['is_subpage'];
-               $page->update($values);
-               $page->lastModifiedBy()->associate(Auth::user());
+                $page = Page::find($id);
 
-               $mainPageId = $request->input('main_page');
+                // main_pages cannot change between subpages easily
+                // WARNING: orphan subpages if main_page is changed to subpage
+                if ($values['is_subpage'] && $page->getSubpages->isNotEmpty()) {
+                    $page->getSubpages()->each(function ($page, $key) {
+                        $page->getMainPage()->dissociate();
+                        $page->is_subpage = false;
+                        $page->save();
+                    });
+                }
+
+                $page->is_subpage = $values['is_subpage'];
+                $page->update($values);
+                $page->lastModifiedBy()->associate(Auth::user());
+
+                $mainPageId = $request->input('main_page');
                 
                 if ($mainPageId !== null)
                     $page->getMainPage()->associate(Page::find($mainPageId));
 
-               $page->save();
+                $page->save();
 
                 return response("Página guardada exitosamente", 200);
             } catch (Exception $err) {

@@ -94,6 +94,13 @@ export default {
   },
   mounted () {
     let _this = this
+    _this.links = _this.menuLinks.map(mainLink => {
+      if (mainLink.get_subpages !== null && mainLink.get_subpages.length > 0) {
+        mainLink.get_subpages = mainLink.get_subpages.filter(sublink => Boolean(parseInt(sublink.is_active)))
+      }
+
+      return mainLink
+    })
   }
 };
 </script>

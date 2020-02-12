@@ -53,7 +53,7 @@ Descripción:
     <b-collapse id="menu-mov" class="nav h-100">
       <b-nav class="text-uppercase d-xl-none d-lg-none d-flex align-items-center justify-content-start">
         <b-nav-item v-for="(link, index) in links" :href="link.slug"  class="nav-item w-100 text-start py-2 text-uppercase font-weight-bold d-flexw-100"  :key="link.slug + index">
-          <div class="nav-title w-100 d-flex justify-content-between">
+          <div class="nav-title w-100 d-flex justify-content-between align-items-center">
             <span class="ml-5">{{link.title}}</span>
             <b-button class="ml-1 mr-5" v-if="link.get_subpages.length > 0" href="#" v-b-toggle="'collapse-' + index">
               <font-awesome-icon

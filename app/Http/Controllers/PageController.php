@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Page;
+use App\Question;
 use Illuminate\Support\Facades\Auth;
 
 class PageController extends Controller
@@ -247,4 +248,18 @@ class PageController extends Controller
             }
         }
     }
+
+    /**
+     * Show the faqs on the frontend
+     *
+     * @return \Illuminate\Http\Response
+     */
+
+     public function faqsView () {
+        $page = Page::where('slug', 'preguntas-frecuentes')->first();
+        $questions = Question::where(['is_faq' => true])->get();
+        $links = $this->getMenuLinks();
+
+        return view('frontend.faqs', compact('page', 'questions', 'links'));
+     }
 }

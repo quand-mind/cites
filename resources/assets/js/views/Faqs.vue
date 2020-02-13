@@ -15,13 +15,11 @@ Descripción:
     <titulo msg="Preguntas frecuentes" />
     <!--FAQS -->
     <div class="p-5 p-lg-4 p-xl-4">
-      <div v-if="faqs.length > 0" class="p-3 my-5" style="background-color: #e6e6e6">
-        <div v-for="(item,index) of faqs" :key="index">
+      <div v-if="questions.length > 0" class="p-3 my-5" style="background-color: #e6e6e6">
+        <div v-for="(item,index) of questions" :key="index">
           <!-- Preguntas -->
-          <a href="#">
-            <h5 class="font-weight-bold" style="color: #2c3e50">{{item.question}}</h5>
-            <p class="my-3 ml-3">{{item.answer}}</p>
-          </a>
+          <h5 class="font-weight-bold" style="color: #2c3e50">{{item.question}}</h5>
+          <p class="my-3 ml-3">{{item.answer}}</p>
           <hr />
         </div>
       </div>
@@ -44,21 +42,7 @@ export default {
     titulo,
     pregunta
   },
-  data() {
-    return {
-      faqs: []
-    };
-  },
-  created() {
-    // Get questions
-    let _this = this;
-    axios
-      .get("/questions")
-      .then(res => {
-        _this.faqs = [...res.data];
-      })
-      .catch(err => console.log(err.response));
-  }
+  props: ['questions']
 };
 </script>
 <style type="text/css">

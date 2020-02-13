@@ -29,10 +29,8 @@
 //     Route::get('/{any}', 'MenuController@renderFrontPage');
 // });
 
-// // Frontend routes for "FAQs"
-// Route::get('/preguntas-frecuentes', function () {
-//     return view('welcome');
-// })->name('preguntas-frecuentes');
+// Frontend routes for "FAQs"
+Route::get('/preguntas-frecuentes', 'PageController@faqsView')->name('preguntas-frecuentes');
 
 // // Frontend routes for "Encuestas"
 // Route::get('/encuestas', function () {

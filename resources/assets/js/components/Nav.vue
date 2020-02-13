@@ -12,7 +12,7 @@ Descripción:
 
 <template>
   <b-nav class="d-none d-xl-flex d-lg-flex main-nav verde">
-    <b-nav-item class="nav-item" v-for="(link, index) in menuLinks" :key="link.slug + index" :href="'/' + link.slug">
+    <b-nav-item class="nav-item" v-for="(link, index) in links" :key="link.slug + index" :href="'/' + link.slug">
       {{link.title}}
 
       <b-nav class="sub-nav verde" v-if="link.get_subpages">
@@ -29,9 +29,18 @@ export default {
   name: "nav1",
   props: ['menu-links'],
   data: () => ({
+    links: []
   }),
   mounted () {
     let _this = this
+
+    _this.links = _this.menuLinks.map(mainLink => {
+      if (mainLink.get_subpages !== null && mainLink.get_subpages.length > 0) {
+        mainLink.get_subpages = mainLink.get_subpages.filter(sublink => Boolean(parseInt(sublink.is_active)))
+      }
+
+      return mainLink
+    })
   }
 };
 </script>

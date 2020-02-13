@@ -52,11 +52,20 @@ Descripción:
     
     <b-collapse id="menu-mov" class="nav h-100">
       <b-nav class="text-uppercase d-xl-none d-lg-none d-flex align-items-center justify-content-start">
-        <b-nav-item v-for="(link, index) in menuLinks" :href="link.slug" button v-b-toggle="'collapse-' + index" class=" nav-item w-100 text-center py-2 text-uppercase font-weight-bold"  :key="link.slug + index">
-          {{link.title}}
-          <b-collapse v-if="link.get_subpages" :id="'collapse-' + index">
-            <b-nav class="w-100 mt-2">
-              <b-nav-item class="w-100 nav-item" :href="sublink.slug" v-for="sublink in link.get_subpages" :key="sublink.slug">{{sublink.title}}</b-nav-item>
+        <b-nav-item v-for="(link, index) in links" :href="link.slug"  class="nav-item w-100 text-start py-2 text-uppercase font-weight-bold d-flexw-100"  :key="link.slug + index">
+          <div class="nav-title w-100 d-flex justify-content-between align-items-center">
+            <span class="ml-5">{{link.title}}</span>
+            <b-button class="ml-1 mr-5" v-if="link.get_subpages.length > 0" href="#" v-b-toggle="'collapse-' + index">
+              <font-awesome-icon
+              :icon="!isOpen ? ['fas', 'caret-down'] : ['fas', 'caret-down']"
+              color="black"
+              size="lg"
+              ></font-awesome-icon>
+            </b-button>
+          </div>          
+          <b-collapse v-if="link.get_subpages.length > 0" :id="'collapse-' + index">
+            <b-nav class="subnav w-100 mt-2">
+              <b-nav-item class="w-100 nav-item text-center" :href="sublink.slug" v-for="sublink in link.get_subpages" :key="sublink.slug">{{sublink.title}}</b-nav-item>
             </b-nav>
           </b-collapse>
         </b-nav-item>
@@ -94,29 +103,29 @@ export default {
   },
   mounted () {
     let _this = this
+    _this.links = _this.menuLinks.map(mainLink => {
+      if (mainLink.get_subpages !== null && mainLink.get_subpages.length > 0) {
+        mainLink.get_subpages = mainLink.get_subpages.filter(sublink => Boolean(parseInt(sublink.is_active)))
+      }
+
+      return mainLink
+    })
   }
 };
 </script>
 
 <style lang="scss" scoped>
 
-.sub-nav {
-    transition: all 2s ease;
-    flex-direction: column;
-    align-items: center;
-    background-color: #2c3e50;
-  width: 70%;
-    .nav-link{
-      width: 250px;
-      text-align: center;
-    }
-    a:hover{
-      background-color: #00a96d;
-    }
+.nav-link{
+  width: 100%;
+}
+.subnav .nav-item{
+  background: #00a96d;
+  padding: 5px 0px;
 }
 img {
     height: 70px;
-    margin: 0 5px;
+    margin: 0 10px;
   }
 
 li:hover,
@@ -129,9 +138,6 @@ a {
 .nav-item{
   background-color: #2c3e50;
   height: fit-content;
-  &:hover{
-      background-color: #00a96d !important;
-    }
 }
 .nav{
   background-color: #2c3e50;

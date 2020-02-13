@@ -11,29 +11,44 @@ Descripción:
  -->
 
  <template>
-  <div class="h-100 fixed-top d-block d-xl-none d-lg-none" id="all" style=" z-index: 800 !important; ">
-    <div id="menu-div" class="d-flex w-100 justify-content-around align-items-center">
-      <a class="brand d-flex align-items-center" href="/">
-        <img src="/images/logos/minec-thumb.png" class="figure" />
-        <p class="d-none d-xl-flex d-lg-flex align-items-center">
-          Implementación del Marco Nacional de Bioseguridad en Venezuela,
-          de acuerdo con el Protocolo de Cartagena sobre Seguridad de la
-          Biotecnología 
-        </p>
-      </a>
-        <a href="#" onclick="return false">
-          <img src="/images/logos/logo-minec.png" />
-        </a>
-        <a href="#" onclick="return false">
-          <img src="/images/logos/logo-gef.png" />
-        </a>
-        <a href="#" onclick="return false">
-          <img src="/images/logos/logo-pnud.png" />
-        </a>
-        <a href="#" onclick="return false">
-          <img src="/images/logos/logo-unep.png" />
-        </a>
-      
+ 
+  <div class="fixed-top d-block d-xl-none d-lg-none" id="all" style=" z-index: 800 !important; ">
+    <b-navbar class="nav" toggleable="lg" type="dark">
+      <b-navbar-brand href="#">OVM</b-navbar-brand>
+
+      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+
+      <b-collapse id="nav-collapse" class="w-100" >
+        <b-navbar-nav>
+          <div>
+            <b-nav-item v-for="(link, index) in links" :href="link.slug"  class="nav-item w-100 text-start py-2 text-uppercase font-weight-bold d-flexw-100"  :key="link.slug + index">
+              <div class="nav-title w-100 d-flex justify-content-between align-items-center">
+                <span>{{link.title}}</span>
+                <b-button v-if="link.get_subpages.length > 0" href="#" v-b-toggle="'collapse-' + index">
+                  <font-awesome-icon
+                  :icon="!isOpen ? ['fas', 'caret-down'] : ['fas', 'caret-down']"
+                  color="black"
+                  size="lg"
+                  ></font-awesome-icon>
+                </b-button>
+              </div> 
+              <b-collapse v-if="link.get_subpages.length > 0" :id="'collapse-' + index">
+                <b-nav class="subnav w-100 mt-2">
+                  <b-nav-item class="w-100 nav-item text-center" :href="sublink.slug" v-for="sublink in link.get_subpages" :key="sublink.slug">{{sublink.title}}</b-nav-item>
+                </b-nav>
+              </b-collapse>
+            </b-nav-item>
+          </div>
+          
+        </b-navbar-nav>
+      </b-collapse>
+    </b-navbar>
+    
+  </div>
+    
+    
+    <!--
+    <div id="menu-div" class="d-flex w-100 justify-content-start align-items-center">      
       <a
       @click="changeBackground"
       v-b-toggle="'menu-mov'"
@@ -48,7 +63,6 @@ Descripción:
     >
       <span class="icon icon-menu h3" style="color: #000;"></span>
     </a></div>
-    <!-- Boton Burger -->
     
     <b-collapse id="menu-mov" class="nav h-100">
       <b-nav class="text-uppercase d-xl-none d-lg-none d-flex align-items-center justify-content-start">
@@ -71,8 +85,7 @@ Descripción:
         </b-nav-item>
       </b-nav>
     </b-collapse>
-    
-  </div>
+    <-->
 </template>
 
 <script>
@@ -91,10 +104,10 @@ export default {
 
       if(this.menu_show){ 
         menu.style ="background-color:#2c3e50;"
-        all.style="z-index:1000;"
+        all.style="z-index:1000; height: 100% !important;"
       }
       else{
-        all.style="z-index:800;"
+        all.style="z-index:800;height: 99px !important;"
         menu.style ="background: white;"
       } 
 
@@ -116,12 +129,12 @@ export default {
 
 <style lang="scss" scoped>
 
-.nav-link{
-  width: 100%;
-}
 .subnav .nav-item{
   background: #00a96d;
   padding: 5px 0px;
+}
+.nav-link{
+  padding: 0px !important;
 }
 img {
     height: 70px;
@@ -141,15 +154,13 @@ a {
 }
 .nav{
   background-color: #2c3e50;
-  flex-wrap: nowrap !important;
-  flex-direction: column;
-}
-.nav-link{
-  padding: 0 !important;
 }
 #menu-div{
   background-color: white;
   transition: 0.2s;
+}
+#all{
+  height: 54px;
 }
 </style>
 

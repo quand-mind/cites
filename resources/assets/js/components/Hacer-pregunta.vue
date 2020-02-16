@@ -13,35 +13,24 @@ Descripción:
 
  <template>
   <div>
-    <b-button
-      class="text-uppercase ml-4 btn font-weight-bold btn-lg"
-      style="background-color: #2c3e50; color: #fff"
-      @click="showCreateQuestionModal"
-    >Crear nueva pregunta</b-button>
+    <h3>Haga una consulta y le responderemos en la brevedad posible</h3>
+    <b-form id="questionForm" @submit.prevent="onSubmit" @reset="onReset">
+      <b-form-group label="Correo electrónico: " label-for="asked_by">
+        <b-form-input
+          id="asked_by"
+          v-model="form.asked_by"
+          type="email"
+          required
+          placeholder="user@mail.com"
+        ></b-form-input>
+      </b-form-group>
 
-    <b-modal ref="create-question-modal" hide-footer>
-      <template v-slot:modal-title>
-        <span>Crear nueva pregunta</span>
-      </template>
-      <b-form id="questionForm" @submit.prevent="onSubmit" @reset="onReset">
-        <b-form-group label="Correo electrónico: " label-for="asked_by">
-          <b-form-input
-            id="asked_by"
-            v-model="form.asked_by"
-            type="email"
-            required
-            placeholder="user@mail.com"
-          ></b-form-input>
-        </b-form-group>
+      <b-form-group label="Coméntanos tu duda:" label-for="question">
+        <b-form-input id="question" v-model="form.question" required placeholder="¿?"></b-form-input>
+      </b-form-group>
 
-        <b-form-group label="Coméntanos tu duda:" label-for="question">
-          <b-form-input id="question" v-model="form.question" required placeholder="¿?"></b-form-input>
-        </b-form-group>
-
-        <b-button class="btn-verde" type="submit" variant="primary">Enviar</b-button>
-        <b-button type="reset" variant="danger">Cancelar</b-button>
-      </b-form>
-    </b-modal>
+      <b-button class="btn-verde" type="submit" variant="primary">Enviar</b-button>
+    </b-form>
   </div>
 </template>
 
@@ -55,20 +44,9 @@ export default {
     form: {
       asked_by: "",
       question: ""
-    },
-    selectedQuestion: null
+    }
   }),
   methods: {
-    showCreateQuestionModal() {
-      this.$refs["create-question-modal"].show();
-      this.form = {
-        asked_by: "",
-        question: ""
-      };
-    },
-    hideCreateQuestionModal() {
-      this.$refs["create-question-modal"].hide();
-    },
     onSubmit() {
       let _this = this;
       let formData = new FormData();

@@ -11,9 +11,10 @@ Descripción:
  -->
 
  <template>
-  <header>
+ <div class="w-100">
+   <header class=" one d-none d-lg-block">
     <slide class="slide"></slide>
-    <b-navbar class="d-none d-lg-flex">
+    <b-navbar class="">
       <a class="brand d-flex align-items-center" href="/">
         <img src="/images/logos/minec-thumb.png" class="figure" />
         <p class="d-none d-xl-flex d-lg-flex align-items-center">
@@ -23,7 +24,7 @@ Descripción:
         </p>
       </a>
 
-      <b-navbar-nav class="w-20 d-flex align-items-center ml-auto">
+      <b-navbar-nav class=" w-20 d-flex align-items-center ml-auto">
         <a href="#" onclick="return false">
           <img src="/images/logos/logo-minec.png" />
         </a>
@@ -40,6 +41,11 @@ Descripción:
 
     </b-navbar>
   </header>
+  <header class="two d-sm-block d-lg-none">
+    <slide class="slide"></slide>
+  </header>
+ </div>
+  
 </template>
 
 <script>
@@ -63,7 +69,8 @@ export default {
 
 }
 .navbar {
-  align-items: flex-start;
+  align-items: center;
+  justify-content: center;
   .brand {
     color: #212529;
     width: 80%;
@@ -89,14 +96,26 @@ export default {
     }
   }
 }
-header {
+.one {
   height: 40vh;
   overflow: hidden;
   position: relative;
+}
+.two{
+    height: 40vh;
+    overflow: hidden;
+    position: relative;
+    margin-top:56px;
+}
 
+.two .navbar ul a img{
+  height: 70px !important;
+}
+.two .navbar ul{
+  width: 100%;
+  flex-wrap: wrap;
 }
 .figure{
-    z-index: 900;
     position: relative;
 }
 li:hover,

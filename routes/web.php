@@ -31,6 +31,8 @@
 
 // Frontend routes for "FAQs"
 Route::get('/preguntas-frecuentes', 'PageController@faqsView')->name('preguntas-frecuentes');
+Route::get('/como-participar/encuesta', 'PageController@encuestasView')->name('encuestas');
+Route::get('/como-participar/desea-hacer-una-pregunta-adicional', 'PageController@newQuestionView')->name('pregunta-adicional');
 
 // // Frontend routes for "Encuestas"
 // Route::get('/encuestas', function () {

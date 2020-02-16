@@ -42,9 +42,10 @@ class QuestionController extends Controller
         if ($request->validate([
             "asked_by" => "required|email",
             "question" => "required|min:5|max:300",
-            "answer" => "sometimes|nullable"
+            "answer" => "sometimes|nullable",
+            "sendResponseEmail" => "required|boolean"
         ])) {
-            $values = $request->except(["answered_by"]);
+            $values = $request->except(["answered_by", "sendResponseEmail"]);
             $question = new Question($values);
 
             try {
@@ -53,6 +54,10 @@ class QuestionController extends Controller
                     $question->answeredBy()->associate(Auth::user());
                 }
                 $question->save();
+
+                if ($request->input('sendResponseEmail')) {
+                    // Send Email with answered question
+                }
 
                 return response("Sent question. Thanks for asking", 200);
             } catch (Exception $err) {
@@ -94,9 +99,10 @@ class QuestionController extends Controller
         if ($request->validate([
             "asked_by" => "required|email",
             "question" => "required|min:5|max:300",
-            "answer" => "nullable"
+            "answer" => "nullable",
+            "sendResponseEmail" => "required|boolean"
         ])) {
-            $values = $request->except(["answered_by", "id"]);
+            $values = $request->except(["answered_by", "id", "sendResponseEmail"]);
 
             try {
                 $question = Question::find($id);
@@ -111,6 +117,10 @@ class QuestionController extends Controller
                 }
 
                 $question->save();
+
+                if ($request->input('sendResponseEmail')) {
+                    // Send Email with answered question
+                }
 
                 return response("Updated question.", 200);
             } catch (Exception $err) {

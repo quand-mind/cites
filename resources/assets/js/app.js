@@ -146,6 +146,15 @@ if ($("#pageTemplate").length !== 0) {
     });
 }
 
+Vue.component("faqs", require("./views/Faqs.vue"));
+
+if ($("#faqs").length !== 0) {
+    const faqs = new Vue({
+        el: "#faqs"
+    });
+}
+
+
 Vue.component("cabecera", require("./components/Cabecera.vue"));
 
 Vue.component("navi", require("./components/Nav.vue"));

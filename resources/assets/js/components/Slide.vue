@@ -17,11 +17,11 @@ Descripción:
       ref="slick"
       :options="slickOptions"
     >
-      <img src="/images/slides/1.jpg" alt />
-      <img src="/images/slides/2.jpg" alt />
-      <img src="/images/slides/3.jpg" alt />
-      <img src="/images/slides/4.jpg" alt />
-      <img src="/images/slides/5.jpg" alt />
+      <img src="/images/slides/slides1.jpg" alt />
+      <img src="/images/slides/slides2.jpg" alt />
+      <img src="/images/slides/slides3.jpg" alt />
+      <!-- <img src="/images/slides/4.jpg" alt />
+      <img src="/images/slides/5.jpg" alt /> -->
     </slick>
   </div>
 </template>

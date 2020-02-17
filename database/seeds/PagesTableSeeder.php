@@ -121,7 +121,8 @@ class PagesTableSeeder extends Seeder
         // Preguntas frecuentes
         factory(App\Page::class, 1)->create([
             'title' => 'Preguntas frecuentes',
-            'is_onMenu' => true
+            'is_onMenu' => true,
+            'is_static' => true
         ]);
 
         // ¿Cómo participar?
@@ -168,14 +169,16 @@ class PagesTableSeeder extends Seeder
             'title' => 'Glosario',
             'is_onMenu' => true,
             'is_subpage' => true,
-            'main_page' => 21
+            'main_page' => 21,
+            'is_static' => true
         ]);
 
         factory(App\Page::class, 1)->create([
             'title' => 'Acrónimos',
             'is_onMenu' => true,
             'is_subpage' => true,
-            'main_page' => 21
+            'main_page' => 21,
+            'is_static' => true
         ]);
 
         factory(App\Page::class, 1)->create([

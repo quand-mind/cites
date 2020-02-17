@@ -130,7 +130,7 @@ export default {
     height: 40vh;
     overflow: hidden;
     position: relative;
-    margin-top:30px;
+    margin-top:56px;
 }
 .figure{
     position: relative;

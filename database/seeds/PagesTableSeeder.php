@@ -189,7 +189,7 @@ class PagesTableSeeder extends Seeder
         ]);
 
         DB::table('pages')->insert([
-            'title'             => 'Home',
+            'title'             => 'Bienvenidos',
             'slug'              => '',
             'meta_description'  => 'Descripción del sitio',
             'meta_keywords'     => 'Palabras claves',

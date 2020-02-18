@@ -17,37 +17,44 @@ Descripción:
     style="border: 1px solid #dadada; flex-shrink: 2; min-width: 300px"
   >
     <!-- Enlaces de interes -->
-    <h3>Enlaces de interés</h3>
     <div
       class="w-100 d-flex align-items-center flex-wrap justify-content-around my-5 px-4"
       style="max-width: 300px"
     >
-      <a href="http://www.minec.gob.ve/" class="image-aside" onclick="return false">
+      <a target="_blank" href="http://www.minec.gob.ve/" class="image-aside" onclick="return false">
         <img src="/images/logos/logo-minec.png" />
       </a>
-      <a href="http://www.thegef.org/" class="image-aside" onclick="return false">
+      <a target="_blank" href="http://www.thegef.org/" class="image-aside" onclick="return false">
         <img src="/images/logos/logo-gef.png" />
       </a>
-      <a
-        href="https://www.conacyt.gob.mx/cibiogem/index.php/cibiogem/acerca-de-la-cibiogem"
-        class="image-aside"
-        onclick="return false"
-      >
-        <img src="/images/logos/logo-cibiogem.png" />
+      <a target="_blank" href="http://www.insai.gob.ve/" class="image-aside" onclick="return false">
+        <img src="/images/logos/logo-insai.jpg" />
       </a>
-      <a href="http://registrosigefor.minec.gob.ve/" class="image-aside" onclick="return false">
-        <img src="/images/logos/logo-sigefor.png" />
+      <a target="_blank" href="http://www.mindefensa.gob.ve/" class="image-aside" onclick="return false">
+        <img src="/images/logos/logo-mindefensa.jpg" />
       </a>
-      <a href="#" class="image-aside" onclick="return false">
+      <a target="_blank" href="#" class="image-aside" onclick="return false">
         <img src="/images/logos/logo-pnud.png" />
       </a>
-      <a href="#" class="image-aside" onclick="return false">
+      <a target="_blank" href="http://mppre.gob.ve" class="image-aside" onclick="return false">
+        <img src="/images/logos/logo-minexterior.png" />
+      </a>
+      <a target="_blank" href="https://www.unenvironment.org/" class="image-aside" onclick="return false">
         <img src="/images/logos/logo-unep.png" />
       </a>
-      <a href="http://www.bioseguridadecuador.gob.ec/" class="image-aside" onclick="return false">
-        <img src="/images/logos/logo-ciisb.png" />
+      <a target="_blank" href="https://twitter.com/mitcoex" class="image-aside" onclick="return false">
+        <img src="/images/logos/logo-minturismo.png" />
       </a>
-      <a href="http://bch.cbd.int/?lg=es" class="image-aside" onclick="return false">
+      <a target="_blank" href="http://www.minpal.gob.ve" class="image-aside" onclick="return false">
+        <img src="/images/logos/logo-minppal15años.png" />
+      </a>
+      <a target="_blank" href="http://www.mpps.gob.ve" class="image-aside image-h" onclick="return false">
+        <img src="/images/logos/logo-minsalud.png" />
+      </a>
+      <a target="_blank" href="https://bch.cbd.int/" class="image-aside image-h" onclick="return false">
+        <img src="/images/logos/logo-biosafety.png" />
+      </a>
+      <a target="_blank" href="http://bch.cbd.int/?lg=es" class="image-aside image-h" onclick="return false">
         <img src="/images/logos/logo-convencion.png" />
       </a>
     </div>
@@ -64,5 +71,10 @@ export default {
 .image-aside img {
   height: 80px;
   margin: 10px;
+}
+
+.image-aside.image-h img {
+  height: auto;
+  max-width: 100%;
 }
 </style>

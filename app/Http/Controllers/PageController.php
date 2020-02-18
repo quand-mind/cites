@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Page;
 use App\Question;
+use App\Survey;
 use Illuminate\Support\Facades\Auth;
 
 class PageController extends Controller
@@ -261,5 +262,32 @@ class PageController extends Controller
         $links = $this->getMenuLinks();
 
         return view('frontend.faqs', compact('page', 'questions', 'links'));
+     }
+
+     /**
+     * Show the surveys on the frontend
+     *
+     * @return \Illuminate\Http\Response
+     */
+
+    public function encuestasView () {
+        $page = Page::where('slug', 'encuesta')->first();
+        $surveys = Survey::all();
+        $links = $this->getMenuLinks();
+
+        return view('frontend.surveys', compact('page', 'surveys', 'links'));
+     }
+
+     /**
+     * Show the newQuestion on the frontend
+     *
+     * @return \Illuminate\Http\Response
+     */
+
+    public function newQuestionView () {
+        $page = Page::where('slug', 'desea-hacer-una-pregunta-adicional')->first();
+        $links = $this->getMenuLinks();
+
+        return view('frontend.newQuestion', compact('page', 'links'));
      }
 }

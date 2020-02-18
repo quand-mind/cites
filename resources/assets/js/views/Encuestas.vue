@@ -37,22 +37,10 @@ export default {
   components: {
     titulo
   },
+  props: ['surveys'],
   data() {
     return {
-      faqs: [],
-      surveys: []
     };
-  },
-  created() {
-    // Get questions
-    let _this = this;
-
-    axios
-      .get("/surveys-list")
-      .then(res => {
-        _this.surveys = [...res.data];
-      })
-      .catch(err => console.log(err.response));
   }
 };
 </script>

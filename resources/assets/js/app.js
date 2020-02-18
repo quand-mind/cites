@@ -154,6 +154,23 @@ if ($("#faqs").length !== 0) {
     });
 }
 
+Vue.component("surveys", require("./views/Encuestas.vue"));
+
+if ($("#surveys").length !== 0) {
+    const surveys = new Vue({
+        el: "#surveys"
+    });
+}
+
+
+Vue.component("pregunta-adicional", require("./views/Consulta.vue"));
+
+if ($("#preguntaAdicional").length !== 0) {
+    const preguntaAdicional = new Vue({
+        el: "#preguntaAdicional"
+    });
+}
+
 
 Vue.component("cabecera", require("./components/Cabecera.vue"));
 

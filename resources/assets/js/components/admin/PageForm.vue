@@ -214,12 +214,14 @@ export default {
       // NOTE: Your key could be different such as:
       // formData.append('file', file)
 
+      let _this = this
+
       var formData = new FormData();
       formData.append("image", file);
 
       axios({
         url: "/dashboard/images/page/content",
-        method: "page",
+        method: "post",
         data: formData
       })
         .then(result => {
@@ -236,12 +238,14 @@ export default {
       // NOTE: Your key could be different such as:
       // formData.append('file', file)
 
+      let _this = this
+
       var formData = new FormData();
       formData.append("path", file);
 
       axios({
         url: "/dashboard/images/page/content/delete",
-        method: "page",
+        method: "post",
         data: formData
       })
         .then(result => {

@@ -59,7 +59,7 @@ class QuestionController extends Controller
                     // Send Email with answered question
                 }
 
-                return response("Sent question. Thanks for asking", 200);
+                return response("Gracias por participar. Responderemos a la brevedad posible", 200);
             } catch (Exception $err) {
                 return response($err->getMessage(), 500);
             }
@@ -122,7 +122,7 @@ class QuestionController extends Controller
                     // Send Email with answered question
                 }
 
-                return response("Updated question.", 200);
+                return response("Consulta actualizada", 200);
             } catch (Exception $err) {
                 return response($err->getMessage(), 500);
             }
@@ -135,9 +135,14 @@ class QuestionController extends Controller
      * @param  \App\Question  $question
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Question $question)
+    public function destroy($id)
     {
-        //
+        try {
+            Question::find($id)->delete();
+            return response('Consulta eliminada', 200);
+        } catch (Exception $err) {
+            return response($err->getMessage(), 500);
+        }
     }
 
     public function changeStatus(Request $request, $id)

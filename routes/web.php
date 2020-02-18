@@ -124,6 +124,7 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         Route::get('/questions', 'QuestionController@index');
         Route::get('/question', 'QuestionController@create'); // Test form in the admin panel
         Route::post('/question/changeStatus/{id}', 'QuestionController@changeStatus');
+        Route::delete('/questions/{id}', 'QuestionController@destroy');
 
         // Surveys Routes
         Route::get('/surveys', 'SurveyController@index');

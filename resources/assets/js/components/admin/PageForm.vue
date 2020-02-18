@@ -10,7 +10,7 @@
         <b-row>
           <b-col>
             <b-form-group label="Título" label-for="input-1">
-              <b-form-input v-model="pageData.title" required placeholder="Titulo de la página"></b-form-input>
+              <b-form-input v-model="pageData.title" :disabled="Boolean(pageData.is_static)" required placeholder="Titulo de la página"></b-form-input>
             </b-form-group>
           </b-col>
         </b-row>
@@ -65,7 +65,7 @@
           </b-col>
           <b-col>
             <b-form-group label="" label-for="input-3">
-              <b-form-checkbox v-model="pageData.is_subpage" :checked="pageData.is_subpage" name="check-button" switch @change="showSubpagePrompt">
+              <b-form-checkbox v-model="pageData.is_subpage" :checked="pageData.is_subpage" name="check-button" :disabled="Boolean(pageData.is_static)" switch @change="showSubpagePrompt">
                 Marcar como una subpágina
               </b-form-checkbox>
             </b-form-group>

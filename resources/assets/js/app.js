@@ -138,6 +138,14 @@ if ($("#glosaryList").length !== 0) {
     });
 }
 
+Vue.component("acronimo", require("./components/admin/AcronimoList.vue"));
+
+if ($("#acronimoList").length !== 0) {
+    const pageTemplate = new Vue({
+        el: "#acronimoList"
+    });
+}
+
 Vue.component("menu-list", require("./components/admin/MenuList.vue"));
 
 if ($("#menuList").length !== 0) {

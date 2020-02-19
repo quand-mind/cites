@@ -1,12 +1,12 @@
 <template>
   <div>
-    <b-button @click="showCreateWordModal" variant="primary">Definir nueva palabra</b-button>
+    <b-button @click="showCreateModal" variant="primary">Definir nuevo Acrónimo</b-button>
     <v-client-table
       :data="tableSettings.data"
       :columns="tableSettings.columns"
       :options="tableSettings.options"
     >
-      <span slot="palabra" slot-scope="props">{{props.row.word}}</span>
+      <span slot="palabra" slot-scope="props">{{props.row.siglas}}</span>
       <span slot="definición" slot-scope="props">{{props.row.definition || ""}}</span>
       <div class="action-container" slot="acciones" slot-scope="props">
         <a class="text-dark" @click.prevent="{editWord(props.row)}">
@@ -19,15 +19,15 @@
       </div>
     </v-client-table>
 
-    <!-- Create Word modal -->
-    <b-modal ref="create-word-modal" hide-footer>
+    <!-- Create modal -->
+    <b-modal ref="create-modal" hide-footer>
       <template v-slot:modal-title>
-        <span>Definir una nueva palabra</span>
+        <span>Definir nuevo Acrónimo</span>
       </template>
-      <b-form id="wordForm" @submit.prevent="onSubmit" @reset="onReset">
+      <b-form id="acrodForm" @submit.prevent="onSubmit" @reset="onReset">
         
-        <b-form-group label="Escriba la palabra:" label-for="word">
-          <b-form-input id="word" v-model="form.word" required placeholder="Palabra"></b-form-input>
+        <b-form-group label="Escriba la palabra:" label-for="acrod">
+          <b-form-input id="acrod" v-model="form.siglas" required placeholder="Palabra"></b-form-input>
         </b-form-group>
 
         <b-form-group label="Definición:" label-for="textarea">
@@ -55,12 +55,12 @@ import axios from "axios";
 import moment from "moment";
 
 export default {
-   props: ["words"],
+   props: ["acrods"],
   data: () => ({
     tableSettings: {
       data: [],
       columns: [
-        "Palabra",
+        "Acrónimo",
         "Definición",
         "Acciones"
         ],
@@ -70,24 +70,24 @@ export default {
       }
     },
     form: {
-      word: "",
+      siglas: "",
       definition: "",
     },
     selectedWord: null
   }),
   methods: {
-    showCreateWordModal() {
-      this.$refs["create-word-modal"].show();
+    showCreateModal() {
+      this.$refs["create-modal"].show();
       this.form = {
-        word: "",
+        siglas: "",
         definition: "",
       };
     },
-    hideCreateWordModal() {
-      this.$refs["create-word-modal"].hide();
+    hideCreateModal() {
+      this.$refs["create-modal"].hide();
     },
-    showEditWordModal(row) {
-      this.$refs["edit-word-modal"].show();
+    showEditModal(row) {
+      this.$refs["edit-modal"].show();
       this.selectedWord = row;
       this.form = {
         id: this.selectedWord.id,
@@ -95,8 +95,8 @@ export default {
         definition: this.selectedWord.definition,
       };
     },
-    hideEditWordModal() {
-      this.$refs["edit-word-modal"].hide();
+    hideEditModal() {
+      this.$refs["edit-modal"].hide();
     },
     onSubmit() {
       let formData = new FormData();
@@ -127,7 +127,7 @@ export default {
         .catch(err => console.log(err.response));
     },
     onResetEdit() {},
-    changeWordStatus(id) {
+    changeStatus(id) {
       let _this = this;
       let postIdx = _this.tableSettings.data.findIndex(post => id === post.id);
       _this.tableSettings.data[postIdx].is_faq = !_this.tableSettings.data[

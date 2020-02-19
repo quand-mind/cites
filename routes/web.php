@@ -130,6 +130,10 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
 
         // Glosary Routes
         Route::get('/glosary', 'GlosaryController@index');
+
+        // Acronimos Routes
+        Route::get('/acronimos', 'acronimoController@index');
+
     });
 });
 

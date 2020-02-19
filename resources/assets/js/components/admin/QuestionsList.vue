@@ -20,6 +20,9 @@
       </div>
       <div slot="acciones" slot-scope="props">
         <b-button @click="showEditQuestionModal(props.row)" variant="primary">Responder</b-button>
+        <a class="text-danger" @click.prevent="{deleteQuestion(props.row)}">
+          <font-awesome-icon :icon="['fa', 'trash']"></font-awesome-icon>
+        </a>
       </div>
     </v-client-table>
 
@@ -50,6 +53,16 @@
             rows="3"
             max-rows="6"
           ></b-form-textarea>
+        </b-form-group>
+
+        <b-form-group label="Responder con un email" label-for="question">
+          <b-form-checkbox
+            name="check-button"
+            class="check-active"
+            v-model="form.sendEmailResponse"
+            :checked="Boolean(form.sendEmailResponse)"
+            switch
+          ></b-form-checkbox>
         </b-form-group>
 
         <b-button type="submit" variant="primary">Enviar</b-button>
@@ -86,6 +99,16 @@
           ></b-form-textarea>
         </b-form-group>
 
+        <b-form-group label="Responder con un email" label-for="question">
+          <b-form-checkbox
+            name="check-button"
+            class="check-active"
+            v-model="form.sendEmailResponse"
+            :checked="Boolean(form.sendEmailResponse)"
+            switch
+          ></b-form-checkbox>
+        </b-form-group>
+
         <b-button type="submit" variant="primary">Enviar</b-button>
         <b-button type="reset" variant="danger">Cancelar</b-button>
       </b-form>
@@ -118,7 +141,8 @@ export default {
       asked_by: "",
       question: "",
       answer: "",
-      answered_by: null
+      answered_by: null,
+      sendResponseEmail: true
     },
     selectedQuestion: null
   }),
@@ -129,7 +153,8 @@ export default {
         asked_by: "",
         question: "",
         answer: "",
-        answered_by: null
+        answered_by: null,
+        sendResponseEmail: true
       };
     },
     hideCreateQuestionModal() {
@@ -143,39 +168,50 @@ export default {
         asked_by: this.selectedQuestion.asked_by,
         question: this.selectedQuestion.question,
         answer: this.selectedQuestion.answer,
-        answered_by: this.selectedQuestion.answered_by
+        answered_by: this.selectedQuestion.answered_by,
+        sendResponseEmail: false
       };
     },
     hideEditQuestionModal() {
       this.$refs["edit-question-modal"].hide();
     },
     onSubmit() {
+      let _this = this
       let formData = new FormData();
 
-      for (let prop in this.form) formData.append(prop, this.form[prop]);
+      for (let prop in this.form) {
+        if (prop !== "id") {
+          if (prop === "sendResponseEmail") formData.append(prop, this.form[prop] ? 1 : 0);
+          else formData.append(prop, this.form[prop]);
+        }
+      }
 
       axios
         .post(`/question`, formData)
         .then(res => {
-          console.log(res);
-          window.location.reload();
+          _this.makeToast(res.data);
+          setTimeout(() => window.location.reload(), 2000);
         })
-        .catch(err => console.log(err.response));
+        .catch(err => _this.makeToast(err.response.data, "danger"));
     },
     onReset() {},
     onSubmitEdit() {
+      let _this = this
       let formData = new FormData();
 
       for (let prop in this.form)
-        prop !== "id" && formData.append(prop, this.form[prop]);
+        if (prop !== "id") {
+          if (prop === "sendResponseEmail") formData.append(prop, this.form[prop] ? 1 : 0);
+          else formData.append(prop, this.form[prop]);
+        }
 
       axios
         .post(`/question/update/${this.form.id}`, formData)
         .then(res => {
-          console.log(res);
-          window.location.reload();
+          _this.makeToast(res.data);
+          setTimeout(() => window.location.reload(), 2000);
         })
-        .catch(err => console.log(err.response));
+        .catch(err => _this.makeToast(err.response.data, "danger"));
     },
     onResetEdit() {},
     changeQuestionStatus(id) {
@@ -205,6 +241,21 @@ export default {
         appendToast: append,
         variant
       });
+    },
+    deleteQuestion (question) {
+      let _this = this;
+
+      axios
+        .delete(`/dashboard/questions/${question.id}`)
+        .then(res => {
+          if (res.status === 200) {
+            _this.makeToast(res.data);
+            setTimeout(() => window.location.reload(), 2000);
+          }
+        })
+        .catch(err => {
+          _this.makeToast(err.response.data, "danger");
+        });
     }
   },
   mounted() {
@@ -213,7 +264,6 @@ export default {
       let newQuest = { ...question };
       newQuest.created_at = moment(newQuest.created_at).format("DD/MM/YYYY");
       newQuest.is_faq = parseInt(newQuest.is_faq) === 1;
-      console.log(newQuest.question, newQuest.is_faq);
       newQuest.answered_by = newQuest.answered_by
         ? newQuest.answered_by.username
         : null;

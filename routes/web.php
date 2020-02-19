@@ -30,6 +30,9 @@
 // });
 
 // Frontend routes for "FAQs"
+
+use Illuminate\Support\Facades\Artisan;
+
 Route::get('/preguntas-frecuentes', 'PageController@faqsView')->name('preguntas-frecuentes');
 Route::get('/como-participar/encuesta', 'PageController@encuestasView')->name('encuestas');
 Route::get('/como-participar/desea-hacer-una-pregunta-adicional', 'PageController@newQuestionView')->name('pregunta-adicional');
@@ -121,6 +124,7 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         Route::get('/questions', 'QuestionController@index');
         Route::get('/question', 'QuestionController@create'); // Test form in the admin panel
         Route::post('/question/changeStatus/{id}', 'QuestionController@changeStatus');
+        Route::delete('/questions/{id}', 'QuestionController@destroy');
 
         // Surveys Routes
         Route::get('/surveys', 'SurveyController@index');
@@ -140,6 +144,21 @@ Route::get('/surveys-list', 'SurveyController@getSurveysList');
 
 // Migration routes
 Route::get('/migrate/seed', 'MigrationsController@seed');
+
+// Link storage
+Route::get('/link/storage', function () {
+    Artisan::call('storage:link', []);
+    return "Linked storage completed";
+});
+
+// Clear app
+Route::get('/clear-app', function () {
+    Artisan::call('cache:clear', []);
+    Artisan::call('route:clear', []);
+    Artisan::call('config:clear', []);
+    Artisan::call('view:clear', []);
+    return "Clear the app deployment completed";
+});
 
 // Frontend pages controller
 Route::get('/{slug?}', 'PageController@show');

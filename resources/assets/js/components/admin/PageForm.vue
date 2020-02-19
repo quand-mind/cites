@@ -10,7 +10,7 @@
         <b-row>
           <b-col>
             <b-form-group label="Título" label-for="input-1">
-              <b-form-input v-model="pageData.title" required placeholder="Titulo de la página"></b-form-input>
+              <b-form-input v-model="pageData.title" :disabled="Boolean(pageData.is_static)" required placeholder="Titulo de la página"></b-form-input>
             </b-form-group>
           </b-col>
         </b-row>
@@ -65,7 +65,7 @@
           </b-col>
           <b-col>
             <b-form-group label="" label-for="input-3">
-              <b-form-checkbox v-model="pageData.is_subpage" :checked="pageData.is_subpage" name="check-button" switch @change="showSubpagePrompt">
+              <b-form-checkbox v-model="pageData.is_subpage" :checked="pageData.is_subpage" name="check-button" :disabled="Boolean(pageData.is_static)" switch @change="showSubpagePrompt">
                 Marcar como una subpágina
               </b-form-checkbox>
             </b-form-group>
@@ -214,12 +214,14 @@ export default {
       // NOTE: Your key could be different such as:
       // formData.append('file', file)
 
+      let _this = this
+
       var formData = new FormData();
       formData.append("image", file);
 
       axios({
         url: "/dashboard/images/page/content",
-        method: "page",
+        method: "post",
         data: formData
       })
         .then(result => {
@@ -236,12 +238,14 @@ export default {
       // NOTE: Your key could be different such as:
       // formData.append('file', file)
 
+      let _this = this
+
       var formData = new FormData();
       formData.append("path", file);
 
       axios({
         url: "/dashboard/images/page/content/delete",
-        method: "page",
+        method: "post",
         data: formData
       })
         .then(result => {

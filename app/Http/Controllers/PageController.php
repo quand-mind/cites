@@ -153,6 +153,10 @@ class PageController extends Controller
             'meta_description',
             'is_active',
             'is_subpage',
+<<<<<<< HEAD
+=======
+            'is_static',
+>>>>>>> master
             'main_page',
             'title',
             'meta_robots',

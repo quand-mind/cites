@@ -20,6 +20,12 @@
       </div>
       <div slot="acciones" slot-scope="props">
         <b-button @click="showEditQuestionModal(props.row)" variant="primary">Responder</b-button>
+<<<<<<< HEAD
+=======
+        <a class="text-danger" @click.prevent="{deleteQuestion(props.row)}">
+          <font-awesome-icon :icon="['fa', 'trash']"></font-awesome-icon>
+        </a>
+>>>>>>> master
       </div>
     </v-client-table>
 
@@ -52,6 +58,19 @@
           ></b-form-textarea>
         </b-form-group>
 
+<<<<<<< HEAD
+=======
+        <b-form-group label="Responder con un email" label-for="question">
+          <b-form-checkbox
+            name="check-button"
+            class="check-active"
+            v-model="form.sendEmailResponse"
+            :checked="Boolean(form.sendEmailResponse)"
+            switch
+          ></b-form-checkbox>
+        </b-form-group>
+
+>>>>>>> master
         <b-button type="submit" variant="primary">Enviar</b-button>
         <b-button type="reset" variant="danger">Cancelar</b-button>
       </b-form>
@@ -86,6 +105,19 @@
           ></b-form-textarea>
         </b-form-group>
 
+<<<<<<< HEAD
+=======
+        <b-form-group label="Responder con un email" label-for="question">
+          <b-form-checkbox
+            name="check-button"
+            class="check-active"
+            v-model="form.sendEmailResponse"
+            :checked="Boolean(form.sendEmailResponse)"
+            switch
+          ></b-form-checkbox>
+        </b-form-group>
+
+>>>>>>> master
         <b-button type="submit" variant="primary">Enviar</b-button>
         <b-button type="reset" variant="danger">Cancelar</b-button>
       </b-form>
@@ -118,7 +150,12 @@ export default {
       asked_by: "",
       question: "",
       answer: "",
+<<<<<<< HEAD
       answered_by: null
+=======
+      answered_by: null,
+      sendResponseEmail: true
+>>>>>>> master
     },
     selectedQuestion: null
   }),
@@ -129,7 +166,12 @@ export default {
         asked_by: "",
         question: "",
         answer: "",
+<<<<<<< HEAD
         answered_by: null
+=======
+        answered_by: null,
+        sendResponseEmail: true
+>>>>>>> master
       };
     },
     hideCreateQuestionModal() {
@@ -143,20 +185,38 @@ export default {
         asked_by: this.selectedQuestion.asked_by,
         question: this.selectedQuestion.question,
         answer: this.selectedQuestion.answer,
+<<<<<<< HEAD
         answered_by: this.selectedQuestion.answered_by
+=======
+        answered_by: this.selectedQuestion.answered_by,
+        sendResponseEmail: false
+>>>>>>> master
       };
     },
     hideEditQuestionModal() {
       this.$refs["edit-question-modal"].hide();
     },
     onSubmit() {
+<<<<<<< HEAD
       let formData = new FormData();
 
       for (let prop in this.form) formData.append(prop, this.form[prop]);
+=======
+      let _this = this
+      let formData = new FormData();
+
+      for (let prop in this.form) {
+        if (prop !== "id") {
+          if (prop === "sendResponseEmail") formData.append(prop, this.form[prop] ? 1 : 0);
+          else formData.append(prop, this.form[prop]);
+        }
+      }
+>>>>>>> master
 
       axios
         .post(`/question`, formData)
         .then(res => {
+<<<<<<< HEAD
           console.log(res);
           window.location.reload();
         })
@@ -168,14 +228,38 @@ export default {
 
       for (let prop in this.form)
         prop !== "id" && formData.append(prop, this.form[prop]);
+=======
+          _this.makeToast(res.data);
+          setTimeout(() => window.location.reload(), 2000);
+        })
+        .catch(err => _this.makeToast(err.response.data, "danger"));
+    },
+    onReset() {},
+    onSubmitEdit() {
+      let _this = this
+      let formData = new FormData();
+
+      for (let prop in this.form)
+        if (prop !== "id") {
+          if (prop === "sendResponseEmail") formData.append(prop, this.form[prop] ? 1 : 0);
+          else formData.append(prop, this.form[prop]);
+        }
+>>>>>>> master
 
       axios
         .post(`/question/update/${this.form.id}`, formData)
         .then(res => {
+<<<<<<< HEAD
           console.log(res);
           window.location.reload();
         })
         .catch(err => console.log(err.response));
+=======
+          _this.makeToast(res.data);
+          setTimeout(() => window.location.reload(), 2000);
+        })
+        .catch(err => _this.makeToast(err.response.data, "danger"));
+>>>>>>> master
     },
     onResetEdit() {},
     changeQuestionStatus(id) {
@@ -205,6 +289,24 @@ export default {
         appendToast: append,
         variant
       });
+<<<<<<< HEAD
+=======
+    },
+    deleteQuestion (question) {
+      let _this = this;
+
+      axios
+        .delete(`/dashboard/questions/${question.id}`)
+        .then(res => {
+          if (res.status === 200) {
+            _this.makeToast(res.data);
+            setTimeout(() => window.location.reload(), 2000);
+          }
+        })
+        .catch(err => {
+          _this.makeToast(err.response.data, "danger");
+        });
+>>>>>>> master
     }
   },
   mounted() {
@@ -213,7 +315,10 @@ export default {
       let newQuest = { ...question };
       newQuest.created_at = moment(newQuest.created_at).format("DD/MM/YYYY");
       newQuest.is_faq = parseInt(newQuest.is_faq) === 1;
+<<<<<<< HEAD
       console.log(newQuest.question, newQuest.is_faq);
+=======
+>>>>>>> master
       newQuest.answered_by = newQuest.answered_by
         ? newQuest.answered_by.username
         : null;

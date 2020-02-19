@@ -10,7 +10,11 @@
         <b-row>
           <b-col>
             <b-form-group label="Título" label-for="input-1">
+<<<<<<< HEAD
               <b-form-input v-model="pageData.title" required placeholder="Titulo de la página"></b-form-input>
+=======
+              <b-form-input v-model="pageData.title" :disabled="Boolean(pageData.is_static)" required placeholder="Titulo de la página"></b-form-input>
+>>>>>>> master
             </b-form-group>
           </b-col>
         </b-row>
@@ -65,7 +69,11 @@
           </b-col>
           <b-col>
             <b-form-group label="" label-for="input-3">
+<<<<<<< HEAD
               <b-form-checkbox v-model="pageData.is_subpage" :checked="pageData.is_subpage" name="check-button" switch @change="showSubpagePrompt">
+=======
+              <b-form-checkbox v-model="pageData.is_subpage" :checked="pageData.is_subpage" name="check-button" :disabled="Boolean(pageData.is_static)" switch @change="showSubpagePrompt">
+>>>>>>> master
                 Marcar como una subpágina
               </b-form-checkbox>
             </b-form-group>
@@ -214,12 +222,21 @@ export default {
       // NOTE: Your key could be different such as:
       // formData.append('file', file)
 
+<<<<<<< HEAD
+=======
+      let _this = this
+
+>>>>>>> master
       var formData = new FormData();
       formData.append("image", file);
 
       axios({
         url: "/dashboard/images/page/content",
+<<<<<<< HEAD
         method: "page",
+=======
+        method: "post",
+>>>>>>> master
         data: formData
       })
         .then(result => {
@@ -236,12 +253,21 @@ export default {
       // NOTE: Your key could be different such as:
       // formData.append('file', file)
 
+<<<<<<< HEAD
+=======
+      let _this = this
+
+>>>>>>> master
       var formData = new FormData();
       formData.append("path", file);
 
       axios({
         url: "/dashboard/images/page/content/delete",
+<<<<<<< HEAD
         method: "page",
+=======
+        method: "post",
+>>>>>>> master
         data: formData
       })
         .then(result => {

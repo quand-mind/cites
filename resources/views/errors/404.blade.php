@@ -43,6 +43,7 @@
         <cabecera></cabecera>
         <navi></navi>
         <navmobile></navmobile>
+<<<<<<< HEAD
         <div>
             <div>
             <b-navbar toggleable="lg" type="verde" variant="info">
@@ -58,6 +59,8 @@
             </b-navbar>
           </div>
         </div>
+=======
+>>>>>>> master
         <div class="mt-5 container-fluid container-lg d-flex justify-content-center flex-column flex-lg-row m-0 p-0 mx-lg-auto p-lg-auto">
               <main class="px-lg-5 px-xs-5 mb-5 w-100 min-vh-100">
                 <error></error>

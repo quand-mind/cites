@@ -1,7 +1,7 @@
 @extends('layouts.panel')
 @section('content')
     <div id="acronimoList">
-    	<acronimo :words="{{ json_encode($acronimos) }}"></acronimo>
+    	<acronimo-list :words="{{ json_encode($acronimos) }}"></acronimo-list>
     </div>
 @endsection
 

@@ -1,13 +1,8 @@
 <template>
   <div>
     <div class="caja bg-light p-3">
-<<<<<<< HEAD
       <h1>Bienvenido al Panel de administración</h1>
       <h4 class="ml-4">Desde acá podrás Administrar el sitio web, agregar o Administrar páginas, responder preguntas, hacer encuestas y administrar usuarios</h4>
-=======
-      <h1>Bienvenido al Panel de administración de MINEC <span><img src="/images/logos/minec-thumb.png" class="figure" /></span></h1>
-      <h4 class="ml-4">Desde acá podrás modificar el sitio web, agregar o modificar páginas, responder preguntas, hacer encuestas y administrar usuarios</h4>
->>>>>>> master
     </div>
     <b-card-group deck>
       <b-card header-tag="header" class="m-3">
@@ -26,12 +21,8 @@
           <h6 class="mb-0 text-uppercase">Menú</h6>
         </template>
         <b-card-text>Modifica el orden o los botones del menú</b-card-text>
-<<<<<<< HEAD
 
-        <b-button href="/dashboard/menu" variant="primary"class="mx-2"><font-awesome-icon :icon="['fas', 'pager']"></font-awesome-icon><br> Administrar menú</b-button>
-=======
->>>>>>> master
-        <b-button href="/dashboard/menu" variant="primary" class="mx-2"><font-awesome-icon :icon="['fas', 'pager']"></font-awesome-icon><br> Modificar menú</b-button>
+        <b-button href="/dashboard/menu" variant="primary" class="mx-2"><font-awesome-icon :icon="['fas', 'pager']"></font-awesome-icon><br> Administrar menú</b-button>
       </b-card>
 
       <b-card header-tag="header" class="m-3">
@@ -42,10 +33,6 @@
           <b-button-group>
             <b-button href="/dashboard/users" variant="primary" class="mx-2"><font-awesome-icon :icon="['fas', 'user-plus']"></font-awesome-icon><br> Crear usuarios</b-button>
             <b-button href="/dashboard/users" variant="info" class="mx-2"><font-awesome-icon :icon="['fas', 'users-cog']"></font-awesome-icon><br> Administrar usuarios</b-button>
-<<<<<<< HEAD
-            <b-button href="/dashboard/users" variant="danger" class="mx-2"><font-awesome-icon :icon="['fas', 'user-times']"></font-awesome-icon><br> Eliminar usuarios</b-button>
-=======
->>>>>>> master
           </b-button-group>
       </b-card>
     </b-card-group>
@@ -56,7 +43,6 @@
         </template>
         <b-button-group>
             <b-button href="/dashboard/questions" variant="primary" class="mx-2"><font-awesome-icon :icon="['fas', 'plus']"></font-awesome-icon><br> Crear nueva pregunta</b-button>
-            <b-button href="/dashboard/questions" variant="success" class="mx-2"><font-awesome-icon :icon="['fas', 'question-circle']"></font-awesome-icon><br> Responder preguntas</b-button>
             <b-button href="/dashboard/questions" variant="info" class="mx-2"><font-awesome-icon :icon="['fas', 'cog']"></font-awesome-icon><br> Administrar preguntas</b-button>
           </b-button-group>
       </b-card>

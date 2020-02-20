@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="content">{{ page.content }}</div>
+        <div class="content mb-5">{{ page.content }}</div>
         <newQuestion></newQuestion>
     </div>
 </template>

@@ -134,25 +134,6 @@ if ($("#pageForm").length !== 0) {
     });
 }
 
-<<<<<<< HEAD
-Vue.component("glosary", require("./components/admin/GlosaryList.vue"));
-
-if ($("#glosaryList").length !== 0) {
-    const pageTemplate = new Vue({
-        el: "#glosaryList"
-    });
-}
-
-Vue.component("acronimo", require("./components/admin/AcronimoList.vue"));
-
-if ($("#acronimoList").length !== 0) {
-    const pageTemplate = new Vue({
-        el: "#acronimoList"
-    });
-}
-
-=======
->>>>>>> master
 Vue.component("menu-list", require("./components/admin/MenuList.vue"));
 
 if ($("#menuList").length !== 0) {

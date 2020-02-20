@@ -142,6 +142,14 @@ if ($("#menuList").length !== 0) {
     });
 }
 
+Vue.component("laws-list", require("./components/admin/LawsList.vue"));
+
+if ($("#lawsList").length !== 0) {
+    const lawsList = new Vue({
+        el: "#lawsList"
+    });
+}
+
 Vue.component("page-template", require("./views/PageTemplate.vue"));
 
 if ($("#pageTemplate").length !== 0) {

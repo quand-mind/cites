@@ -131,6 +131,12 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         Route::post('/survey', 'SurveyController@store');
         Route::post('/surveys/edit/{id}', 'SurveyController@update');
         Route::delete('/surveys/{id}', 'SurveyController@destroy');
+
+        // Surveys Routes
+        Route::get('/laws', 'LegalFileController@index');
+        Route::post('/laws/create', 'LegalFileController@store');
+        Route::post('/laws/edit/{id}', 'LegalFileController@update');
+        Route::delete('/laws/{id}', 'LegalFileController@destroy');
     });
 });
 

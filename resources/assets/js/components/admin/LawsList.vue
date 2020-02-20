@@ -48,17 +48,8 @@
       </template>
       <div v-if="selectedFile" class="d-block">
         <b-form class="edit-form" @submit.prevent="onEditSubmit" @reset="onReset">
-          <b-form-group class="user-file">
-            <picture>
-              <b-img thumbnail fluid :src="editFileURL || selectedFile.file" alt="user file"></b-img>
-            </picture>
-            <b-form-file
-              accept=".doc,.pdf"
-              v-model="formFile"
-              placeholder="Seleccione un archivo"
-              drop-placeholder="Drop file here..."
-            ></b-form-file>
-            <div class="mt-3">Archivo seleccionado: {{ formFile ? formFile.name : '' }}</div>
+          <b-form-group label="Descripción:" label-for="input-2">
+            <b-form-input v-model="editForm.description" required></b-form-input>
           </b-form-group>
 
           <b-form-group label="Tipo:" label-for="input-2">
@@ -156,17 +147,16 @@ export default {
     hideCreateModal() {
       this.$refs["create-modal"].hide();
     },
-    editFile(user) {
-      this.selectedFile = user;
+    editFile(file) {
+      this.selectedFile = file;
       this.showEditModal();
     },
-    deleteFile(user) {
-      this.selectedFile = user;
+    deleteFile(file) {
+      this.selectedFile = file;
       this.showDeleteModal();
     },
     showEditModal() {
       this.editForm = {
-        name: this.selectedFile.name,
         description: this.selectedFile.description,
         type: this.selectedFile.type
       };
@@ -188,18 +178,10 @@ export default {
       let _this = this;
       let form = new FormData();
 
-      Object.keys(_this.editForm).forEach(key => {
-        if (key !== "file") form.append(key, _this.editForm[key]);
-      });
-
-      _this.formFile && form.append("file", _this.formFile);
+      Object.keys(_this.editForm).forEach(key => form.append(key, _this.editForm[key]));
 
       axios
-        .post(`/dashboard/laws/edit/${_this.selectedFile.id}`, form, {
-          headers: {
-            "Content-Type": "multipart/form-data"
-          }
-        })
+        .post(`/dashboard/laws/edit/${_this.selectedFile.id}`, form)
         .then(res => {
           if (res.status === 200) {
             _this.makeToast(res.data);
@@ -217,12 +199,8 @@ export default {
     onResetCreate() {
       this.createForm = {
         name: "",
-        username: "",
-        email: "",
-        role: "",
-        is_active: true,
-        password_confirmation: "",
-        password: ""
+        description: "",
+        type: null
       };
     },
 
@@ -245,8 +223,6 @@ export default {
         form.append("file", _this.newFile);
         form.append("name", _this.newFile.name);
       }
-
-      console.log(_this.newFile)
 
       axios
         .post(`/dashboard/laws/create/`, form, {
@@ -284,9 +260,6 @@ export default {
   },
 
   computed: {
-    editFileURL() {
-      return this.formFile ? URL.createObjectURL(this.formFile) : null;
-    },
     newFileUrl() {
       return this.newFile ? URL.createObjectURL(this.newFile) : null;
     }

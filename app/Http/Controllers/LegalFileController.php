@@ -21,16 +21,6 @@ class LegalFileController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -42,6 +32,7 @@ class LegalFileController extends Controller
             [
                 'name' => 'required|string',
                 'description' => 'required|string',
+                'type' => 'required|in:nac,int',
                 'file' => 'required|mimes:pdf,msword'
             ]
         )) {
@@ -69,17 +60,6 @@ class LegalFileController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  integer  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -88,7 +68,18 @@ class LegalFileController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        if ($request->validate(
+            [
+                'description' => 'required|string',
+                'type' => 'required|in:nac,int'
+            ]
+        )) {
+            // Save the file
+            LegalFile::where('id', $id)->update($request->all());
+
+            // save file in the storage
+            return response('Archivo actualizado', 200);
+        }
     }
 
     /**

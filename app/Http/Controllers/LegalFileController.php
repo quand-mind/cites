@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\LegalFile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Response;
 
 class LegalFileController extends Controller
 {
@@ -33,7 +34,7 @@ class LegalFileController extends Controller
                 'name' => 'required|string',
                 'description' => 'required|string',
                 'type' => 'required|in:nac,int',
-                'file' => 'required|mimes:pdf,msword'
+                'file' => 'required|mimetypes:application/pdf'
             ]
         )) {
             // Save the file
@@ -54,9 +55,15 @@ class LegalFileController extends Controller
      * @param  integer  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($name)
     {
-        //
+        $fileData = LegalFile::where('name', $name)->first();
+        $filePath = storage_path('app/public/files/'. $fileData->name);
+
+        return Response::make(file_get_contents($filePath), 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="'.$fileData->name.'"'
+        ]);
     }
 
     /**

@@ -149,6 +149,7 @@ Route::post('/question/update/{id}', 'QuestionController@update');
 Route::get('/surveys-list', 'SurveyController@getSurveysList');
 
 // Migration routes
+Route::get('/migrate', 'MigrationsController@migrate');
 Route::get('/migrate/seed', 'MigrationsController@seed');
 
 // Link storage
@@ -165,6 +166,9 @@ Route::get('/clear-app', function () {
     Artisan::call('view:clear', []);
     return "Clear the app deployment completed";
 });
+
+// Render files
+Route::get('/files/{name}', 'LegalFileController@show');
 
 // Frontend pages controller
 Route::get('/{slug?}', 'PageController@show');

@@ -36,6 +36,9 @@
       <a href="/dashboard/surveys" class="list-group-item list-group-item-action">
         <font-awesome-icon :icon="['fas', 'poll']"></font-awesome-icon>&nbsp;Encuestas
       </a>
+      <a href="/dashboard/laws" class="list-group-item list-group-item-action">
+        <font-awesome-icon :icon="['fas', 'book']"></font-awesome-icon>&nbsp;Legislación
+      </a>
     </div>
   </aside>
 </template>

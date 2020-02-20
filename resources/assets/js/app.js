@@ -53,6 +53,10 @@ import VuejsDialogMixin from 'vuejs-dialog/dist/vuejs-dialog-mixin.min.js'; // o
  
 // include the default style
 import 'vuejs-dialog/dist/vuejs-dialog.min.css';
+import "vue2-editor/dist/vue2-editor.css";
+import 'quill/dist/quill.core.css';
+import 'quill/dist/quill.bubble.css';
+import 'quill/dist/quill.snow.css';
  
 // Tell Vue to install the plugin.
 Vue.use(VuejsDialog);

@@ -138,6 +138,11 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         // Acronimos Routes
         Route::get('/acronimos', 'acronimoController@index');
 
+        // Laws Routes
+        Route::get('/laws', 'LegalFileController@index');
+        Route::post('/laws/create', 'LegalFileController@store');
+        Route::post('/laws/edit/{id}', 'LegalFileController@update');
+        Route::delete('/laws/{id}', 'LegalFileController@destroy');
     });
 });
 
@@ -150,6 +155,7 @@ Route::post('/question/update/{id}', 'QuestionController@update');
 Route::get('/surveys-list', 'SurveyController@getSurveysList');
 
 // Migration routes
+Route::get('/migrate', 'MigrationsController@migrate');
 Route::get('/migrate/seed', 'MigrationsController@seed');
 
 // Link storage
@@ -166,6 +172,9 @@ Route::get('/clear-app', function () {
     Artisan::call('view:clear', []);
     return "Clear the app deployment completed";
 });
+
+// Render files
+Route::get('/files/{name}', 'LegalFileController@show');
 
 // Frontend pages controller
 Route::get('/{slug?}', 'PageController@show');

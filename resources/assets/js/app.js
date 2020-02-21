@@ -130,7 +130,6 @@ if ($("#pageForm").length !== 0) {
     });
 }
 
-<<<<<<< HEAD
 Vue.component("glosary", require("./components/admin/GlosaryList.vue"));
 
 if ($("#glosaryList").length !== 0) {
@@ -147,8 +146,6 @@ if ($("#acronimoList").length !== 0) {
     });
 }
 
-=======
->>>>>>> master
 Vue.component("menu-list", require("./components/admin/MenuList.vue"));
 
 if ($("#menuList").length !== 0) {

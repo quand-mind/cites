@@ -13,13 +13,8 @@ Descripción:
 
  <template>
   <div>
-<<<<<<< HEAD
     <h3 class="mb-5">Haga una consulta y le responderemos en la brevedad posible</h3>
     <b-form class="container px-5" id="questionForm" @submit.prevent="onSubmit" @reset="onReset">
-=======
-    <h3>Haga una consulta y le responderemos en la brevedad posible</h3>
-    <b-form id="questionForm" @submit.prevent="onSubmit" @reset="onReset">
->>>>>>> master
       <b-form-group label="Correo electrónico: " label-for="asked_by">
         <b-form-input
           id="asked_by"
@@ -34,11 +29,8 @@ Descripción:
         <b-form-input id="question" v-model="form.question" required placeholder="¿?"></b-form-input>
       </b-form-group>
 
-<<<<<<< HEAD
       <b-button class="btn-verde" type="submit" variant="primary" size="lg">Enviar</b-button>
-=======
-      <b-button class="btn-verde" type="submit" variant="primary">Enviar</b-button>
->>>>>>> master
+
     </b-form>
   </div>
 </template>

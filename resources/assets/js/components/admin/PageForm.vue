@@ -10,7 +10,10 @@
         <b-row>
           <b-col>
             <b-form-group label="Título" label-for="input-1">
+<<<<<<< HEAD
 
+=======
+>>>>>>> 951638c0dee127320e517895056ced123809b00e
               <b-form-input v-model="pageData.title" :disabled="Boolean(pageData.is_static)" required placeholder="Titulo de la página"></b-form-input>
             </b-form-group>
           </b-col>
@@ -66,7 +69,10 @@
           </b-col>
           <b-col>
             <b-form-group label="" label-for="input-3">
+<<<<<<< HEAD
 
+=======
+>>>>>>> 951638c0dee127320e517895056ced123809b00e
               <b-form-checkbox v-model="pageData.is_subpage" :checked="pageData.is_subpage" name="check-button" :disabled="Boolean(pageData.is_static)" switch @change="showSubpagePrompt">
                 Marcar como una subpágina
               </b-form-checkbox>
@@ -216,7 +222,10 @@ export default {
       // NOTE: Your key could be different such as:
       // formData.append('file', file)
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 951638c0dee127320e517895056ced123809b00e
       let _this = this
 
       var formData = new FormData();

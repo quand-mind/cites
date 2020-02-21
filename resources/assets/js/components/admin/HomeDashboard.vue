@@ -3,7 +3,10 @@
     <div class="caja bg-light p-3">
       <h1>Bienvenido al Panel de administración</h1>
       <h4 class="ml-4">Desde acá podrás Administrar el sitio web, agregar o Administrar páginas, responder preguntas, hacer encuestas y administrar usuarios</h4>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 951638c0dee127320e517895056ced123809b00e
     </div>
     <b-card-group deck>
       <b-card header-tag="header" class="m-3">
@@ -22,6 +25,10 @@
           <h6 class="mb-0 text-uppercase">Menú</h6>
         </template>
         <b-card-text>Modifica el orden o los botones del menú</b-card-text>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 951638c0dee127320e517895056ced123809b00e
         <b-button href="/dashboard/menu" variant="primary" class="mx-2"><font-awesome-icon :icon="['fas', 'pager']"></font-awesome-icon><br> Administrar menú</b-button>
       </b-card>
 

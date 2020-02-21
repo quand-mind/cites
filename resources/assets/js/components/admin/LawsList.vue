@@ -74,7 +74,7 @@
         <b-form class="edit-form" @submit.prevent="onCreateSubmit" @reset="onResetCreate">
           <b-form-group class="user-file">
             <b-form-file
-              accept=".doc,.pdf"
+              accept="application/pdf"
               v-model="newFile"
               placeholder="Seleccione un archivo"
               drop-placeholder="Drop file here..."
@@ -225,7 +225,7 @@ export default {
       }
 
       axios
-        .post(`/dashboard/laws/create/`, form, {
+        .post(`/dashboard/laws/create`, form, {
           headers: {
             "Content-Type": "multipart/form-data"
           }

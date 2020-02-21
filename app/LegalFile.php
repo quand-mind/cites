@@ -27,6 +27,6 @@ class LegalFile extends Model
      */
     public function setFilePath()
     {
-        $this->path = '/storage/files/'. $this->name;
+        $this->path = '/files/'. $this->name;
     }
 }

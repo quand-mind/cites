@@ -110,6 +110,22 @@ if ($("#questionsList").length !== 0) {
     });
 }
 
+Vue.component("glosary-list", require("./components/admin/GlosaryList.vue"));
+
+if ($("#glosaryList").length !== 0) {
+    const glosaryList = new Vue({
+        el: "#glosaryList"
+    });
+}
+
+Vue.component("acronimo-list", require("./components/admin/AcronimoList.vue"));
+
+if ($("#acronimoList").length !== 0) {
+    const acronimoList = new Vue({
+        el: "#acronimoList"
+    });
+}
+
 Vue.component("surveys-list", require("./components/admin/SurveysList.vue"));
 
 if ($("#surveysList").length !== 0) {
@@ -134,6 +150,7 @@ if ($("#pageForm").length !== 0) {
     });
 }
 
+<<<<<<< HEAD
 Vue.component("glosary", require("./components/admin/GlosaryList.vue"));
 
 if ($("#glosaryList").length !== 0) {
@@ -150,6 +167,8 @@ if ($("#acronimoList").length !== 0) {
     });
 }
 
+=======
+>>>>>>> 951638c0dee127320e517895056ced123809b00e
 Vue.component("menu-list", require("./components/admin/MenuList.vue"));
 
 if ($("#menuList").length !== 0) {

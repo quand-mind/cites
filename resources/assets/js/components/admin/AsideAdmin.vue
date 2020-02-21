@@ -42,6 +42,12 @@
       <a href="/dashboard/glosary" class="list-group-item list-group-item-action">
         <font-awesome-icon :icon="['fas', 'book']"></font-awesome-icon>&nbsp;Glosario
       </a>
+<<<<<<< HEAD
+=======
+      <a href="/dashboard/laws" class="list-group-item list-group-item-action">
+        <font-awesome-icon :icon="['fas', 'book']"></font-awesome-icon>&nbsp;Legislación
+      </a>
+>>>>>>> 951638c0dee127320e517895056ced123809b00e
     </div>
   </aside>
 </template>

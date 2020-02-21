@@ -21,9 +21,13 @@
 // });
 // // Frontend routes for "Transgenico"
 // Route::get('/transgenico', function () {
+<<<<<<< HEAD
 
     // return view('welcome');
 
+=======
+//     return view('welcome');
+>>>>>>> 951638c0dee127320e517895056ced123809b00e
 // })->name('transgenico');
 
 // // Frontend routes for "¿Quienes somos?"
@@ -35,7 +39,10 @@
 
 use Illuminate\Support\Facades\Artisan;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 951638c0dee127320e517895056ced123809b00e
 Route::get('/preguntas-frecuentes', 'PageController@faqsView')->name('preguntas-frecuentes');
 Route::get('/como-participar/encuesta', 'PageController@encuestasView')->name('encuestas');
 Route::get('/como-participar/desea-hacer-una-pregunta-adicional', 'PageController@newQuestionView')->name('pregunta-adicional');
@@ -127,16 +134,23 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         Route::get('/questions', 'QuestionController@index');
         Route::get('/question', 'QuestionController@create'); // Test form in the admin panel
         Route::post('/question/changeStatus/{id}', 'QuestionController@changeStatus');
+<<<<<<< HEAD
 
         Route::delete('/questions/{id}', 'QuestionController@destroy');
 
+=======
+        Route::delete('/questions/{id}', 'QuestionController@destroy');
+>>>>>>> 951638c0dee127320e517895056ced123809b00e
 
         // Surveys Routes
         Route::get('/surveys', 'SurveyController@index');
         Route::post('/survey', 'SurveyController@store');
         Route::post('/surveys/edit/{id}', 'SurveyController@update');
         Route::delete('/surveys/{id}', 'SurveyController@destroy');
+<<<<<<< HEAD
 
+=======
+>>>>>>> 951638c0dee127320e517895056ced123809b00e
 
         // Glosary Routes
         Route::get('/glosary', 'GlosaryController@index');
@@ -144,14 +158,21 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         // Acronimos Routes
         Route::get('/acronimos', 'acronimoController@index');
 
+<<<<<<< HEAD
 
 
         // laws Routes
+=======
+        // Laws Routes
+>>>>>>> 951638c0dee127320e517895056ced123809b00e
         Route::get('/laws', 'LegalFileController@index');
         Route::post('/laws/create', 'LegalFileController@store');
         Route::post('/laws/edit/{id}', 'LegalFileController@update');
         Route::delete('/laws/{id}', 'LegalFileController@destroy');
+<<<<<<< HEAD
 
+=======
+>>>>>>> 951638c0dee127320e517895056ced123809b00e
     });
 });
 
@@ -164,9 +185,13 @@ Route::post('/question/update/{id}', 'QuestionController@update');
 Route::get('/surveys-list', 'SurveyController@getSurveysList');
 
 // Migration routes
+Route::get('/migrate', 'MigrationsController@migrate');
 Route::get('/migrate/seed', 'MigrationsController@seed');
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 951638c0dee127320e517895056ced123809b00e
 // Link storage
 Route::get('/link/storage', function () {
     Artisan::call('storage:link', []);
@@ -182,6 +207,12 @@ Route::get('/clear-app', function () {
     return "Clear the app deployment completed";
 });
 
+<<<<<<< HEAD
+=======
+// Render files
+Route::get('/files/{name}', 'LegalFileController@show');
+
+>>>>>>> 951638c0dee127320e517895056ced123809b00e
 // Frontend pages controller
 Route::get('/{slug?}', 'PageController@show');
 

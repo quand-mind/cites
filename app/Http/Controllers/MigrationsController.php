@@ -12,4 +12,10 @@ class MigrationsController extends Controller
         Artisan::call('migrate', array('--path' => 'database/migrations', '--force' => true, '--seed' => true));
         return "Migration completed";
     }
+
+    public function migrate()
+    {
+        Artisan::call('migrate', array('--path' => 'database/migrations', '--force' => true));
+        return "Migration completed";
+    }
 }

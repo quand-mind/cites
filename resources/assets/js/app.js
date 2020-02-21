@@ -110,6 +110,22 @@ if ($("#questionsList").length !== 0) {
     });
 }
 
+Vue.component("glosary-list", require("./components/admin/GlosaryList.vue"));
+
+if ($("#glosaryList").length !== 0) {
+    const glosaryList = new Vue({
+        el: "#glosaryList"
+    });
+}
+
+Vue.component("acronimo-list", require("./components/admin/AcronimoList.vue"));
+
+if ($("#acronimoList").length !== 0) {
+    const acronimoList = new Vue({
+        el: "#acronimoList"
+    });
+}
+
 Vue.component("surveys-list", require("./components/admin/SurveysList.vue"));
 
 if ($("#surveysList").length !== 0) {

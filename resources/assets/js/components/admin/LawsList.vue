@@ -74,7 +74,7 @@
         <b-form class="edit-form" @submit.prevent="onCreateSubmit" @reset="onResetCreate">
           <b-form-group class="user-file">
             <b-form-file
-              accept=".doc,.pdf"
+              accept="application/pdf"
               v-model="newFile"
               placeholder="Seleccione un archivo"
               drop-placeholder="Drop file here..."
@@ -90,6 +90,8 @@
             <b-form-select v-model="createForm.type"
               :options="lawsOptions"></b-form-select>
           </b-form-group>
+
+          <b-progress class="mb-5" v-if="showProgressBar" :value="uploadPercentage" :max="100" show-progress animated></b-progress>
 
           <b-button type="submit" variant="success">Agregar archivo</b-button>
           <b-button type="reset" variant="outline-danger">Limpiar</b-button>
@@ -138,7 +140,9 @@ export default {
       type: null
     },
     formFile: null,
-    newFile: null
+    newFile: null,
+    uploadPercentage: 0,
+    showProgressBar: false
   }),
   methods: {
     showCreateModal() {
@@ -190,7 +194,14 @@ export default {
           }
         })
         .catch(err => {
-          _this.makeToast(err.response.data, "danger");
+          let { data } = err.response
+
+          if (data.errors !== undefined || data.errors !== null) {
+            let errors = Object.values(data.errors).toString()
+            _this.makeToast(errors, "danger");
+          } else {
+            _this.makeToast(data, "danger");
+          }
         });
     },
     onReset() {
@@ -224,11 +235,16 @@ export default {
         form.append("name", _this.newFile.name);
       }
 
+      _this.showProgressBar = true
+
       axios
-        .post(`/dashboard/laws/create/`, form, {
+        .post(`/dashboard/laws/create`, form, {
           headers: {
-            "Content-Type": "multipart/form-data"
-          }
+              'Content-Type': 'multipart/form-data'
+          },
+          onUploadProgress: function( progressEvent ) {
+            _this.uploadPercentage = parseInt( Math.round( ( progressEvent.loaded / progressEvent.total ) * 100 ))
+          }.bind(this)
         })
         .then(res => {
           if (res.status === 200) {
@@ -238,7 +254,14 @@ export default {
           }
         })
         .catch(err => {
-          _this.makeToast(err.response.data, "danger");
+          let { data } = err.response
+
+          if (data.errors !== undefined || data.errors !== null) {
+            let errors = Object.values(data.errors).toString()
+            _this.makeToast(errors, "danger");
+          } else {
+            _this.makeToast(data, "danger");
+          }
         });
     },
     submitDeleteFile() {

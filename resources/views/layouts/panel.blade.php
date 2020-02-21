@@ -13,7 +13,7 @@
 
     @include('panel.includes.app-nav')
     @include('panel.includes.side-menu')
-    <main class="dashboard-panel">
+    <main class="dashboard-panel py-4 px-5">
         @yield('content')
     </main>
 

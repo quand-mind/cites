@@ -45,6 +45,9 @@
         main{
           min-width: 70vw;
         }
+        .ql-editor img{
+          max-width: 100%; 
+        }
     </style>
 </head>
 <body>

@@ -21,7 +21,9 @@
 // });
 // // Frontend routes for "Transgenico"
 // Route::get('/transgenico', function () {
-//     return view('welcome');
+
+    // return view('welcome');
+
 // })->name('transgenico');
 
 // // Frontend routes for "¿Quienes somos?"
@@ -126,7 +128,9 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         Route::get('/questions', 'QuestionController@index');
         Route::get('/question', 'QuestionController@create'); // Test form in the admin panel
         Route::post('/question/changeStatus/{id}', 'QuestionController@changeStatus');
+
         Route::delete('/questions/{id}', 'QuestionController@destroy');
+
 
         // Surveys Routes
         Route::get('/surveys', 'SurveyController@index');
@@ -134,7 +138,13 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         Route::post('/surveys/edit/{id}', 'SurveyController@update');
         Route::delete('/surveys/{id}', 'SurveyController@destroy');
 
-        // Surveys Routes
+        // Glosary Routes
+        Route::get('/glosary', 'GlosaryController@index');
+
+        // Acronimos Routes
+        Route::get('/acronimos', 'acronimoController@index');
+
+        // Laws Routes
         Route::get('/laws', 'LegalFileController@index');
         Route::post('/laws/create', 'LegalFileController@store');
         Route::post('/laws/edit/{id}', 'LegalFileController@update');

@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="caja bg-light p-3">
-      <h1>Bienvenido al Panel de administración de MINEC <span><img src="/images/logos/minec-thumb.png" class="figure" /></span></h1>
-      <h4 class="ml-4">Desde acá podrás modificar el sitio web, agregar o modificar páginas, responder preguntas, hacer encuestas y administrar usuarios</h4>
+      <h1>Bienvenido al Panel de administración</h1>
+      <h4 class="ml-4">Desde acá podrás Administrar el sitio web, agregar o Administrar páginas, responder preguntas, hacer encuestas y administrar usuarios</h4>
     </div>
     <b-card-group deck>
       <b-card header-tag="header" class="m-3">
@@ -21,7 +21,7 @@
           <h6 class="mb-0 text-uppercase">Menú</h6>
         </template>
         <b-card-text>Modifica el orden o los botones del menú</b-card-text>
-        <b-button href="/dashboard/menu" variant="primary" class="mx-2"><font-awesome-icon :icon="['fas', 'pager']"></font-awesome-icon><br> Modificar menú</b-button>
+        <b-button href="/dashboard/menu" variant="primary" class="mx-2"><font-awesome-icon :icon="['fas', 'pager']"></font-awesome-icon><br> Administrar menú</b-button>
       </b-card>
 
       <b-card header-tag="header" class="m-3">
@@ -42,7 +42,6 @@
         </template>
         <b-button-group>
             <b-button href="/dashboard/questions" variant="primary" class="mx-2"><font-awesome-icon :icon="['fas', 'plus']"></font-awesome-icon><br> Crear nueva pregunta</b-button>
-            <b-button href="/dashboard/questions" variant="success" class="mx-2"><font-awesome-icon :icon="['fas', 'question-circle']"></font-awesome-icon><br> Responder preguntas</b-button>
             <b-button href="/dashboard/questions" variant="info" class="mx-2"><font-awesome-icon :icon="['fas', 'cog']"></font-awesome-icon><br> Administrar preguntas</b-button>
           </b-button-group>
       </b-card>
@@ -65,5 +64,6 @@
 <script>
 
 </script>
+
 <style lang="scss">
 </style>

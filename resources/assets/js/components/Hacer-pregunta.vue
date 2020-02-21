@@ -13,8 +13,8 @@ Descripción:
 
  <template>
   <div>
-    <h3>Haga una consulta y le responderemos en la brevedad posible</h3>
-    <b-form id="questionForm" @submit.prevent="onSubmit" @reset="onReset">
+    <h3 class="mb-5">Haga una consulta y le responderemos en la brevedad posible</h3>
+    <b-form class="container px-5" id="questionForm" @submit.prevent="onSubmit" @reset="onReset">
       <b-form-group label="Correo electrónico: " label-for="asked_by">
         <b-form-input
           id="asked_by"
@@ -29,7 +29,11 @@ Descripción:
         <b-form-input id="question" v-model="form.question" required placeholder="¿?"></b-form-input>
       </b-form-group>
 
-      <b-button class="btn-verde" type="submit" variant="primary">Enviar</b-button>
+      <b-button class="btn-verde" type="submit" variant="primary" size="lg">Enviar</b-button>
+<<<<<<< HEAD
+
+=======
+>>>>>>> 951638c0dee127320e517895056ced123809b00e
     </b-form>
   </div>
 </template>

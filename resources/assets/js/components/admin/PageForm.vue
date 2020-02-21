@@ -230,7 +230,14 @@ export default {
           resetUploader();
         })
         .catch(err => {
-          _this.makeToast(err.response.data, "danger");
+          let { data } = err.response
+
+          if (data.errors !== undefined || data.errors !== null) {
+            let errors = Object.values(data.errors).toString()
+            _this.makeToast(errors, "danger");
+          } else {
+            _this.makeToast(data, "danger");
+          }
         });
     },
     handleImageRemoved: function(file, Editor, cursorLocation, resetUploader) {
@@ -255,12 +262,19 @@ export default {
         })
         .catch(err => {
           let { data } = err.response
-          console.log(data)
+          
           if (data.errors !== undefined || data.errors !== null) {
             errors = Object.keys(data.errors).toString()
             _this.makeToast(errors, "danger");
           } else {
-            _this.makeToast(data, "danger");
+            let { data } = err.response
+
+            if (data.errors !== undefined || data.errors !== null) {
+              let errors = Object.values(data.errors).toString()
+              _this.makeToast(errors, "danger");
+            } else {
+              _this.makeToast(data, "danger");
+            }
           }
         });
     },

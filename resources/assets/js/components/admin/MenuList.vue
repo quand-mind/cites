@@ -90,7 +90,16 @@ export default {
             axios
                 .post('/dashboard/menu/updateOrder', _this.pagesList)
                 .then(res => _this.makeToast(res.data))
-                .catch(err => _this.makeToast(err.response.message))
+                .catch(err => {
+                    let { data } = err.response
+
+                    if (data.errors !== undefined || data.errors !== null) {
+                        let errors = Object.values(data.errors).toString()
+                        _this.makeToast(errors, "danger");
+                    } else {
+                        _this.makeToast(data, "danger");
+                    }
+                })
         },
         makeToast(msg, variant = "success", delay = 3000, append = false) {
             this.$bvToast.toast(`${msg}`, {

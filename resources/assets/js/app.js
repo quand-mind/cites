@@ -183,6 +183,14 @@ if ($("#preguntaAdicional").length !== 0) {
     });
 }
 
+Vue.component("legal-view", require("./views/LegalView.vue"));
+
+if ($("#legalView").length !== 0) {
+    const legalView = new Vue({
+        el: "#legalView"
+    });
+}
+
 
 Vue.component("cabecera", require("./components/Cabecera.vue"));
 

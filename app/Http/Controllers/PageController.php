@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\LegalFile;
 use Illuminate\Http\Request;
 use App\Page;
 use App\Question;
@@ -291,4 +292,29 @@ class PageController extends Controller
 
         return view('frontend.newQuestion', compact('page', 'links'));
      }
+
+    /**
+     * Show the laws on the frontend
+     *
+     * @return \Illuminate\Http\Response
+     */
+
+    public function laws ($title) {
+        
+        $page = Page::where('slug', $title)->first();
+        $links = $this->getMenuLinks();
+
+        if ($title === 'legislacion-internacional') {
+            
+            $filesData = LegalFile::where('type', 'int')->get();
+        } else if ($title === 'legislacion-nacional') {
+
+            $filesData = LegalFile::where('type', 'nac')->get();
+        } else {
+
+            return view('errors.404');
+        }
+
+        return view('frontend.legal', compact('page', 'links', 'filesData'));
+    }
 }

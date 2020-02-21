@@ -91,6 +91,8 @@
               :options="lawsOptions"></b-form-select>
           </b-form-group>
 
+          <b-progress class="mb-5" v-if="showProgressBar" :value="uploadPercentage" :max="100" show-progress animated></b-progress>
+
           <b-button type="submit" variant="success">Agregar archivo</b-button>
           <b-button type="reset" variant="outline-danger">Limpiar</b-button>
         </b-form>
@@ -138,7 +140,9 @@ export default {
       type: null
     },
     formFile: null,
-    newFile: null
+    newFile: null,
+    uploadPercentage: 0,
+    showProgressBar: false
   }),
   methods: {
     showCreateModal() {
@@ -224,11 +228,16 @@ export default {
         form.append("name", _this.newFile.name);
       }
 
+      _this.showProgressBar = true
+
       axios
         .post(`/dashboard/laws/create`, form, {
           headers: {
-            "Content-Type": "multipart/form-data"
-          }
+              'Content-Type': 'multipart/form-data'
+          },
+          onUploadProgress: function( progressEvent ) {
+            _this.uploadPercentage = parseInt( Math.round( ( progressEvent.loaded / progressEvent.total ) * 100 ))
+          }.bind(this)
         })
         .then(res => {
           if (res.status === 200) {

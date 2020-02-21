@@ -21,11 +21,9 @@
 // });
 // // Frontend routes for "Transgenico"
 // Route::get('/transgenico', function () {
-<<<<<<< HEAD
+
     // return view('welcome');
-=======
-//     return view('welcome');
->>>>>>> master
+
 // })->name('transgenico');
 
 // // Frontend routes for "¿Quienes somos?"
@@ -34,12 +32,10 @@
 // });
 
 // Frontend routes for "FAQs"
-<<<<<<< HEAD
-=======
 
 use Illuminate\Support\Facades\Artisan;
 
->>>>>>> master
+
 Route::get('/preguntas-frecuentes', 'PageController@faqsView')->name('preguntas-frecuentes');
 Route::get('/como-participar/encuesta', 'PageController@encuestasView')->name('encuestas');
 Route::get('/como-participar/desea-hacer-una-pregunta-adicional', 'PageController@newQuestionView')->name('pregunta-adicional');
@@ -131,18 +127,16 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         Route::get('/questions', 'QuestionController@index');
         Route::get('/question', 'QuestionController@create'); // Test form in the admin panel
         Route::post('/question/changeStatus/{id}', 'QuestionController@changeStatus');
-<<<<<<< HEAD
-=======
+
         Route::delete('/questions/{id}', 'QuestionController@destroy');
->>>>>>> master
+
 
         // Surveys Routes
         Route::get('/surveys', 'SurveyController@index');
         Route::post('/survey', 'SurveyController@store');
         Route::post('/surveys/edit/{id}', 'SurveyController@update');
         Route::delete('/surveys/{id}', 'SurveyController@destroy');
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 
         // Glosary Routes
         Route::get('/glosary', 'GlosaryController@index');
@@ -150,16 +144,14 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         // Acronimos Routes
         Route::get('/acronimos', 'acronimoController@index');
 
-=======
->>>>>>> master
-=======
 
-        // Surveys Routes
+
+        // laws Routes
         Route::get('/laws', 'LegalFileController@index');
         Route::post('/laws/create', 'LegalFileController@store');
         Route::post('/laws/edit/{id}', 'LegalFileController@update');
         Route::delete('/laws/{id}', 'LegalFileController@destroy');
->>>>>>> master
+
     });
 });
 
@@ -174,8 +166,7 @@ Route::get('/surveys-list', 'SurveyController@getSurveysList');
 // Migration routes
 Route::get('/migrate/seed', 'MigrationsController@seed');
 
-<<<<<<< HEAD
-=======
+
 // Link storage
 Route::get('/link/storage', function () {
     Artisan::call('storage:link', []);
@@ -191,7 +182,6 @@ Route::get('/clear-app', function () {
     return "Clear the app deployment completed";
 });
 
->>>>>>> master
 // Frontend pages controller
 Route::get('/{slug?}', 'PageController@show');
 

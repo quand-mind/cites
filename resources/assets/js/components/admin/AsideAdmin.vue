@@ -36,15 +36,12 @@
       <a href="/dashboard/surveys" class="list-group-item list-group-item-action">
         <font-awesome-icon :icon="['fas', 'poll']"></font-awesome-icon>&nbsp;Encuestas
       </a>
-<<<<<<< HEAD
       <a href="/dashboard/acronimos" class="list-group-item list-group-item-action">
         <font-awesome-icon :icon="['fas', 'list']"></font-awesome-icon>&nbsp;Acrónimos
       </a>
       <a href="/dashboard/glosary" class="list-group-item list-group-item-action">
         <font-awesome-icon :icon="['fas', 'book']"></font-awesome-icon>&nbsp;Glosario
       </a>
-=======
->>>>>>> master
     </div>
   </aside>
 </template>

@@ -153,10 +153,7 @@ class PageController extends Controller
             'meta_description',
             'is_active',
             'is_subpage',
-<<<<<<< HEAD
-=======
             'is_static',
->>>>>>> master
             'main_page',
             'title',
             'meta_robots',
@@ -175,6 +172,18 @@ class PageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+    public function showSurvey($id){
+        $survey = Survey::find(id);
+        if ($survey == null) {
+            return view('errors.404');
+        }else{
+        return view('frontend.survey', compact('survey'));
+        }
+    }
+    
+
+
     public function update(Request $request, $id)
     {
         if ($request->validate([

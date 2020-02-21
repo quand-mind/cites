@@ -142,6 +142,7 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         Route::post('/surveys/edit/{id}', 'SurveyController@update');
         Route::delete('/surveys/{id}', 'SurveyController@destroy');
 <<<<<<< HEAD
+<<<<<<< HEAD
 
         // Glosary Routes
         Route::get('/glosary', 'GlosaryController@index');
@@ -150,6 +151,14 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         Route::get('/acronimos', 'acronimoController@index');
 
 =======
+>>>>>>> master
+=======
+
+        // Surveys Routes
+        Route::get('/laws', 'LegalFileController@index');
+        Route::post('/laws/create', 'LegalFileController@store');
+        Route::post('/laws/edit/{id}', 'LegalFileController@update');
+        Route::delete('/laws/{id}', 'LegalFileController@destroy');
 >>>>>>> master
     });
 });

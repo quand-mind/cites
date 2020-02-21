@@ -13,7 +13,7 @@ Descripción:
 <template>
   <!-- SideBar -->
   <aside
-    class="py-5 d-flex flex-column align-items-center"
+    class="py-5 d-flex flex-column align-items-center mb-4"
     style="border: 1px solid #dadada; flex-shrink: 2; min-width: 300px"
   >
     <!-- Enlaces de interes -->

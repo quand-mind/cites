@@ -21,7 +21,6 @@
           <h6 class="mb-0 text-uppercase">Menú</h6>
         </template>
         <b-card-text>Modifica el orden o los botones del menú</b-card-text>
-
         <b-button href="/dashboard/menu" variant="primary" class="mx-2"><font-awesome-icon :icon="['fas', 'pager']"></font-awesome-icon><br> Administrar menú</b-button>
       </b-card>
 

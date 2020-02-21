@@ -30,6 +30,10 @@ Descripción:
       </b-form-group>
 
       <b-button class="btn-verde" type="submit" variant="primary" size="lg">Enviar</b-button>
+<<<<<<< HEAD
+
+=======
+>>>>>>> 951638c0dee127320e517895056ced123809b00e
     </b-form>
   </div>
 </template>

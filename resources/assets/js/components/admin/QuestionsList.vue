@@ -20,9 +20,11 @@
       </div>
       <div slot="acciones" slot-scope="props">
         <b-button @click="showEditQuestionModal(props.row)" variant="primary">Responder</b-button>
+
         <a class="text-danger" @click.prevent="{deleteQuestion(props.row)}">
           <font-awesome-icon :icon="['fa', 'trash']"></font-awesome-icon>
         </a>
+
       </div>
     </v-client-table>
 

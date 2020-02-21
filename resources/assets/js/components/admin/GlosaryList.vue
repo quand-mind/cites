@@ -109,7 +109,16 @@ export default {
           console.log(res);
           window.location.reload();
         })
-        .catch(err => console.log(err.response));
+        .catch(err => {
+          let { data } = err.response
+
+          if (data.errors !== undefined || data.errors !== null) {
+            let errors = Object.values(data.errors).toString()
+            _this.makeToast(errors, "danger");
+          } else {
+            _this.makeToast(data, "danger");
+          }
+        });
     },
     onReset() {},
     onSubmitEdit() {
@@ -124,7 +133,16 @@ export default {
           console.log(res);
           window.location.reload();
         })
-        .catch(err => console.log(err.response));
+        .catch(err => {
+          let { data } = err.response
+
+          if (data.errors !== undefined || data.errors !== null) {
+            let errors = Object.values(data.errors).toString()
+            _this.makeToast(errors, "danger");
+          } else {
+            _this.makeToast(data, "danger");
+          }
+        });
     },
     onResetEdit() {},
     changeWordStatus(id) {
@@ -162,7 +180,6 @@ export default {
       let newWord = { ...word };
       newWord.created_at = moment(newWord.created_at).format("DD/MM/YYYY");
       newWord.is_faq = parseInt(newWord.is_faq) === 1;
-      console.log(newWord.word, newWord.is_faq);
       newWord.answered_by = newWord.answered_by
         ? newWord.answered_by.username
         : null;

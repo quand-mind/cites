@@ -41,26 +41,8 @@
 <body>
     <div id="app">
         <cabecera></cabecera>
-        <navi></navi>
-        <navmobile></navmobile>
-<<<<<<< HEAD
-        <div>
-            <div>
-            <b-navbar toggleable="lg" type="verde" variant="info">
-              <b-navbar-brand href="#">NavBar</b-navbar-brand>
-
-              <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
-
-              <b-collapse id="nav-collapse" is-nav>
-                <b-navbar-nav>
-                  <b-nav-item href="#">Link #1</b-nav-item>
-                </b-navbar-nav>
-              </b-collapse>
-            </b-navbar>
-          </div>
-        </div>
-=======
->>>>>>> master
+        <navi :menu-links="{{ $links->toJson() }}"></navi>
+        <navmobile :menu-links="{{ $links->toJson() }}"></navmobile>
         <div class="mt-5 container-fluid container-lg d-flex justify-content-center flex-column flex-lg-row m-0 p-0 mx-lg-auto p-lg-auto">
               <main class="px-lg-5 px-xs-5 mb-5 w-100 min-vh-100">
                 <error></error>

@@ -1,12 +1,19 @@
 <template>
     <div>
         <titulo :msg="page.title" />
+        <div v-html="page.content"></div>
         <!-- Escrito Leyes-->
         <div class="d-flex flex-column p-5 mx-5 text-justify">
-            <div class="law-item" v-for="file in filesData" :key="file.name">
-                <div class="name">{{file.name}}</div>
-                <a :href="file.path" target="_blank" class="url">Descargar aquí</a>
-            </div>
+
+            <p v-if="filesData.length === 0">No hay leyes en esta sección</p>
+
+            <b-card v-for="file in filesData" :key="file.name" :title="file.name">
+                <b-card-text v-html="file.description">
+                {{file.description}}
+                </b-card-text>
+
+                <a :href="file.path" target="_blank" class="url card-link">Descargar aquí</a>
+            </b-card>
         </div>
     </div>
 </template>

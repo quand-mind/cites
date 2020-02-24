@@ -1,10 +1,6 @@
 <template>
     <div>
-        <div class="content mb-5">{{ page.content }}</div>
-<<<<<<< HEAD
-
-=======
->>>>>>> 951638c0dee127320e517895056ced123809b00e
+        <div class="content mb-5" v-html="page.content"></div>
         <newQuestion></newQuestion>
     </div>
 </template>
@@ -18,11 +14,8 @@ export default {
     props: ['page']
 }
 </script>
-<<<<<<< HEAD
-=======
 
 <style lang="scss" scoped>
 	.content{
 	}
 </style>
->>>>>>> 951638c0dee127320e517895056ced123809b00e

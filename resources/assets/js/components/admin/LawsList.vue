@@ -122,10 +122,10 @@ export default {
         value: null, text: "Seleccione un tipo de legislación"
       },
       {
-        value: 'nati', text: "Nacional"
+        value: 'nac', text: "Nacional"
       },
       {
-        value: 'inter', text: "Internacional"
+        value: 'int', text: "Internacional"
       }
     ],
     tableData: [],

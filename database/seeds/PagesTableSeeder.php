@@ -132,7 +132,7 @@ class PagesTableSeeder extends Seeder
         ]);
 
         factory(App\Page::class, 1)->create([
-            'title' => 'Encuesta',
+            'title' => 'Encuestas',
             'is_onMenu' => true,
             'is_subpage' => true,
             'main_page' => 18

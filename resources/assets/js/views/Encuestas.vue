@@ -17,7 +17,7 @@ Descripción:
       <b-button
         v-for="survey in surveys"
         :key="survey.id + survey.title"
-        :href="'/como-participar/encuestas/${survey.id}'"
+        :href="`/como-participar/encuestas/${survey.id}`"
         block
         variant="info"
         class="text-uppercase ml-4 btn font-weight-bold btn-lg my-3"

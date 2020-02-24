@@ -16,7 +16,7 @@ class CreateAcronimosTable extends Migration
         Schema::create('acronimos', function (Blueprint $table) {
             $table->increments('id');
             $table->string('siglas', 10);
-            $table->text('description', 60);
+            $table->string('description', 100);
         });
     }
 

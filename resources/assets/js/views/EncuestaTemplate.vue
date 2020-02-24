@@ -15,6 +15,7 @@ Descripción:
     <!-- <titulo :msg="page.title"/> -->
     <titulo msg="Encuesta # 1"/>
 
+    <p>{{survey.description}}</p>
 <!-- Escrito -->
     <iframe :src="survey.url"></iframe>
   
@@ -29,7 +30,7 @@ Descripción:
       titulo,
     },
     props: [
-     'link'
+     'survey'
     ]
   }
 </script>

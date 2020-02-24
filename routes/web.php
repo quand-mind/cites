@@ -36,8 +36,11 @@
 use Illuminate\Support\Facades\Artisan;
 
 Route::get('/preguntas-frecuentes', 'PageController@faqsView')->name('preguntas-frecuentes');
-Route::get('/como-participar/encuesta', 'PageController@encuestasView')->name('encuestas');
-Route::get('/como-participar/desea-hacer-una-pregunta-adicional', 'PageController@newQuestionView')->name('pregunta-adicional');
+Route::group(['prefix' => 'como-participar'], function () {
+    Route::get('/encuestas', 'PageController@encuestasView')->name('encuestas');
+    Route::get('/encuestas/{id}', 'PageController@showSurvey');
+    Route::get('/desea-hacer-una-pregunta-adicional', 'PageController@newQuestionView')->name('pregunta-adicional');
+});
 
 Route::get('/legislacion/{title}', 'PageController@laws');
 

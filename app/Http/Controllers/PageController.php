@@ -119,7 +119,7 @@ class PageController extends Controller
         $page = Page::where('slug', $slug)->first();
         $links = $this->getMenuLinks();
 
-        return $page !== null && $page->is_active ? view('frontend.template', compact('page', 'links')) : response()->view('errors.' . '404', [], 404);
+        return $page !== null && $page->is_active ? view('frontend.template', compact('page', 'links')) : response()->view('errors.' . '404', compact('links'), 404);
     }
 
     /**
@@ -134,11 +134,11 @@ class PageController extends Controller
         $page = Page::where('slug', $subpage)->first();
         $links = $this->getMenuLinks();
 
-        if ($page->getMainPage->slug === $slug) {
+        if ($page !== null && $page->getMainPage->slug === $slug) {
             return view('frontend.template', compact('page', 'links'));
         }
 
-        return response()->view('errors.' . '404', [], 404);
+        return response()->view('errors.' . '404', compact('links'), 404);
     }
 
     /**
@@ -174,12 +174,15 @@ class PageController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function showSurvey($id){
-        $survey = Survey::find(id);
+    public function showSurvey ($id) {
+        $survey = Survey::find($id);
+        $links = $this->getMenuLinks();
+        $page = Page::where('slug', 'encuestas')->first();
+
         if ($survey == null) {
-            return view('errors.404');
-        }else{
-        return view('frontend.survey', compact('survey'));
+            return response()->view('errors.' . '404', compact('links'), 404);
+        } else {
+            return view('frontend.survey', compact('survey', 'links', 'page'));
         }
     }
     
@@ -215,12 +218,15 @@ class PageController extends Controller
 
                 $page->is_subpage = $values['is_subpage'];
                 $page->update($values);
+
                 $page->lastModifiedBy()->associate(Auth::user());
 
                 $mainPageId = $request->input('main_page');
                 
                 if ($mainPageId !== null)
                     $page->getMainPage()->associate(Page::find($mainPageId));
+
+                if (strcmp($page->title, "Bienvenidos") == 0) $page->slug = "";
 
                 $page->save();
 
@@ -285,7 +291,7 @@ class PageController extends Controller
      */
 
     public function encuestasView () {
-        $page = Page::where('slug', 'encuesta')->first();
+        $page = Page::where('slug', 'encuestas')->first();
         $surveys = Survey::all();
         $links = $this->getMenuLinks();
 
@@ -324,7 +330,7 @@ class PageController extends Controller
             $filesData = LegalFile::where('type', 'nac')->get();
         } else {
 
-            return view('errors.404');
+            return view('errors.404', compact('links'));
         }
 
         return view('frontend.legal', compact('page', 'links', 'filesData'));

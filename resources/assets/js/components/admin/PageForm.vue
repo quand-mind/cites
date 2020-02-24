@@ -1,5 +1,6 @@
 <template>
   <div>
+    <a href="/dashboard/pages"><font-awesome-icon :icon="['fas', 'arrow-left']"></font-awesome-icon> Volver a las páginas</a>
     <b-form @submit.prevent="onSubmit" @reset="onReset">
       <b-container class="mt-5">
         <b-row>
@@ -98,7 +99,7 @@
         <b-row>
           <b-col>
             <b-button class="submit-btn" size="lg" type="submit" variant="primary">Guardar</b-button>
-            <b-button size="lg" type="reset" variant="danger">Cancelar</b-button>
+            <b-button size="lg" type="reset" variant="danger" @click="pageData.content = ''">Limpiar</b-button>
           </b-col>
         </b-row>
       </b-container>
@@ -267,14 +268,7 @@ export default {
             errors = Object.keys(data.errors).toString()
             _this.makeToast(errors, "danger");
           } else {
-            let { data } = err.response
-
-            if (data.errors !== undefined || data.errors !== null) {
-              let errors = Object.values(data.errors).toString()
-              _this.makeToast(errors, "danger");
-            } else {
               _this.makeToast(data, "danger");
-            }
           }
         });
     },

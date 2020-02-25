@@ -143,9 +143,15 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
 
         // Glosary Routes
         Route::get('/glosary', 'GlosaryController@index');
+        Route::post('/glosary', 'GlosaryController@store');
+        Route::post('/glosary/edit/{id}', 'GlosaryController@update');
+        Route::delete('/glosary/{id}', 'GlosaryController@destroy');
 
         // Acronimos Routes
-        Route::get('/acronimos', 'acronimoController@index');
+        Route::get('/acronimos', 'AcronimoController@index');
+        Route::post('/acronimos', 'AcronimoController@store');
+        Route::post('/acronimos/edit/{id}', 'AcronimoController@update');
+        Route::delete('/acronimos/{id}', 'AcronimoController@destroy');
 
         // Laws Routes
         Route::get('/laws', 'LegalFileController@index');

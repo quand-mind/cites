@@ -12,7 +12,7 @@ class Acronimo extends Model
      * @var array
      */
     protected $fillable = [
-        'siglas', 'definition'
+        'siglas', 'description'
     ];
  
 }

@@ -37,7 +37,15 @@ class AcronimoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if ($request->validate([
+            'siglas' => 'required|max:10',
+            'description' => 'required|max:100'
+        ])) {
+            $acronimo = new Acronimo($request->all());
+            $acronimo->save();
+
+            return response('Acrónimo guardado exitosamente', 200);
+        }
     }
 
     /**
@@ -71,7 +79,15 @@ class AcronimoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        if ($request->validate([
+            'siglas' => 'required|max:10',
+            'description' => 'required|max:100'
+        ])) {
+            $acronimo = Acronimo::find($id);
+            $acronimo->update($request->all());
+
+            return response('Acrónimo guardado exitosamente', 200);
+        }
     }
 
     /**
@@ -82,6 +98,11 @@ class AcronimoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            Acronimo::find($id)->delete();
+            return response('Acrónimo eliminado exitosamente', 200);
+        } catch (Exception $err) {
+            return response($err->getMessage(), 500);
+        }
     }
 }

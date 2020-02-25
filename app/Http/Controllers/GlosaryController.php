@@ -6,7 +6,7 @@ use App\Glosary;
 use Exception;
 use Illuminate\Http\Request;
 
-class glosaryController extends Controller
+class GlosaryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -37,7 +37,15 @@ class glosaryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if ($request->validate([
+            'word' => 'required|max:10',
+            'description' => 'required|max:100'
+        ])) {
+            $acronimo = new Glosary($request->all());
+            $acronimo->save();
+
+            return response('Palabra guardada exitosamente', 200);
+        }
     }
 
     /**
@@ -71,7 +79,15 @@ class glosaryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        if ($request->validate([
+            'siglas' => 'required|max:10',
+            'description' => 'required|max:100'
+        ])) {
+            $acronimo = Glosary::find($id);
+            $acronimo->update($request->all());
+
+            return response('Palabra guardada exitosamente', 200);
+        }
     }
 
     /**
@@ -82,6 +98,11 @@ class glosaryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            Glosary::find($id)->delete();
+            return response('Palabra eliminada exitosamente', 200);
+        } catch (Exception $err) {
+            return response($err->getMessage(), 500);
+        }
     }
 }

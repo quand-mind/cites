@@ -17,6 +17,7 @@ class CreateAcronimosTable extends Migration
             $table->increments('id');
             $table->string('siglas', 10);
             $table->string('description', 100);
+            $table->timestamps();
         });
     }
 

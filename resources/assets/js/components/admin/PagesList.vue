@@ -142,16 +142,19 @@ export default {
             _this.makeToast(res.data);
             _this.hideDeleteModal();
             setTimeout(() => window.location.reload(), 3000);
+          } else if (res.status === 500) {
+            _this.hideDeleteModal();
+            _this.makeToast(res.data.messge, "danger");
           }
         })
         .catch(err => {
           let { data } = err.response
 
-          if (data.errors !== undefined || data.errors !== null) {
+          if (data.errors !== undefined && data.errors !== null) {
             let errors = Object.values(data.errors).toString()
             _this.makeToast(errors, "danger");
           } else {
-            _this.makeToast(data, "danger");
+            _this.makeToast(data.message || data, "danger");
           }
         });
     },

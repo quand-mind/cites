@@ -8,12 +8,11 @@ Donde se usa:
  Faqs (vista)
 
 Descripción:
- Crea un model que permite registrar una pregunta
+ Crea un model que permite registrar una consulta
  -->
 
  <template>
   <div>
-    <h3 class="mb-5">Haga una consulta y le responderemos en la brevedad posible</h3>
     <b-form class="container px-5" id="questionForm" @submit.prevent="onSubmit" @reset="onReset">
       <b-form-group label="Correo electrónico: " label-for="asked_by">
         <b-form-input
@@ -30,10 +29,6 @@ Descripción:
       </b-form-group>
 
       <b-button class="btn-verde" type="submit" variant="primary" size="lg">Enviar</b-button>
-<<<<<<< HEAD
-
-=======
->>>>>>> 951638c0dee127320e517895056ced123809b00e
     </b-form>
   </div>
 </template>
@@ -61,14 +56,14 @@ export default {
         .post(`/question`, formData)
         .then(res => {
           _this.hideCreateQuestionModal();
-          _this.makeToast("Responderemos su pregunta lo más pronto posible.");
+          _this.makeToast("Responderemos su consulta lo más pronto posible.");
         })
         .catch(err => console.log(err.response));
     },
     onReset() {},
     makeToast(msg, variant = "success", delay = 3000, append = false) {
       this.$bvToast.toast(`${msg}`, {
-        title: "¡Gracias por preguntar!",
+        title: "¡Gracias por consultar!",
         autoHideDelay: delay,
         appendToast: append,
         variant

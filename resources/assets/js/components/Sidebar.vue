@@ -13,12 +13,12 @@ Descripción:
 <template>
   <!-- SideBar -->
   <aside
-    class="py-5 d-flex flex-column align-items-center mb-4"
+    class="py-3 d-flex flex-column align-items-center mb-4 mt-5"
     style="border: 1px solid #dadada; flex-shrink: 2; min-width: 300px"
   >
     <!-- Enlaces de interes -->
     <div
-      class="w-100 d-flex align-items-center flex-wrap justify-content-around my-5 px-4"
+      class="w-100 d-flex align-items-center flex-wrap justify-content-around px-4"
       style="max-width: 300px"
     >
       <a target="_blank" href="http://www.minec.gob.ve/" class="image-aside" onclick="return false">

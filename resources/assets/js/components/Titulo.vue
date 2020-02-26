@@ -16,7 +16,7 @@ Descripción:
  <template>
   <div>
 <!-- Titulo -->
-	<h2 class="h1 text-center font-weight-normal mt-5">{{msg}}</h2>  	
+	<h2 class="h1 text-center font-weight-normal my-5">{{msg}}</h2>  	
   </div>
 </template>
 

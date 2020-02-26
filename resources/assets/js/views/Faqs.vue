@@ -26,8 +26,6 @@ Descripción:
       <div v-else class="p-3 my-5" style="background-color: #e6e6e6">
         <h4 class="font-weight-bold" style="color: #2c3e50">No hay preguntas.</h4>
       </div>
-      <!--Boton de hacer preguntas-->
-      <pregunta></pregunta>
     </div>
   </div>
 </template>
@@ -35,12 +33,10 @@ Descripción:
 <script>
 import titulo from "../components/Titulo.vue";
 import axios from "axios";
-import pregunta from "../components/Hacer-pregunta.vue";
 
 export default {
   components: {
-    titulo,
-    pregunta
+    titulo
   },
   props: ['questions']
 };

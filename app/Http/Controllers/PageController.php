@@ -247,6 +247,10 @@ class PageController extends Controller
     {
         try {
             $page = Page::find($id);
+            if ($page->is_static) {
+                return response("No se puede eliminar una página estática. Puedes deshabilitar esta página accediendo a la interfaz de edición", 500);
+            }
+
             $page->delete();
             return response('Página eliminada', 200);
         } catch (Exception $err) {
@@ -304,11 +308,17 @@ class PageController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function newQuestionView () {
-        $page = Page::where('slug', 'desea-hacer-una-pregunta-adicional')->first();
-        $links = $this->getMenuLinks();
+    public function newQuestionView ($slug) {
+        $page = Page::where('slug', $slug)->first();
 
-        return view('frontend.newQuestion', compact('page', 'links'));
+        if ($page->id === 20) {
+            $links = $this->getMenuLinks();
+    
+            return view('frontend.newQuestion', compact('page', 'links'));
+        } else {
+            $this->showSubPage($slug);
+        }
+
      }
 
     /**

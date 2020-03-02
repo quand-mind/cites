@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Acronimo;
+use App\Glosary;
 use App\LegalFile;
 use Illuminate\Http\Request;
 use App\Page;
@@ -344,5 +346,35 @@ class PageController extends Controller
         }
 
         return view('frontend.legal', compact('page', 'links', 'filesData'));
+    }
+
+    /**
+     * Show the glosary on the frontend
+     *
+     * @return \Illuminate\Http\Response
+     */
+
+    public function glosaryView () {
+        
+        $page = Page::where('slug', 'glosario')->first();
+        $glosary = Glosary::all();
+        $links = $this->getMenuLinks();
+
+        return view('frontend.glosary', compact('page', 'links', 'glosary'));
+    }
+
+    /**
+     * Show the acronimos on the frontend
+     *
+     * @return \Illuminate\Http\Response
+     */
+
+    public function acronimosView () {
+        
+        $page = Page::where('slug', 'acronimos')->first();
+        $acronimos = Acronimo::all();
+        $links = $this->getMenuLinks();
+
+        return view('frontend.acronimos', compact('page', 'links', 'acronimos'));
     }
 }

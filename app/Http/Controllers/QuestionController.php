@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\QuestionAnswered;
 use App\Question;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class QuestionController extends Controller
 {
@@ -57,6 +59,9 @@ class QuestionController extends Controller
 
                 if ($request->input('sendResponseEmail')) {
                     // Send Email with answered question
+
+                    Mail::to($question->asked_by)
+                        ->send(new QuestionAnswered($question));
                 }
 
                 return response("Gracias por participar. Responderemos a la brevedad posible", 200);
@@ -120,6 +125,11 @@ class QuestionController extends Controller
 
                 if ($request->input('sendResponseEmail')) {
                     // Send Email with answered question
+
+                    Mail::to($question->asked_by)
+                        ->send(new QuestionAnswered($question));
+
+                    return response("Se ha enviado la respuesta al usuario exitosamente", 200);
                 }
 
                 return response("Consulta actualizada", 200);

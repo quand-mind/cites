@@ -44,6 +44,11 @@ Route::group(['prefix' => 'como-participar'], function () {
 
 Route::get('/legislacion/{title}', 'PageController@laws');
 
+Route::group(['prefix' => 'recursos'], function () {
+    Route::get('/glosario', 'PageController@glosaryView');
+    Route::get('/acronimos', 'PageController@acronimosView');
+});
+
 // // Frontend routes for "Encuestas"
 // Route::get('/encuestas', function () {
 //     return view('welcome');

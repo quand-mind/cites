@@ -24,7 +24,7 @@ Descripción:
         ></b-form-input>
       </b-form-group>
 
-      <b-form-group label="Coméntanos tu duda:" label-for="question">
+      <b-form-group label="Coméntenos su duda:" label-for="question">
         <b-form-input id="question" v-model="form.question" required placeholder="¿?"></b-form-input>
       </b-form-group>
 
@@ -35,28 +35,23 @@ Descripción:
 
 <script>
 import axios from "axios";
-import moment from "moment";
 
 export default {
-  props: ["questions"],
   data: () => ({
     form: {
       asked_by: "",
-      question: ""
+      question: "",
+      sendResponseEmail: 0
     }
   }),
   methods: {
     onSubmit() {
       let _this = this;
-      let formData = new FormData();
-
-      for (let prop in this.form) formData.append(prop, this.form[prop]);
 
       axios
-        .post(`/question`, formData)
+        .post(`/question`, _this.form)
         .then(res => {
-          _this.hideCreateQuestionModal();
-          _this.makeToast("Responderemos su consulta lo más pronto posible.");
+          _this.makeToast("Responderemos su consulta lo más pronto posible.", "success", "3000");
         })
         .catch(err => console.log(err.response));
     },

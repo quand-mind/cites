@@ -196,6 +196,18 @@ Route::get('/clear-app', function () {
 // Render files
 Route::get('/files/{name}', 'LegalFileController@show');
 
+Route::get('/forums', ['uses' => '\DevDojo\Chatter\Controllers\ChatterController@index'])->name('chatter.home');         
+Route::get('/forums.atom', ['uses' => '\DevDojo\Chatter\Controllers\ChatterAtomController@index'])->name('chatter.atom');
+Route::get('/forums/category/{slug}', ['uses' => '\DevDojo\Chatter\Controllers\ChatterController@index'])->name('chatter.category.show');
+Route::get('/forums/discussion', ['uses' => '\DevDojo\Chatter\Controllers\ChatterDiscussionController@index'])->name('chatter.discussion.index');
+Route::post('/forums/discussion', ['uses' => '\DevDojo\Chatter\Controllers\ChatterDiscussionController@store'])->name('chatter.discussion.store');
+Route::get('/forums/discussion/create', ['uses' => '\DevDojo\Chatter\Controllers\ChatterDiscussionController@create'])->name('chatter.discussion.create');
+Route::get('/forums/discussion/{category}/{slug}', ['uses' => '\DevDojo\Chatter\Controllers\ChatterDiscussionController@show'])->name('chatter.discussion.showInCategory');
+Route::post('/forums/discussion/{category}/{slug}/email', ['uses' => '\DevDojo\Chatter\Controllers\ChatterDiscussionController@toggleE'])->name('chatter.discussion.email');
+Route::get('/forums/discussion/{discussion}', ['uses' => '\DevDojo\Chatter\Controllers\ChatterDiscussionController@show'])->name('chatter.discussion.show');
+Route::put('/forums/discussion/{discussion}', ['uses' => '\DevDojo\Chatter\Controllers\ChatterDiscussionController@update'])->name('chatter.discussion.update');
+Route::delete('/forums/discussion/{discussion}', ['uses' => '\DevDojo\Chatter\Controllers\ChatterDiscussionController@destroy'])->name('chatter.discussion.destroy');
+
 // Frontend pages controller
 Route::get('/{slug?}', 'PageController@show');
 

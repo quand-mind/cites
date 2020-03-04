@@ -163,6 +163,10 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         Route::post('/laws/create', 'LegalFileController@store');
         Route::post('/laws/edit/{id}', 'LegalFileController@update');
         Route::delete('/laws/{id}', 'LegalFileController@destroy');
+
+        // Header Routes
+        Route::get('/header-manager', 'HeaderImageController@index');
+        Route::post('/header-manager', 'HeaderImageController@store');
     });
 });
 
@@ -207,6 +211,9 @@ Route::post('/forums/discussion/{category}/{slug}/email', ['uses' => '\DevDojo\C
 Route::get('/forums/discussion/{discussion}', ['uses' => '\DevDojo\Chatter\Controllers\ChatterDiscussionController@show'])->name('chatter.discussion.show');
 Route::put('/forums/discussion/{discussion}', ['uses' => '\DevDojo\Chatter\Controllers\ChatterDiscussionController@update'])->name('chatter.discussion.update');
 Route::delete('/forums/discussion/{discussion}', ['uses' => '\DevDojo\Chatter\Controllers\ChatterDiscussionController@destroy'])->name('chatter.discussion.destroy');
+
+// Header
+Route::get('/header-images', 'HeaderImageController@show');
 
 // Frontend pages controller
 Route::get('/{slug?}', 'PageController@show');

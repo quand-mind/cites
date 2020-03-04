@@ -12,13 +12,19 @@ import {
     library
 } from "@fortawesome/fontawesome-svg-core";
 import {
+    fab
+} from "@fortawesome/free-brands-svg-icons";
+
+import {
     fas
 } from "@fortawesome/free-solid-svg-icons";
+
 import {
     FontAwesomeIcon
 } from "@fortawesome/vue-fontawesome";
 
 library.add(fas);
+library.add(fab);
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);
 
@@ -86,6 +92,8 @@ Vue.component("page-form", require("./components/admin/PageForm.vue").default);
 Vue.component("menu-list", require("./components/admin/MenuList.vue").default);
 
 Vue.component("laws-list", require("./components/admin/LawsList.vue").default);
+
+Vue.component("header-manager", require("./components/admin/HeaderManager.vue").default);
 
 Vue.component("page-template", require("./views/PageTemplate.vue").default);
 

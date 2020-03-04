@@ -55,7 +55,13 @@ export default {
   components: {
     slide
   },
-  name: "cabecera"
+  data: () => ({
+    
+  }), 
+  name: "cabecera",
+  mounted: () => {
+    
+  }
 };
 </script>
 
@@ -71,6 +77,7 @@ export default {
 .navbar {
   align-items: center;
   justify-content: center;
+
   .brand {
     color: #212529;
     width: 80%;

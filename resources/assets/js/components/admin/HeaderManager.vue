@@ -7,7 +7,7 @@
                 class="dropzone"
                 ref="dropzone"
                 id="dropzone"
-                v-on:vdropzone-files-added="handleUploadedFiles"
+                v-on:vdropzone-complete="handleUploadedFiles"
                 :options="dropzoneOptions"
             ></vue-dropzone>
         </div>
@@ -19,6 +19,9 @@
                 <transition-group class="d-flex flex-wrap" type="transition" name="flip-list">
                     <div v-for="image in imagesList" :key="image.id" class="header-img">
                         <img :src="'/storage/' + image.src" alt="header img">
+                        <a href="javascript:;" @click="deleteImage(image.id)" class='text-danger delete-icon'>
+                            <font-awesome-icon size="2x" :icon="['fas', 'times-circle']"></font-awesome-icon>
+                        </a>
                     </div>
                 </transition-group>
             </draggable>
@@ -44,9 +47,10 @@ export default {
     data: () => ({
         imagesList: [],
         dropzoneOptions: {
-            url: '/dashboard/header-manager/',
+            url: '/dashboard/header-manager',
             paramName: 'images',
             uploadMultiple: true,
+            maxFilesize: 4096,
             thumbnailWidth: 300,
             addRemoveLinks: true,
             dictDefaultMessage: "<i class='fa fa-cloud-upload'></i> CARGAR IMAGEN",
@@ -67,15 +71,37 @@ export default {
             this.imagesList[e.draggedContext.index].image_order = this.imagesList[e.relatedContext.index].image_order
             this.imagesList[e.relatedContext.index].image_order = aux
         },
-        handleUploadedFiles (files) {
+        handleUploadedFiles (response) {
             let _this = this
-            this.makeToast('Imagenes cargadas');
 
-            setTimeout(function () {
+            if(response.status === "success") {
+                this.makeToast('Imagenes cargadas');
                 _this.$refs.dropzone.removeAllFiles();
                 _this.updateImages();
-            }, 3000);
+            } else {
+                this.makeToast('Error al cargar las imágenes', "danger");
+            }
 
+        },
+        deleteImage (id) {
+            let _this = this;
+
+            axios
+                .delete(`/dashboard/header-manager/${id}`)
+                .then(res => {
+                    _this.makeToast(res.data)
+                    _this.updateImages()
+                })
+                .catch(err => {
+                    let { data } = err.response
+
+                    if (data.errors !== undefined || data.errors !== null) {
+                        let errors = Object.values(data.errors).toString()
+                        _this.makeToast(errors, "danger");
+                    } else {
+                        _this.makeToast(data, "danger");
+                    }
+                })
         },
         updateImages () {
             let _this = this
@@ -164,9 +190,31 @@ export default {
         margin: 10px 20px;
         display: flex;
         align-items: center;
+        position: relative;
+
+        .delete-icon {
+            top: 10px;
+            right: 10px;
+            opacity: 0;
+            transition: all .5s ease;
+            position: absolute;
+            z-index: 4;
+        }
 
         img {
             width: 100%;
+
+            // &:hover ~ .icon {
+            //     opacity: 1;
+            //     transition: all .5s ease;
+            // }
+        }
+
+        &:hover {
+            .delete-icon {
+                opacity: 1;
+                transition: all .5s ease;
+            }
         }
     }
 

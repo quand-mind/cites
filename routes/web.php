@@ -167,6 +167,7 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         // Header Routes
         Route::get('/header-manager', 'HeaderImageController@index');
         Route::post('/header-manager', 'HeaderImageController@store');
+        Route::delete('/header-manager/{id}', 'HeaderImageController@destroy');
     });
 });
 

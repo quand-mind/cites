@@ -16,7 +16,7 @@ class HeaderImageController extends Controller
      */
     public function index()
     {
-        $images = HeaderImage::all();
+        $images = HeaderImage::orderBy('image_order')->get();
         return view('panel.dashboard.headerManager', compact('images'));
     }
 
@@ -31,7 +31,7 @@ class HeaderImageController extends Controller
         // IMPORTANT: check image size
 
         if ($request->validate([
-            'images.*' => 'required|image|max:2048'
+            'images.*' => 'required|image|max:4096'
         ])) {
 
             try {
@@ -59,7 +59,7 @@ class HeaderImageController extends Controller
      */
     public function show()
     {
-        return HeaderImage::all()->toJson();
+        return HeaderImage::orderBy('image_order')->get()->toJson();
     }
 
     /**
@@ -92,6 +92,13 @@ class HeaderImageController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $image = HeaderImage::find($id);
+            Storage::delete($image->src);
+            $image->delete();
+            return response('Imagen eliminada');
+        } catch (Exception $err) {
+            return response($err->getMessage(), 500);
+        }
     }
 }

@@ -12,7 +12,7 @@ Descripción:
 
  <template>
  <div class="w-100">
-   <header class=" one d-none d-lg-block">
+   <header class="nav d-none d-lg-block">
     <slide class="slide"></slide>
     <b-navbar class="">
       <a class="brand d-flex align-items-center" href="/">
@@ -79,9 +79,12 @@ export default {
   justify-content: center;
 
   .brand {
-    color: #212529;
+    color: white;
     width: 80%;
     font-size: 18px;
+    background: rgba(120, 120, 120, .8);
+    margin-right: 20px;
+    border-radius: 3px;
 
     img {
       height: 100%;
@@ -103,8 +106,9 @@ export default {
     }
   }
 }
-.one {
+.nav {
   height: 40vh;
+  min-height: 500px;
   overflow: hidden;
   position: relative;
 }

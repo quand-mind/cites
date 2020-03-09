@@ -17,8 +17,9 @@ Descripción:
       ref="slick"
       :options="slickOptions"
       v-if="headerImages.length > 0"
+      class='slide'
     >
-      <img v-for="img in headerImages" :key="img.id" :src="'/storage/' + img.src" />
+      <div class="slide-img" v-for="img in headerImages" :key="img.id" :style="`background-image: url(/storage/${img.src})`"></div>
     </slick>
   </div>
 </template>
@@ -92,7 +93,14 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss">
 /* @import url("/slick-carousel/slick/slick.css"); */
+
+.slide-img {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 100%;
+}
 </style>
 

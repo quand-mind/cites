@@ -10,6 +10,7 @@
                 v-on:vdropzone-complete="handleUploadedFiles"
                 :options="dropzoneOptions"
             ></vue-dropzone>
+            <small class="text-secondary">Compresor y redimensionador online: <a href="https://www.iloveimg.com/es">click aquí</a></small>
         </div>
 
         <div class="mb-5 ml-5 w-100">
@@ -50,10 +51,10 @@ export default {
             url: '/dashboard/header-manager',
             paramName: 'images',
             uploadMultiple: true,
-            maxFilesize: 4096,
+            maxFilesize: 2048,
             thumbnailWidth: 300,
             addRemoveLinks: true,
-            dictDefaultMessage: "<i class='fa fa-cloud-upload'></i> CARGAR IMAGEN",
+            dictDefaultMessage: "<i class='fa fa-cloud-upload'></i> CARGAR IMAGEN (Máx. 2MB)",
             acceptedFiles: 'image/*',
             headers: {
                 'x-csrf-token': document.querySelector('meta[name="csrf-token"]').content

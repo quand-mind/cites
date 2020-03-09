@@ -12,7 +12,8 @@ Descripción:
 
 <template>
   <div>
-    <titulo msg="Preguntas frecuentes" />
+    <titulo :msg="page.title" />
+    <div class="content ql-editor" v-html="page.content"></div>
     <!--FAQS -->
     <div class="p-5 p-lg-4 p-xl-4">
       <div v-if="questions.length > 0" class="p-3 my-5" style="background-color: #e6e6e6">
@@ -38,7 +39,7 @@ export default {
   components: {
     titulo
   },
-  props: ['questions']
+  props: ['questions', 'page']
 };
 </script>
 <style type="text/css">

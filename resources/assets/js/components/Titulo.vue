@@ -14,7 +14,7 @@ Descripción:
  -->
 
  <template>
-  <div>
+  <div class="d-flex flex-column justify-content-center align-items-center">
 <!-- Titulo -->
 	<h2 class="h1 text-center font-weight-normal my-5">{{msg}}</h2>  	
   </div>
@@ -29,6 +29,20 @@ export default {
 }
 </script>
 
-<style scoped>
-	
+<style scoped lang="scss">
+	h2 {
+		position: relative;
+		color: #00a96d;
+		display: flex;
+		justify-content: center;
+
+		&::after {
+			content: "";
+			position: absolute;
+			bottom: -20px;
+			width: 95%;
+			height: 5px;
+			background: #00a96d;
+		}
+	}
 </style>

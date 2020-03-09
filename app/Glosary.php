@@ -12,7 +12,9 @@ class Glosary extends Model
      * @var array
      */
     protected $fillable = [
-        'word', 'definition'
+        'word', 'description'
     ];
+
+    protected $table = 'glosary';
  
 }

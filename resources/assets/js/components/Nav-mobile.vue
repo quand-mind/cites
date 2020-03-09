@@ -28,7 +28,7 @@ Descripción:
                 <span>{{link.title}}</span>
                 <b-button v-if="link.get_subpages.length > 0" href="#" v-b-toggle="'collapse-' + index">
                   <font-awesome-icon
-                  :icon="!isOpen ? ['fas', 'caret-down'] : ['fas', 'caret-down']"
+                  :icon="['fas', 'caret-down']"
                   color="black"
                   size="lg"
                   ></font-awesome-icon>

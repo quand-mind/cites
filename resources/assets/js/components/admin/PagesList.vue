@@ -145,7 +145,14 @@ export default {
           }
         })
         .catch(err => {
-          _this.makeToast(err.response.data, "danger");
+          let { data } = err.response
+
+          if (data.errors !== undefined || data.errors !== null) {
+            let errors = Object.values(data.errors).toString()
+            _this.makeToast(errors, "danger");
+          } else {
+            _this.makeToast(data, "danger");
+          }
         });
     },
     handleCheckBoxChange(row) {
@@ -162,7 +169,16 @@ export default {
             _this.makeToast(res.data, "info", 2000);
           }
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+          let { data } = err.response
+
+          if (data.errors !== undefined || data.errors !== null) {
+            let errors = Object.values(data.errors).toString()
+            _this.makeToast(errors, "danger");
+          } else {
+            _this.makeToast(data, "danger");
+          }
+        });
     },
     generateSlug(row) {
       if (row.main_page !== null) {

@@ -20,17 +20,11 @@
       </div>
       <div slot="acciones" slot-scope="props">
         <b-button @click="showEditQuestionModal(props.row)" variant="primary">Responder</b-button>
-<<<<<<< HEAD
 
         <a class="text-danger" @click.prevent="{deleteQuestion(props.row)}">
           <font-awesome-icon :icon="['fa', 'trash']"></font-awesome-icon>
         </a>
 
-=======
-        <a class="text-danger" @click.prevent="{deleteQuestion(props.row)}">
-          <font-awesome-icon :icon="['fa', 'trash']"></font-awesome-icon>
-        </a>
->>>>>>> 951638c0dee127320e517895056ced123809b00e
       </div>
     </v-client-table>
 
@@ -63,10 +57,6 @@
           ></b-form-textarea>
         </b-form-group>
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 951638c0dee127320e517895056ced123809b00e
         <b-form-group label="Responder con un email" label-for="question">
           <b-form-checkbox
             name="check-button"
@@ -153,10 +143,6 @@ export default {
       asked_by: "",
       question: "",
       answer: "",
-<<<<<<< HEAD
-
-=======
->>>>>>> 951638c0dee127320e517895056ced123809b00e
       answered_by: null,
       sendResponseEmail: true
     },
@@ -171,10 +157,6 @@ export default {
         answer: "",
         answered_by: null,
         sendResponseEmail: true
-<<<<<<< HEAD
-
-=======
->>>>>>> 951638c0dee127320e517895056ced123809b00e
       };
     },
     hideCreateQuestionModal() {
@@ -196,10 +178,6 @@ export default {
       this.$refs["edit-question-modal"].hide();
     },
     onSubmit() {
-<<<<<<< HEAD
-
-=======
->>>>>>> 951638c0dee127320e517895056ced123809b00e
       let _this = this
       let formData = new FormData();
 
@@ -213,10 +191,6 @@ export default {
       axios
         .post(`/question`, formData)
         .then(res => {
-<<<<<<< HEAD
-
-=======
->>>>>>> 951638c0dee127320e517895056ced123809b00e
           _this.makeToast(res.data);
           setTimeout(() => window.location.reload(), 2000);
         })
@@ -232,10 +206,6 @@ export default {
           if (prop === "sendResponseEmail") formData.append(prop, this.form[prop] ? 1 : 0);
           else formData.append(prop, this.form[prop]);
         }
-<<<<<<< HEAD
-
-=======
->>>>>>> 951638c0dee127320e517895056ced123809b00e
 
       axios
         .post(`/question/update/${this.form.id}`, formData)
@@ -244,10 +214,6 @@ export default {
           setTimeout(() => window.location.reload(), 2000);
         })
         .catch(err => _this.makeToast(err.response.data, "danger"));
-<<<<<<< HEAD
-
-=======
->>>>>>> 951638c0dee127320e517895056ced123809b00e
     },
     onResetEdit() {},
     changeQuestionStatus(id) {
@@ -292,10 +258,6 @@ export default {
         .catch(err => {
           _this.makeToast(err.response.data, "danger");
         });
-<<<<<<< HEAD
-
-=======
->>>>>>> 951638c0dee127320e517895056ced123809b00e
     }
   },
   mounted() {
@@ -304,10 +266,6 @@ export default {
       let newQuest = { ...question };
       newQuest.created_at = moment(newQuest.created_at).format("DD/MM/YYYY");
       newQuest.is_faq = parseInt(newQuest.is_faq) === 1;
-<<<<<<< HEAD
-
-=======
->>>>>>> 951638c0dee127320e517895056ced123809b00e
       newQuest.answered_by = newQuest.answered_by
         ? newQuest.answered_by.username
         : null;

@@ -42,6 +42,7 @@ class LegalFileController extends Controller
 
             // save file in the storage
             $file->setFilePath();
+            $file->file_order = LegalFile::where('type', $file->type)->count();
             $file->save();
             $request->file('file')->storeAs('files', $file->name);
 

@@ -21,7 +21,10 @@
 // });
 // // Frontend routes for "Transgenico"
 // Route::get('/transgenico', function () {
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
 
     // return view('welcome');
 
@@ -36,10 +39,18 @@
 
 use Illuminate\Support\Facades\Artisan;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
 Route::get('/preguntas-frecuentes', 'PageController@faqsView')->name('preguntas-frecuentes');
-Route::get('/como-participar/encuesta', 'PageController@encuestasView')->name('encuestas');
-Route::get('/como-participar/desea-hacer-una-pregunta-adicional', 'PageController@newQuestionView')->name('pregunta-adicional');
+Route::group(['prefix' => 'como-participar'], function () {
+    Route::get('/encuestas', 'PageController@encuestasView')->name('encuestas');
+    Route::get('/encuestas/{id}', 'PageController@showSurvey');
+    Route::get('/desea-hacer-una-pregunta-adicional', 'PageController@newQuestionView')->name('pregunta-adicional');
+});
+
+Route::get('/legislacion/{title}', 'PageController@laws');
 
 // // Frontend routes for "Encuestas"
 // Route::get('/encuestas', function () {
@@ -137,13 +148,26 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         Route::post('/survey', 'SurveyController@store');
         Route::post('/surveys/edit/{id}', 'SurveyController@update');
         Route::delete('/surveys/{id}', 'SurveyController@destroy');
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
 
         // Glosary Routes
         Route::get('/glosary', 'GlosaryController@index');
+        Route::post('/glosary', 'GlosaryController@store');
+        Route::post('/glosary/edit/{id}', 'GlosaryController@update');
+        Route::delete('/glosary/{id}', 'GlosaryController@destroy');
 
         // Acronimos Routes
+<<<<<<< HEAD
         Route::get('/acronimos', 'acronimoController@index');
+=======
+        Route::get('/acronimos', 'AcronimoController@index');
+        Route::post('/acronimos', 'AcronimoController@store');
+        Route::post('/acronimos/edit/{id}', 'AcronimoController@update');
+        Route::delete('/acronimos/{id}', 'AcronimoController@destroy');
+>>>>>>> master
 
         // Laws Routes
         Route::get('/laws', 'LegalFileController@index');
@@ -179,6 +203,10 @@ Route::get('/clear-app', function () {
     Artisan::call('view:clear', []);
     return "Clear the app deployment completed";
 });
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
 // Render files
 Route::get('/files/{name}', 'LegalFileController@show');
 

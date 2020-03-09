@@ -11,14 +11,14 @@ class LegalFile extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'description', 'path'];
+    protected $fillable = ['name', 'description', 'path', 'file_order'];
 
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'legal_files';
+    // protected $table = 'legal_files';
 
     /**
      * Generates the file path

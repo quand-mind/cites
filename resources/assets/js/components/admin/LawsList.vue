@@ -1,6 +1,7 @@
 <template>
   <div>
-    <b-button @click="showCreateModal" variant="primary">Agregar archivo</b-button>
+    <b-button @click="showCreateModal" variant="primary"><font-awesome-icon :icon="['fa', 'plus']"></font-awesome-icon> Agregar archivo</b-button>
+    <b-button href="/dashboard/laws/order" variant="info"><font-awesome-icon :icon="['fa', 'sort-numeric-up']"></font-awesome-icon> Ordenar archivos</b-button>
     <v-client-table :data="tableData" :columns="columns" :options="options">
       <!-- actions slot -->
       <div class="action-container" slot="acciones" slot-scope="props">
@@ -23,7 +24,7 @@
       <span slot="tipo" slot-scope="props">{{props.row.type}}</span>
 
       <!-- preview slot -->
-      <span slot="ver_archivo" slot-scope="props"><a :href="props.row.path" target="_blank">Ver archivo</a></span>
+      <span slot="ver_archivo" slot-scope="props"><a :href="props.row.path" target="_blank"><font-awesome-icon :icon="['fa', 'eye']"></font-awesome-icon> Ver archivo</a></span>
     </v-client-table>
 
     <!-- Delete modal -->
@@ -91,6 +92,8 @@
               :options="lawsOptions"></b-form-select>
           </b-form-group>
 
+          <b-progress class="mb-5" v-if="showProgressBar" :value="uploadPercentage" :max="100" show-progress animated></b-progress>
+
           <b-button type="submit" variant="success">Agregar archivo</b-button>
           <b-button type="reset" variant="outline-danger">Limpiar</b-button>
         </b-form>
@@ -133,12 +136,13 @@ export default {
     selectedFile: null,
     editForm: {},
     createForm: {
-      name: "",
       description: "",
       type: null
     },
     formFile: null,
-    newFile: null
+    newFile: null,
+    uploadPercentage: 0,
+    showProgressBar: false
   }),
   methods: {
     showCreateModal() {
@@ -190,15 +194,24 @@ export default {
           }
         })
         .catch(err => {
-          _this.makeToast(err.response.data, "danger");
+          let { data } = err.response
+
+          console.log(JSON.stringify(err))
+
+          if (data.errors !== undefined || data.errors !== null) {
+            let errors = Object.values(data.errors).toString()
+            _this.makeToast(errors, "danger", 5000);
+          } else {
+            _this.makeToast(data, "danger", 5000);
+          }
         });
     },
     onReset() {
       this.editForm = {};
+      this.newFile = null;
     },
     onResetCreate() {
       this.createForm = {
-        name: "",
         description: "",
         type: null
       };
@@ -224,11 +237,16 @@ export default {
         form.append("name", _this.newFile.name);
       }
 
+      _this.showProgressBar = true
+
       axios
         .post(`/dashboard/laws/create`, form, {
           headers: {
-            "Content-Type": "multipart/form-data"
-          }
+              'Content-Type': 'multipart/form-data'
+          },
+          onUploadProgress: function( progressEvent ) {
+            _this.uploadPercentage = parseInt( Math.round( ( progressEvent.loaded / progressEvent.total ) * 100 ))
+          }.bind(this)
         })
         .then(res => {
           if (res.status === 200) {
@@ -238,7 +256,17 @@ export default {
           }
         })
         .catch(err => {
-          _this.makeToast(err.response.data, "danger");
+          console.log(err)
+          let { data } = err.response
+
+          _this.showProgressBar = false;
+
+          if (data.errors !== undefined && data.errors !== null) {
+            let errors = Object.values(data.errors).toString()
+            _this.makeToast(errors, "danger");
+          } else {
+            _this.makeToast(data.message, "danger");
+          }
         });
     },
     submitDeleteFile() {
@@ -254,7 +282,14 @@ export default {
           }
         })
         .catch(err => {
-          _this.makeToast(err.response.data, "danger");
+          let { data } = err.response
+          
+          if (data.errors !== undefined || data.errors !== null) {
+            errors = Object.keys(data.errors).toString()
+            _this.makeToast(errors, "danger");
+          } else {
+              _this.makeToast(data, "danger");
+          }
         });
     }
   },

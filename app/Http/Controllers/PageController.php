@@ -10,7 +10,15 @@ use Illuminate\Support\Facades\Auth;
 
 class PageController extends Controller
 {
-     /**
+    public function showSurvey($id){
+        $survey = Survey::find(id);
+        if ($survey == null) {
+            return view('errors.404');
+        }else{
+        return view('frontend.survey', compact('survey'));
+        }
+    }
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -173,14 +181,7 @@ class PageController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function showSurvey($id){
-        $survey = Survey::find(id);
-        if ($survey == null) {
-            return view('errors.404');
-        }else{
-        return view('frontend.survey', compact('survey'));
-        }
-    }
+ 
     
 
 

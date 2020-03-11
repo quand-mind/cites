@@ -21,11 +21,6 @@
 // });
 // // Frontend routes for "Transgenico"
 // Route::get('/transgenico', function () {
-<<<<<<< HEAD
-
-=======
->>>>>>> master
-
     // return view('welcome');
 
 // })->name('transgenico');
@@ -39,10 +34,6 @@
 
 use Illuminate\Support\Facades\Artisan;
 
-<<<<<<< HEAD
-
-=======
->>>>>>> master
 Route::get('/preguntas-frecuentes', 'PageController@faqsView')->name('preguntas-frecuentes');
 Route::group(['prefix' => 'como-participar'], function () {
     Route::get('/encuestas', 'PageController@encuestasView')->name('encuestas');
@@ -148,10 +139,6 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         Route::post('/survey', 'SurveyController@store');
         Route::post('/surveys/edit/{id}', 'SurveyController@update');
         Route::delete('/surveys/{id}', 'SurveyController@destroy');
-<<<<<<< HEAD
-
-=======
->>>>>>> master
 
         // Glosary Routes
         Route::get('/glosary', 'GlosaryController@index');
@@ -160,14 +147,10 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         Route::delete('/glosary/{id}', 'GlosaryController@destroy');
 
         // Acronimos Routes
-<<<<<<< HEAD
-        Route::get('/acronimos', 'acronimoController@index');
-=======
         Route::get('/acronimos', 'AcronimoController@index');
         Route::post('/acronimos', 'AcronimoController@store');
         Route::post('/acronimos/edit/{id}', 'AcronimoController@update');
         Route::delete('/acronimos/{id}', 'AcronimoController@destroy');
->>>>>>> master
 
         // Laws Routes
         Route::get('/laws', 'LegalFileController@index');
@@ -203,10 +186,6 @@ Route::get('/clear-app', function () {
     Artisan::call('view:clear', []);
     return "Clear the app deployment completed";
 });
-<<<<<<< HEAD
-=======
-
->>>>>>> master
 // Render files
 Route::get('/files/{name}', 'LegalFileController@show');
 

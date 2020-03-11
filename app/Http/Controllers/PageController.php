@@ -181,25 +181,7 @@ class PageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-
-<<<<<<< HEAD
- 
-=======
-    public function showSurvey ($id) {
-        $survey = Survey::find($id);
-        $links = $this->getMenuLinks();
-        $page = Page::where('slug', 'encuestas')->first();
-
-        if ($survey == null) {
-            return response()->view('errors.' . '404', compact('links'), 404);
-        } else {
-            return view('frontend.survey', compact('survey', 'links', 'page'));
-        }
-    }
->>>>>>> master
-    
-
-
+        
     public function update(Request $request, $id)
     {
         if ($request->validate([

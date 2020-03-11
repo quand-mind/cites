@@ -149,7 +149,6 @@ if ($("#pageForm").length !== 0) {
         el: "#pageForm"
     });
 }
-<<<<<<< HEAD
 Vue.component("glosary", require("./components/admin/GlosaryList.vue"));
 
 if ($("#glosaryList").length !== 0) {
@@ -166,10 +165,6 @@ if ($("#acronimoList").length !== 0) {
     });
 }
 Vue.component("menu-list", require("./components/admin/MenuList.vue"));
-=======
-
-Vue.component("menu-list", require("./components/admin/MenuList.vue").default);
->>>>>>> master
 
 if ($("#menuList").length !== 0) {
     const menuList = new Vue({

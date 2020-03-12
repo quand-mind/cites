@@ -3,11 +3,9 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Cviebrock\EloquentSluggable\Sluggable;
 
 class Page extends Model
 {
-    use Sluggable;
     /**
      * The attributes that are mass assignable.
      *
@@ -18,20 +16,6 @@ class Page extends Model
         'content','is_subpage', 'is_onMenu', 'is_active', 'is_static',
         'menu_order'
     ];
-
-    /**
-     * Return the sluggable configuration array for this model.
-     *
-     * @return array
-     */
-    public function sluggable()
-    {
-        return [
-            'slug' => [
-                'source' => 'title'
-            ]
-        ];
-    }
 
     public function lastModifiedBy () {
         return $this->belongsTo('App\User', 'lastModified_by');

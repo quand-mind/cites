@@ -14,9 +14,9 @@
         </div>
 
         <div class="mb-5 ml-5 w-100">
-            <h5 class="secondary">Arrastra y mueve las páginas para cambiar el orden</h5>
+            <!-- <h5 class="secondary">Arrastra y mueve las páginas para cambiar el orden</h5> -->
             
-            <draggable v-bind="dragOptions" v-model="imagesList" :move="handleMove">
+            <!-- <draggable v-bind="dragOptions" v-model="imagesList" :move="handleMove"> -->
                 <transition-group class="d-flex flex-wrap" type="transition" name="flip-list">
                     <div v-for="image in imagesList" :key="image.id" class="header-img">
                         <img :src="'/storage/' + image.src" alt="header img">
@@ -25,12 +25,12 @@
                         </a>
                     </div>
                 </transition-group>
-            </draggable>
-            <b-row class="mt-5">
+            <!-- </draggable> -->
+            <!-- <b-row class="mt-5">
                 <b-col>
                     <b-button @click="saveImages" class="submit-btn " size="lg" type="submit" variant="primary">Guardar</b-button>
                 </b-col>
-            </b-row>
+            </b-row> -->
         </div>
         
     </div>

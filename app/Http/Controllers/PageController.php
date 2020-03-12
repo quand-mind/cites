@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Page;
 use App\Question;
 use App\Survey;
+use Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Support\Facades\Auth;
 
 class PageController extends Controller
@@ -76,7 +77,7 @@ class PageController extends Controller
     public function store(Request $request)
     {
         if ($request->validate([
-            'title' => 'nullable|unique:pages|string',
+            'title' => 'required|unique:pages|string',
             'meta_description' => 'required|string|min:120|max:158',
             'meta_robots' => 'nullable|string',
             'meta_keywords' => 'nullable|string',
@@ -100,6 +101,8 @@ class PageController extends Controller
                 
                 if ($mainPageId !== null)
                     $page->getMainPage()->associate(Page::find($mainPageId));
+
+                $page->slug = SlugService::createSlug(Page::class, 'slug', $page->title, ['unique' => false]);
 
                 $page->save();
 
@@ -193,7 +196,7 @@ class PageController extends Controller
     public function update(Request $request, $id)
     {
         if ($request->validate([
-            'title' => 'nullable|string',
+            'title' => 'required|string',
             'meta_description' => 'required|string|min:120|max:158',
             'meta_robots' => 'nullable|string',
             'meta_keywords' => 'nullable|string',
@@ -228,7 +231,8 @@ class PageController extends Controller
                 if ($mainPageId !== null)
                     $page->getMainPage()->associate(Page::find($mainPageId));
 
-                if (strcmp($page->title, "Bienvenidos") == 0) $page->slug = "";
+                if (strcmp($page->title, "Bienvenido") == 0) $page->slug = "";
+                else $page->slug = SlugService::createSlug(Page::class, 'slug', $page->title, ['unique' => false]);
 
                 $page->save();
 

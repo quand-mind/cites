@@ -40,7 +40,7 @@
       <span class="title" slot="titulo" slot-scope="props">
         <a :href="`/dashboard/pages/edit/${props.row.id}`">
           {{
-          props.row.title
+          props.row.title || 'Bienvenido'
           }}
         </a>
       </span>

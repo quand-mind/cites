@@ -76,7 +76,7 @@ class PageController extends Controller
     public function store(Request $request)
     {
         if ($request->validate([
-            'title' => 'required|unique:pages|string',
+            'title' => 'nullable|unique:pages|string',
             'meta_description' => 'required|string|min:120|max:158',
             'meta_robots' => 'nullable|string',
             'meta_keywords' => 'nullable|string',
@@ -193,7 +193,7 @@ class PageController extends Controller
     public function update(Request $request, $id)
     {
         if ($request->validate([
-            'title' => 'required|string',
+            'title' => 'nullable|string',
             'meta_description' => 'required|string|min:120|max:158',
             'meta_robots' => 'nullable|string',
             'meta_keywords' => 'nullable|string',

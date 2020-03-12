@@ -82,7 +82,7 @@ export default {
     color: white;
     width: 80%;
     font-size: 18px;
-    background: rgba(120, 120, 120, .8);
+    text-shadow: 0 2px 2px black;
     margin-right: 20px;
     border-radius: 3px;
 

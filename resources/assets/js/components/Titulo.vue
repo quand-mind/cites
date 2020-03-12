@@ -16,7 +16,7 @@ Descripción:
  <template>
   <div class="d-flex flex-column justify-content-center align-items-center">
 <!-- Titulo -->
-	<h2 class="h1 text-center font-weight-normal my-5">{{msg}}</h2>  	
+	<h2 class="h1 text-center font-weight-normal my-5">{{msg || 'Bienvenido'}}</h2>  	
   </div>
 </template>
 
@@ -24,8 +24,8 @@ Descripción:
 export default {
   name: 'titulo',
   props:{
-	msg: String
-}
+		msg: String
+	}
 }
 </script>
 

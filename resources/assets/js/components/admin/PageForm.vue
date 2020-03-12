@@ -11,7 +11,7 @@
         <b-row>
           <b-col>
             <b-form-group label="Título" label-for="input-1">
-              <b-form-input v-model="pageData.title" :disabled="Boolean(pageData.is_static)" required placeholder="Titulo de la página"></b-form-input>
+              <b-form-input v-model="pageData.title" :disabled="Boolean(pageData.is_static)" placeholder="Titulo de la página"></b-form-input>
             </b-form-group>
           </b-col>
         </b-row>

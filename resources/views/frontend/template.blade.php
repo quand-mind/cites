@@ -12,5 +12,5 @@
 @endsection
 
 @section('title')
-    <title>{{ env('APP_NAME') }} @if ($page != null)| {{ $page->title }}@endif</title>
+    <title>{{ env('APP_NAME') }} @if ($page != null)| {{ $page->title ? $pages->title : 'Bienvenido' }}@endif</title>
 @endsection

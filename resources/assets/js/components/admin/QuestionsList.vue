@@ -109,8 +109,8 @@
           <b-form-checkbox
             name="check-button"
             class="check-active"
-            v-model="form.sendEmailResponse"
-            :checked="Boolean(form.sendEmailResponse)"
+            v-model="form.sendResponseEmail"
+            :checked="Boolean(form.sendResponseEmail)"
             switch
           ></b-form-checkbox>
         </b-form-group>
@@ -215,7 +215,7 @@ export default {
         .post(`/question/update/${this.form.id}`, formData)
         .then(res => {
           _this.makeToast(res.data);
-          setTimeout(() => window.location.reload(), 2000);
+          // setTimeout(() => window.location.reload(), 2000);
         })
         .catch(err => _this.makeToast(err.response.data, "danger"));
     },

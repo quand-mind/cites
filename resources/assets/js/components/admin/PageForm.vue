@@ -91,6 +91,7 @@
         <b-row>
           <b-col>
             <b-form-group label="Contenido" label-for="input-3">
+              <small class="text-secondary">Compresor y redimensionador online: <a href="https://www.iloveimg.com/es">click aquí</a></small>
               <vue-editor
                 useCustomImageHandler
                 @image-added="handleImageAdded"
@@ -160,7 +161,7 @@ export default {
 
       axios
         .post(`/dashboard/pages/create`, formData)
-        .then(res => {
+        .tsn(res => {
           _this.makeToast(res.data);
           setTimeout(() => window.location.replace("/dashboard/pages"), 2000);
         })
@@ -226,6 +227,8 @@ export default {
       var formData = new FormData();
       formData.append("image", file);
 
+      _this.makeToast('Cargando imagen', "info");
+
       axios({
         url: "/dashboard/images/page/content",
         method: "post",
@@ -234,6 +237,7 @@ export default {
         .then(result => {
           let url = result.data.url; // Get url from response
           Editor.insertEmbed(cursorLocation, "image", url);
+          _this.makeToast('Imagen Cargada');
           resetUploader();
         })
         .catch(err => {

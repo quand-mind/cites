@@ -12,7 +12,8 @@ Descripción:
 
 <template>
   <div>
-    <titulo msg="Preguntas frecuentes" />
+    <titulo :msg="page.title" />
+    <div class="content ql-editor" v-html="page.content"></div>
     <!--FAQS -->
     <div class="p-5 p-lg-4 p-xl-4">
       <div v-if="questions.length > 0" class="p-3 my-5" style="background-color: #e6e6e6">
@@ -26,8 +27,6 @@ Descripción:
       <div v-else class="p-3 my-5" style="background-color: #e6e6e6">
         <h4 class="font-weight-bold" style="color: #2c3e50">No hay preguntas.</h4>
       </div>
-      <!--Boton de hacer preguntas-->
-      <pregunta></pregunta>
     </div>
   </div>
 </template>
@@ -35,14 +34,12 @@ Descripción:
 <script>
 import titulo from "../components/Titulo.vue";
 import axios from "axios";
-import pregunta from "../components/Hacer-pregunta.vue";
 
 export default {
   components: {
-    titulo,
-    pregunta
+    titulo
   },
-  props: ['questions']
+  props: ['questions', 'page']
 };
 </script>
 <style type="text/css">

@@ -1,7 +1,11 @@
 <template>
-  <div>
+    <div>
+     <div class="caja bg-light p-2 my-2">
+      <h1>Usuarios</h1>
+      <h4 class="ml-4">Crea, edita o elimina usuarios que pueden publicar y modificar el sitio web</h4>
+    </div>
     <b-button @click="showCreateModal" variant="primary">Crear nuevo usuario</b-button>
-    <v-client-table :data="tableData" :columns="columns" :options="options">
+    <v-client-table :data="tableData" :columns="columns" :options="options" style="width: 90%;">
       <!-- actions slot -->
       <div class="action-container" slot="acciones" slot-scope="props">
         <a class="text-dark" @click.prevent="{editUser(props.row)}">
@@ -78,8 +82,8 @@
             <b-form-file
               accept="image/*"
               v-model="formPhoto"
-              placeholder="Choose a photo (Max. 2MB)"
-              drop-placeholder="Drop file here..."
+              placeholder="Escoge una foto(Max. 2MB)"
+              drop-placeholder="Subir archivo aquí..."
               max-size="2048"
             ></b-form-file>
             <div class="mt-3">Selected file: {{ formPhoto ? formPhoto.name : '' }}</div>
@@ -104,7 +108,7 @@
               v-model="editForm.email"
               type="email"
               required
-              placeholder="Enter email"
+              placeholder="Introduce el correo"
             ></b-form-input>
           </b-form-group>
 
@@ -143,8 +147,8 @@
             <b-form-file
               accept="image/*"
               v-model="newPhoto"
-              placeholder="Choose a photo (Max. 2MB)"
-              drop-placeholder="Drop file here..."
+              placeholder="Escoge una foto (Max. 2MB)"
+              drop-placeholder="Subir archivo aquí..."
             ></b-form-file>
             <div class="mt-3">Selected file: {{ newPhoto ? newPhoto.name : '' }}</div>
           </b-form-group>
@@ -162,7 +166,7 @@
               v-model="createForm.email"
               type="email"
               required
-              placeholder="Enter email"
+              placeholder="Introduce correo"
             ></b-form-input>
           </b-form-group>
 

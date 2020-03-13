@@ -1,5 +1,9 @@
 <template>
   <div>
+    <div class="caja bg-light p-2 my-2">
+      <h1>Acrónimo</h1>
+      <h4 class="ml-4">Define, edita o elimina Acrónimos que sean visibles en el sitio web</h4>
+    </div>
     <b-button @click="showCreateModal" variant="primary">Definir nuevo Acrónimo</b-button>
     <v-client-table
       :data="tableSettings.data"

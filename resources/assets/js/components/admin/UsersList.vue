@@ -1,5 +1,9 @@
 <template>
-  <div>
+    <div>
+     <div class="caja bg-light p-2 my-2">
+      <h1>Usuarios</h1>
+      <h4 class="ml-4">Crea, edita o elimina usuarios que pueden publicar y modificar el sitio web</h4>
+    </div>
     <b-button @click="showCreateModal" variant="primary">Crear nuevo usuario</b-button>
     <v-client-table :data="tableData" :columns="columns" :options="options" style="width: 90%;">
       <!-- actions slot -->

@@ -1,5 +1,9 @@
 <template>
   <div>
+    <div class="caja bg-light p-2 my-2">
+      <h1>Páginas</h1>
+      <h4 class="ml-4">Crea, edita o elimina páginas que sean visibles en el sitio web</h4>
+    </div>
     <b-button href="/dashboard/pages/create" variant="primary">Crear una nueva página</b-button>
     <v-client-table :data="tableData" :columns="columns" :options="options">
       <!-- actions slot -->

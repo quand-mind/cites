@@ -23,7 +23,7 @@ Descripción:
       <b-collapse id="nav-collapse" class="w-100" >
         <b-navbar-nav>
           <div>
-            <b-nav-item v-for="(link, index) in links" :href="link.slug"  class="nav-item w-100 text-start py-2 text-uppercase font-weight-bold d-flexw-100"  :key="link.slug + index">
+            <b-nav-item v-for="(link, index) in links" :href="'/' + link.slug"  class="nav-item w-100 text-start py-2 text-uppercase font-weight-bold d-flexw-100"  :key="link.slug + index">
               <div class="nav-title w-100 d-flex justify-content-between align-items-center">
                 <span>{{link.title}}</span>
                 <b-button v-if="link.get_subpages.length > 0" href="#" v-b-toggle="'collapse-' + index">

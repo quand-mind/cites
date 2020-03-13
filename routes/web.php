@@ -39,10 +39,15 @@ Route::get('/preguntas-frecuentes', 'PageController@faqsView')->name('preguntas-
 Route::group(['prefix' => 'como-participar'], function () {
     Route::get('/encuestas', 'PageController@encuestasView')->name('encuestas');
     Route::get('/encuestas/{id}', 'PageController@showSurvey');
-    Route::get('/desea-hacer-una-pregunta-adicional', 'PageController@newQuestionView')->name('pregunta-adicional');
+    Route::get('/{slug}', 'PageController@newQuestionView')->name('pregunta-adicional');
 });
 
 Route::get('/legislacion/{title}', 'PageController@laws');
+
+Route::group(['prefix' => 'recursos'], function () {
+    Route::get('/glosario', 'PageController@glosaryView');
+    Route::get('/acronimos', 'PageController@acronimosView');
+});
 
 // // Frontend routes for "Encuestas"
 // Route::get('/encuestas', function () {
@@ -158,6 +163,11 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         Route::post('/laws/create', 'LegalFileController@store');
         Route::post('/laws/edit/{id}', 'LegalFileController@update');
         Route::delete('/laws/{id}', 'LegalFileController@destroy');
+
+        // Header Routes
+        Route::get('/header-manager', 'HeaderImageController@index');
+        Route::post('/header-manager', 'HeaderImageController@store');
+        Route::delete('/header-manager/{id}', 'HeaderImageController@destroy');
     });
 });
 
@@ -190,6 +200,21 @@ Route::get('/clear-app', function () {
 
 // Render files
 Route::get('/files/{name}', 'LegalFileController@show');
+
+Route::get('/forums', ['uses' => '\DevDojo\Chatter\Controllers\ChatterController@index'])->name('chatter.home');         
+Route::get('/forums.atom', ['uses' => '\DevDojo\Chatter\Controllers\ChatterAtomController@index'])->name('chatter.atom');
+Route::get('/forums/category/{slug}', ['uses' => '\DevDojo\Chatter\Controllers\ChatterController@index'])->name('chatter.category.show');
+Route::get('/forums/discussion', ['uses' => '\DevDojo\Chatter\Controllers\ChatterDiscussionController@index'])->name('chatter.discussion.index');
+Route::post('/forums/discussion', ['uses' => '\DevDojo\Chatter\Controllers\ChatterDiscussionController@store'])->name('chatter.discussion.store');
+Route::get('/forums/discussion/create', ['uses' => '\DevDojo\Chatter\Controllers\ChatterDiscussionController@create'])->name('chatter.discussion.create');
+Route::get('/forums/discussion/{category}/{slug}', ['uses' => '\DevDojo\Chatter\Controllers\ChatterDiscussionController@show'])->name('chatter.discussion.showInCategory');
+Route::post('/forums/discussion/{category}/{slug}/email', ['uses' => '\DevDojo\Chatter\Controllers\ChatterDiscussionController@toggleE'])->name('chatter.discussion.email');
+Route::get('/forums/discussion/{discussion}', ['uses' => '\DevDojo\Chatter\Controllers\ChatterDiscussionController@show'])->name('chatter.discussion.show');
+Route::put('/forums/discussion/{discussion}', ['uses' => '\DevDojo\Chatter\Controllers\ChatterDiscussionController@update'])->name('chatter.discussion.update');
+Route::delete('/forums/discussion/{discussion}', ['uses' => '\DevDojo\Chatter\Controllers\ChatterDiscussionController@destroy'])->name('chatter.discussion.destroy');
+
+// Header
+Route::get('/header-images', 'HeaderImageController@show');
 
 // Frontend pages controller
 Route::get('/{slug?}', 'PageController@show');

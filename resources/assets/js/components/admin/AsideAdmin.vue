@@ -96,10 +96,16 @@ export default {
 
   transition: all 0.5s ease;
 
+  @media (max-width: 460px) {
+        width: 90%;
+        transform: translateX(-90%);
+      }
+
   &.open {
     transform: translateX(0px);
     transition: all 0.5s ease;
   }
+
 }
 
 .menu-trigger {

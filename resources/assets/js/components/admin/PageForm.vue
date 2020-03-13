@@ -11,7 +11,7 @@
         <b-row>
           <b-col>
             <b-form-group label="Título" label-for="input-1">
-              <b-form-input v-model="pageData.title" :disabled="Boolean(pageData.is_static)" required placeholder="Titulo de la página"></b-form-input>
+              <b-form-input v-model="pageData.title" :disabled="Boolean(pageData.is_static)" required placeholder="Titulo de la página" :description="`Introduce un título claro y no demasiado largo, preferiblemente usa palabras clave`"></b-form-input>
             </b-form-group>
           </b-col>
         </b-row>
@@ -38,14 +38,17 @@
             </b-form-group>
           </b-col>
           <b-col>
-            <b-form-group id="input-group-2" label="Robots" label-for="input-2">
-              <b-form-textarea
+            <b-form-group id="input-group-2" label="Robots" label-for="input-2" 
+                :description="
+                                `Esta etiqueta sirve para indicarle a google si debe indexar esta pagina en sus busquedas y si debe seguir los links internos que contenga e indexarlos también.`
+                            ">
+              <b-form-select
                 id="input-2"
-                v-model="pageData.meta_robots"
+                v-model="pageData.meta_description"
                 required
                 rows="4"
-                placeholder="Meta robots"
-              ></b-form-textarea>
+                :options="robots"
+              ></b-form-select>
             </b-form-group>
           </b-col>
         </b-row>
@@ -54,7 +57,10 @@
       <b-container>
         <b-row>
           <b-col>
-            <b-form-group id="input-group-2" label="Palabras claves" label-for="input-2">
+            <b-form-group id="input-group-2" label="Palabras claves" label-for="input-2" 
+                :description="
+                                `Indique las palabras claves separadas por una coma por ejemplo 'organismos vivos modificados, ovm, mutaciones'. Las palabras claves son el término o conjunto de términos que utilizan los usuarios cuando buscan en google.`
+                            ">
               <b-form-textarea
                 id="input-2"
                 v-model="pageData.meta_keywords"
@@ -139,7 +145,7 @@ export default {
     },
     settings: {
       languages: lang
-    },
+    },robots: [{ text: 'Indexar y Seguir', value: 'all' },{ text: 'No Indexar', value: 'noindex' }, { text: 'Indexar y No seguir', value: 'index,nofollow' },{ text: 'No indexar, No seguir', value: 'none'}],
     mainPagesOptions: []
   }),
   methods: {

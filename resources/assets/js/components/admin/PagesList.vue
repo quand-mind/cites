@@ -98,12 +98,12 @@ export default {
   props: ["pages"],
   data: () => ({
     columns: [
-      "titulo",
+      "título",
       "url",
-      "descripcion",
+      "descripción",
       "creada_por",
       "activo",
-      "ultima_modificacion_por",
+      "ultima_modificación_por",
       "acciones"
     ],
     tableData: [],

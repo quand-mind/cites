@@ -1,5 +1,9 @@
 <template>
   <div>
+    <div class="caja bg-light p-2 my-2">
+      <h1>Preguntas Frecuentes</h1>
+      <h4 class="ml-4">Revisa las preguntas hechas por los usuarios y contestalas. Escoge que preguntas quieres que sean visibles. Crea o elimina preguntas</h4>
+    </div>
     <b-button @click="showCreateQuestionModal" variant="primary">Crear nueva pregunta</b-button>
     <v-client-table
       :data="tableSettings.data"

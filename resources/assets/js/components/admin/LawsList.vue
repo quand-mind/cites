@@ -1,5 +1,9 @@
 <template>
   <div>
+    <div class="caja bg-light p-2 my-2">
+      <h1>Legislación</h1>
+      <h4 class="ml-4">Sube archivos <b>.pdf</b> donde se definan las leyes, describelas y especifica si son nacionales o internacionales</h4>
+    </div>
     <b-button @click="showCreateModal" variant="primary"><font-awesome-icon :icon="['fa', 'plus']"></font-awesome-icon> Agregar archivo</b-button>
     <b-button href="/dashboard/laws/order" variant="info"><font-awesome-icon :icon="['fa', 'sort-numeric-up']"></font-awesome-icon> Ordenar archivos</b-button>
     <v-client-table :data="tableData" :columns="columns" :options="options">

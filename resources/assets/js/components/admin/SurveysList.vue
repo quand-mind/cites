@@ -1,5 +1,9 @@
 <template>
   <div>
+    <div class="caja bg-light p-2 my-2">
+      <h1>Encuestas</h1>
+      <h4 class="ml-4">Crea, edita o elimina encuestas y decide cuales serán visibles en el sitio web</h4>
+    </div>
     <b-button @click="showCreateSurveyModal" variant="primary">Agregar una encuesta</b-button>
     <v-client-table
       :data="tableSettings.data"

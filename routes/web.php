@@ -21,7 +21,6 @@
 // });
 // // Frontend routes for "Transgenico"
 // Route::get('/transgenico', function () {
-
     // return view('welcome');
 
 // })->name('transgenico');
@@ -197,7 +196,6 @@ Route::get('/clear-app', function () {
     Artisan::call('view:clear', []);
     return "Clear the app deployment completed";
 });
-
 // Render files
 Route::get('/files/{name}', 'LegalFileController@show');
 

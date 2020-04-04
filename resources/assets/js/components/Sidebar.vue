@@ -17,6 +17,16 @@ Descripción:
   >
     <!-- Enlaces de interes -->
     <div
+      v-if="images.length > 0"
+      class="w-100 d-flex align-items-center flex-wrap justify-content-around px-4"
+    >
+
+      <a v-for="image in images" :key="image.id + image.name" target="_blank" :href="image.url" class="image-aside" onclick="return false">
+        <img :src="'/storage/' + image.src" />
+      </a>
+    </div>
+    <div
+      v-else
       class="w-100 d-flex align-items-center flex-wrap justify-content-around px-4"
     >
       <a target="_blank" href="http://www.minec.gob.ve/" class="image-aside" onclick="return false">
@@ -60,8 +70,23 @@ Descripción:
 </template>
 
 <script>
+import axios from 'axios';
 export default {
-  name: "sidebar"
+  name: "sidebar",
+  data: () => ({
+    images: []
+  }),
+  mounted () {
+    let _this = this
+
+    axios
+      .get('/aside-images')
+      .then(res => {
+        console.log(res.data)
+        _this.images = [...res.data]
+      })
+      .catch(err => console.log(err))
+  }
 };
 </script>
 

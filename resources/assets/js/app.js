@@ -120,6 +120,8 @@ Vue.component("laws-list", require("./components/admin/LawsList.vue").default);
 
 Vue.component("header-manager", require("./components/admin/HeaderManager.vue").default);
 
+Vue.component("aside-manager", require("./components/admin/AsideManager.vue").default);
+
 Vue.component("page-template", require("./views/PageTemplate.vue").default);
 
 Vue.component("faqs", require("./views/Faqs.vue").default);

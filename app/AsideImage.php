@@ -12,7 +12,7 @@ class AsideImage extends Model
      * @var array
      */
     protected $fillable = [
-        'image_order', 'src', 'active', 'name'
+        'image_order', 'src', 'active', 'name', 'url'
     ];
 
     public function disableImage () {

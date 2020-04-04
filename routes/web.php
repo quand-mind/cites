@@ -167,6 +167,13 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         Route::get('/header-manager', 'HeaderImageController@index');
         Route::post('/header-manager', 'HeaderImageController@store');
         Route::delete('/header-manager/{id}', 'HeaderImageController@destroy');
+
+        // Aside Routes
+        Route::get('/aside-manager', 'AsideImageController@index');
+        Route::post('/aside-manager', 'AsideImageController@store');
+        Route::post('/aside-manager/updateAll', 'AsideImageController@updateAll');
+        Route::post('/aside-manager/update/{id}', 'AsideImageController@updateOne');
+        Route::delete('/aside-manager/{id}', 'AsideImageController@destroy');
     });
 });
 
@@ -213,6 +220,9 @@ Route::delete('/forums/discussion/{discussion}', ['uses' => '\DevDojo\Chatter\Co
 
 // Header
 Route::get('/header-images', 'HeaderImageController@show');
+
+// Aside
+Route::get('/aside-images', 'AsideImageController@show');
 
 // Frontend pages controller
 Route::get('/{slug?}', 'PageController@show');

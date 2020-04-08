@@ -21,7 +21,7 @@ class QuestionAnswered extends Mailable
      */
     public function __construct(Question $question)
     {
-        $this->question = $question;
+        $this->$question = $question;
     }
 
     /**
@@ -32,7 +32,7 @@ class QuestionAnswered extends Mailable
     public function build()
     {
 
-        return $this->subject('Respuesta a su consulta realizada')
+        return $this->from(config('mail.from'))
             ->view('panel.dashboard.mail');
     }
 }

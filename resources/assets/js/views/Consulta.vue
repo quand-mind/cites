@@ -1,18 +1,15 @@
 <template>
     <div>
-        <titulo :msg="page.title"/>
-        <div class="content mb-2" v-html="page.content"></div>
+        <div class="content mb-5" v-html="page.content"></div>
         <newQuestion></newQuestion>
     </div>
 </template>
 <script>
-import newQuestion from '../components/Hacer-pregunta.vue'
-import titulo from "../components/Titulo.vue"
+import newQuestion from '../components/Hacer-pregunta'
 
 export default {
     components: {
-        newQuestion,
-        titulo
+        newQuestion
     },
     props: ['page']
 }

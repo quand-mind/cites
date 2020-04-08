@@ -3,12 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Cviebrock\EloquentSluggable\Sluggable;
+use Spatie\Sluggable\HasSlug;
+use Spatie\Sluggable\SlugOptions;
 
 
 class Post extends Model
 {
-    use Sluggable;
+    use HasSlug;
     /**
      * The attributes that are mass assignable.
      *
@@ -18,18 +19,12 @@ class Post extends Model
         'title', 'slug', 'meta_description', 'meta_keywords', 'meta_robots', 'content', 'publish_date'
     ];
 
-    /**
-     * Return the sluggable configuration array for this model.
-     *
-     * @return array
-     */
-    public function sluggable()
+    // Slug helper
+    public function getSlugOptions(): SlugOptions
     {
-        return [
-            'slug' => [
-                'source' => 'title'
-            ]
-        ];
+        return SlugOptions::create()
+            ->generateSlugsFrom('title')
+            ->saveSlugsTo('slug');
     }
 
     // Relationships

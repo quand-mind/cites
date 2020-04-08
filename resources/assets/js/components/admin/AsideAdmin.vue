@@ -45,12 +45,6 @@
       <a href="/dashboard/laws" class="list-group-item list-group-item-action">
         <font-awesome-icon :icon="['fas', 'gavel']"></font-awesome-icon>&nbsp;Legislación
       </a>
-      <a href="/dashboard/header-manager" class="list-group-item list-group-item-action">
-        <font-awesome-icon :icon="['fas', 'images']"></font-awesome-icon>&nbsp;Imágenes de Cabecera
-      </a>
-      <a href="/dashboard/aside-manager" class="list-group-item list-group-item-action">
-        <font-awesome-icon :icon="['fab', 'elementor']"></font-awesome-icon>&nbsp;Panel lateral
-      </a>
     </div>
   </aside>
 </template>

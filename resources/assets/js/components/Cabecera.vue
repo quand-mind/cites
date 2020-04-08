@@ -12,7 +12,7 @@ Descripción:
 
  <template>
  <div class="w-100">
-   <header class="nav d-none d-lg-block">
+   <header class=" one d-none d-lg-block">
     <slide class="slide"></slide>
     <b-navbar class="">
       <a class="brand d-flex align-items-center" href="/">
@@ -55,13 +55,7 @@ export default {
   components: {
     slide
   },
-  data: () => ({
-    
-  }), 
-  name: "cabecera",
-  mounted: () => {
-    
-  }
+  name: "cabecera"
 };
 </script>
 
@@ -77,14 +71,10 @@ export default {
 .navbar {
   align-items: center;
   justify-content: center;
-
   .brand {
-    color: white;
+    color: #212529;
     width: 80%;
     font-size: 18px;
-    text-shadow: 0 2px 2px black;
-    margin-right: 20px;
-    border-radius: 3px;
 
     img {
       height: 100%;
@@ -106,9 +96,8 @@ export default {
     }
   }
 }
-.nav {
+.one {
   height: 40vh;
-  min-height: 500px;
   overflow: hidden;
   position: relative;
 }

@@ -55,8 +55,8 @@
         <cabecera></cabecera>
         <navi :menu-links="{{ $links->toJson() }}"></navi>
         <navmobile :menu-links="{{ $links->toJson() }}"></navmobile>
-        <div class="main-container container-fluid container-lg d-flex justify-content-center align-items-start m-0 p-0 mx-lg-auto p-lg-auto">
-              <main class="px-lg-5 px-xs-5 my-5">
+        <div class="mt-5 container-fluid container-lg d-flex justify-content-center flex-column flex-lg-row m-0 p-0 mx-lg-auto p-lg-auto">
+              <main class="px-lg-5 px-xs-5 mb-5">
                 @yield('content')
               </main>
               <sidebar></sidebar>

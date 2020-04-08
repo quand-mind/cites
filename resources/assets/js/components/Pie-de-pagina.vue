@@ -13,7 +13,7 @@ Descripción:
  <template>
   <div>
 	<footer style="background-color: #009462;" class="modal-footer d-flex flex-column align-items-center" >
-		<!-- <b-button href="#up" class="p-3 h1 m-5 uppercase" variant="light"><span class="icon icon-circle-up"></span> Ir arriba</b-button> -->
+		<b-button href="#up" class="p-3 h1 m-5 uppercase" variant="light"><span class="icon icon-circle-up"></span> Ir arriba</b-button>
 		<!-- Cajetin de redes -->
 		<div class="redes">
 			<a href="#" onclick="return false"><span class="icon icon-facebook h2 text-white m-2 text-decoration-none"></span></a>

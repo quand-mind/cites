@@ -38,15 +38,10 @@ Route::get('/preguntas-frecuentes', 'PageController@faqsView')->name('preguntas-
 Route::group(['prefix' => 'como-participar'], function () {
     Route::get('/encuestas', 'PageController@encuestasView')->name('encuestas');
     Route::get('/encuestas/{id}', 'PageController@showSurvey');
-    Route::get('/{slug}', 'PageController@newQuestionView')->name('pregunta-adicional');
+    Route::get('/desea-hacer-una-pregunta-adicional', 'PageController@newQuestionView')->name('pregunta-adicional');
 });
 
 Route::get('/legislacion/{title}', 'PageController@laws');
-
-Route::group(['prefix' => 'recursos'], function () {
-    Route::get('/glosario', 'PageController@glosaryView');
-    Route::get('/acronimos', 'PageController@acronimosView');
-});
 
 // // Frontend routes for "Encuestas"
 // Route::get('/encuestas', function () {

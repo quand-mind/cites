@@ -8,11 +8,12 @@ Donde se usa:
  Faqs (vista)
 
 Descripción:
- Crea un model que permite registrar una consulta
+ Crea un model que permite registrar una pregunta
  -->
 
  <template>
   <div>
+    <h3 class="mb-5">Haga una consulta y le responderemos en la brevedad posible</h3>
     <b-form class="container px-5" id="questionForm" @submit.prevent="onSubmit" @reset="onReset">
       <b-form-group label="Correo electrónico: " label-for="asked_by">
         <b-form-input
@@ -24,41 +25,50 @@ Descripción:
         ></b-form-input>
       </b-form-group>
 
-      <b-form-group label="Coméntenos su duda:" label-for="question">
+      <b-form-group label="Coméntanos tu duda:" label-for="question">
         <b-form-input id="question" v-model="form.question" required placeholder="¿?"></b-form-input>
       </b-form-group>
 
       <b-button class="btn-verde" type="submit" variant="primary" size="lg">Enviar</b-button>
+<<<<<<< HEAD
+
+=======
+>>>>>>> 951638c0dee127320e517895056ced123809b00e
     </b-form>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import moment from "moment";
 
 export default {
+  props: ["questions"],
   data: () => ({
     form: {
       asked_by: "",
-      question: "",
-      sendResponseEmail: 0
+      question: ""
     }
   }),
   methods: {
     onSubmit() {
       let _this = this;
+      let formData = new FormData();
+
+      for (let prop in this.form) formData.append(prop, this.form[prop]);
 
       axios
-        .post(`/question`, _this.form)
+        .post(`/question`, formData)
         .then(res => {
-          _this.makeToast("Responderemos su consulta lo más pronto posible.", "success", "3000");
+          _this.hideCreateQuestionModal();
+          _this.makeToast("Responderemos su pregunta lo más pronto posible.");
         })
         .catch(err => console.log(err.response));
     },
     onReset() {},
     makeToast(msg, variant = "success", delay = 3000, append = false) {
       this.$bvToast.toast(`${msg}`, {
-        title: "¡Gracias por consultar!",
+        title: "¡Gracias por preguntar!",
         autoHideDelay: delay,
         appendToast: append,
         variant

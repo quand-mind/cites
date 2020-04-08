@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Acronimo;
-use App\Glosary;
 use App\LegalFile;
 use Illuminate\Http\Request;
 use App\Page;
 use App\Question;
 use App\Survey;
-use Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Support\Facades\Auth;
 
 class PageController extends Controller
@@ -109,8 +106,6 @@ class PageController extends Controller
                 
                 if ($mainPageId !== null)
                     $page->getMainPage()->associate(Page::find($mainPageId));
-
-                $page->slug = SlugService::createSlug(Page::class, 'slug', $page->title, ['unique' => false]);
 
                 $page->save();
 
@@ -225,8 +220,7 @@ class PageController extends Controller
                 if ($mainPageId !== null)
                     $page->getMainPage()->associate(Page::find($mainPageId));
 
-                if (strcmp($page->title, "Bienvenido") == 0) $page->slug = "";
-                else $page->slug = SlugService::createSlug(Page::class, 'slug', $page->title, ['unique' => false]);
+                if (strcmp($page->title, "Bienvenidos") == 0) $page->slug = "";
 
                 $page->save();
 
@@ -247,10 +241,6 @@ class PageController extends Controller
     {
         try {
             $page = Page::find($id);
-            if ($page->is_static) {
-                return response("No se puede eliminar una página estática. Puedes deshabilitar esta página accediendo a la interfaz de edición", 500);
-            }
-
             $page->delete();
             return response('Página eliminada', 200);
         } catch (Exception $err) {
@@ -308,17 +298,11 @@ class PageController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function newQuestionView ($slug) {
-        $page = Page::where('slug', $slug)->first();
+    public function newQuestionView () {
+        $page = Page::where('slug', 'desea-hacer-una-pregunta-adicional')->first();
+        $links = $this->getMenuLinks();
 
-        if ($page->id === 20) {
-            $links = $this->getMenuLinks();
-    
-            return view('frontend.newQuestion', compact('page', 'links'));
-        } else {
-            $this->showSubPage($slug);
-        }
-
+        return view('frontend.newQuestion', compact('page', 'links'));
      }
 
     /**
@@ -344,35 +328,5 @@ class PageController extends Controller
         }
 
         return view('frontend.legal', compact('page', 'links', 'filesData'));
-    }
-
-    /**
-     * Show the glosary on the frontend
-     *
-     * @return \Illuminate\Http\Response
-     */
-
-    public function glosaryView () {
-        
-        $page = Page::where('slug', 'glosario')->first();
-        $glosary = Glosary::all();
-        $links = $this->getMenuLinks();
-
-        return view('frontend.glosary', compact('page', 'links', 'glosary'));
-    }
-
-    /**
-     * Show the acronimos on the frontend
-     *
-     * @return \Illuminate\Http\Response
-     */
-
-    public function acronimosView () {
-        
-        $page = Page::where('slug', 'acronimos')->first();
-        $acronimos = Acronimo::all();
-        $links = $this->getMenuLinks();
-
-        return view('frontend.acronimos', compact('page', 'links', 'acronimos'));
     }
 }

@@ -576,7 +576,7 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"left": 164,
-									"top": 371,
+									"top": 378,
 									"height": 13,
 									"alpha": 1.5707963267948966,
 									"distance": 15,
@@ -594,7 +594,7 @@
 								"$ref": "AAAAAAFwdG4rqOntw/8="
 							},
 							"lineStyle": 2,
-							"points": "88:392;240:392",
+							"points": "88:399;240:399",
 							"nameLabel": {
 								"$ref": "AAAAAAFwdNkA2Oreies="
 							}

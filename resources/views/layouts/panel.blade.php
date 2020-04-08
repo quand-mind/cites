@@ -11,14 +11,11 @@
 </head>
 <body>
 
-    <div id="app">
-        @include('panel.includes.app-nav')
-        @include('panel.includes.side-menu')
-        <main class="dashboard-panel py-4 px-5">
-            @yield('content')
-        </main>
-    </div>
-
+    @include('panel.includes.app-nav')
+    @include('panel.includes.side-menu')
+    <main class="dashboard-panel py-4 px-5">
+        @yield('content')
+    </main>
 
     <script src="{{ asset('js/app.js') }}"></script>
 </body>

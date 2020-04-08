@@ -49,12 +49,12 @@ class GlosaryController extends Controller
     }
 
     /**
-     * Display the glosary in the frontend.
+     * Display the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show($id)
     {
         //
     }

@@ -13,7 +13,8 @@ Descripción:
 <template>
   <!-- SideBar -->
   <aside
-    class="py-3 d-flex flex-column align-items-center mb-4 mt-5 sidebar"
+    class="py-5 d-flex flex-column align-items-center mb-4"
+    style="border: 1px solid #dadada; flex-shrink: 2; min-width: 300px"
   >
     <!-- Enlaces de interes -->
     <div
@@ -94,19 +95,6 @@ export default {
 .image-aside img {
   height: 80px;
   margin: 10px;
-}
-
-.sidebar {
-  min-width: 300px;
-  border-radius: 5px;
-  box-shadow: 0 5px 15px rgba($color: #000000, $alpha: .2);
-
-  @media (max-width: 980px) {
-    max-width: 600px;
-    min-width: auto;
-    margin: 0 auto;
-    border: none;
-  }
 }
 
 .image-aside.image-h img {

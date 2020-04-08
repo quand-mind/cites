@@ -1,9 +1,9 @@
 <template>
     <div>
-    <div class="caja bg-light p-2 my-2">
-      <h1>Menú</h1>
-      <h4 class="ml-4">Arrastra y mueve las páginas para cambiar el orden</h4>
-    </div>
+        <div class="mb-5 ml-5">
+            <h1 class="">Menú</h1>
+            <h5 class="secondary">Arrastra y mueve las páginas para cambiar el orden</h5>
+        </div>
         
         <draggable v-bind="dragOptions" v-model="pagesList" :move="handleMove">
             <transition-group type="transition" name="flip-list">

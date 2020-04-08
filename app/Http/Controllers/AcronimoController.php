@@ -49,16 +49,14 @@ class AcronimoController extends Controller
     }
 
     /**
-     * Display the acronimos in the frontend.
+     * Display the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show($id)
     {
-        $acronimos = Acronimo::all();
-
-        return view('frontend.acronimos', compact('acronimos'));
+        //
     }
 
     /**

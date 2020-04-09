@@ -50,7 +50,6 @@
 <script>
 import draggable from 'vuedraggable'
 import axios from 'axios'
-
 export default {
     props: ['pages'],
     data: () => ({
@@ -86,20 +85,10 @@ export default {
         },
         saveMenu () {
             let _this = this
-
             axios
                 .post('/dashboard/menu/updateOrder', _this.pagesList)
                 .then(res => _this.makeToast(res.data))
-                .catch(err => {
-                    let { data } = err.response
-
-                    if (data.errors !== undefined || data.errors !== null) {
-                        let errors = Object.values(data.errors).toString()
-                        _this.makeToast(errors, "danger");
-                    } else {
-                        _this.makeToast(data, "danger");
-                    }
-                })
+                .catch(err => _this.makeToast(err.response.message))
         },
         makeToast(msg, variant = "success", delay = 3000, append = false) {
             this.$bvToast.toast(`${msg}`, {
@@ -113,16 +102,13 @@ export default {
     mounted () {        
         this.pagesList = this.pages.map((page, mainIdx) => {
             if (!page.menu_order) page.menu_order = mainIdx + 1
-
             if (page.get_subpages.length > 0) {
                 page.get_subpages = page.get_subpages.map((subpage,index)=>{
                     if (!subpage.menu_order) subpage.menu_order = index + 1
                     return subpage
                 })
-
                 page.get_subpages.sort((link1, link2) => link1.menu_order - link2.menu_order)
             }
-
             return page
         })
     },

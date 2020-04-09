@@ -9,20 +9,11 @@ use Illuminate\Http\Request;
 use App\Page;
 use App\Question;
 use App\Survey;
-use Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Support\Facades\Auth;
 
 class PageController extends Controller
 {
-    public function showSurvey($id){
-        $survey = Survey::find(id);
-        if ($survey == null) {
-            return view('errors.404');
-        }else{
-        return view('frontend.survey', compact('survey'));
-        }
-    }
-    /**
+     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -110,8 +101,6 @@ class PageController extends Controller
                 if ($mainPageId !== null)
                     $page->getMainPage()->associate(Page::find($mainPageId));
 
-                $page->slug = SlugService::createSlug(Page::class, 'slug', $page->title, ['unique' => false]);
-
                 $page->save();
 
                 return response("Página guardada exitosamente", 200);
@@ -186,7 +175,21 @@ class PageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-        
+
+    public function showSurvey ($id) {
+        $survey = Survey::find($id);
+        $links = $this->getMenuLinks();
+        $page = Page::where('slug', 'encuestas')->first();
+
+        if ($survey == null) {
+            return response()->view('errors.' . '404', compact('links'), 404);
+        } else {
+            return view('frontend.survey', compact('survey', 'links', 'page'));
+        }
+    }
+    
+
+
     public function update(Request $request, $id)
     {
         if ($request->validate([
@@ -225,8 +228,7 @@ class PageController extends Controller
                 if ($mainPageId !== null)
                     $page->getMainPage()->associate(Page::find($mainPageId));
 
-                if (strcmp($page->title, "Bienvenido") == 0) $page->slug = "";
-                else $page->slug = SlugService::createSlug(Page::class, 'slug', $page->title, ['unique' => false]);
+                if (strcmp($page->title, "Bienvenidos") == 0) $page->slug = "";
 
                 $page->save();
 

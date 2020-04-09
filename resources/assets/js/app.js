@@ -94,26 +94,6 @@ Vue.component("pages-list", require("./components/admin/PagesList.vue").default)
 
 Vue.component("page-form", require("./components/admin/PageForm.vue").default);
 
-if ($("#pageForm").length !== 0) {
-    const pageForm = new Vue({
-        el: "#pageForm"
-    });
-}
-Vue.component("glosary", require("./components/admin/GlosaryList.vue"));
-
-if ($("#glosaryList").length !== 0) {
-    const pageTemplate = new Vue({
-        el: "#glosaryList"
-    });
-}
-
-Vue.component("acronimo", require("./components/admin/AcronimoList.vue"));
-
-if ($("#acronimoList").length !== 0) {
-    const pageTemplate = new Vue({
-        el: "#acronimoList"
-    });
-}
 Vue.component("menu-list", require("./components/admin/MenuList.vue").default);
 
 Vue.component("laws-list", require("./components/admin/LawsList.vue").default);

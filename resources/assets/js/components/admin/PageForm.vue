@@ -121,6 +121,7 @@ import moment from "moment";
 
 export default {
   props: ["page", "mainpages"],
+  name: 'pageForm',
   components: {
     VueEditor,
     Datepicker
@@ -298,7 +299,7 @@ export default {
     }
 
     _this.mainpages.forEach(page => {
-      if (page.id !== _this.page.id) {
+      if (!_this.page || page.id !== _this.page.id) {
         _this.mainPagesOptions.push({ text: page.title, value: page.id })
       }
     });

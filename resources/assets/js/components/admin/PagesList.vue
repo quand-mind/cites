@@ -25,7 +25,7 @@
       </div>
 
       <!-- name slot -->
-      <span slot="descripcion" slot-scope="props">
+      <span slot="descripción" slot-scope="props">
         {{
         props.row.meta_description
         }}
@@ -41,7 +41,7 @@
       </span>
 
       <!-- username slot -->
-      <span class="title" slot="titulo" slot-scope="props">
+      <span class="title" slot="título" slot-scope="props">
         <a :href="`/dashboard/pages/edit/${props.row.id}`">
           {{
           props.row.title
@@ -57,7 +57,7 @@
       </span>
 
       <!-- email slot -->
-      <span slot="ultima_modificacion_por" slot-scope="props">
+      <span slot="última_modificación_por" slot-scope="props">
         {{
         props.row.last_modified_by.username
         }}
@@ -107,7 +107,7 @@ export default {
       "descripción",
       "creada_por",
       "activo",
-      "ultima_modificación_por",
+      "última_modificación_por",
       "acciones"
     ],
     tableData: [],

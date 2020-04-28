@@ -87,7 +87,7 @@ export default {
   left: 0;
   top: 57px;
   width: 250px;
-  height: calc(100% - 55px);
+  height: auto;
   min-height: calc(100vh - 55px);
   padding: 2rem;
   z-index: 700;

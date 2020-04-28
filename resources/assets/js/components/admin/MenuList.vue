@@ -7,35 +7,29 @@
         
         <draggable v-bind="dragOptions" v-model="pagesList" :move="handleMove">
             <transition-group type="transition" name="flip-list">
-                <div v-for="menuItem in pagesList" :key="menuItem.id" class="container">
-                    <b-list-group>
-                        <b-list-group-item button v-b-toggle.:aria-controls="menuItem.title" class=" d-flex w-50 align-items-center">
-                            <b-row class="w-100">
-                                <b-col cols="1"><span>{{menuItem.menu_order}}</span></b-col>
-                                <b-col cols="1"><span>-</span></b-col>
-                                <b-col cols="9"><span>{{menuItem.title}}</span></b-col>
-                                <b-col cols="1"><span v-if="menuItem.get_subpages.length > 0"><i class="fas fa-caret-down"></i></span></b-col>
-                            </b-row>
-                        </b-list-group-item>
-                        <div v-if="menuItem.get_subpages.length > 0">
-                            <draggable v-bind="dragOptionsSub" v-model="menuItem.get_subpages" :move="handleMoveSub">
-                                <transition-group type="aaa" name="flip-list-sub">
-                                    <div v-for="submenuItem in menuItem.get_subpages" :key="submenuItem.id">
-                                                <b-collapse :id="menuItem.title" >
-                                                    <b-list-group-item button variant="secondary" class="w-50">
-                                                        <b-row class="w-100">
-                                                            <b-col cols="1"></b-col>
-                                                            <b-col cols="1"><span>{{submenuItem.menu_order}}</span></b-col>
-                                                            <b-col cols="1"><span>-</span></b-col>
-                                                            <b-col cols="9"><span>{{submenuItem.title}}</span></b-col>                                                            
-                                                        </b-row>
-                                                    </b-list-group-item>
-                                                </b-collapse>
-                                    </div>
-                                </transition-group>
-                            </draggable>
-                        </div>
-                    </b-list-group>
+                <div v-for="menuItem in pagesList" :key="menuItem.id" class="container menu-list">
+                    <b-row button v-b-toggle.:aria-controls="menuItem.title" class="w-100 list-group-item">
+                        <b-col cols="1"><span>{{menuItem.menu_order}}</span></b-col>
+                        <b-col cols="1"><span>-</span></b-col>
+                        <b-col cols="9"><span>{{menuItem.title}}</span></b-col>
+                        <b-col cols="1"><span v-if="menuItem.get_subpages.length > 0"><i class="fas fa-caret-down"></i></span></b-col>
+                    </b-row>
+                    <div v-if="menuItem.get_subpages.length > 0">
+                        <draggable v-bind="dragOptionsSub" v-model="menuItem.get_subpages" :move="handleMoveSub">
+                                <div v-for="submenuItem in menuItem.get_subpages" :key="submenuItem.id">
+                                    <b-collapse :id="menuItem.title" >
+                                        <b-list-group-item button variant="secondary" class="w-100 d-flex">
+                                            <b-row class="w-100">
+                                                <b-col cols="1"></b-col>
+                                                <b-col cols="1"><span>{{submenuItem.menu_order}}</span></b-col>
+                                                <b-col cols="1"><span>-</span></b-col>
+                                                <b-col cols="9"><span>{{submenuItem.title}}</span></b-col>                                                            
+                                            </b-row>
+                                        </b-list-group-item>
+                                    </b-collapse>
+                                </div>
+                        </draggable>
+                    </div>
                 </div>
             </transition-group>
         </draggable>
@@ -131,3 +125,15 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+    .menu-list {
+        max-width: 600px;
+
+        .row {
+            color: #383d41;
+            background-color: #d6d8db;
+            display: flex;
+        }
+    }
+</style>

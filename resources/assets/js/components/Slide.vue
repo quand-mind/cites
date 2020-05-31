@@ -70,5 +70,9 @@ export default {
 
 <style scoped>
 /* @import url("/slick-carousel/slick/slick.css"); */
+
+  .slide {
+    filter: brightness(0.95) contrast(75%);
+  }
 </style>
 

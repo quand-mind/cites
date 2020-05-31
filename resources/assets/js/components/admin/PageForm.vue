@@ -34,7 +34,6 @@
                 rows="4"
                 placeholder="Meta descripción"
               ></b-form-textarea>
-              <!-- Este es mi primer page con vue-2-editor. Amo programar, amo javascript, y también amo a Issa. Estoy enamorado, y mi mayor deseo es vivir junto a ella. -->
             </b-form-group>
           </b-col>
           <b-col>
@@ -44,7 +43,7 @@
                             ">
               <b-form-select
                 id="input-2"
-                v-model="pageData.meta_description"
+                v-model="pageData.meta_robots"
                 required
                 rows="4"
                 :options="robots"

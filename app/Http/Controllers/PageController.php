@@ -10,6 +10,7 @@ use App\Page;
 use App\Question;
 use App\Survey;
 use Illuminate\Support\Facades\Auth;
+use \Cviebrock\EloquentSluggable\Services\SlugService;
 
 class PageController extends Controller
 {
@@ -96,7 +97,10 @@ class PageController extends Controller
                 $page->lastModifiedBy()->associate(Auth::user());
                 $mainPageId = $request->input('main_page');
 
-                return response($mainPageId, 200);
+                if ($values['title'] == "Bienvenidos")
+                    $page->slug = '';
+                else 
+                    $page->slug = SlugService::createSlug(Page::class, 'slug', $values['title']);
                 
                 if ($mainPageId !== null)
                     $page->getMainPage()->associate(Page::find($mainPageId));
@@ -228,7 +232,11 @@ class PageController extends Controller
                 if ($mainPageId !== null)
                     $page->getMainPage()->associate(Page::find($mainPageId));
 
-                if (strcmp($page->title, "Bienvenidos") == 0) $page->slug = "";
+                // Slug reset for main page
+                if ($values['title'] == "Bienvenidos")
+                    $page->slug = '';
+                else 
+                    $page->slug = SlugService::createSlug(Page::class, 'slug', $values['title']);
 
                 $page->save();
 

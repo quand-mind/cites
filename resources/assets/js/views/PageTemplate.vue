@@ -14,7 +14,7 @@ Descripción:
 
 		<titulo :msg="page.title"/>
 <!-- Escrito -->
-		<div class="mt-5" v-html="page.content"></div>
+		<div class="mt-5 ql-editor" v-html="page.content"></div>
 	
     </div>
 </template>

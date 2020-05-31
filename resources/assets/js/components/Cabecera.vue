@@ -71,8 +71,9 @@ export default {
 .navbar {
   align-items: center;
   justify-content: center;
+
   .brand {
-    color: #212529;
+    color: white;
     width: 80%;
     font-size: 18px;
 
@@ -83,6 +84,8 @@ export default {
 
     p {
       margin: 0;
+      text-shadow: 2px 3px 5px rgba(20, 20, 20);
+
       @media (max-width: 976px) {
         display: none;
       }
@@ -116,13 +119,13 @@ export default {
   flex-wrap: wrap;
 }
 .figure{
-    position: relative;
+  position: relative;
 }
 li:hover,
 a:hover,
 li,
 a { 
-text-decoration: none;
-color: #000;
+  text-decoration: none;
+  color: #000;
 }
 </style>

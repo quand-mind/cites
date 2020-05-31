@@ -53,6 +53,7 @@ class QuestionController extends Controller
                 if (isset($values['answer']) && ($values['answer'] != null || $values['answer'] != "")) {
                     $question->answeredBy()->associate(Auth::user());
                 }
+
                 $question->save();
 
                 if ($request->input('sendResponseEmail')) {
@@ -60,6 +61,7 @@ class QuestionController extends Controller
                 }
 
                 return response("Gracias por participar. Responderemos a la brevedad posible", 200);
+                
             } catch (Exception $err) {
                 return response($err->getMessage(), 500);
             }

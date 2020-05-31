@@ -30,10 +30,6 @@ Descripción:
       </b-form-group>
 
       <b-button class="btn-verde" type="submit" variant="primary" size="lg">Enviar</b-button>
-<<<<<<< HEAD
-
-=======
->>>>>>> 951638c0dee127320e517895056ced123809b00e
     </b-form>
   </div>
 </template>
@@ -47,7 +43,8 @@ export default {
   data: () => ({
     form: {
       asked_by: "",
-      question: ""
+      question: "",
+      sendResponseEmail: 0
     }
   }),
   methods: {
@@ -60,12 +57,15 @@ export default {
       axios
         .post(`/question`, formData)
         .then(res => {
-          _this.hideCreateQuestionModal();
-          _this.makeToast("Responderemos su pregunta lo más pronto posible.");
+          setTimeout(_this.onReset, 500)
+          _this.makeToast(res.data);
         })
         .catch(err => console.log(err.response));
     },
-    onReset() {},
+    onReset() {
+      this.form.asked_by = ""
+      this.form.question = ""
+    },
     makeToast(msg, variant = "success", delay = 3000, append = false) {
       this.$bvToast.toast(`${msg}`, {
         title: "¡Gracias por preguntar!",

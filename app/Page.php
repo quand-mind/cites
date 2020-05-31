@@ -3,12 +3,9 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Sluggable\HasSlug;
-use Spatie\Sluggable\SlugOptions;
 
 class Page extends Model
 {
-    use HasSlug;
     /**
      * The attributes that are mass assignable.
      *
@@ -19,14 +16,6 @@ class Page extends Model
         'content','is_subpage', 'is_onMenu', 'is_active', 'is_static',
         'menu_order'
     ];
-
-    // Slug helper
-    public function getSlugOptions(): SlugOptions
-    {
-        return SlugOptions::create()
-            ->generateSlugsFrom('title')
-            ->saveSlugsTo('slug');
-    }
 
     public function lastModifiedBy () {
         return $this->belongsTo('App\User', 'lastModified_by');

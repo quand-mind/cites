@@ -72,6 +72,11 @@ import 'quill/dist/quill.snow.css';
 // Tell Vue to install the plugin.
 Vue.use(VuejsDialog);
 
+// vue scroll
+import VueScrollTo  from 'vue-scrollto'
+
+Vue.use(VueScrollTo)
+
 Vue.component("home-dashboard", require("./components/admin/HomeDashboard.vue").default);
 
 Vue.component("aside-admin", require("./components/admin/AsideAdmin.vue").default);

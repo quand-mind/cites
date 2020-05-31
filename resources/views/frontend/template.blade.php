@@ -1,7 +1,7 @@
 @extends('layouts.home')
 
 @section('content')
-    <div id="pageTemplate" class="ql-editor">
+    <div id="pageTemplate">
         <page-template :page="{{$page->toJson()}}"></page-template>
     </div>
 @endsection

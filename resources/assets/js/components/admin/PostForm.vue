@@ -94,7 +94,6 @@
                 rows="4"
                 placeholder="Meta descripción"
               ></b-form-textarea>
-              <!-- Este es mi primer post con vue-2-editor. Amo programar, amo javascript, y también amo a Issa. Estoy enamorado, y mi mayor deseo es vivir junto a ella. -->
             </b-form-group>
           </b-col>
           <b-col>

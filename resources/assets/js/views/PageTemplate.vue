@@ -34,6 +34,11 @@ Descripción:
 
 
 <style scoped>
+	.ql-editor {
+		font-size: 1.15rem;
+		line-height: 1.7;	
+	}
+
 	p{
 		margin: 30px 0px;
 	}

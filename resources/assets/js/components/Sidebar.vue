@@ -13,7 +13,7 @@ Descripción:
 <template>
   <!-- SideBar -->
   <aside
-    class="py-3 d-flex flex-column align-items-center mb-4 mt-5 sidebar"
+    class="py-3 d-flex flex-column align-items-center mb-4 sidebar"
   >
     <!-- Enlaces de interes -->
     <div

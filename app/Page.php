@@ -3,9 +3,27 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Cviebrock\EloquentSluggable\Sluggable;
 
 class Page extends Model
 {
+
+    use Sluggable;
+
+    /**
+     * Return the sluggable configuration array for this model.
+     *
+     * @return array
+     */
+    public function sluggable()
+    {
+        return [
+            'slug' => [
+                'source' => 'title'
+            ]
+        ];
+    }
+
     /**
      * The attributes that are mass assignable.
      *
@@ -16,6 +34,21 @@ class Page extends Model
         'content','is_subpage', 'is_onMenu', 'is_active', 'is_static',
         'menu_order'
     ];
+
+    /**
+     * The "booted" method of the model.
+     *
+     * @return void
+     */
+    protected static function booted()
+    {
+        static::slugging(function ($page) {
+            if ($page->title == 'Bienvenidos') {
+                // the model won't be slugged
+                return false;
+            }
+        });
+    }
 
     public function lastModifiedBy () {
         return $this->belongsTo('App\User', 'lastModified_by');

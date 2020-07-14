@@ -2,12 +2,12 @@
     <div>
         <div class="mb-5 ml-5">
             <h1 class="">Menú</h1>
-            <h5 class="secondary">Arrastra y mueve las páginas para cambiar el orden</h5>
         </div>
 
         <b-container>
             <b-row>
                 <b-col>
+                    <h5 class="secondary">Arrastra y mueve las páginas para cambiar el orden</h5>
                     <draggable v-bind="dragOptions" v-model="pagesList" :move="handleMove">
                         <transition-group type="transition" name="flip-list">
                             <div v-for="menuItem in pagesList" :key="menuItem.id" class="container menu-list">
@@ -39,6 +39,7 @@
                     </draggable>
                 </b-col>
                 <b-col>
+                    <h5>Selecciona qué páginas quieres ver en el menú principal</h5>
                     <b-list-group class="pages-scroll-list">
                         <b-list-group-item
                             v-for="page in allPages"
@@ -55,12 +56,6 @@
                 </b-col>
             </b-row>
         </b-container>
-        
-        <b-row class="mt-5">
-          <b-col class="ml-5">
-            <b-button @click="saveMenu" class="submit-btn " size="lg" type="submit" variant="primary">Guardar</b-button>
-          </b-col>
-        </b-row>
     </div>
 </template>
 
@@ -85,6 +80,8 @@ export default {
             aux = this.pagesList[e.draggedContext.index].menu_order
             this.pagesList[e.draggedContext.index].menu_order = this.pagesList[e.relatedContext.index].menu_order
             this.pagesList[e.relatedContext.index].menu_order = aux
+
+            this.saveMenu()
         },
         handleMoveSub (e,a) {
             var item

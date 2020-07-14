@@ -76,6 +76,11 @@
               </b-form-checkbox>
             </b-form-group>
             <b-form-group label="" label-for="input-3">
+              <b-form-checkbox v-model="pageData.is_onMenu" :checked="pageData.is_onMenu" name="check-button" switch @change="pageData.is_onMenu = Number(!pageData.is_onMenu)">
+                Agregar al menú principal
+              </b-form-checkbox>
+            </b-form-group>
+            <b-form-group label="" label-for="input-3">
               <b-form-checkbox v-model="pageData.is_active" :checked="pageData.is_active" name="check-button" switch>
                 Marcar como página activa
               </b-form-checkbox>
@@ -132,6 +137,7 @@ export default {
       meta_robots: "",
       meta_keywords: "",
       content: "",
+      is_onMenu: false,
       is_subpage: false,
       is_active: false,
       main_page: 0
@@ -187,6 +193,8 @@ export default {
         })
         .catch(async err => {
           let { data } =  err.response
+
+          console.log(data)
           
           if (data.errors !== undefined || data.errors !== null) {
             let errors = Object.values(data.errors).toString()

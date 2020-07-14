@@ -83,6 +83,7 @@ class PageController extends Controller
             'content' => 'required|string',
             'is_subpage' => 'required|boolean',
             'is_active' => 'required|boolean',
+            'is_onMenu' => 'required|boolean',
             'main_page' => 'nullable|integer'
         ])) {
             $values = $request->except(['main_page']);
@@ -158,6 +159,7 @@ class PageController extends Controller
             'id',
             'meta_description',
             'is_active',
+            'is_onMenu',
             'is_subpage',
             'is_static',
             'main_page',
@@ -190,8 +192,48 @@ class PageController extends Controller
             return view('frontend.survey', compact('survey', 'links', 'page'));
         }
     }
-    
 
+    /**
+     * Toggle status of page on the menu
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    
+    public function toggleIsOnMenu(Request $request, $id) {
+        if ($request->validate([
+            'is_onMenu' => 'required|boolean'
+        ])) {
+            try {
+                $page = Page::find($id);
+                $page->is_onMenu = $request->input('is_onMenu');
+                $page->save();
+
+                $pages = Page::with(['getSubpages'])
+                ->select(
+                    'id',
+                    'slug',
+                    'title',
+                    'menu_order',
+                    'is_onMenu',
+                    'is_subpage'
+                )
+                ->where([
+                    ['is_subpage', false],
+                    ['is_active', true],
+                ])->orderBy('menu_order')
+                ->get();
+
+                return response([
+                    'msg' =>'Página actualizada',
+                    'pages' => $pages
+                ], 200);
+            } catch (Exception $err) {
+                return response($err->getMessage(), 500);
+            }
+        }
+    }
 
     public function update(Request $request, $id)
     {
@@ -203,6 +245,7 @@ class PageController extends Controller
             'content' => 'required|string',
             'is_subpage' => 'required|boolean',
             'is_active' => 'required|boolean',
+            'is_onMenu' => 'required|boolean',
             'main_page' => 'nullable'
         ])) {
             $values = $request->except(['main_page']);

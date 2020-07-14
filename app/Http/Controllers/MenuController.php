@@ -19,12 +19,13 @@ class MenuController extends Controller
             'id',
             'slug',
             'title',
-            'menu_order'
+            'menu_order',
+            'is_onMenu',
+            'is_subpage'
         )
         ->where([
             ['is_subpage', false],
             ['is_active', true],
-            ['is_onMenu', true]
         ])->orderBy('menu_order')
         ->get();
 

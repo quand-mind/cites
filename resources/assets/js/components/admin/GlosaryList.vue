@@ -132,7 +132,7 @@ export default {
         .post(`/dashboard/glosary`, {...this.form})
         .then(res => {
           this.makeToast(res.data)
-          setTimeout(() => window.location.reload(), 2000)
+          setTimeOut(() => window.location.reload(), 300)
         })
         .catch(err => {
           this.makeToast(err.response.data, 'danger')
@@ -145,7 +145,7 @@ export default {
         .post(`/dashboard/glosary/edit/${this.selectedWord.id}`, this.form)
         .then(res => {
           this.makeToast(res.data)
-          setTimeout(() => window.location.reload(), 2000)
+          setTimeOut(() => window.location.reload(), 300)
         })
         .catch(err => {
           this.makeToast(err.response.data, 'danger')
@@ -158,7 +158,7 @@ export default {
         .delete(`/dashboard/glosary/${row.id}`)
         .then(res => {
           this.makeToast(res.data)
-          setTimeout(() => window.location.reload(), 2000)
+          setTimeOut(() => window.location.reload(), 300)
         })
         .catch(err => {
           _this.makeToast(err.response.data, 'danger')

@@ -196,7 +196,7 @@ export default {
         .post(`/question`, formData)
         .then(res => {
           _this.makeToast(res.data);
-          setTimeout(() => window.location.reload(), 2000);
+          setTimeOut(() => window.location.reload(), 300);
         })
         .catch(err => _this.makeToast(err.response.data, "danger"));
     },
@@ -215,7 +215,7 @@ export default {
         .post(`/question/update/${this.form.id}`, formData)
         .then(res => {
           _this.makeToast(res.data);
-          setTimeout(() => window.location.reload(), 2000);
+          setTimeOut(() => window.location.reload(), 300);
         })
         .catch(err => _this.makeToast(err.response.data, "danger"));
     },
@@ -256,7 +256,7 @@ export default {
         .then(res => {
           if (res.status === 200) {
             _this.makeToast(res.data);
-            setTimeout(() => window.location.reload(), 2000);
+            setTimeOut(() => window.location.reload(), 300);
           }
         })
         .catch(err => {

@@ -254,7 +254,7 @@ export default {
         .then(res => {
           // save image
           _this.makeToast(res.data);
-          setTimeout(() => window.location.replace("/dashboard/posts"), 2000);
+          setTimeout(() => window.location.replace("/dashboard/posts"), 300);
         })
         .catch(err => _this.makeToast(err.response.data, "danger"));
     },
@@ -283,7 +283,7 @@ export default {
         .then(res => {
           // save image
           _this.makeToast(res.data);
-          //   setTimeout(() => window.location.replace("/dashboard/posts"), 2000);
+          //   setTimeout(() => window.location.replace("/dashboard/posts"), 300);
         })
         .catch(err => _this.makeToast(err.response.data, "danger"));
     },

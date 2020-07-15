@@ -256,7 +256,7 @@ export default {
           if (res.status === 200) {
             _this.makeToast(res.data);
             _this.hideEditModal();
-            setTimeout(() => window.location.reload(), 2000);
+            setTimeOut(() => window.location.reload(), 300);
           }
         })
         .catch(err => {
@@ -282,7 +282,7 @@ export default {
           if (res.status === 200) {
             _this.makeToast(res.data);
             _this.hideDeleteModal();
-            setTimeout(() => window.location.reload(), 2000);
+            setTimeOut(() => window.location.reload(), 300);
           }
         })
         .catch(err => {

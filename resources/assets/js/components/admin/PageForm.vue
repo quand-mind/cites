@@ -168,7 +168,7 @@ export default {
         .post(`/dashboard/pages/create`, formData)
         .then(res => {
           _this.makeToast(res.data);
-          setTimeout(() => window.location.replace("/dashboard/pages"), 2000);
+          setTimeout(() => window.location.replace("/dashboard/pages"), 300);
         })
         .catch(err => {
           let { data } = err.response
@@ -189,7 +189,7 @@ export default {
         .post(`/dashboard/pages/edit/${_this.page.id}`, formData)
         .then(res => {
           _this.makeToast(res.data);
-          setTimeout(() => window.location.replace("/dashboard/pages"), 2000);
+          setTimeout(() => window.location.replace("/dashboard/pages"), 300);
         })
         .catch(async err => {
           let { data } =  err.response

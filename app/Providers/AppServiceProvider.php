@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\Facades\Schema;
+use App\Page;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -15,6 +16,14 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength(191);
+
+        // Slug event
+        Page::registerModelEvent('slugging', function ($page) {
+            if (strcmp($page->title, 'Bienvenidos') == 0) {
+                // the model won't be slugged
+                return false;
+            }
+        });
     }
 
     /**

@@ -40,15 +40,10 @@ class Page extends Model
      *
      * @return void
      */
-    protected static function booted()
-    {
-        static::slugging(function ($page) {
-            if ($page->title == 'Bienvenidos') {
-                // the model won't be slugged
-                return false;
-            }
-        });
-    }
+    // protected static function booted()
+    // {
+        
+    // }
 
     public function lastModifiedBy () {
         return $this->belongsTo('App\User', 'lastModified_by');

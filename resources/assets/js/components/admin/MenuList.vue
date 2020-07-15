@@ -10,7 +10,7 @@
                     <h5 class="secondary">Arrastra y mueve las páginas para cambiar el orden</h5>
                     <draggable v-bind="dragOptions" v-model="pagesList" :move="handleMove">
                         <transition-group type="transition" name="flip-list">
-                            <div v-for="menuItem in pagesList" :key="menuItem.id" class="container menu-list">
+                            <div v-for="(menuItem, index) in pagesList" :key="menuItem.id" class="container menu-list">
                                 <b-row
                                     button
                                     v-b-toggle.:aria-controls="menuItem.title"
@@ -25,6 +25,7 @@
                                                 variant="outline-secondary"
                                                 size="sm"
                                                 :id="`tooltip-target-${menuItem.id}`"
+                                                @click="editSubpages(index)"
                                             >
                                                 <font-awesome-icon :icon="['fas', 'list-ul']"></font-awesome-icon>
                                             </b-button>
@@ -56,6 +57,27 @@
                 </b-col>
             </b-row>
         </b-container>
+
+        <b-modal
+            ref="edit-subpages-modal"
+            @hidden="resetIndex"
+        >
+            <draggable v-if="mainPageSelected" v-bind="dragOptionsSub" v-model="mainPageSelected.get_subpages" :move="handleMoveSub">
+                <transition-group type="transition" name="flip-list">
+                    <div v-for="menuItem in mainPageSelected.get_subpages" :key="menuItem.id" class="container menu-list">
+                        <b-row
+                            button
+                            v-b-toggle.:aria-controls="menuItem.title"
+                            class="w-100 list-group-item"
+                        >
+                            <b-col cols="1"><span>{{menuItem.menu_order}}</span></b-col>
+                            <b-col cols="1"><span>-</span></b-col>
+                            <b-col cols="10"><span>{{menuItem.title}}</span></b-col>
+                        </b-row>
+                    </div>
+                </transition-group>
+            </draggable>
+        </b-modal>
     </div>
 </template>
 
@@ -66,7 +88,9 @@ export default {
     props: ['pages'],
     data: () => ({
         pagesList: [],
-        allPages: []
+        allPages: [],
+        indexPageToEditSubpages: null,
+        mainPageSelected: null
     }),
     components: {
         draggable
@@ -84,19 +108,22 @@ export default {
             this.saveMenu()
         },
         handleMoveSub (e,a) {
-            var item
-            var y
-            var id = e.draggedContext.element.main_page
-            var order
-            for(item of this.pagesList){
-                if(item.id === id){
-                    order = item.menu_order - 1
-                    break
-                }
-            }
-            y = this.pagesList[order].get_subpages[e.draggedContext.index].menu_order
-            this.pagesList[order].get_subpages[e.draggedContext.index].menu_order = this.pagesList[order].get_subpages[e.relatedContext.index].menu_order
-            this.pagesList[order].get_subpages[e.relatedContext.index].menu_order = y
+            let aux = 0
+            let mainPage = this.pagesList[this.indexPageToEditSubpages]
+            aux = mainPage.get_subpages[e.draggedContext.index].menu_order
+            mainPage.get_subpages[e.draggedContext.index].menu_order = mainPage.get_subpages[e.relatedContext.index].menu_order
+            mainPage.get_subpages[e.relatedContext.index].menu_order = aux
+
+            this.saveMenu()
+        },
+        resetIndex () {
+            this.indexPageToEditSubpages = null
+            this.mainPageSelected = null
+        },
+        editSubpages(index) {
+            this.indexPageToEditSubpages = index
+            this.mainPageSelected = this.pagesList[index]
+            this.$refs['edit-subpages-modal'].show()
         },
         toggleIsOnMenu (page) {
             page.is_onMenu = !page.is_onMenu
@@ -182,13 +209,12 @@ export default {
 
         .row {
             color: #383d41;
-            background-color: #d6d8db;
             display: flex;
         }
     }
 
     .pages-scroll-list {
-        max-height: 400px;
+        max-height: 100%;
         overflow: auto;
     }
 </style>

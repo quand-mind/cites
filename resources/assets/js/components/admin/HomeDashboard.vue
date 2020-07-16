@@ -55,9 +55,6 @@
           </b-button-group>
       </b-card>
     </b-card-group>
-    <div>
-      <h3 class="text-center">Sitio web creador por ...</h3>
-    </div>
   </div>
 </template>
 

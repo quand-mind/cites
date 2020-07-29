@@ -9,6 +9,7 @@
 @section('meta')
 <meta name="description" content="{{$page->meta_description}}" />
 <meta name="description" content="{{$page->meta_description}}" />
+<meta name="robots" content="{{ $page->meta_robots }}" />
 @endsection
 
 @section('title')

@@ -151,7 +151,7 @@ export default {
     },
     settings: {
       languages: lang
-    },robots: [{ text: 'Indexar y Seguir', value: 'all' },{ text: 'No Indexar', value: 'noindex' }, { text: 'Indexar y No seguir', value: 'index,nofollow' },{ text: 'No indexar, No seguir', value: 'none'}],
+    },robots: [{ text: 'Indexar y Seguir', value: 'index, follow' },{ text: 'No Indexar', value: 'noindex' }, { text: 'Indexar y No seguir', value: 'index,nofollow' },{ text: 'No indexar, No seguir', value: ''}],
     mainPagesOptions: []
   }),
   methods: {

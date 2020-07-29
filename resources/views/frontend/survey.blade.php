@@ -9,6 +9,7 @@
 @section('meta')
 <meta name="description" content="{{$survey->description}}" />
 <meta name="keywords" content="{{$page->meta_keywords}}" />
+<meta name="robots" content="{{ $page->meta_robots }}" />
 @endsection
 
 @section('title')

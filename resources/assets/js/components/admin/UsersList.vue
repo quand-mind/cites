@@ -20,6 +20,7 @@
       <!-- user photo slot -->
       <b-img
         thumbnail
+        fluid
         slot="foto"
         class="profile-img"
         slot-scope="props"

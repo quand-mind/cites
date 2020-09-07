@@ -25,7 +25,7 @@
         class="profile-img"
         slot-scope="props"
         :src="props.row.photo || '/images/default-user.png'"
-        alt="user photo"
+        alt="user photo"  
       ></b-img>
 
       <!-- is active slot -->
@@ -431,9 +431,7 @@ export default {
   margin: 0 auto;
 }
 
-.profile-img {
-  width: 50px;
-  height: 50px;
+.profile-img {  
   margin: 0 auto;
   display: block;
 }

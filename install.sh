@@ -8,5 +8,7 @@ php artisan key:generate
 php artisan storage:link
 
 echo "Running migrations..."
-php artisan migrate
+php artisan migrate:fresh
 php artisan db:seed --class=AdminSeeder
+php artisan db:seed --class=PagesTableSeeder
+php artisan db:seed --class=QuestionsTableSeeder

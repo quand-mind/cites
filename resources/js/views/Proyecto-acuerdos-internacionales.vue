@@ -24,8 +24,6 @@ Descripción:
 					<li>El uso sostenible de los componentes de la diversidad biológica</li>
 					<li>La participación justa y equitativa en los beneficios derivados del uso de los recursos genéticos.</li>
 				</ul>
-
-			</ul>
 		</div>
     </div>
 </template>

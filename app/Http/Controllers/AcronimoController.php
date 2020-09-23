@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Acronimo;
+use App\Models\Acronimo;
 use Exception;
 use Illuminate\Http\Request;
 

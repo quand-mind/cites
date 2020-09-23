@@ -1,5 +1,8 @@
 <?php
 
+namespace Database\Seeders;
+
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -36,15 +39,15 @@ class UsersTableSeeder extends Seeder
             'role'      => 'writer'
         ]);
 
-        factory(App\User::class, 20)->create([
+        User::factory()->count(20)->create([
             'role' => 'writer'
         ]);
 
-        factory(App\User::class, 5)->create([
+        User::factory()->count(5)->create([
             'role' => 'admin'
         ]);
 
-        factory(App\User::class, 50)->create([
+        User::factory()->count(50)->create([
             'role' => 'client'
         ]);
     }

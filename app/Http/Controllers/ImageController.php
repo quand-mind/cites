@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Image;
-use App\Post;
+use App\Models\Image;
+use App\Models\Post;
 use Illuminate\Support\Facades\Storage;
 
 class ImageController extends Controller

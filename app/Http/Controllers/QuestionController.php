@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Question;
+use App\Models\Question;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,6 +17,6 @@ class Question extends Model
 
     public function answeredBy()
     {
-        return $this->belongsTo('App\User', 'answered_by');
+        return $this->belongsTo('App\Models\User', 'answered_by');
     }
 }

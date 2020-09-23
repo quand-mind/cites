@@ -1,13 +1,15 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Cviebrock\EloquentSluggable\Sluggable;
 
 class Page extends Model
 {
 
+    use HasFactory;
     use Sluggable;
 
     /**
@@ -46,18 +48,18 @@ class Page extends Model
     // }
 
     public function lastModifiedBy () {
-        return $this->belongsTo('App\User', 'lastModified_by');
+        return $this->belongsTo('App\Models\User', 'lastModified_by');
     }
 
     public function createdBy () {
-        return $this->belongsTo('App\User', 'created_by');
+        return $this->belongsTo('App\Models\User', 'created_by');
     }
 
     public function getMainPage () {
-        return $this->belongsTo('App\Page', 'main_page');
+        return $this->belongsTo('App\Models\Page', 'main_page');
     }
 
     public function getSubpages () {
-        return $this->hasMany('App\Page', 'main_page');
+        return $this->hasMany('App\Models\Page', 'main_page');
     }
 }

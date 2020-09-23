@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\LegalFile;
+use App\Models\LegalFile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Response;

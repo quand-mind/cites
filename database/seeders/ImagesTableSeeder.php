@@ -1,5 +1,8 @@
 <?php
 
+namespace Database\Seeders;
+
+use App\Models\Image;
 use Illuminate\Database\Seeder;
 
 class ImagesTableSeeder extends Seeder
@@ -11,6 +14,6 @@ class ImagesTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Image::class, 20)->create();
+        Image::factory()->count(20)->create();
     }
 }

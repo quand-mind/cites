@@ -1,10 +1,10 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class HeaderImage extends Model
+class AsideImage extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -12,7 +12,7 @@ class HeaderImage extends Model
      * @var array
      */
     protected $fillable = [
-        'image_order', 'src', 'active'
+        'image_order', 'src', 'active', 'name', 'url'
     ];
 
     public function disableImage () {
@@ -25,7 +25,7 @@ class HeaderImage extends Model
         return;
     }
 
-    public function setImageSrc ($src) {
-        $this->src = $src;
+    public function setImageSrc ($name) {
+        $this->src = '/images/' + $name;
     }
 }

@@ -1,13 +1,15 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
     use Notifiable;
+    use HasFactory;
 
     /**
      * The attributes that are mass assignable.
@@ -29,27 +31,27 @@ class User extends Authenticatable
 
     public function questionsAnswered()
     {
-        return $this->hasMany('App\Question');
+        return $this->hasMany('App\Models\Question');
     }
 
     public function createdPages()
     {
-        return $this->hasMany('App\Page');
+        return $this->hasMany('App\Models\Page');
     }
 
     public function lastModifiedPages()
     {
-        return $this->hasMany('App\Page');
+        return $this->hasMany('App\Models\Page');
     }
 
     public function createdPosts()
     {
-        return $this->hasMany('App\Post');
+        return $this->hasMany('App\Models\Post');
     }
 
     public function createdSurveys()
     {
-        return $this->hasMany('App\Survey');
+        return $this->hasMany('App\Models\Survey');
     }
 
     // methods

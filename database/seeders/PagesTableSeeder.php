@@ -1,5 +1,9 @@
 <?php
 
+namespace Database\Seeders;
+
+use App\Models\Page;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
 
 class PagesTableSeeder extends Seeder
@@ -12,33 +16,33 @@ class PagesTableSeeder extends Seeder
     public function run()
     {
         // El proyecto
-        factory(App\Page::class, 1)->create([
+        Page::factory()->create([
             'title' => 'El Proyecto',
             'is_onMenu' => true
         ]);
 
-        factory(App\Page::class, 1)->create([
+        Page::factory()->create([
             'title' => 'Antecedentes',
             'is_onMenu' => true,
             'is_subpage' => true,
             'main_page' => 1
         ]);
         
-        factory(App\Page::class, 1)->create([
+        Page::factory()->create([
             'title' => 'Objetivos',
             'is_onMenu' => true,
             'is_subpage' => true,
             'main_page' => 1
         ]);
 
-        factory(App\Page::class, 1)->create([
+        Page::factory()->create([
             'title' => 'Componentes',
             'is_onMenu' => true,
             'is_subpage' => true,
             'main_page' => 1
         ]);
 
-        factory(App\Page::class, 1)->create([
+        Page::factory()->create([
             'title' => 'Productos',
             'is_onMenu' => true,
             'is_subpage' => true,
@@ -46,26 +50,26 @@ class PagesTableSeeder extends Seeder
         ]);
 
         // Protocolo de Cartagena
-        factory(App\Page::class, 1)->create([
+        Page::factory()->create([
             'title' => 'Protocolo de Cartagena',
             'is_onMenu' => true
         ]);
 
-        factory(App\Page::class, 1)->create([
+        Page::factory()->create([
             'title' => 'El Protocolo',
             'is_onMenu' => true,
             'is_subpage' => true,
             'main_page' => 6
         ]);
 
-        factory(App\Page::class, 1)->create([
+        Page::factory()->create([
             'title' => 'Linea de tiempo',
             'is_onMenu' => true,
             'is_subpage' => true,
             'main_page' => 6
         ]);
 
-        factory(App\Page::class, 1)->create([
+        Page::factory()->create([
             'title' => 'FAQs sobre el protocolo',
             'is_onMenu' => true,
             'is_subpage' => true,
@@ -73,19 +77,19 @@ class PagesTableSeeder extends Seeder
         ]);
 
         // Legislación
-        factory(App\Page::class, 1)->create([
+        Page::factory()->create([
             'title' => 'Legislación',
             'is_onMenu' => true
         ]);
 
-        factory(App\Page::class, 1)->create([
+        Page::factory()->create([
             'title' => 'Legislación nacional',
             'is_onMenu' => true,
             'is_subpage' => true,
             'main_page' => 10
         ]);
         
-        factory(App\Page::class, 1)->create([
+        Page::factory()->create([
             'title' => 'Legislación internacional',
             'is_onMenu' => true,
             'is_subpage' => true,
@@ -93,25 +97,25 @@ class PagesTableSeeder extends Seeder
         ]);
 
          // Bioseguridad y Ambiente
-        factory(App\Page::class, 1)->create([
+        Page::factory()->create([
             'title' => 'Bioseguridad y Ambiente',
             'is_onMenu' => true
         ]);
 
         // Lab. Nacional de detección de OVM
-        factory(App\Page::class, 1)->create([
+        Page::factory()->create([
             'title' => 'Lab. Nacional de detección de OVM',
             'is_onMenu' => true
         ]);
 
-        factory(App\Page::class, 1)->create([
+        Page::factory()->create([
             'title' => 'El laboratorio',
             'is_onMenu' => true,
             'is_subpage' => true,
             'main_page' => 14
         ]);
 
-        factory(App\Page::class, 1)->create([
+        Page::factory()->create([
             'title' => 'Capacitaciones',
             'is_onMenu' => true,
             'is_subpage' => true,
@@ -119,26 +123,26 @@ class PagesTableSeeder extends Seeder
         ]);
 
         // Preguntas frecuentes
-        factory(App\Page::class, 1)->create([
+        Page::factory()->create([
             'title' => 'Preguntas frecuentes',
             'is_onMenu' => true,
             'is_static' => true
         ]);
 
         // ¿Cómo participar?
-        factory(App\Page::class, 1)->create([
+        Page::factory()->create([
             'title' => '¿Cómo participar?',
             'is_onMenu' => true
         ]);
 
-        factory(App\Page::class, 1)->create([
+        Page::factory()->create([
             'title' => 'Encuestas',
             'is_onMenu' => true,
             'is_subpage' => true,
             'main_page' => 18
         ]);
 
-        factory(App\Page::class, 1)->create([
+        Page::factory()->create([
             'title' => '¿Desea hacer una pregunta adicional?',
             'is_onMenu' => true,
             'is_subpage' => true,
@@ -146,26 +150,26 @@ class PagesTableSeeder extends Seeder
         ]);
 
         // Recursos
-        factory(App\Page::class, 1)->create([
+        Page::factory()->create([
             'title' => 'Recursos',
             'is_onMenu' => true
         ]);
 
-        factory(App\Page::class, 1)->create([
+        Page::factory()->create([
             'title' => 'Portales de la temática',
             'is_onMenu' => true,
             'is_subpage' => true,
             'main_page' => 21
         ]);
 
-        factory(App\Page::class, 1)->create([
+        Page::factory()->create([
             'title' => 'Formularios de solicitud',
             'is_onMenu' => true,
             'is_subpage' => true,
             'main_page' => 21
         ]);
 
-        factory(App\Page::class, 1)->create([
+        Page::factory()->create([
             'title' => 'Glosario',
             'is_onMenu' => true,
             'is_subpage' => true,
@@ -173,7 +177,7 @@ class PagesTableSeeder extends Seeder
             'is_static' => true
         ]);
 
-        factory(App\Page::class, 1)->create([
+        Page::factory()->create([
             'title' => 'Acrónimos',
             'is_onMenu' => true,
             'is_subpage' => true,
@@ -181,7 +185,7 @@ class PagesTableSeeder extends Seeder
             'is_static' => true
         ]);
 
-        factory(App\Page::class, 1)->create([
+        Page::factory()->create([
             'title' => 'Mapa del sitio',
             'is_onMenu' => true,
             'is_subpage' => true,

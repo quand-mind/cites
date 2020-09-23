@@ -1,11 +1,14 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Image extends Model
 {
+    use HasFactory;
+    
     /**
      * The attributes that are mass assignable.
      *
@@ -17,6 +20,6 @@ class Image extends Model
 
     public function post()
     {
-        return $this->belongsTo('App\Post');
+        return $this->belongsTo('App\Models\Post');
     }
 }

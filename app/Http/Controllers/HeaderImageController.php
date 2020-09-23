@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\HeaderImage;
+use App\Models\HeaderImage;
 use Exception;
 use Illuminate\Support\Facades\Storage;
 

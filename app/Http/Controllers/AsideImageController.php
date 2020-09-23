@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\AsideImage;
+use App\Models\AsideImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 

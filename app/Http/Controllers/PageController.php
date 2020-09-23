@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Acronimo;
-use App\Glosary;
-use App\LegalFile;
+use App\Models\Acronimo;
+use App\Models\Glosary;
+use App\Models\LegalFile;
 use Illuminate\Http\Request;
-use App\Page;
-use App\Question;
-use App\Survey;
+use App\Models\Page;
+use App\Models\Question;
+use App\Models\Survey;
 use Illuminate\Support\Facades\Auth;
 
 class PageController extends Controller

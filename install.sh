@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo "sudo apt install php php-cli php-fpm php-json php-pdo php-mysql php-zip php-gd  php-mbstring php-curl php-xml php-pear php-bcmath"
+sudo apt install php php-cli php-fpm php-json php-pdo php-mysql php-zip php-gd  php-mbstring php-curl php-xml php-pear php-bcmath
 
 echo "Installing php dependencies with composer..."
 composer install

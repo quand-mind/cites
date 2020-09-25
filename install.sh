@@ -8,7 +8,7 @@ composer update
 
 echo "Laravel app setting up..."
 php artisan key:generate
-php artisan storage:link
+sudo php artisan storage:link
 
 echo "Running migrations..."
 php artisan migrate:fresh

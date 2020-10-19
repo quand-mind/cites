@@ -15,19 +15,19 @@
       ></font-awesome-icon>
     </button>
     <div class="list-group">
-      <a href="/dashboard/users" class="list-group-item list-group-item-action">
+      <a v-if="!iswriter" href="/dashboard/users" class="list-group-item list-group-item-action">
         <font-awesome-icon :icon="['fas', 'users']"></font-awesome-icon>&nbsp;Usuarios
       </a>
       <a href="/dashboard/pages" class="list-group-item list-group-item-action">
         <font-awesome-icon :icon="['fas', 'book-open']"></font-awesome-icon>&nbsp;Páginas
       </a>
-      <a href="/dashboard/menu" class="list-group-item list-group-item-action">
+      <a v-if="!iswriter" href="/dashboard/menu" class="list-group-item list-group-item-action">
         <font-awesome-icon :icon="['fas', 'pager']"></font-awesome-icon>&nbsp;Menú
       </a>
       <!-- <a href="/dashboard/posts" class="list-group-item list-group-item-action">
         <font-awesome-icon :icon="['fas', 'newspaper']"></font-awesome-icon>&nbsp;Noticias
       </a> -->
-      <a href="/dashboard/questions" class="list-group-item list-group-item-action">
+      <a v-if="!iswriter" href="/dashboard/questions" class="list-group-item list-group-item-action">
         <font-awesome-icon :icon="['fas', 'question-circle']"></font-awesome-icon>&nbsp;Preguntas frecuentes
       </a>
       <!-- <a href="/dashboard/questions-categories" class="list-group-item list-group-item-action">
@@ -45,10 +45,10 @@
       <a href="/dashboard/laws" class="list-group-item list-group-item-action">
         <font-awesome-icon :icon="['fas', 'gavel']"></font-awesome-icon>&nbsp;Legislación
       </a>
-      <a href="/dashboard/header-manager" class="list-group-item list-group-item-action">
+      <a v-if="!iswriter" href="/dashboard/header-manager" class="list-group-item list-group-item-action">
         <font-awesome-icon :icon="['fas', 'images']"></font-awesome-icon>&nbsp;Imágenes de Cabecera
       </a>
-      <a href="/dashboard/aside-manager" class="list-group-item list-group-item-action">
+      <a v-if="!iswriter" href="/dashboard/aside-manager" class="list-group-item list-group-item-action">
         <font-awesome-icon :icon="['fab', 'elementor']"></font-awesome-icon>&nbsp;Panel lateral
       </a>
     </div>
@@ -59,7 +59,7 @@
 import moment from "moment";
 
 export default {
-  props: ["user"],
+  props: ["user", "iswriter"],
   data: () => ({
     isOpen: false,
     timeNow: moment()

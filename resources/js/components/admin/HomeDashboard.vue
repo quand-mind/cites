@@ -16,7 +16,7 @@
         </b-button-group>
       </b-card>
 
-      <b-card header-tag="header" class="m-3">
+      <b-card v-if="!iswriter" header-tag="header" class="m-3">
         <template v-slot:header>
           <h6 class="mb-0 text-uppercase">Menú</h6>
         </template>
@@ -36,7 +36,7 @@
       </b-card>
     </b-card-group>
     <b-card-group deck>
-      <b-card header-tag="header">
+      <b-card v-if="!iswriter" header-tag="header">
         <template v-slot:header>
           <h6 class="mb-0 text-uppercase">Preguntas Frecuentes</h6>
         </template>
@@ -59,7 +59,10 @@
 </template>
 
 <script>
-
+  export default {
+    props: ['iswriter'],
+    data: () => ({})
+  }
 </script>
 
 <style lang="scss">

@@ -1,8 +1,4 @@
-@if (auth()->user()->isWriter())
-    {{-- // render vue component for writers --}}
-@else
-    {{-- // render vue component for admins --}}
-    <div id="asideAdmin">
-        <aside-admin :user="{{auth()->user()}}"></aside-admin>
-    </div>
-@endif
+
+<div id="asideAdmin">
+    <aside-admin :user="{{auth()->user()}}" :iswriter="{{auth()->user()->isWriter()}}"></aside-admin>
+</div>

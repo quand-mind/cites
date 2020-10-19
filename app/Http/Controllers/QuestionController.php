@@ -94,6 +94,7 @@ class QuestionController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
+     * @param  integer $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -134,7 +135,7 @@ class QuestionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Question  $question
+     * @param  integer  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -147,6 +148,13 @@ class QuestionController extends Controller
         }
     }
 
+    /**
+     * Toggle is_faq attribute to make visible as a faq to the public.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  integer  $id
+     * @return \Illuminate\Http\Response
+     */
     public function changeStatus(Request $request, $id)
     {
         if ($request->validate([

@@ -8,7 +8,13 @@ use App\Models\Post;
 use Illuminate\Support\Facades\Storage;
 
 class ImageController extends Controller
-{
+{   
+    /**
+     * Save image from post created using vue-editor on admin panel.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function savePostContentImage(Request $request)
     {
         if ($request->validate([
@@ -22,6 +28,12 @@ class ImageController extends Controller
         }
     }
 
+    /**
+     * Delete image from post created using vue-editor on admin panel.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function deletePostContentImage(Request $request)
     {
         if ($request->validate([
@@ -38,6 +50,12 @@ class ImageController extends Controller
         }
     }
 
+    /**
+     * Save image from page created using vue-editor on admin panel.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function savePageContentImage(Request $request)
     {
         if ($request->validate([
@@ -51,6 +69,12 @@ class ImageController extends Controller
         }
     }
 
+    /**
+     * Delete image from page created using vue-editor on admin panel.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function deletePageContentImage(Request $request)
     {
         if ($request->validate([
@@ -67,6 +91,12 @@ class ImageController extends Controller
         }
     }
 
+    /**
+     * Save main image of post.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function savePostMainImage(Request $request)
     {
         if ($request->validate([
@@ -92,6 +122,13 @@ class ImageController extends Controller
         }
     }
 
+    /**
+     * Change or keep the main image of post.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  Integer $id
+     * @return \Illuminate\Http\Response
+     */
     public function updatePostMainImage(Request $request, $id)
     {
         if ($request->validate([

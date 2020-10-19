@@ -163,6 +163,13 @@ class UserController extends Controller
         }
     }
 
+    /**
+     * Change active status for any user.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function changeActiveState (Request $request, $id) {
         if ($request->validate([
             'is_active' => 'boolean'
@@ -174,7 +181,6 @@ class UserController extends Controller
                 $user->save();
                 return response('Usuario actualizado', 200);
             } catch (Exception $err) {
-
                 return response($err->getMessage(), 500);
             }
         }

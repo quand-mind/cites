@@ -36,6 +36,11 @@ class PageController extends Controller
         return view('panel.pages.index', compact('pages'));
     }
 
+    /**
+     * Return the list of main links
+     *
+     * @return Collection
+     */
     public function getMenuLinks () {
         $links = Page::with(['getSubpages'])
             ->select(
@@ -57,7 +62,7 @@ class PageController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new page.
      *
      * @return \Illuminate\Http\Response
      */
@@ -68,7 +73,7 @@ class PageController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created page in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -97,11 +102,7 @@ class PageController extends Controller
                 $page->lastModifiedBy()->associate(Auth::user());
                 $mainPageId = $request->input('main_page');
 
-                // if ($values['title'] == "Bienvenidos")
-                //     $page->slug = '';
-                // else 
-                //     $page->slug = SlugService::createSlug(Page::class, 'slug', $values['title']);
-                
+                // It is a subpage                
                 if ($mainPageId !== null)
                     $page->getMainPage()->associate(Page::find($mainPageId));
 
@@ -196,6 +197,8 @@ class PageController extends Controller
     /**
      * Toggle status of page on the menu
      * 
+     * Set if the page is active or not
+     * 
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -234,6 +237,16 @@ class PageController extends Controller
             }
         }
     }
+
+    /**
+     * Toggle status of page on the menu
+     * 
+     * Set if the page is active or not
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
 
     public function update(Request $request, $id)
     {
@@ -274,12 +287,6 @@ class PageController extends Controller
                 if ($mainPageId !== null)
                     $page->getMainPage()->associate(Page::find($mainPageId));
 
-                // Slug reset for main page
-                // if ($values['title'] == "Bienvenidos")
-                //     $page->slug = '';
-                // else 
-                //     $page->slug = SlugService::createSlug(Page::class, 'slug', $values['title']);
-
                 $page->save();
 
                 return response("Página guardada exitosamente", 200);
@@ -290,7 +297,7 @@ class PageController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified page from database.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -310,6 +317,15 @@ class PageController extends Controller
         }
     }
 
+    /**
+     * Toggle status of page on the menu
+     * 
+     * Set if the page is active or not
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function changeActiveState(Request $request, $id)
     {
         if ($request->validate([

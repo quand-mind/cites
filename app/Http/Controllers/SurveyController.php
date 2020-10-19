@@ -127,7 +127,13 @@ class SurveyController extends Controller
         }
     }
 
-    public function getSurveysList(Request $request)
+    /**
+     * Get all surveys.
+     *
+     * @param  integer  $id
+     * @return \App\Models\Survey
+     */
+    public function getSurveysList()
     {
         return Survey::all();
     }

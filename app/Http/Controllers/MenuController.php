@@ -8,7 +8,7 @@ use App\Models\Page;
 class MenuController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Return the page's links.
      *
      * @return \Illuminate\Http\Response
      */
@@ -32,6 +32,11 @@ class MenuController extends Controller
         return view('panel.dashboard.menu', compact('pages'));
     }
 
+    /**
+     * Return the menu links availables.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function renderFrontPage ()
     {
         $links = Page::with(['getSubpages'])
@@ -53,6 +58,12 @@ class MenuController extends Controller
         return view('welcome', compact('links'));
     }
 
+    /**
+     * Change the menu links order.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function updateOrder (Request $request) {
         $pages = $request->all();
 

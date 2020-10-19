@@ -58,7 +58,7 @@
           <b-col>
             <b-form-group id="input-group-2" label="Palabras claves" label-for="input-2" 
                 :description="
-                                `Indique las palabras claves separadas por una coma por ejemplo 'organismos vivos modificados, ovm, mutaciones'. Las palabras claves son el término o conjunto de términos que utilizan los usuarios cuando buscan en google.`
+                                `Indique las palabras claves separadas por una coma por ejemplo 'organismos vivos modificados, OGM, mutaciones'. Las palabras claves son el término o conjunto de términos que utilizan los usuarios cuando buscan en google.`
                             ">
               <b-form-textarea
                 id="input-2"

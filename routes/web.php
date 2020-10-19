@@ -68,10 +68,10 @@ Route::group(['prefix' => 'recursos'], function () {
 //     Route::get('/{any}', 'MenuController@renderFrontPage');
 // });
 
-// // Frontend routes for "Laboratorio Nacional OVM"
-// Route::get('/laboratorio-nacional-ovm', function () {
+// // Frontend routes for "Laboratorio Nacional OGM"
+// Route::get('/laboratorio-nacional-OGM', function () {
 //     return view('welcome');
-// })->name('laboratorio-nacional-ovm');
+// })->name('laboratorio-nacional-OGM');
 
 // // Frontend routes for "Recursos"
 // Route::group(['prefix' => 'recursos'], function () {

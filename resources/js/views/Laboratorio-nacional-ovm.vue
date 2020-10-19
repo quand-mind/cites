@@ -3,7 +3,7 @@ Ultima Actualización: 16/01/2020
 
 Tipo de componente: Vista
 
-Ruta:/laboratorio-nacional-ovm
+Ruta:/laboratorio-nacional-OGM
 
 Descripción:
 	Contiene la información del laboratorio nacional de detección de Organismos Vivientes Modificados
@@ -11,7 +11,7 @@ Descripción:
 
 <template>
 	<div>
-		<titulo msg="Laboratorio Nacional de Detección de OVM"/>
+		<titulo msg="Laboratorio Nacional de Detección de OGM"/>
 <!-- Escrito -->
 		<div class="d-flex flex-column p-5 text-justify">
 					

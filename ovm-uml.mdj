@@ -374,7 +374,7 @@
 									"top": 562,
 									"width": 200.16064453125,
 									"height": 13,
-									"text": "/lab-nacional-de-deteccion-de-ovm",
+									"text": "/lab-nacional-de-deteccion-de-OGM",
 									"wordWrap": true
 								}
 							],
@@ -2647,7 +2647,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFwdGpc+OnE3/Q="
 					},
-					"name": "/lab-nacional-de-deteccion-de-ovm",
+					"name": "/lab-nacional-de-deteccion-de-OGM",
 					"ownedElements": [
 						{
 							"_type": "FCFlow",

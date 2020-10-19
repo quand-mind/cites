@@ -446,9 +446,9 @@ class QuestionsTableSeeder extends Seeder
             a sus directrices establece la planificación en materia de bioseguridad en el
             país. El Protocolo de Cartagena establece la conservación de la
             diversidad biológica, a través de la adecuada gestión de los riesgos
-            asociados con los organismos vivos modificados (OVM) resultante del uso
+            asociados con los organismos vivos modificados (OGM) resultante del uso
             de la biotecnología moderna; se enfoca principalmente en los
-            movimientos transfronterizos de los OVMs y busca establecer normas y 
+            movimientos transfronterizos de los OGMs y busca establecer normas y 
             procedimientos que permitan la manipulación, uso y transferencia segura
             (Secretaría del Convenio sobre la Diversidad Biológica, 2000).
             Otros documentos importantes que se relacionan con el tema incluyen la

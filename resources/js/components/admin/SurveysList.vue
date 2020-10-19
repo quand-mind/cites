@@ -53,7 +53,7 @@
             id="url"
             v-model="form.url"
             required
-            placeholder="https://ovm.3dmensional.agency/surveys/..."
+            placeholder="https://OGM.3dmensional.agency/surveys/..."
           ></b-form-input>
         </b-form-group>
 
@@ -97,7 +97,7 @@
             id="url"
             v-model="form.url"
             required
-            placeholder="https://ovm.3dmensional.agency/surveys/..."
+            placeholder="https://OGM.3dmensional.agency/surveys/..."
           ></b-form-input>
         </b-form-group>
 

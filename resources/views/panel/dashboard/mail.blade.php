@@ -9,7 +9,7 @@
 <body>
     
     <h1>Respuesta a tu pregunta</h1>
-    <p>¡Gracias por participar en nuestro portal <a href="{{env('APP_URL')}}">ovm website</a>!</p>
+    <p>¡Gracias por participar en nuestro portal <a href="{{env('APP_URL')}}">OGM website</a>!</p>
     <p>A continuación la respuesta a tu pregunta: {{$question->question}}</p>
     <br />
 

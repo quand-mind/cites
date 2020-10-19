@@ -102,9 +102,9 @@ class PagesTableSeeder extends Seeder
             'is_onMenu' => true
         ]);
 
-        // Lab. Nacional de detección de OVM
+        // Lab. Nacional de detección de OGM
         Page::factory()->create([
-            'title' => 'Lab. Nacional de detección de OVM',
+            'title' => 'Lab. Nacional de detección de OGM',
             'is_onMenu' => true
         ]);
 

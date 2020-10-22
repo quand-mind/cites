@@ -24,7 +24,7 @@
         <b-button href="/dashboard/menu" variant="primary" class="mx-2" size="sm"><font-awesome-icon :icon="['fas', 'pager']"></font-awesome-icon><br> Administrar menú</b-button>
       </b-card>
 
-      <b-card header-tag="header" class="m-3">
+      <b-card v-if="!iswriter" header-tag="header" class="m-3">
         <template v-slot:header>
           <h6 class="mb-0 text-uppercase">Administrar Usuarios</h6>
         </template>

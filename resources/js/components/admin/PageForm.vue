@@ -108,6 +108,19 @@
       <b-container>
         <b-row>
           <b-col>
+            <b-form-file
+              v-model="media.file"
+              :state="Boolean(media.file)"
+              placeholder="Agregar archivo multimedia"
+              drop-placeholder="Agregar archivo multimedia"
+            ></b-form-file>
+            <b-form-input v-model="media.name" placeholder="Nombre del archivo"></b-form-input>
+          </b-col>
+        </b-row>
+      </b-container>
+      <b-container>
+        <b-row>
+          <b-col>
             <b-button class="submit-btn" size="lg" type="submit" variant="primary">Guardar</b-button>
             <b-button size="lg" type="reset" variant="danger" @click="pageData.content = ''">Limpiar</b-button>
           </b-col>
@@ -152,7 +165,11 @@ export default {
     settings: {
       languages: lang
     },robots: [{ text: 'Indexar y Seguir', value: 'index, follow' },{ text: 'No Indexar', value: 'noindex' }, { text: 'Indexar y No seguir', value: 'index,nofollow' },{ text: 'No indexar, No seguir', value: ''}],
-    mainPagesOptions: []
+    mainPagesOptions: [],
+    media: {
+      file: null,
+      name: '',
+    },
   }),
   methods: {
     showSubpagePrompt () {

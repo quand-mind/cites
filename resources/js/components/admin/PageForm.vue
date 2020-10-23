@@ -108,20 +108,39 @@
       <b-container>
         <b-row>
           <b-col>
-            <b-form-file
-              v-model="media.file"
-              :state="Boolean(media.file)"
-              placeholder="Agregar archivo multimedia"
-              drop-placeholder="Agregar archivo multimedia"
-            ></b-form-file>
-            <b-form-input v-model="media.name" placeholder="Nombre del archivo"></b-form-input>
+            <h4>Lista de archivos multimedia disponibles</h4>
+            <b-dropdown class="mb-3" id='media-dropdown' text="Haga click en un archivo para copiar la url" variant="outline-secondary">
+              <b-dropdown-item v-for="media in mediaFiles" :key="media.id + media.name" v-clipboard:copy="media.path" v-clipboard:success="() => makeToast('URL copiada al portapapeles')">{{ media.name }}</b-dropdown-item>
+            </b-dropdown>
           </b-col>
         </b-row>
       </b-container>
       <b-container>
         <b-row>
           <b-col>
-            <b-button class="submit-btn" size="lg" type="submit" variant="primary">Guardar</b-button>
+            <b-form-group
+              :description="media.file ? `Tamaño del archivo: ${parseFloat(media.file.size / 1e6).toFixed(2)}MB` : 'Hasta 6MB permitidos'"
+            >
+              <b-form-file 
+                v-model="media.file"
+                :state="Boolean(media.file)"
+                placeholder="Agregar archivo multimedia"
+                drop-placeholder="Agregar archivo multimedia"
+                accept="video/mpeg,video/ogg,video/webm"
+              ></b-form-file>
+            </b-form-group>
+          </b-col>
+          <b-col>
+            <b-form-input class="mb-2" v-model="media.name" placeholder="Nombre del archivo"></b-form-input>
+            <b-button @click="saveMediaFile" class="submit-btn" size="sm" variant="primary">Agregar nuevo archivo</b-button>
+            <b-button size="sm" type="reset" variant="danger" @click="media.file = null; media.name = ''">Limpiar</b-button>
+          </b-col>
+        </b-row>
+      </b-container>
+      <b-container>
+        <b-row>
+          <b-col>
+            <b-button class="submit-btn" size="lg" type="submit" variant="primary">Guardar contenido</b-button>
             <b-button size="lg" type="reset" variant="danger" @click="pageData.content = ''">Limpiar</b-button>
           </b-col>
         </b-row>
@@ -170,6 +189,7 @@ export default {
       file: null,
       name: '',
     },
+    mediaFiles: []
   }),
   methods: {
     showSubpagePrompt () {
@@ -310,6 +330,49 @@ export default {
         appendToast: append,
         variant
       });
+    },
+    saveMediaFile() {
+      // Add a new multimedia file
+      if (this.media.file && this.media.name) {
+        let _this = this
+  
+        var formData = new FormData();
+        formData.append("file", _this.media.file);
+        formData.append("name", _this.media.name);
+  
+        axios({
+          url: "/dashboard/media",
+          method: "post",
+          data: formData
+        })
+          .then(res => {
+            _this.makeToast(res.data);
+
+            // Get new media lists
+          })
+          .catch(err => {
+            let { data } = err.response
+
+            if (data.errors !== undefined || data.errors !== null) {
+              let errors = Object.values(data.errors).toString()
+              _this.makeToast(errors, "danger");
+            } else {
+              _this.makeToast(data, "danger");
+            }
+          });
+      } else {
+        this.makeToast('Falta información para guardar el archivo', 'danger')
+      }
+    },
+    getMediaFiles () {
+      // get all media files
+      let _this = this
+
+      axios.get('/dashboard/media')
+        .then(res => {
+          _this.mediaFiles = [...res.data]
+        })
+        .catch(err => console.log(err))
     }
   },
   mounted() {
@@ -327,6 +390,8 @@ export default {
         _this.mainPagesOptions.push({ text: page.title, value: page.id })
       }
     });
+
+    _this.getMediaFiles()
   }
 };
 </script>

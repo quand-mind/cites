@@ -132,6 +132,10 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         Route::post('/images/page/content', 'ImageController@savePageContentImage');
         Route::post('/images/page/content/delete', 'ImageController@deletePageContentImage');
 
+        // Multimedia Routes
+        Route::get('/media', 'MediaController@index');
+        Route::post('/media', 'MediaController@store');
+
         // Question Routes
         Route::get('/questions', 'QuestionController@index');
         Route::get('/question', 'QuestionController@create'); // Test form in the admin panel

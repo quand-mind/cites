@@ -110,7 +110,26 @@
           <b-col>
             <h4>Lista de archivos multimedia disponibles</h4>
             <b-dropdown class="mb-3" id='media-dropdown' text="Haga click en un archivo para copiar la url" variant="outline-secondary">
-              <b-dropdown-item v-for="media in mediaFiles" :key="media.id + media.name" v-clipboard:copy="media.path" v-clipboard:success="() => makeToast('URL copiada al portapapeles')">{{ media.name }}</b-dropdown-item>
+              <b-dropdown-item
+                v-for="media in mediaFiles"
+                :key="media.id + media.name"
+                class="dropdown-item"
+              >
+                <div 
+                  class="copy-btn"
+                  v-clipboard:copy="media.path"
+                  v-clipboard:success="() => makeToast('URL copiada al portapapeles')"
+                >
+                  <font-awesome-icon
+                    class="mr-3 text-primary"
+                    :icon="['fas', 'clipboard']"
+                  ></font-awesome-icon> 
+                </div>
+                {{ media.name }}
+                <div class="actions">
+                  <font-awesome-icon @click="() => deleteMediaFile(media.id)" class="ml-1 text-danger" :icon="['fas', 'times-circle']"></font-awesome-icon>
+                </div>
+              </b-dropdown-item>
             </b-dropdown>
           </b-col>
         </b-row>
@@ -349,6 +368,7 @@ export default {
             _this.makeToast(res.data);
 
             // Get new media lists
+            _this.getMediaFiles();
           })
           .catch(err => {
             let { data } = err.response
@@ -363,6 +383,26 @@ export default {
       } else {
         this.makeToast('Falta información para guardar el archivo', 'danger')
       }
+    },
+    deleteMediaFile(id) {
+      // get all media files
+      let _this = this
+
+      axios.delete(`/dashboard/media/${id}`)
+        .then(res => {
+          _this.getMediaFiles()
+          _this.makeToast('Archivo multimedia eliminado.')
+        })
+        .catch(err => {
+          let { data } = err.response
+
+          if (data.errors !== undefined || data.errors !== null) {
+            let errors = Object.values(data.errors).toString()
+            _this.makeToast(errors, "danger");
+          } else {
+            _this.makeToast(data, "danger");
+          }
+        });
     },
     getMediaFiles () {
       // get all media files
@@ -399,5 +439,21 @@ export default {
 <style lang="scss">
 .submit-btn {
   margin-right: 10px;
+}
+
+.dropdown-item {
+  width: 100%;
+  
+  a {
+    width: 100%;
+    display: flex;
+    position: relative;
+    padding-right: 60px;
+
+    .actions {
+      position: absolute;
+      right: 0;
+    }
+  }
 }
 </style>

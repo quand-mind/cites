@@ -52,35 +52,6 @@ class MediaController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        if ($request->validate([
-            'name' => 'required|unique:medias|max:255'
-        ])) {
-            try {
-                $media =  Media::find($id);
-                $media->name = $request->name;
-                $media->save();
-
-                // Rename file
-
-                return response('Archivo multimedia actualizado exitosamente.', 200);
-            } catch (\Exception $err) {
-                return response()->json([
-                    'msg' => 'No se pudo subir el archivo.',
-                    'error' => $err
-                ]);
-            }
-        }
-    }
-
-    /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id

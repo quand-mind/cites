@@ -135,6 +135,7 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         // Multimedia Routes
         Route::get('/media', 'MediaController@index');
         Route::post('/media', 'MediaController@store');
+        Route::delete('/media/{id}', 'MediaController@destroy');
 
         // Question Routes
         Route::get('/questions', 'QuestionController@index');

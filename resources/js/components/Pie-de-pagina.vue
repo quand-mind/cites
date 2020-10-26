@@ -13,6 +13,9 @@ Descripción:
  <template>
   <div>
 	<footer style="background-color: #009462;" class="modal-footer d-flex flex-column align-items-center" >
+		<div class="search-bar">
+			<div class="gcse-search"></div>
+		</div>
 		<b-button href="#up" class="p-3 h1 m-5 uppercase" v-scroll-to="'#app'" variant="light"><span class="icon icon-circle-up"></span> Ir arriba</b-button>
 		<!-- Cajetin de redes -->
 		<div class="redes">
@@ -45,5 +48,9 @@ export default {
 </script>
 
 <style scoped>
-  
+  .search-bar {
+	  margin: 0 auto;
+	  max-width: 700px;
+	  width: 100%;
+  }
 </style>

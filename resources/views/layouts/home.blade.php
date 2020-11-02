@@ -49,10 +49,12 @@
           max-width: 100%; 
         }
     </style>
+    <script async src="https://cse.google.com/cse.js?cx=001038472219489902018:huyykbstduj"></script>
 </head>
 <body>
     <div id="app">
         <cabecera></cabecera>
+
         <navi :menu-links="{{ $links->toJson() }}"></navi>
         <navmobile :menu-links="{{ $links->toJson() }}"></navmobile>
         <div class="mt-md-5 container-fluid container-lg d-flex justify-content-center flex-column flex-lg-row m-0 p-0 mx-lg-auto p-lg-auto">

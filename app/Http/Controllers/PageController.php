@@ -30,6 +30,7 @@ class PageController extends Controller
             'is_subpage',
             'is_active',
             'lastModified_by',
+            'is_mainPage',
             'main_page'
         )->get();
 
@@ -123,7 +124,12 @@ class PageController extends Controller
      */
     public function show($slug = '')
     {
-        $page = Page::where('slug', $slug)->first();
+        if ($slug == '') {
+            $page = Page::where('is_mainPage', true)->first();
+        } else {
+            $page = Page::where('slug', $slug)->first();
+        }
+
         $links = $this->getMenuLinks();
 
         return $page !== null && $page->is_active ? view('frontend.template', compact('page', 'links')) : response()->view('errors.' . '404', compact('links'), 404);
@@ -442,5 +448,28 @@ class PageController extends Controller
         $links = $this->getMenuLinks();
 
         return view('frontend.acronimos', compact('page', 'links', 'acronimos'));
+    }
+
+    /**
+     * Change the default homepage
+     *
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function setAsMainPage ($id) {
+
+        try {
+            $actualMainPage = Page::where('is_mainPage', true)->first();
+            $actualMainPage->is_mainPage =  false;
+            $actualMainPage->save();
+    
+            $newMainPage = Page::find($id);
+            $newMainPage->is_mainPage = true;
+            $newMainPage->save();
+    
+            return response('¡Se ha configurado la página de inicio exitosamente!', 200);
+        } catch (\Exception $err) {
+            return response($err->toJson(), 500);
+        }
     }
 }

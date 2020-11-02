@@ -101,6 +101,8 @@ Vue.component("surveys-list", require("./components/admin/SurveysList.vue").defa
 
 Vue.component("pages-list", require("./components/admin/PagesList.vue").default);
 
+Vue.component("links-list", require("./components/admin/LinksList.vue").default);
+
 Vue.component("page-form", require("./components/admin/PageForm.vue").default);
 
 Vue.component("menu-list", require("./components/admin/MenuList.vue").default);

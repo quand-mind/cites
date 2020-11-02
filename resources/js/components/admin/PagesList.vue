@@ -27,7 +27,7 @@
       <!-- name slot -->
       <span slot="descripción" slot-scope="props">
         {{
-        props.row.meta_description
+          props.row.meta_description
         }}
       </span>
 
@@ -74,6 +74,17 @@
         switch
         @change="handleCheckBoxChange(props.row)"
       ></b-form-checkbox>
+
+      <!-- is main page slot -->
+      <b-form-radio
+        slot="pag_principal"
+        slot-scope="props"
+        name="radio-button"
+        class="check-active"
+        v-model="mainPageID"
+        @change="changeMainPage(props.row.id)"
+        :value="props.row.id"
+      ></b-form-radio>
     </v-client-table>
 
     <!-- Delete modal -->
@@ -102,6 +113,7 @@ export default {
   props: ["pages"],
   data: () => ({
     columns: [
+      "pag_principal",
       "título",
       "url",
       "descripción",
@@ -110,6 +122,7 @@ export default {
       "última_modificación_por",
       "acciones"
     ],
+    mainPageID: null,
     tableData: [],
     options: {
       perPage: 10,
@@ -159,6 +172,32 @@ export default {
           }
         });
     },
+    changeMainPage(id) {
+      const _this = this
+
+      let pageIndex = _this.tableData.findIndex(page => Boolean(page.is_mainPage))
+
+      axios
+        .get('/dashboard/pages/setAsMainPage/' + id)
+        .then(res => {
+          _this.makeToast(res.data)
+          let pageIndex = _this.tableData.findIndex(page => Boolean(page.is_mainPage))
+          _this.tableData[pageIndex].is_mainPage = false
+
+          pageIndex = _this.tableData.findIndex(page => page.id === id)
+          _this.tableData[pageIndex].is_mainPage = true
+        })
+        .catch(err => {
+          let { data } = err.response
+
+          if (data.errors !== undefined || data.errors !== null) {
+            let errors = Object.values(data.errors).toString()
+            _this.makeToast(errors, "danger");
+          } else {
+            _this.makeToast(data, "danger");
+          }
+        });
+    },
     handleCheckBoxChange(row) {
       let _this = this;
       let pageIdx = _this.tableData.findIndex(page => row.id === page.id);
@@ -193,8 +232,15 @@ export default {
     }
   },
   mounted() {
-    this.tableData = this.pages.map(page => {
+    const _this = this
+    _this.tableData = _this.pages.map(page => {
       page.is_active = Boolean(parseInt(page.is_active));
+      page.is_mainPage = Boolean(parseInt(page.is_mainPage));
+
+      if (page.is_mainPage)  {
+        _this.mainPageID = page.id
+      }
+
       return page;
     });
   }

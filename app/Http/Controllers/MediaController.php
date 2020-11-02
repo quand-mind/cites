@@ -30,7 +30,7 @@ class MediaController extends Controller
     {
         if ($request->validate([
             'name' => 'required|unique:medias|max:255',
-            'file' => 'required|file|mimetypes:video/mpeg,video/ogg,video/webm|max:6144',
+            'file' => 'required|file|mimetypes:video/mpeg,video/ogg,video/webm,video/mp4|max:6144',
         ])) {
             try {
                 $path = $request->file('file')->store('media');

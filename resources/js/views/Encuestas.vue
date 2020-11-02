@@ -12,7 +12,8 @@ Descripción:
 
 <template>
   <div>
-    <titulo msg="Encuestas" />
+    <titulo :msg="page.title" />
+    <div class="mt-5 ql-editor" v-html="page.content"></div>
     <div v-if="surveys.length > 0" class="mt-5">
       <b-button
         v-for="survey in surveys"
@@ -36,7 +37,7 @@ export default {
   components: {
     titulo
   },
-  props: ['surveys'],
+  props: ['surveys', 'page'],
   data() {
     return {
     };

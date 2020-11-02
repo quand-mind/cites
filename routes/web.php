@@ -122,6 +122,7 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         Route::post('/pages/edit/{id}', 'PageController@update');
         Route::post('/pages/toggleIsOnMenu/{id}', 'PageController@toggleIsOnMenu');
         Route::post('/pages/changeActiveState/{id}', 'PageController@changeActiveState');
+        Route::get('/pages/setAsMainPage/{id}', 'PageController@setAsMainPage');
         Route::delete('/pages/{id}', 'PageController@destroy');
 
         // Image Routes
@@ -180,6 +181,9 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         Route::post('/aside-manager/updateAll', 'AsideImageController@updateAll');
         Route::post('/aside-manager/update/{id}', 'AsideImageController@updateOne');
         Route::delete('/aside-manager/{id}', 'AsideImageController@destroy');
+
+        // Footer Links
+        Route::get('/footer-links', 'LinkController@index');
     });
 });
 

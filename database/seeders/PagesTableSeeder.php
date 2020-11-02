@@ -202,7 +202,8 @@ class PagesTableSeeder extends Seeder
             'is_onMenu'         => false,
             'created_by'        => 1,
             'lastModified_by'   => 1,
-            'content'           => 'Modifique el contenido en el panel de administración'
+            'content'           => 'Modifique el contenido en el panel de administración',
+            'is_mainPage'       => true
         ]);
     }
 }

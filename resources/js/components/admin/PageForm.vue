@@ -145,7 +145,7 @@
                 :state="Boolean(media.file)"
                 placeholder="Agregar archivo multimedia"
                 drop-placeholder="Agregar archivo multimedia"
-                accept="video/mpeg,video/ogg,video/webm"
+                accept="video/mpeg,video/ogg,video/webm,video/mp4"
               ></b-form-file>
             </b-form-group>
           </b-col>

@@ -2,7 +2,7 @@
 
 @section('content')
     <div id="surveys">
-        <surveys :surveys="{{$surveys->toJson()}}"></surveys>
+        <surveys :page="{{ $page->toJson() }}" :surveys="{{$surveys->toJson()}}"></surveys>
     </div>
 @endsection
 

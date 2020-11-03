@@ -63,7 +63,7 @@
               </main>
               <sidebar></sidebar>
           </div>
-        <pie></pie>
+        <pie :links="{{ $socialLinks->toJson() }}"></pie>
     </div>
 </body>
 </html>

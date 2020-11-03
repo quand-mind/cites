@@ -9,14 +9,26 @@ use Exception;
 class LinkController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the resource using blade view.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
         $links = Link::all();
-        return view('panel.dashboard.links', compact('links'));
+        return view('panel.dashboard.social-links', compact('links'));
+    }
+
+    /**
+     * Get a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getLinks()
+    {
+        $links = Link::all();
+
+        return response($links->toJson(), 200);
     }
 
     /**
@@ -30,7 +42,7 @@ class LinkController extends Controller
         if ($request->validate([
             'name' => 'required|unique:links',
             'url' => 'required|url',
-            'photo' => 'required|file|mime:svg,png'
+            'photo' => 'required|file|mimes:svg,png'
 
         ])) {
 
@@ -48,7 +60,7 @@ class LinkController extends Controller
 
                 return response('Link guardado exitosamente', 200);
             } catch (\Exception $err) {
-                return response($err->json(), 500);
+                return response($err, 500);
             }
         }
 
@@ -56,37 +68,30 @@ class LinkController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
+     * Change the visible state of link.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function toggleIsVisible(Request $request, $id)
     {
-        //
+        $link = Link::find($id);
+        $link->isVisible =  !$link->isVisible;
+
+        $link->save();
+
+        return response('Se actualizó la visibilidad del link');
+    }
+
+    /**
+     * Get all visible links
+     *
+     * @return void
+     */
+    static function getVisibleLinks() {
+        $socialLinks = Link::where('isVisible', 1)->get();
+        return $socialLinks;
     }
 
     /**
@@ -97,6 +102,7 @@ class LinkController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Link::destroy($id);
+        return response('Link eliminado');
     }
 }

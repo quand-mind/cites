@@ -14,7 +14,7 @@ class AddIsMainPageColumnToPageModel extends Migration
     public function up()
     {
         Schema::table('pages', function (Blueprint $table) {
-            $table->boolean('is_mainPage', false);
+            $table->boolean('is_mainPage')->default(false);
         });
     }
 

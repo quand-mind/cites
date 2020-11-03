@@ -13,30 +13,16 @@ Descripción:
  <template>
   <div>
 	<footer style="background-color: #009462;" class="modal-footer d-flex flex-column align-items-center" >
-		<div class="search-bar">
-			<div class="gcse-search"></div>
-		</div>
 		<b-button href="#up" class="p-3 h1 m-5 uppercase" v-scroll-to="'#app'" variant="light"><span class="icon icon-circle-up"></span> Ir arriba</b-button>
 		<!-- Cajetin de redes -->
 		<div class="redes">
-			<a href="#" onclick="return false"><span class="icon icon-facebook h2 text-white m-2 text-decoration-none"></span></a>
-			<a href="#" onclick="return false"><span class="icon icon-twitter h2 text-white m-2 text-decoration-none"></span></a>
-			<a href="#" onclick="return false"><span class="icon icon-instagram  h2 text-white m-2 text-decoration-none"></span></a>
-			<a href="#" onclick="return false"><span class="icon icon-youtube h2 text-white m-2 text-decoration-none"></span></a>
+			<a v-for="link in links" :key="'link-' + link.name" :href="link.url"><img :src="link.photo" class="icon m-2 text-decoration-none" /></a>
+			<!-- <a href="#"><span class="icon icon-twitter h2 text-white m-2 text-decoration-none"></span></a>
+			<a href="#"><span class="icon icon-instagram  h2 text-white m-2 text-decoration-none"></span></a>
+			<a href="#"><span class="icon icon-youtube h2 text-white m-2 text-decoration-none"></span></a> -->
 		</div>
-	<!-- Logos del Aside -->
-	<p class="text-white h5 m-3 text-center">2019 MINEC. Todos los derechos reservados</p>
-				<div class=" d-flex align-items-center justify-content-around" style="max-width: 300px">
-					<a href="#" class="w-25" onclick="return false">
-						<img class="w-100" src="/images/logos/logo-gef.png">
-					</a>
-					<a href="#" class="w-25" onclick="return false">
-						<img  class="w-100" src="/images/logos/logo-pnud.png">
-					</a>
-					<a href="#" class="w-25" onclick="return false">
-						<img  class="w-100" src="/images/logos/logo-unep.png">
-					</a>
-				</div>
+		<!-- Logos del Aside -->
+		<p class="text-white h5 m-3 text-center">2019 MINEC. Todos los derechos reservados</p>
 	</footer>
   </div>
 </template>
@@ -44,13 +30,12 @@ Descripción:
 <script>
 export default {
   name: 'pie',
+  props: ['links'],
 }
 </script>
 
 <style scoped>
-  .search-bar {
-	  margin: 0 auto;
-	  max-width: 700px;
-	  width: 100%;
-  }
+	.icon {
+		height: 50px;
+	}
 </style>

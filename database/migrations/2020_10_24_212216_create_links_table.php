@@ -19,7 +19,7 @@ class CreateLinksTable extends Migration
             $table->string('url', 255);
             $table->string('photo', 255);
             $table->unsignedInteger('order');
-            $table->boolean('isVisible', true);
+            $table->boolean('isVisible')->default(true);
             $table->timestamps();
         });
     }

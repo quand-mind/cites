@@ -182,8 +182,12 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         Route::post('/aside-manager/update/{id}', 'AsideImageController@updateOne');
         Route::delete('/aside-manager/{id}', 'AsideImageController@destroy');
 
-        // Footer Links
-        Route::get('/footer-links', 'LinkController@index');
+        // Social Links
+        Route::get('/social-links', 'LinkController@index');
+        Route::get('/social-links/list', 'LinkController@getLinks');
+        Route::post('/social-links/create', 'LinkController@store');
+        Route::get('/social-links/toggleIsVisible/{id}', 'LinkController@toggleIsVisible');
+        Route::delete('/social-links/{id}', 'LinkController@destroy');
     });
 });
 

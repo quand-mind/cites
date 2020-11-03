@@ -11,6 +11,8 @@ use App\Models\Question;
 use App\Models\Survey;
 use Illuminate\Support\Facades\Auth;
 
+use App\Http\Controllers\LinkController;
+
 class PageController extends Controller
 {
      /**
@@ -131,8 +133,9 @@ class PageController extends Controller
         }
 
         $links = $this->getMenuLinks();
+        $socialLinks = LinkController::getVisibleLinks();
 
-        return $page !== null && $page->is_active ? view('frontend.template', compact('page', 'links')) : response()->view('errors.' . '404', compact('links'), 404);
+        return $page !== null && $page->is_active ? view('frontend.template', compact('page', 'links', 'socialLinks')) : response()->view('errors.' . '404', compact('links', 'socialLinks'), 404);
     }
 
     /**
@@ -146,12 +149,13 @@ class PageController extends Controller
     {
         $page = Page::where('slug', $subpage)->first();
         $links = $this->getMenuLinks();
+        $socialLinks = LinkController::getVisibleLinks();
 
         if ($page !== null && $page->getMainPage->slug === $slug) {
-            return view('frontend.template', compact('page', 'links'));
+            return view('frontend.template', compact('page', 'links', 'socialLinks'));
         }
 
-        return response()->view('errors.' . '404', compact('links'), 404);
+        return response()->view('errors.' . '404', compact('links', 'socialLinks'), 404);
     }
 
     /**
@@ -192,11 +196,12 @@ class PageController extends Controller
         $survey = Survey::find($id);
         $links = $this->getMenuLinks();
         $page = Page::where('slug', 'encuestas')->first();
+        $socialLinks = LinkController::getVisibleLinks();
 
         if ($survey == null) {
-            return response()->view('errors.' . '404', compact('links'), 404);
+            return response()->view('errors.' . '404', compact('links', 'socialLinks'), 404);
         } else {
-            return view('frontend.survey', compact('survey', 'links', 'page'));
+            return view('frontend.survey', compact('survey', 'links', 'page', 'socialLinks'));
         }
     }
 
@@ -372,8 +377,9 @@ class PageController extends Controller
         $page = Page::where('slug', 'encuestas')->first();
         $surveys = Survey::all();
         $links = $this->getMenuLinks();
+        $socialLinks = LinkController::getVisibleLinks();
 
-        return view('frontend.surveys', compact('page', 'surveys', 'links'));
+        return view('frontend.surveys', compact('page', 'surveys', 'links', 'socialLinks'));
      }
 
      /**
@@ -384,11 +390,12 @@ class PageController extends Controller
 
     public function newQuestionView ($slug) {
         $page = Page::where('slug', $slug)->first();
+        $socialLinks = LinkController::getVisibleLinks();
 
         if ($page->id === 20) {
             $links = $this->getMenuLinks();
     
-            return view('frontend.newQuestion', compact('page', 'links'));
+            return view('frontend.newQuestion', compact('page', 'links', 'socialLinks'));
         } else {
             $this->showSubPage($slug);
         }
@@ -405,6 +412,7 @@ class PageController extends Controller
         
         $page = Page::where('slug', $title)->first();
         $links = $this->getMenuLinks();
+        $socialLinks = LinkController::getVisibleLinks();
 
         if ($title === 'legislacion-internacional') {
             
@@ -414,10 +422,10 @@ class PageController extends Controller
             $filesData = LegalFile::where('type', 'nac')->get();
         } else {
 
-            return view('errors.404', compact('links'));
+            return view('errors.404', compact('links', 'socialLinks'));
         }
 
-        return view('frontend.legal', compact('page', 'links', 'filesData'));
+        return view('frontend.legal', compact('page', 'links', 'filesData'. 'socialLinks'));
     }
 
     /**
@@ -431,8 +439,9 @@ class PageController extends Controller
         $page = Page::where('slug', 'glosario')->first();
         $glosary = Glosary::all();
         $links = $this->getMenuLinks();
+        $socialLinks = LinkController::getVisibleLinks();
 
-        return view('frontend.glosary', compact('page', 'links', 'glosary'));
+        return view('frontend.glosary', compact('page', 'links', 'glosary', 'socialLinks'));
     }
 
     /**
@@ -445,9 +454,10 @@ class PageController extends Controller
         
         $page = Page::where('slug', 'acronimos')->first();
         $acronimos = Acronimo::all();
+        $socialLinks = LinkController::getVisibleLinks();
         $links = $this->getMenuLinks();
 
-        return view('frontend.acronimos', compact('page', 'links', 'acronimos'));
+        return view('frontend.acronimos', compact('page', 'links', 'acronimos', 'socialLinks'));
     }
 
     /**

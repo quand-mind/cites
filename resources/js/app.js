@@ -109,6 +109,8 @@ Vue.component("menu-list", require("./components/admin/MenuList.vue").default);
 
 Vue.component("laws-list", require("./components/admin/LawsList.vue").default);
 
+Vue.component("social-links", require("./components/admin/Social.vue").default);
+
 Vue.component("header-manager", require("./components/admin/HeaderManager.vue").default);
 
 Vue.component("aside-manager", require("./components/admin/AsideManager.vue").default);

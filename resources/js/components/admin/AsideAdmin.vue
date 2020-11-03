@@ -51,8 +51,8 @@
       <a v-if="!iswriter" href="/dashboard/aside-manager" class="list-group-item list-group-item-action">
         <font-awesome-icon :icon="['fab', 'elementor']"></font-awesome-icon>&nbsp;Panel lateral
       </a>
-      <a v-if="!iswriter" href="/dashboard/footer-links" class="list-group-item list-group-item-action">
-        <font-awesome-icon :icon="['fas', 'link']"></font-awesome-icon>&nbsp;Footer links
+      <a v-if="!iswriter" href="/dashboard/social-links" class="list-group-item list-group-item-action">
+        <font-awesome-icon :icon="['fas', 'link']"></font-awesome-icon>&nbsp;Social links
       </a>
     </div>
   </aside>

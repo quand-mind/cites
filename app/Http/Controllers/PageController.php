@@ -426,7 +426,7 @@ class PageController extends Controller
             return view('errors.404', compact('links', 'socialLinks'));
         }
 
-        return view('frontend.legal', compact('page', 'links', 'filesData'. 'socialLinks'));
+        return view('frontend.legal', compact('page', 'links', 'filesData', 'socialLinks'));
     }
 
     /**

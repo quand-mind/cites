@@ -362,9 +362,10 @@ class PageController extends Controller
      public function faqsView () {
         $page = Page::where('slug', 'preguntas-frecuentes')->first();
         $questions = Question::where(['is_faq' => true])->get();
+        $socialLinks = LinkController::getVisibleLinks();
         $links = $this->getMenuLinks();
 
-        return view('frontend.faqs', compact('page', 'questions', 'links'));
+        return view('frontend.faqs', compact('page', 'questions', 'links', 'socialLinks'));
      }
 
      /**

@@ -2,7 +2,7 @@
 
 @section('content')
     <div id="acronimos">
-        <acronimos :page="{{ $page->toJson() }}" :acronimos="{{$acronimos->toJson()}}"></acronimos>
+        <acronimos-component :page="{{ $page->toJson() }}" :acronimos="{{$acronimos->toJson()}}"></acronimos-component>
     </div>
 @endsection
 

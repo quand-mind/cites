@@ -75,7 +75,7 @@ export default {
   .brand {
     color: white;
     width: 80%;
-    font-size: 18px;
+    font-size: 22px;
 
     img {
       height: 100%;

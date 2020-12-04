@@ -41,33 +41,11 @@ class GlosaryController extends Controller
             'word' => 'required|max:10',
             'description' => 'required|max:100'
         ])) {
-            $acronimo = new Glosary($request->all());
-            $acronimo->save();
+            $glosary = new Glosary($request->all());
+            $glosary->save();
 
             return response('Palabra guardada exitosamente', 200);
         }
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**
@@ -80,11 +58,11 @@ class GlosaryController extends Controller
     public function update(Request $request, $id)
     {
         if ($request->validate([
-            'siglas' => 'required|max:10',
+            'word' => 'required|max:10',
             'description' => 'required|max:100'
         ])) {
-            $acronimo = Glosary::find($id);
-            $acronimo->update($request->all());
+            $glosary = Glosary::find($id);
+            $glosary->update($request->all());
 
             return response('Palabra guardada exitosamente', 200);
         }

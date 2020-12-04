@@ -2,7 +2,7 @@
 
 @section('content')
     <div id="glosary">
-        <glosary :page="{{ $page->toJson() }}" :glosary="{{$glosary->toJson()}}"></glosary>
+        <glosary-component :page="{{ $page->toJson() }}" :glosary="{{$glosary->toJson()}}"></glosary-component>
     </div>
 @endsection
 

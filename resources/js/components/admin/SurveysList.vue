@@ -236,7 +236,7 @@ export default {
           if (res.status === 200) {
             _this.makeToast(res.data);
             _this.hideDeleteModal();
-            setTimeOut(() => window.location.reload(), 300);
+            setTimeout(() => window.location.reload(), 300);
           }
         })
         .catch(err => {

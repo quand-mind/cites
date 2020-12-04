@@ -119,9 +119,9 @@ Vue.component("page-template", require("./views/PageTemplate.vue").default);
 
 Vue.component("faqs", require("./views/Faqs.vue").default);
 
-Vue.component("glosary", require("./views/Glosary.vue").default);
+Vue.component("glosary-component", require("./views/Glosary.vue").default);
 
-Vue.component("acronimos", require("./views/Acronimos.vue").default);
+Vue.component("acronimos-component", require("./views/Acronimos.vue").default);
 
 Vue.component("surveys", require("./views/Encuestas.vue").default);
 

@@ -145,13 +145,17 @@ class PageController extends Controller
      * @param  string  $subpage
      * @return \Illuminate\Http\Response
      */
-    public function showSubPage($slug, $subpage)
+    public function showSubPage($slug, $subpage = '')
     {
         $page = Page::where('slug', $subpage)->first();
         $links = $this->getMenuLinks();
         $socialLinks = LinkController::getVisibleLinks();
 
-        if ($page !== null && $page->getMainPage->slug === $slug) {
+        if ($subpage == 'glosario') {
+            return $this->glosaryView();
+        } else if ($subpage == 'acronimos') {
+            return $this->acronimosView();
+        } else if ($page !== null && $page->getMainPage->slug === $slug) {
             return view('frontend.template', compact('page', 'links', 'socialLinks'));
         }
 
@@ -392,16 +396,18 @@ class PageController extends Controller
     public function newQuestionView ($slug) {
         $page = Page::where('slug', $slug)->first();
         $socialLinks = LinkController::getVisibleLinks();
+        $links = $this->getMenuLinks();
 
-        if ($page->id === 20) {
-            $links = $this->getMenuLinks();
+        if ($page != null && $page->id === 20) {
     
             return view('frontend.newQuestion', compact('page', 'links', 'socialLinks'));
         } else {
             $this->showSubPage($slug);
         }
 
-     }
+        return response()->view('errors.' . '404', compact('links', 'socialLinks'), 404);
+
+    }
 
     /**
      * Show the laws on the frontend

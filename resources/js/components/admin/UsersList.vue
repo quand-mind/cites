@@ -324,7 +324,7 @@ export default {
           }
         })
         .catch(err => {
-          _this.makeToast(err.response.data, "danger");
+          _this.makeToast(err.response.data.message, "danger");
         });
     },
     onReset() {
@@ -364,7 +364,7 @@ export default {
       _this.newPhoto && form.append("photo", _this.newPhoto);
 
       axios
-        .post(`/dashboard/users/create/`, form, {
+        .post(`/dashboard/users/create`, form, {
           headers: {
             "Content-Type": "multipart/form-data"
           }
@@ -373,11 +373,11 @@ export default {
           if (res.status === 200) {
             _this.makeToast(res.data);
             _this.hideEditModal();
-            setTimeOut(() => window.location.reload(), 300);
+            setTimeout(() => window.location.reload(), 300);
           }
         })
         .catch(err => {
-          _this.makeToast(err.response.data, "danger");
+          _this.makeToast(err.response.data.message, "danger");
         });
     },
     submitDeleteUser() {
@@ -389,11 +389,11 @@ export default {
           if (res.status === 200) {
             _this.makeToast(res.data);
             _this.hideDeleteModal();
-            setTimeOut(() => window.location.reload(), 300);
+            setTimeout(() => window.location.reload(), 300);
           }
         })
         .catch(err => {
-          _this.makeToast(err.response.data, "danger");
+          _this.makeToast(err.response.data.message, "danger");
         });
     }
   },

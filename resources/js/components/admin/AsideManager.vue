@@ -83,7 +83,7 @@ export default {
             url: ''
         },
         dropzoneOptions: {
-            url: '/dashboard/aside-manager',
+            url: '#',
             paramName: 'images',
             uploadMultiple: true,
             maxFilesize: 2048,
@@ -130,7 +130,11 @@ export default {
             submitForm.append('image', _this.$refs.dropzone.getAcceptedFiles()[0])
 
             axios
-                .post('/dashboard/aside-manager/', submitForm)
+                .post('/dashboard/aside-manager', submitForm, {
+                    headers: {
+                    "Content-Type": "multipart/form-data"
+                    }
+                })
                 .then(res => {
                    _this.makeToast(res.data);
                    _this.updateImages()
@@ -189,7 +193,11 @@ export default {
             let _this = this
 
             axios
-                .post('/dashboard/aside-manager/updateAll', {images: [..._this.imagesList]})
+                .post('/dashboard/aside-manager/updateAll', {images: [..._this.imagesList]}, {
+                    headers: {
+                        "Content-Type": "multipart/form-data"
+                    }
+                })
                 .then(res => _this.makeToast(res.data))
                 .catch(err => {
                     let { data } = err.response

@@ -183,7 +183,7 @@ export default {
             });
 
             axios
-                .post(`/dashboard/social-links/create/`, form, {
+                .post(`/dashboard/social-links/create`, form, {
                     headers: {
                         "Content-Type": "multipart/form-data"
                     }

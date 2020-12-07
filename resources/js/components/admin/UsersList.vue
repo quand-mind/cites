@@ -154,11 +154,11 @@
           </b-form-group>
 
           <b-form-group label="Nombre:" label-for="input-2">
-            <b-form-input v-model="createForm.name" required placeholder="Jose Quintero"></b-form-input>
+            <b-form-input v-model="createForm.name" required placeholder="Marcos Navarro"></b-form-input>
           </b-form-group>
 
           <b-form-group label="Usuario:" label-for="input-2">
-            <b-form-input v-model="createForm.username" required placeholder="jose_usuario"></b-form-input>
+            <b-form-input v-model="createForm.username" required placeholder="marcos_20"></b-form-input>
           </b-form-group>
 
           <b-form-group label="Correo:" label-for="input-1">

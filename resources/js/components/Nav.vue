@@ -71,13 +71,13 @@ export default {
   }
 
   &:hover {
-    background: #55ef6d;
+    background: #02a31a;
     transition: all 0.5s ease;
     overflow: visible;
 
-    a {
-      color: #212529;
-    }
+    // a {
+    //   color: #212529;
+    // }
 
     .sub-nav {
       opacity: 1;

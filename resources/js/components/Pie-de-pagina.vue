@@ -12,7 +12,7 @@ Descripción:
 
  <template>
   <div>
-	<footer style="background-color: #009462;" class="modal-footer d-flex flex-column align-items-center" >
+	<footer style="background-color: #69c816;" class="modal-footer d-flex flex-column align-items-center" >
 		<b-button href="#up" class="p-3 h1 m-5 uppercase" v-scroll-to="'#app'" variant="light"><span class="icon icon-circle-up"></span> Ir arriba</b-button>
 		<!-- Cajetin de redes -->
 		<div class="redes">

@@ -23,13 +23,13 @@
          background-color: #2c3e50;
         }
         .verde{
-          background-color: #00a96d;
+          background-color: #69c816;
         }
         .btn-verde{
-          background-color: #00a96d;
+          background-color: #69c816;
         }
         .btn-verde:hover{
-          background-color:#009462;
+          background-color:#69c816;
         }
         main{
           min-width: 70vw;

@@ -12,22 +12,14 @@ Descripción:
 
  <template>
  <div class="w-100">
-   <header class=" one d-none d-lg-block">
+   <header class="one d-none d-lg-block">
     <slide class="slide"></slide>
-    <b-navbar class="">
+    <b-navbar class="nav">
       <a class="brand d-flex align-items-center" href="/">
-        <img src="/images/logos/minec-thumb.png" class="figure" />
-        <p class="d-none d-xl-flex d-lg-flex align-items-center">
-          Implementación del Marco Nacional de Bioseguridad en Venezuela,
-          de acuerdo con el Protocolo de Cartagena sobre Seguridad de la
-          Biotecnología 
-        </p>
+        <img src="/images/logos/logo-ogm.png" class="figure" />
       </a>
 
       <b-navbar-nav class=" w-20 d-flex align-items-center ml-auto">
-        <a href="#" onclick="return false">
-          <img src="/images/logos/logo-minec.png" />
-        </a>
         <a href="#" onclick="return false">
           <img src="/images/logos/logo-gef.png" />
         </a>
@@ -69,16 +61,18 @@ export default {
 
 }
 .navbar {
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
+  height: 100%;
 
   .brand {
     color: white;
     width: 80%;
     font-size: 22px;
+    height: 100%;
 
     img {
-      height: 100%;
+      height: 90%;
       margin-right: 10px;
     }
 

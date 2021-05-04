@@ -100,6 +100,7 @@ export default {
   min-width: 300px;
   border-radius: 5px;
   box-shadow: 0 5px 15px rgba($color: #000000, $alpha: .2);
+  background-color: white;
 
   @media (max-width: 980px) {
     max-width: 600px;

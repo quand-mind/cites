@@ -30,5 +30,8 @@ export default {
 </script>
 
 <style scoped>
-	
+	.h1 {
+		text-decoration: underline;
+		color: #69c816;
+	}
 </style>

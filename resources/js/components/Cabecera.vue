@@ -72,6 +72,7 @@ export default {
     height: 100%;
 
     img {
+      background-color: rgba(255, 255, 255, 0.6);
       height: 90%;
       margin-right: 10px;
     }

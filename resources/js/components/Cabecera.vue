@@ -64,16 +64,18 @@ export default {
   align-items: flex-start;
   justify-content: center;
   height: 100%;
+  padding: 0 1rem 0 0 !important;
 
   .brand {
     color: white;
     width: 80%;
     font-size: 22px;
     height: 100%;
+    align-items: start;
 
     img {
-      background-color: rgba(255, 255, 255, 0.6);
-      height: 90%;
+      background-color: rgba(255, 255, 255);
+      height: 100%;
       margin-right: 10px;
     }
 

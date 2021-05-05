@@ -31,6 +31,7 @@
         body {
           background-image: url('/images/fondo.png');
           background-repeat: repeat;
+          background-attachment: fixed;
         }
         .w-90{
           width: 90%;

@@ -15,7 +15,7 @@ Descripción:
   <div class="fixed-top d-block d-xl-none d-lg-none" id="all" style=" z-index: 800 !important; ">
     <b-navbar class="nav" toggleable="lg" type="dark">
       <b-navbar-brand href="/">
-        <img src="/images/logos/minec-thumb.png" class="figure" />
+        <img src="/images/logos/logo-ogm.png" class="figure" />
       </b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>

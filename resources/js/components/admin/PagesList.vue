@@ -224,7 +224,8 @@ export default {
         });
     },
     generateSlug(row) {
-      if (row.main_page !== null) {
+      console.log(row)
+      if (row.is_subpage && row.main_page !== null) {
         return '/' + row.get_main_page.slug + '/' + row.slug
       }
 

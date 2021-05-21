@@ -193,11 +193,7 @@ export default {
             let _this = this
 
             axios
-                .post('/dashboard/aside-manager/updateAll', {images: [..._this.imagesList]}, {
-                    headers: {
-                        "Content-Type": "multipart/form-data"
-                    }
-                })
+                .post('/dashboard/aside-manager/updateAll', {images: [..._this.imagesList]})
                 .then(res => _this.makeToast(res.data))
                 .catch(err => {
                     let { data } = err.response

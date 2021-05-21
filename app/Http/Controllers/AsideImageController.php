@@ -82,7 +82,10 @@ class AsideImageController extends Controller
     public function updateAll(Request $request)
     {
         try {
-            foreach ($request->input('images') as $image) {
+            $images = json_decode($request->getContent(), true)['images'];
+            foreach ($images as $image) {
+                unset($image['created_at']);
+                unset($image['updated_at']);
 
                 AsideImage::where('id', $image['id'])
                             ->update($image);

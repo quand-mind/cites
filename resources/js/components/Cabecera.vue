@@ -32,6 +32,9 @@ Descripción:
         <a href="#" onclick="return false">
           <img src="/images/logos/logo-unep.png" />
         </a>
+        <a href="#" onclick="return false">
+          <img src="/images/logos/bandera.png" />
+        </a>
       </b-navbar-nav>
 
     </b-navbar>

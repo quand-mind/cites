@@ -285,10 +285,10 @@ class PageController extends Controller
                 // main_pages cannot change between subpages easily
                 // WARNING: orphan subpages if main_page is changed to subpage
                 if ($values['is_subpage'] && $page->getSubpages->isNotEmpty()) {
-                    $page->getSubpages()->each(function ($page, $key) {
-                        $page->getMainPage()->dissociate();
-                        $page->is_subpage = false;
-                        $page->save();
+                    $page->getSubpages()->each(function ($subpage, $key) {
+                        $subpage->getMainPage()->dissociate();
+                        $subpage->is_subpage = false;
+                        $subpage->save();
                     });
                 }
 
@@ -299,8 +299,10 @@ class PageController extends Controller
 
                 $mainPageId = $request->input('main_page');
                 
-                if ($mainPageId !== null)
+                if ($mainPageId !== null && $page->is_subpage)
                     $page->getMainPage()->associate(Page::find($mainPageId));
+                else if ($mainPageId !== null && !$page->is_subpage)
+                    $page->getMainPage()->dissociate();
 
                 $page->save();
 

@@ -170,7 +170,7 @@
             ></b-form-input>
           </b-form-group>
 
-          <b-form-group label="Contraseña:" label-for="input-2">
+          <!--b-form-group label="Contraseña:" label-for="input-2">
             <b-form-input
               v-model="createForm.password"
               required
@@ -186,7 +186,7 @@
               type="password"
               placeholder="********"
             ></b-form-input>
-          </b-form-group>
+          </b-form-group-->
 
           <b-form-group label="Rol:" label-for="input-3">
             <b-form-select v-model="createForm.role" :options="roles" required></b-form-select>
@@ -235,8 +235,8 @@ export default {
       email: "",
       role: "",
       is_active: true,
-      password: "",
-      password_confirmation: ""
+      password: "0000",
+      password_confirmation: "0000"
     },
     formPhoto: null,
     newPhoto: null

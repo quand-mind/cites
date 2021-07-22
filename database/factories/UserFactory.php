@@ -37,7 +37,7 @@ class UserFactory extends Factory {
         return [
             'name' => $name,
             'email' => $this->faker->unique()->safeEmail,
-            'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
+            'password' => bcrypt('123456'), // secret
             'remember_token' => Str::random(10),
             'username' => strtolower(str_replace(' ', '_', $name)),
             'photo' => $this->faker->imageUrl($width = 200, $height = 200)

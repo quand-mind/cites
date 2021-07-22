@@ -65,22 +65,12 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $values = $data->except(['photo']);
-
-        // Save picture
-        $path = $data->file('photo')->store('images');
-        $path = '/storage/' . $path;
-
-        $values['photo'] = $path;
-
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            // 'role' => $data['role'],
-            'role' => 'writer',
+            'role' => $data['role'],
             'username' => $data['username'],
             'is_active' => 1,
-            'photo' => $path,
             'password' => Hash::make($data['password']),
         ]);
     }

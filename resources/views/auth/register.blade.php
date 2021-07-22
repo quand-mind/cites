@@ -8,7 +8,7 @@
                 <div class="card-header">{{ __('Registro') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}" aria-label="{{ __('Register') }}">
+                    <form method="POST" enctype="multipart/form-data" action="{{ route('register') }}" aria-label="{{ __('Register') }}">
                         @csrf
 
                         <div class="form-group row">
@@ -81,27 +81,13 @@
                             <div class="col-md-6">
                                 <select id="role" class="form-control{{ $errors->has('role') ? ' is-invalid' : '' }}" name="role" required>
                                     <option value="" disabled selected>Seleccione</option> 
-                                    <option value="">Empresario</option> 
-                                    <option value="">Firma Personal</option> 
+                                    <option value="businessman">Empresario</option> 
+                                    <option value="business_firm">Firma Personal</option> 
                                 </select>
 
                                 @if ($errors->has('role'))
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $errors->first('role') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-                        
-                        <div class="form-group row">
-                            <label for="photo" class="col-md-4 col-form-label text-md-right">{{ __('Foto') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="photo" type="file" class="form-control-file{{ $errors->has('photo') ? ' is-invalid' : '' }}" name="photo" value="{{ old('photo') }}" required autofocus>
-
-                                @if ($errors->has('photo'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('photo') }}</strong>
                                     </span>
                                 @endif
                             </div>

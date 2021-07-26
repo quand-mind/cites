@@ -59,4 +59,12 @@ class User extends Authenticatable
     {
         return $this->role == 'writer';
     }
+    public function isPersonLegal()
+    {
+        return $this->role == 'perosna_juridica';
+    }
+    public function isNaturalPerson()
+    {
+        return $this->role == 'perosna_natural';
+    }
 }

@@ -50,5 +50,11 @@ class UsersTableSeeder extends Seeder
         User::factory()->count(50)->create([
             'role' => 'client'
         ]);
+        User::factory()->count(50)->create([
+            'role' => 'perosna_juridica'
+        ]);
+        User::factory()->count(50)->create([
+            'role' => 'persona_natural'
+        ]);
     }
 }

@@ -221,7 +221,7 @@ export default {
       "foto",
       "acciones"
     ],
-    roles: ["writer", "admin", "businessman", "business_firm"],
+    roles: ["writer", "admin", "perosna_juridica", "persona_natural"],
     tableData: [],
     options: {
       perPage: 10,

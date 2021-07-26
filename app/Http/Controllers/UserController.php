@@ -44,7 +44,7 @@ class UserController extends Controller
             'email' => 'required|unique:users|email',
             'is_active' => 'required|boolean',
             'photo' =>  'nullable|sometimes|mimes:jpeg,jpg,png|image|max:1024',
-            'role' => 'required|in:admin,writer,businessman,business_firm',
+            'role' => 'required|in:admin,writer,perosna_juridica,persona_natural',
             'password' => 'required|confirmed'
         ])) {
             if ($request->hasFile('photo')) {
@@ -109,7 +109,7 @@ class UserController extends Controller
             'email' => 'email',
             'is_active' => 'boolean',
             'photo' =>  'nullable|mimes:jpeg,jpg,png|image|max:2048',
-            'role' => 'in:admin,writer,businessman,business_firm'
+            'role' => 'in:admin,writer,perosna_juridica,persona_natural'
         ])) {
 
             if ($request->hasFile('photo')) {

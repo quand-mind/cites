@@ -53,7 +53,15 @@ class User extends Model
     {
         return $this->hasMany('App\Models\Survey');
     }
-
+    
+    public function officials()
+    {
+        return $this->hasMany(official::class);
+    }
+    public function clients()
+    {
+        return $this->hasMany(client::class);
+    }
     // methods
     public function isWriter()
     {

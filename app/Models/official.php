@@ -19,6 +19,12 @@ class official extends Authenticatable
         'user_id',
         'password'
     ];
+
+    public function users()
+    {
+        return $this->hasOne(Users::class);
+    }
+    
     /**
      * The attributes that should be hidden for arrays.
      *

@@ -17,29 +17,33 @@ class UsersTableSeeder extends Seeder
     {
         DB::table('users')->insert([
             'name'      => 'Admin',
-            'email'     => 'admin@mail.com',
+            'dni'       => '27647120'
+            /*'email'     => 'admin@mail.com',
             'password'  => bcrypt('admin123'),
             'username'  => 'admin',
-            'role'      => 'admin'
+            'role'      => 'admin',
+            'remember_token' => Str::random(10)*/
         ]);
 
         DB::table('users')->insert([
             'name'      => 'Super',
-            'email'     => 'superuser@mail.com',
+            'dni'       => '27647121'
+            /*'email'     => 'superuser@mail.com',
             'password'  => bcrypt('super123'),
             'username'  => 'superuser',
-            'role'      => 'superuser'
+            'role'      => 'superuser'*/
         ]);
 
         DB::table('users')->insert([
             'name'      => 'Writer Tester',
-            'email'     => 'writer@mail.com',
+            'dni'       => '27647122'
+            /*'email'     => 'writer@mail.com',
             'password'  => bcrypt('writer123'),
             'username'  => 'writertester',
-            'role'      => 'writer'
+            'role'      => 'writer'*/
         ]);
 
-        User::factory()->count(20)->create([
+        /*User::factory()->count(20)->create([
             'role' => 'writer'
         ]);
 
@@ -55,6 +59,6 @@ class UsersTableSeeder extends Seeder
         ]);
         User::factory()->count(50)->create([
             'role' => 'persona_natural'
-        ]);
+        ]);*/
     }
 }

@@ -19,24 +19,14 @@ class CreatePermitsTable extends Migration
             $table->string('means', 45);
             $table->string('permit_type');
             $table->string('frequent_processing');
-            $table->string('valid_until'); //es una fecha
+            $table->string('valid_until'); //es una fecha valido hasta
             $table->string('name', 45);
             $table->string('address', 250);
             $table->string('country', 60);
             $table->text('special_conditions', 500);
             $table->string('purpose', 60);
-            $table->bigInteger('code_stamp');
-            $table->string('name_scientific');
-            $table->string('name_common');
-            $table->string('decription', 250);
-            $table->bigInteger('qty');
-            $table->bigInteger('total');
-            $table->string('unity');
-            $table->string('country_origin');
-            $table->string('permit_no');
-            $table->string('date');
             $table->string('half_signature');
-            $table->string('issued_by');
+            $table->string('issued_by'); 
             $table->string('official_position');
             $table->string('palce');
             $table->string('date_permit');

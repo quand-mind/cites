@@ -16,6 +16,7 @@ class official extends Authenticatable
         'username',
         'email',
         'role',
+        'user_id',
         'password'
     ];
     /**
@@ -24,13 +25,10 @@ class official extends Authenticatable
      * @var array
      */
     
-    /*protected $hidden = [
+    protected $hidden = [
         'password', 'remember_token',
     ];
 
-    public function getAuthPassword(){
-        return $this->password;
-    }*/
 
     public function isWriter()
     {

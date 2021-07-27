@@ -19,6 +19,7 @@ class CreateOfficialsTable extends Migration
             $table->string('email')->unique();
             $table->enum('role', ['admin', 'writer', 'superuser']);
             $table->string('password');
+            $table->foreignId('user_id')->constrained();
             $table->rememberToken();
             $table->timestamps();
         });

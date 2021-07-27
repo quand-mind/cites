@@ -15,23 +15,35 @@ class CreatePermitsTable extends Migration
     {
         Schema::create('permits', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('permit_no');
+            $table->bigInteger('request_permit_no');
             $table->string('means', 45);
             $table->string('permit_type');
             $table->string('frequent_processing');
-            $table->string('valid until'); //es una fecha
-            $table->string('name_import', 45);
-            $table->string('address_import', 250);
-            $table->string('country_import', 60);
-            $table->string('code_country_import', 60);
-            $table->string('name_export', 45);
-            $table->string('address_export', 250);
-            $table->string('country_export', 60);
-            $table->string('code_country_export', 60);
+            $table->string('valid_until'); //es una fecha
+            $table->string('name', 45);
+            $table->string('address', 250);
+            $table->string('country', 60);
             $table->text('special_conditions', 500);
             $table->string('purpose', 60);
             $table->bigInteger('code_stamp');
-            $table->bigInteger('code_stamp');
+            $table->string('name_scientific');
+            $table->string('name_common');
+            $table->string('decription', 250);
+            $table->bigInteger('qty');
+            $table->bigInteger('total');
+            $table->string('unity');
+            $table->string('country_origin');
+            $table->string('permit_no');
+            $table->string('date');
+            $table->string('half_signature');
+            $table->string('issued_by');
+            $table->string('official_position');
+            $table->string('palce');
+            $table->string('date_permit');
+            $table->string('permit_cancele');
+            $table->string('observations');
+            $table->string('port', null);
+            $table->string('departure_date', null);
             $table->timestamps();
         });
     }

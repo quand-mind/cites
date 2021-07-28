@@ -381,7 +381,7 @@ export default {
               }
             })
             .then(res => {
-              setTimeout(() => window.location.reload(), 3000000);
+              setTimeout(() => window.location.reload(), 300);
             })
           }
         })

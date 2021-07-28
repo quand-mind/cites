@@ -1,5 +1,7 @@
 <?php
 
+
+use App\Http\Controllers\SetPasswordController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -238,8 +240,14 @@ Route::get('/header-images', 'HeaderImageController@show');
 // Aside
 Route::get('/aside-images', 'AsideImageController@show');
 
+Route::post('/sendEmail', [SetPasswordController::class, 'sendEmail']);
+Route::get('/setPassword/{token}', [SetPasswordController::class, 'showSetPasswordForm'])->name('set.password.get');
+Route::post('/setPasswordSubmit', [SetPasswordController::class, 'submitSetPasswordForm'])->name('set.password.submit');
+
 // Frontend pages controller
 Route::get('/{slug?}', 'PageController@show');
 
 // Frontend pages controller
 Route::get('/{slug}/{subpage}', 'PageController@showSubPage');
+
+

@@ -5,13 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
-
 
 class UserController extends Controller
 {
-
-    use SendsPasswordResetEmails;
     /**
      * Display a listing of the resource.
      *
@@ -67,15 +63,14 @@ class UserController extends Controller
             try {
                 $values['password'] = \bcrypt($values['password']);
                 User::create($values);
-                return response('Usuario creado', 200);
-
             } catch (Exception $err) {
                 return response($err->getMessage(), 500);
             }
+
+            return response('Usuario creado', 200);
         }
     }
-    
-    
+
     /**
      * Display the specified resource.
      *

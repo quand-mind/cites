@@ -15,7 +15,7 @@ class OfficialsTableSeeder extends Seeder
      */
     public function run()
     {
-        /*DB::table('officials')->insert([
+        DB::table('officials')->insert([
             //'name'      => 'Admin',
             //'dni'       => '27647120'
             'email'     => 'admin@mail.com',
@@ -44,7 +44,7 @@ class OfficialsTableSeeder extends Seeder
             'role'      => 'writer',
             'user_id'   => 3,
             'remember_token' => Str::random(10)
-        ]);*/
+        ]);
         DB::table('clients')->insert([
             //'name'      => 'Admin',
             //'dni'       => '27647120'

@@ -8,20 +8,23 @@ class CreateForeignKeys extends Migration
     public function up()
     {
         Schema::table('chatter_discussion', function (Blueprint $table) {
-            $table->foreign('chatter_category_id')->references('id')->on('chatter_categories')
+            $table->foreignId('chatter_category_id')->references('id')->on('chatter_categories')
                         ->onDelete('cascade')
                         ->onUpdate('cascade');
-            $table->foreign('user_id')->references('id')->on('users')
+            /*$table->foreign('user_id')->references('id')->on('users')
                         ->onDelete('cascade')
-                        ->onUpdate('cascade');
+                        ->onUpdate('cascade');*/
+            
+            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
         });
         Schema::table('chatter_post', function (Blueprint $table) {
-            $table->foreign('chatter_discussion_id')->references('id')->on('chatter_discussion')
+            $table->foreignId('chatter_discussion_id')->references('id')->on('chatter_discussion')
                         ->onDelete('cascade')
                         ->onUpdate('cascade');
-            $table->foreign('user_id')->references('id')->on('users')
+            /*$table->foreign('user_id')->references('id')->on('users')
                         ->onDelete('cascade')
-                        ->onUpdate('cascade');
+                        ->onUpdate('cascade');*/
+            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

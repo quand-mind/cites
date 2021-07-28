@@ -2,8 +2,6 @@
 
 
 use App\Http\Controllers\SetPasswordController;
-use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\Auth\LoginController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -88,11 +86,6 @@ Route::group(['prefix' => 'recursos'], function () {
 // });
 
 Auth::routes();
-Route::get('/loginAdmin', 'Auth\LoginController@showLoginForm')->name('loginAdmin');
-Route::post('/loginAdmin', 'Auth\LoginController@loginAdmin');
-Route::get('/logoutAdmin', 'Auth\LoginController@logout')->name('logoutAdmin');
-// Route::get('/register', [RegisterController::class,'showRegistrationForm'])->name('register');
-// Route::post('/register', [RegisterController::class,'register']);
 
 Route::get('/home', 'HomeController@index')->name('home');
 

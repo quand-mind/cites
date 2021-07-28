@@ -17,13 +17,14 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->enum('role', ['admin', 'writer', 'superuser', 'client', 'businessman', 'business_firm']);
-            $table->string('email')->unique();
-            $table->string('password');
+            $table->bigInteger('dni')->unique();
+            //$table->enum('role', ['admin', 'writer', 'superuser', 'perosna_juridica', 'persona_natural']);
+            //$table->string('email')->unique();
+            //$table->string('password');
             $table->boolean('is_active')->default(true);
-            $table->string('username');
+           // $table->string('username');
             $table->string('photo')->default('/images/default-user.png');
-            $table->rememberToken();
+            //$table->rememberToken();
             $table->timestamps();
         });
     }

@@ -14,7 +14,7 @@ class CreateLegalFilesTable extends Migration
     public function up()
     {
         Schema::create('legal_files', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->string('name', 255);
             $table->text('description');
             $table->unsignedTinyInteger('file_order');

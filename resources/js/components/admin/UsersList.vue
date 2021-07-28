@@ -170,8 +170,9 @@
             ></b-form-input>
           </b-form-group>
 
-          <!--b-form-group label="Contraseña:" label-for="input-2">
+          <b-form-group label="Contraseña:" label-for="input-2" style="display: none">
             <b-form-input
+              style="display: none"
               v-model="createForm.password"
               required
               type="password"
@@ -179,14 +180,15 @@
             ></b-form-input>
           </b-form-group>
 
-          <b-form-group label="Repita la contraseña:" label-for="input-2">
+          <b-form-group label="Repita la contraseña:" label-for="input-2" style="display: none">
             <b-form-input
+              style="display: none"
               v-model="createForm.password_confirmation"
               required
               type="password"
               placeholder="********"
             ></b-form-input>
-          </b-form-group-->
+          </b-form-group>
 
           <b-form-group label="Rol:" label-for="input-3">
             <b-form-select v-model="createForm.role" :options="roles" required></b-form-select>
@@ -373,7 +375,14 @@ export default {
           if (res.status === 200) {
             _this.makeToast(res.data);
             _this.hideEditModal();
-            setTimeout(() => window.location.reload(), 300);
+            axios.post(`/sendEmail`, form, {
+              headers: {
+                "Content-Type": "multipart/form-data"
+              }
+            })
+            .then(res => {
+              setTimeout(() => window.location.reload(), 3000000);
+            })
           }
         })
         .catch(err => {

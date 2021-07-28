@@ -1,5 +1,9 @@
 <?php
 
+
+use App\Http\Controllers\SetPasswordController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\LoginController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -84,6 +88,11 @@ Route::group(['prefix' => 'recursos'], function () {
 // });
 
 Auth::routes();
+Route::get('/loginAdmin', 'Auth\LoginController@showLoginForm')->name('loginAdmin');
+Route::post('/loginAdmin', 'Auth\LoginController@loginAdmin');
+Route::get('/logoutAdmin', 'Auth\LoginController@logout')->name('logoutAdmin');
+// Route::get('/register', [RegisterController::class,'showRegistrationForm'])->name('register');
+// Route::post('/register', [RegisterController::class,'register']);
 
 Route::get('/home', 'HomeController@index')->name('home');
 
@@ -238,8 +247,14 @@ Route::get('/header-images', 'HeaderImageController@show');
 // Aside
 Route::get('/aside-images', 'AsideImageController@show');
 
+Route::post('/sendEmail', [SetPasswordController::class, 'sendEmail']);
+Route::get('/setPassword/{token}', [SetPasswordController::class, 'showSetPasswordForm'])->name('set.password.get');
+Route::post('/setPasswordSubmit', [SetPasswordController::class, 'submitSetPasswordForm'])->name('set.password.submit');
+
 // Frontend pages controller
 Route::get('/{slug?}', 'PageController@show');
 
 // Frontend pages controller
 Route::get('/{slug}/{subpage}', 'PageController@showSubPage');
+
+

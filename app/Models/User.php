@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Cviebrock\EloquentSluggable\Sluggable;
 
-class User extends Authenticatable
+class User extends Model
 {
-    use Notifiable;
+    
     use HasFactory;
 
     /**
@@ -17,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'username', 'is_active', 'photo', 'role'
+        'name', 'dni', 'is_active', 'photo'
     ];
 
     /**
@@ -25,9 +25,9 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $hidden = [
+    /*protected $hidden = [
         'password', 'remember_token',
-    ];
+    ];*/
 
     public function questionsAnswered()
     {
@@ -53,10 +53,26 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Models\Survey');
     }
-
+    
+    public function officials()
+    {
+        return $this->hasMany(official::class);
+    }
+    public function clients()
+    {
+        return $this->hasMany(client::class);
+    }
     // methods
     public function isWriter()
     {
         return $this->role == 'writer';
+    }
+    public function isPersonLegal()
+    {
+        return $this->role == 'perosna_juridica';
+    }
+    public function isNaturalPerson()
+    {
+        return $this->role == 'perosna_natural';
     }
 }

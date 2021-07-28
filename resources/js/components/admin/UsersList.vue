@@ -170,9 +170,8 @@
             ></b-form-input>
           </b-form-group>
 
-          <b-form-group label="Contraseña:" label-for="input-2" style="display: none">
+          <!--b-form-group label="Contraseña:" label-for="input-2">
             <b-form-input
-              style="display: none"
               v-model="createForm.password"
               required
               type="password"
@@ -180,15 +179,14 @@
             ></b-form-input>
           </b-form-group>
 
-          <b-form-group label="Repita la contraseña:" label-for="input-2" style="display: none">
+          <b-form-group label="Repita la contraseña:" label-for="input-2">
             <b-form-input
-              style="display: none"
               v-model="createForm.password_confirmation"
               required
               type="password"
               placeholder="********"
             ></b-form-input>
-          </b-form-group>
+          </b-form-group-->
 
           <b-form-group label="Rol:" label-for="input-3">
             <b-form-select v-model="createForm.role" :options="roles" required></b-form-select>
@@ -223,7 +221,7 @@ export default {
       "foto",
       "acciones"
     ],
-    roles: ["writer", "admin", "businessman", "business_firm"],
+    roles: ["writer", "admin", "perosna_juridica", "persona_natural"],
     tableData: [],
     options: {
       perPage: 10,

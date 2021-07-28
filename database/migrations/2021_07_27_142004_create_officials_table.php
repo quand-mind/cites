@@ -19,7 +19,7 @@ class CreateOfficialsTable extends Migration
             $table->string('email')->unique();
             $table->enum('role', ['admin', 'writer', 'superuser']);
             $table->string('password');
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->rememberToken();
             $table->timestamps();
         });

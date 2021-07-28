@@ -19,7 +19,7 @@ class CreateClientsTable extends Migration
             $table->string('email')->unique();
             $table->enum('role', ['persona_juridica', 'persona_natural']);
             $table->string('password');
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->rememberToken();
             $table->timestamps();
         });

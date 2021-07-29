@@ -87,6 +87,8 @@ Route::group(['prefix' => 'recursos'], function () {
 
 Auth::routes();
 
+Route::get('/loginAdmin', 'Auth\AdminLoginController@showLoginForm')->name('loginAdmin');
+
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::middleware(['auth', 'panel.auth'])->group(function () {

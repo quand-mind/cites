@@ -23,5 +23,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
  */
 
 Route::post('/login', [AuthController::class, 'login']);
-Route::get('/user', [AuthController::class, 'user']);
-Route::get('/logout', [AuthController::class, 'logout']);
+Route::group(['middleware' => 'jwt.verify'], function() {
+    Route::get('/user', [AuthController::class, 'user']);
+    Route::get('/logout', [AuthController::class, 'logout']);
+});

@@ -26,13 +26,13 @@ class CreatePagesTable extends Migration
             $table->unsignedInteger('menu_order')->nullable();
             //$table->unsignedInteger('created_by');
             //$table->unsignedInteger('lastModified_by');
-            //$table->unsignedInteger('main_page')->nullable();
+            $table->unsignedInteger('main_page')->nullable();
             $table->timestamps();
 
             $table->foreignId('created_by')->references('id')->on('users')->onDelete('cascade');
             $table->foreignId('lastModified_by')->references('id')->on('users')->onDelete('cascade');
 
-            $table->foreignId('main_page')->references('id')->on('pages');
+            // $table->foreignId('main_page')->references('id')->on('pages')->nullable();
         });
     }
 

@@ -18,4 +18,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/login', [AuthController::class, 'authenticate']);
+/**
+ *  rutas para el login y logout de los clientes
+ */
+
+Route::post('/login', [AuthController::class, 'login']);
+Route::get('/user', [AuthController::class, 'user']);
+Route::get('/logout', [AuthController::class, 'logout']);

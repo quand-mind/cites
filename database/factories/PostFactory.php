@@ -22,7 +22,7 @@ class PostFactory extends Factory {
         return [
             'title' => $this->faker->unique()->realText($maxNbChars = 50, $indexSize = 1),
             'publish_date' => $this->faker->dateTime($max = 'now', $timezone = null),
-            'author_id' => rand(3, 8),
+            'author_id' => rand(1, 3),
             'content' => $this->faker->realText($maxNbChars = 300, $indexSize = 2)
         ];
     }

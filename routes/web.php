@@ -89,7 +89,7 @@ Auth::routes();
 
 Route::get('/loginAdmin', 'Auth\AdminLoginController@showLoginForm')->name('loginAdmin');
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home')->middleware('jwt.verify');
 
 Route::middleware(['auth', 'panel.auth'])->group(function () {
     Route::group(['prefix' => 'dashboard'], function () {

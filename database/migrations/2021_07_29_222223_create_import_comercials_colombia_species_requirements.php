@@ -16,15 +16,15 @@ class CreateImportComercialsColombiaSpeciesRequirements extends Migration
         Schema::create('import_comercials_colombia_species_requirements', function (Blueprint $table) {
             $table->id();
             $table->string('export_permit_file_url');
-            $table->bolean('is_valid_export_permit');
+            $table->boolean('is_valid_export_permit');
             $table->string('export_permit_errors')->nullable();
 
             $table->string('comercial_agreements_file_url');
-            $table->bolean('is_valid_comercial_agreements');
+            $table->boolean('is_valid_comercial_agreements');
             $table->string('comercial_agreements_errors')->nullable();
 
             $table->string('ambiental_license_file_url');
-            $table->bolean('is_valid_ambiental_license');
+            $table->boolean('is_valid_ambiental_license');
             $table->string('ambiental_license_errors')->nullable();
             
             $table->timestamps();

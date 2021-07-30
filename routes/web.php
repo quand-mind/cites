@@ -87,7 +87,7 @@ Route::group(['prefix' => 'recursos'], function () {
 
 Auth::routes();
 
-Route::get('/loginAdmin', 'Auth\AdminLoginController@showLoginForm')->name('loginAdmin');
+Route::get('/loginPermissions', 'Auth\PermissionsLoginController@showLoginForm')->name('loginPermissions');
 
 Route::get('/home', 'HomeController@index')->name('home')->middleware('jwt.verify');
 

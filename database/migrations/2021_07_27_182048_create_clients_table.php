@@ -26,27 +26,27 @@ class CreateClientsTable extends Migration
 
             // Cédula
             $table->string('dni_file_url');
-            $table->bolean('is_valid_dni');
+            $table->boolean('is_valid_dni');
             $table->string('dni_errors')->nullable();
 
             // RIF
             $table->string('rif_file_url');
-            $table->bolean('is_valid_rif');
+            $table->boolean('is_valid_rif');
             $table->string('rif_errors')->nullable();
             
             // Licencia de comerico de especies
             $table->string('comerce_species_license_file_url')->nullable();
-            $table->bolean('is_valid_comerce_species_license')->nullable();
+            $table->boolean('is_valid_comerce_species_license')->nullable();
             $table->string('comerce_species_license_errors')->nullable();
 
             //  Autorización para la instalación y funcionamiento de Zoocriaderos
             $table->string('zoo_hatcheries_authorization_file_url')->nullable();
-            $table->bolean('is_valid_zoo_hatcheries_authorization')->nullable();
+            $table->boolean('is_valid_zoo_hatcheries_authorization')->nullable();
             $table->string('zoo_hatcheries_authorization_errors')->nullable();
 
             // Registro Nacional de Colecciones Biologicas
             $table->string('national_register_of_biologic_colections_file_url');
-            $table->bolean('is_valid_national_register_of_biologic_colections');
+            $table->boolean('is_valid_national_register_of_biologic_colections');
             $table->string('national_register_of_biologic_colections_errors')->nullable();
 
             $table->timestamps();

@@ -16,7 +16,7 @@ class CreateAccessToGeneticResourceAnimalsRequirements extends Migration
         Schema::create('access_to_genetic_resource_animals_requirements', function (Blueprint $table) {
             $table->id();
             $table->string('subscription_document_file_url');
-            $table->bolean('is_valid_subscription_document');
+            $table->boolean('is_valid_subscription_document');
             $table->string('subscription_document_errors')->nullable();
 
             

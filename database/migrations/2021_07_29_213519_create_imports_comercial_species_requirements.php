@@ -16,31 +16,31 @@ class CreateImportsComercialSpeciesRequirements extends Migration
         Schema::create('imports_comercial_species_requirements', function (Blueprint $table) {
             $table->id();
             $table->string('import_form_file_url');
-            $table->bolean('is_valid_import_form');
+            $table->boolean('is_valid_import_form');
             $table->string('import_form_errors')->nullable();
 
             $table->string('revenue_stamps_file_url');
-            $table->bolean('is_valid_revenue_stamps');
+            $table->boolean('is_valid_revenue_stamps');
             $table->string('revenue_stamps_errors')->nullable();
 
             $table->string('dni_file_url');
-            $table->bolean('is_valid_dni');
+            $table->boolean('is_valid_dni');
             $table->string('dni_errors')->nullable();
 
             $table->string('rif_file_url');
-            $table->bolean('is_valid_rif');
+            $table->boolean('is_valid_rif');
             $table->string('rif_errors')->nullable();
             
             $table->string('zoo_hatcheries_authorization_file_url');
-            $table->bolean('is_valid_zoo_hatcheries_authorization');
+            $table->boolean('is_valid_zoo_hatcheries_authorization');
             $table->string('zoo_hatcheries_authorization_errors')->nullable();
 
             $table->string('comerce_species_license_file_url');
-            $table->bolean('is_valid_comerce_species_license');
+            $table->boolean('is_valid_comerce_species_license');
             $table->string('comerce_species_license_errors')->nullable();
 
             $table->string('species_legal_documents_file_url');
-            $table->bolean('is_valid_species_legal_documents');
+            $table->boolean('is_valid_species_legal_documents');
             $table->string('species_legal_documents_errors')->nullable();
             
             $table->foreignId('client_id')->references('id')->on('clients')->onDelete('cascade');

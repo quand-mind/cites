@@ -91,6 +91,15 @@ Route::get('/loginAdmin', 'Auth\AdminLoginController@showLoginForm')->name('logi
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::group(['prefix' => 'permissions'], function () {
+    Route::get('/', 'AuthorizationController@index');
+
+    // Authorizations Routes
+    Route::get('/authorizations', 'AuthorizationController@index');
+    Route::post('/authorizations/createZoo', 'AuthorizationController@storeZoo');
+    Route::post('/authorizations/createNurseries', 'AuthorizationController@storeNurseries');
+});
+
 Route::middleware(['auth', 'panel.auth'])->group(function () {
     Route::group(['prefix' => 'dashboard'], function () {
         Route::get('/', 'DashboardController@index');
@@ -148,7 +157,6 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         Route::post('/question/changeStatus/{id}', 'QuestionController@changeStatus');
 
         Route::delete('/questions/{id}', 'QuestionController@destroy');
-
 
         // Surveys Routes
         Route::get('/surveys', 'SurveyController@index');

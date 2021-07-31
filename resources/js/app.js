@@ -135,6 +135,8 @@ Vue.component("cabecera", require("./components/Cabecera.vue").default);
 
 Vue.component("authorizations-list", require("./components/permissions/AuthorizationsList.vue").default);
 
+Vue.component("permissions-list", require("./components/permissions/PermissionsList.vue").default);
+
 Vue.component("navi", require("./components/Nav.vue").default);
 
 Vue.component("navmobile", require("./components/Nav-mobile.vue").default);

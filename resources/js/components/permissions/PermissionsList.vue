@@ -1,13 +1,13 @@
 <template>
   <div>
     <div class="caja bg-light p-2 my-2">
-      <h1>Autorizaciones</h1>
-      <h4 class="ml-4">Realice la solicitud para la aprobación de autorizaciones.</h4>
+      <h1>Permisos</h1>
+      <h4 class="ml-4">Realice la solicitud para la aprobación de permisos MINEC.</h4>
 
 
       <ul class="list-group mt-4">
         <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-          Autorización para la instalación y funcionamiento de Zoocriaderos
+           Permiso de exportación de especies de la fauna silvestre vivas, muertas o de sus productos no incluida en los apéndices de la Convención sobre el Comercio Internacional de Especies Amenazadas de Fauna y Flora Silvestres (CITES) con fines comerciales
           <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#collapseNurseries" aria-expanded="false" aria-controls="collapseNurseries">
             Recaudos
           </button>

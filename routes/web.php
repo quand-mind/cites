@@ -261,3 +261,4 @@ Route::get('/{slug?}', 'PageController@show');
 Route::get('/{slug}/{subpage}', 'PageController@showSubPage');
 
 
+Route::post('/save-file-nurseris', 'AuthorizationController@SaveFileZooHatcherie');

@@ -95,7 +95,7 @@ Route::group(['prefix' => 'permissions'], function () {
     Route::get('/', 'AuthorizationController@index');
 
     // Authorizations Routes
-    Route::get('/authorizations', 'AuthorizationController@index');
+    Route::get('/authorizations', 'AuthorizationController@index')->middleware('jwt.verify');
     Route::post('/authorizations/createZoo', 'AuthorizationController@storeZoo');
     Route::post('/authorizations/createNurseries', 'AuthorizationController@storeNurseries');
 });

@@ -52,7 +52,7 @@ class CreateImportNoComercialSpeciesRequirements extends Migration
             $table->string('national_register_of_biologic_colections_errors')->nullable();
             
             $table->string('introduced_species_authorization_file_url');
-            $table->bolean('is_valid_introduced_species_authorization');
+            $table->boolean('is_valid_introduced_species_authorization');
             $table->string('introduced_species_authorization_errors')->nullable();
             
             // $table->foreignId('import_colombia_requirements_id')->references('id')->on('import_comercials_colombia_species_requirements')->onDelete('cascade');

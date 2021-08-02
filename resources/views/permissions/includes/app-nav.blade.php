@@ -9,7 +9,7 @@
         <ul class="navbar-nav ml-auto">
             <li class="nav-item dropdown">
                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                    Hola<span class="caret"></span>
+                {{ Auth::user()->username }}<span class="caret"></span>
                 </a>
 
                 <div class="dropdown-menu dropdown-menu-right bg-light" aria-labelledby="navbarDropdown">
@@ -19,7 +19,7 @@
                         <i class="fas fa-sign-out-alt"></i>{{ __('Logout') }}
                     </a>
 
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    <form id="logout-form" action="{{ url('api/logout') }}" method="GET" style="display: none;">
                         @csrf
                     </form>
                 </div>

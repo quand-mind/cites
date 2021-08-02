@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use App\Models\client;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -23,8 +24,8 @@ class AuthController extends Controller
       } catch (JWTException $e) {
           return response()->json(['error' => 'could_not_create_token'], 500);
       }
-      //return response()->json(compact('token'));
-      return view('home', compact('token'));
+      //return response()->json($token)
+      return Redirect::to('home')->header('Authorization', 'bearer '."$token");
     }
 
     public function user()

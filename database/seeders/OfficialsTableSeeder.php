@@ -40,21 +40,14 @@ class OfficialsTableSeeder extends Seeder
             'remember_token' => Str::random(10)
         ]);
         
-        official::factory()->count(20)->create([
+        official::factory()->count(10)->create([
             'role' => 'writer'
         ]);
 
-        official::factory()->count(5)->create([
+        official::factory()->count(10)->create([
             'role' => 'admin'
         ]);
 
-        /*DB::table('clients')->insert([
-            
-            'email'     => 'client@mail.com',
-            'password'  => bcrypt('client123'),
-            'username'  => 'client',
-            'role'      => 'persona_natural',
-            'user_id'   => 1,
-        ]);*/
+        
     }
 }

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\permit;
+use App\Models\species;
 use App\Models\CommercialNurseriesRequirement;
 
 class AuthorizationController extends Controller
@@ -47,7 +47,7 @@ class AuthorizationController extends Controller
             $nurseries->is_valid_plane = FALSE;
             $nurseries->property_file_url = $rutaPropertyFile;
             $nurseries->is_valid_property_file = FALSE;
-            $nurseries->client_id = FALSE;
+            $nurseries->client_id = 1;
             $nurseries->save();
             
 
@@ -55,7 +55,7 @@ class AuthorizationController extends Controller
 
         public function createPermits(Request $request){
 
-            if($request->validate(
+            /*if($request->validate(
                 [
                     'request_permit_no' => 'required',
                     'means' => 'required',
@@ -67,8 +67,12 @@ class AuthorizationController extends Controller
                     'half_signature' => 'required',
                     'official_position' => 'required',
                 ]   
-            )){
-                
+            )){*/
+            
+            $consulta = DB::table('species')
+                        ->where('name_scientific'., '=',  $request->input('name_scientific'))
+            if($consulata = TRUE){
+                return response()->json(['message' =>'la especie ya existes']);
             }
 
         }

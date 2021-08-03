@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\permit;
 use App\Models\CommercialNurseriesRequirement;
 
 class AuthorizationController extends Controller
@@ -52,33 +53,24 @@ class AuthorizationController extends Controller
 
         }
 
-        /*if($request->hasFile("revenue_stamps_file")){
-            $file2=$request->file("revenue_stamps_file");
-            $nameRevenueStampsFile = "revenue_stamps_file_".time().".".$file2->guessExtension();
-            $rutaRevenueStampsFile = \public_path(" permissions_files/".$nameRevenueStampsFile);
-        }
+        public function createPermits(Request $request){
 
-        if($request->hasFile("proyect_file")){
-            $file3=$request->file("proyect_file");
-            $nameProyectFile = "proyect_file_".time().".".$file3->guessExtension();
-            $rutaProyectFile = \public_path(" permissions_files/".$nameProyectFile);
-        }
+            if($request->validate(
+                [
+                    'request_permit_no' => 'required',
+                    'means' => 'required',
+                    'permit_type' => 'required',
+                    'name' => 'required',
+                    'address' => 'required',
+                    'country' => 'required',
+                    'purpose' => 'required',
+                    'half_signature' => 'required',
+                    'official_position' => 'required',
+                ]   
+            )){
+                
+            }
 
-        if($request->hasFile("plane_file")){
-            $file4=$request->file("plane_file");
-            $namePlaneFile = "plane_file_".time().".".$file4->guessExtension();
-            $rutaPlaneFile = \public_path(" permissions_files/".$namePlaneFile);
         }
-        if($request->hasFile("plane_file")){
-            $file4=$request->file("plane_file");
-            $namePlaneFile = "plane_file_".time().".".$file4->guessExtension();
-            $rutaPlaneFile = \public_path(" permissions_files/".$namePlaneFile);
-        }
-        if($request->hasFile("property_file")){
-            $file5=$request->file("property_file");
-            $namePropertyFile = "property_file_".time().".".$file5->guessExtension();
-            $rutaPropertyFile = \public_path(" permissions_files/".$namePropertyFile);
-        }*/
-
     }
 }

@@ -39,11 +39,12 @@ class CreateReexportComercialSpeciesRequirements extends Migration
             $table->boolean('is_valid_comerce_species_license');
             $table->string('comerce_species_license_errors')->nullable();
 
-            $table->string('species_legal_documents_file_url');
             $table->boolean('is_valid_species_legal_documents');
             $table->string('species_legal_documents_errors')->nullable();
             
             $table->foreignId('client_id')->references('id')->on('clients')->onDelete('cascade');
+
+            $table->foreignId('permit_id')->references('id')->on('permits')->onDelete('cascade');
             $table->timestamps();
         });
     }

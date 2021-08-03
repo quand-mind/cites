@@ -39,7 +39,6 @@ class CreateImportNoComercialSpeciesRequirements extends Migration
             $table->boolean('is_valid_park_authorization');
             $table->string('park_authorization_errors')->nullable();
 
-            $table->string('species_legal_documents_file_url');
             $table->boolean('is_valid_species_legal_documents');
             $table->string('species_legal_documents_errors')->nullable();
 
@@ -55,10 +54,9 @@ class CreateImportNoComercialSpeciesRequirements extends Migration
             $table->bolean('is_valid_introduced_species_authorization');
             $table->string('introduced_species_authorization_errors')->nullable();
             
-            // $table->foreignId('import_colombia_requirements_id')->references('id')->on('import_comercials_colombia_species_requirements')->onDelete('cascade');
-            
-            // $table->foreignId('access_genetic_resource_requirements_id')->references('id')->on('access_to_genetic_resource_animals_requirements')->onDelete('cascade');
             $table->foreignId('client_id')->references('id')->on('clients')->onDelete('cascade');
+            
+            $table->foreignId('permit_id')->references('id')->on('permits')->onDelete('cascade');
             $table->timestamps();
         });
     }

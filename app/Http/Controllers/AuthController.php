@@ -25,7 +25,7 @@ class AuthController extends Controller
           return response()->json(['error' => 'could_not_create_token'], 500);
       }
       //return response()->json($token)
-      return Redirect::to('home')->header('Authorization', 'bearer '."$token");
+      return response()->view('permissions.authorizations')->header('Authorization', 'bearer '."$token");
     }
 
     public function user()

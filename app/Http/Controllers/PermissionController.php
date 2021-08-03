@@ -10,4 +10,9 @@ class PermissionController extends Controller
     {
         return view('permissions.permissions');
     }
+
+    public function showComercialExportSpecies()
+    {
+        return view('permissions.requirements.comercial_export_species_requirements');
+    }
 }

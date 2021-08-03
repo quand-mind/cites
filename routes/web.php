@@ -101,6 +101,7 @@ Route::group(['prefix' => 'permissions'], function () {
 
     // Permissions Routes
     Route::get('/list', 'PermissionController@index');
+    Route::get('/comercialExportSpecies/requirements', 'PermissionController@showComercialExportSpecies');
     // Route::post('//create', 'AuthorizationController@storeZoo');
 });
 

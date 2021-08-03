@@ -8,42 +8,118 @@
       <ul class="list-group mt-4">
         <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
            Permiso de exportación de especies de la fauna silvestre vivas, muertas o de sus productos no incluida en los apéndices de la Convención sobre el Comercio Internacional de Especies Amenazadas de Fauna y Flora Silvestres (CITES) con fines comerciales
-          <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#collapseNurseries" aria-expanded="false" aria-controls="collapseNurseries">
+          <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#collapseComercialExports" aria-expanded="false" aria-controls="collapseComercialExports">
             Recaudos
           </button>
         </li>
-        <div class="collapse" id="collapseNurseries">
+        <div class="collapse" id="collapseComercialExports">
           <div class="card card-body">
             <div class="d-flex">
               <h6>Lista de Recaudos:</h6>
             </div>
             <ul class=" mt-4">
-              <li class="">Datos de la <b>persona natural solicitante</b> (Nombre, apellido, número de cedula, número de RIF. dirección, número de teléfono (fijo y celular) y correo electrónico), datos de la <b>persona jurídica solicitante</b> (Nombre del propietario, número de RIF, dirección, número de teléfono (fijo y celular) y correo electrónico.</li>
+              <li class="">Planilla de solicitud Exportación de Fauna Silvestre y/o sus productos (disponible en <a href="http://www.minec.gob.ve/" target="blank">minec.gob.ve</a> ).</li>
               <li class="">Timbres fiscales por <b>2</b> unidades tributarias.</li>
-              <li class="">Proyecto para la instalación y funcionamiento del zoocriaderos Indispensable, debe incluir:
+              <li class="" v-if="!is_valid_dni">Cédula de identidad.</li>
+              <li class="" v-if="!is_valid_rif">Registro Único de Información Fiscal RIF.</li>
+              <li class="">Documentos demostrativos de la legalidad de la procedencia de los animales silvestres y/o de sus productos, dependiendo del caso, seleccionar uno o varios si aplican.
                 <ul>
-                  <li>Tipo y modalidad de actividad de zoocría</li>
-                  <li>Nombre científico de la(s) especie(s) o taxón mayor a criar</li>
-                  <li>Biología de las especies</li>
-                  <li>Dirección y coordenadas UTM, Datum REGVEN, para la localización del Zoocriadero solicitante</li>
-                  <li>Descripción del patrón tecnológico</li>
-                  <li>Protocolos de manejo, alimentación y sanitario de los ejemplares</li>
-                  <li>Descripción de las instalaciones</li>
-                  <li>Plano descriptivo de las instalaciones definiendo sus dimensiones</li>
+                  <li>Permiso de Importación emitido por el MINEC.</li>
+                  <li>Factura de compra venta de los animales y/o productos a exportar, con fines mercantiles.</li>
+                  <li>Documento(s) de traspaso notariado.</li>
+                  <li>Guía(s) de Movilización (es) de canje y guía(s) de movilización canjeada(s), para pieles de la especie silvestre Hydrochoerus hydrochaeris (Chigüire) y otras especies silvestres con aprovechamientos comerciales similares.</li>
+                  <li>Autorización para curtir pieles de la especie silvestre Hydrochoerus hydrochaeris (Chigüire) y otras especies silvestres con aprovechamientos comerciales similares.</li>
+                  <li>Guía(s) de Movilización (es) de canje y guía(s) de movilización canjeada(s), para productos de especies silvestres distintas a las anteriores, con aprovechamientos comerciales diferentes.</li>
+                  <li>Actas de inspección de animales silvestres y/o sus productos a exportar.</li>
+                  <li>Informe(s) parcial(es) o total(es) de inspección(es) y/o de inventario(s) de los productos almacenados.</li>
+                  <li>Informe(s) más reciente de inspección(es) y/o de inventario(s) de los animales por cada especie silvestre cautiva en el zoocriadero.</li>
                 </ul>
               </li>
-              <li class="">Porta ac consectetur ac</li>
-              <li class="">Vestibulum at eros</li>
+              <li class="" v-if="!is_valid_comerce_species_license">Licencia para ejercer el comercio o industria de animales silvestres vivos, muertos y de sus productos, emitido por el MINEC.</li>
+              <li class="" v-if="!is_valid_zoo_hatcheries_authorization">Autorización para la instalación y funcionamiento de Zoocriaderos con fines comerciales, emitido por el MINEC.</li>
             </ul>
             <div class="w-100 d-flex justify-content-end align-items-center">
               <button class="btn btn-primary">Solicitar Autorización</button>
             </div>
           </div>
         </div>
-        <li class="list-group-item list-group-item-action">Dapibus ac facilisis in</li>
-        <li class="list-group-item list-group-item-action">Morbi leo risus</li>
-        <li class="list-group-item list-group-item-action">Porta ac consectetur ac</li>
-        <li class="list-group-item list-group-item-action">Vestibulum at eros</li>
+
+        <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+           Permiso de importación de especies de la fauna silvestre vivas, muertas o de sus productos con fines comerciales
+          <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#collapseComercialImport" aria-expanded="false" aria-controls="collapseComercialImport">
+            Recaudos
+          </button>
+        </li>
+        <div class="collapse" id="collapseComercialImport">
+          <div class="card card-body">
+            <div class="d-flex">
+              <h6>Lista de Recaudos:</h6>
+            </div>
+            <ul class=" mt-4">
+              <li class="">Planilla de solicitud de Importación de Fauna Silvestre y/o sus productos (disponible en <a href="http://www.minec.gob.ve/" target="blank">minec.gob.ve</a> ).</li>
+              <li class="">Timbres fiscales por <b>2</b> unidades tributarias.</li>
+              <li class="" v-if="!is_valid_dni">Cédula de identidad.</li>
+              <li class="" v-if="!is_valid_rif">Registro Único de Información Fiscal RIF.</li>
+              <li class="">Documentos demostrativos de la legalidad de la procedencia de los animales silvestres y/o de sus productos, dependiendo del caso, seleccionar uno o varios si aplican.
+                <ul>
+                  <li>Permiso de Importación emitido por el MINEC.</li>
+                  <li>Factura de compra venta de los animales y/o productos a exportar, con fines mercantiles.</li>
+                  <li>Documento(s) de traspaso notariado.</li>
+                  <li>Guía(s) de Movilización (es) de canje y guía(s) de movilización canjeada(s), para pieles de la especie silvestre Hydrochoerus hydrochaeris (Chigüire) y otras especies silvestres con aprovechamientos comerciales similares.</li>
+                  <li>Autorización para curtir pieles de la especie silvestre Hydrochoerus hydrochaeris (Chigüire) y otras especies silvestres con aprovechamientos comerciales similares.</li>
+                  <li>Guía(s) de Movilización (es) de canje y guía(s) de movilización canjeada(s), para productos de especies silvestres distintas a las anteriores, con aprovechamientos comerciales diferentes.</li>
+                  <li>Actas de inspección de animales silvestres y/o sus productos a exportar.</li>
+                  <li>Informe(s) parcial(es) o total(es) de inspección(es) y/o de inventario(s) de los productos almacenados.</li>
+                  <li>Informe(s) más reciente de inspección(es) y/o de inventario(s) de los animales por cada especie silvestre cautiva en el zoocriadero.</li>
+                </ul>
+              </li>
+              <li class="" v-if="!is_valid_zoo_hatcheries_authorization">Autorización para la instalación y funcionamiento de Zoocriaderos con fines comerciales, emitido por el MINEC.</li>
+              <li class="" v-if="!is_valid_comerce_species_license">Licencia para ejercer el comercio o industria de animales silvestres vivos, muertos y de sus productos, emitido por el MINEC.</li>
+              <li class="">Autorización para Introducir la Especie Silvestre Exótica  emitida por el MINEC, aplica para el animal vivo de cada especie exótica a importar.</li>
+            </ul>
+            <div class="w-100 d-flex justify-content-end align-items-center">
+              <button class="btn btn-primary">Solicitar Autorización</button>
+            </div>
+          </div>
+        </div>
+
+        <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+           Certificado de reexportación de especies de la fauna silvestre vivas, muertas o de sus productos no incluidas en los apéndices de la Convención sobre el Comercio Internacional de Especies Amenazadas de Fauna y Flora Silvestres (CITES) con fines comerciales
+          <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#collapseComercialReexport" aria-expanded="false" aria-controls="collapseComercialReexport">
+            Recaudos
+          </button>
+        </li>
+        <div class="collapse" id="collapseComercialReexport">
+          <div class="card card-body">
+            <div class="d-flex">
+              <h6>Lista de Recaudos:</h6>
+            </div>
+            <ul class=" mt-4">
+              <li class="">Planilla de solicitud de Importación de Fauna Silvestre y/o sus productos (disponible en <a href="http://www.minec.gob.ve/" target="blank">minec.gob.ve</a> ).</li>
+              <li class="">Timbres fiscales por <b>2</b> unidades tributarias.</li>
+              <li class="" v-if="!is_valid_dni">Cédula de identidad.</li>
+              <li class="" v-if="!is_valid_rif">Registro Único de Información Fiscal RIF.</li>
+              <li class="" v-if="!is_valid_zoo_hatcheries_authorization">Autorización para la instalación y funcionamiento de Zoocriaderos con fines comerciales, emitido por el MINEC.</li>
+              <li class="" v-if="!is_valid_comerce_species_license">Licencia para ejercer el comercio o industria de animales silvestres vivos, muertos y de sus productos, emitido por el MINEC.</li>
+              <li class="">Documentos demostrativos de la legalidad de la procedencia de los animales silvestres y/o de sus productos, dependiendo del caso, seleccionar uno o varios si aplican.
+                <ul>
+                  <li>Permiso de Importación emitido por el MINEC.</li>
+                  <li>Factura de compra venta de los animales y/o productos a exportar, con fines mercantiles.</li>
+                  <li>Documento(s) de traspaso notariado.</li>
+                  <li>Guía(s) de Movilización (es) de canje y guía(s) de movilización canjeada(s), para pieles de la especie silvestre Hydrochoerus hydrochaeris (Chigüire) y otras especies silvestres con aprovechamientos comerciales similares.</li>
+                  <li>Autorización para curtir pieles de la especie silvestre Hydrochoerus hydrochaeris (Chigüire) y otras especies silvestres con aprovechamientos comerciales similares.</li>
+                  <li>Guía(s) de Movilización (es) de canje y guía(s) de movilización canjeada(s), para productos de especies silvestres distintas a las anteriores, con aprovechamientos comerciales diferentes.</li>
+                  <li>Actas de inspección de animales silvestres y/o sus productos a exportar.</li>
+                  <li>Informe(s) parcial(es) o total(es) de inspección(es) y/o de inventario(s) de los productos almacenados.</li>
+                  <li>Informe(s) más reciente de inspección(es) y/o de inventario(s) de los animales por cada especie silvestre cautiva en el zoocriadero.</li>
+                </ul>
+              </li>
+            </ul>
+            <div class="w-100 d-flex justify-content-end align-items-center">
+              <button class="btn btn-primary">Solicitar Autorización</button>
+            </div>
+          </div>
+        </div>
       </ul>
     </div>
   </div>
@@ -54,8 +130,11 @@ import axios from "axios";
 import moment from "moment";
 
 export default {
-   props: ["words"],
   data: () => ({
+    is_valid_dni: false,
+    is_valid_rif: false,
+    is_valid_zoo_hatcheries_authorization: false,
+    is_valid_comerce_species_license: false,
   }),
   methods: {
     showCreateModal() {

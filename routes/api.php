@@ -14,7 +14,7 @@ use App\Http\Controllers\AuthController;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+Route::middleware('jwt.verify')->get('/user', function (Request $request) {
     return $request->user();
 });
 
@@ -23,5 +23,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
  */
 
 Route::post('/loginPermissions', [AuthController::class, 'login']);
-Route::get('/user', [AuthController::class, 'user']);
-Route::get('/logout', [AuthController::class, 'logout']);
+Route::get('/users', [AuthController::class, 'user']);
+Route::get('/logout', [AuthController::class, 'logout'])->middleware('jwt.verify');

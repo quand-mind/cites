@@ -16,6 +16,7 @@ class client extends Authenticatable implements JWTSubject
         'email',
         'role',
         'user_id',
+        'api_token',
         'password'
     ];
 

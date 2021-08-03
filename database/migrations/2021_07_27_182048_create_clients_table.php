@@ -20,18 +20,19 @@ class CreateClientsTable extends Migration
             $table->enum('role', ['persona_juridica', 'persona_natural']);
             $table->string('password');
             $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->string('api_token')->nullabel();
             $table->rememberToken();
 
             //Recaudos
 
             // Cédula
-            $table->string('dni_file_url');
-            $table->boolean('is_valid_dni');
+            $table->string('dni_file_url')->nullable();
+            $table->boolean('is_valid_dni')->nullable();
             $table->string('dni_errors')->nullable();
 
             // RIF
-            $table->string('rif_file_url');
-            $table->boolean('is_valid_rif');
+            $table->string('rif_file_url')->nullable();
+            $table->boolean('is_valid_rif')->nullable();
             $table->string('rif_errors')->nullable();
             
             // Licencia de comerico de especies
@@ -45,8 +46,8 @@ class CreateClientsTable extends Migration
             $table->string('zoo_hatcheries_authorization_errors')->nullable();
 
             // Registro Nacional de Colecciones Biologicas
-            $table->string('national_register_of_biologic_colections_file_url');
-            $table->boolean('is_valid_national_register_of_biologic_colections');
+            $table->string('national_register_of_biologic_colections_file_url')->nullable();
+            $table->boolean('is_valid_national_register_of_biologic_colections')->nullable();
             $table->string('national_register_of_biologic_colections_errors')->nullable();
 
             $table->timestamps();

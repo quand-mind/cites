@@ -17,6 +17,9 @@ class CreatePermitSpeciesTable extends Migration
             $table->id();
             $table->foreignId('permit_id')->constrained()->onDelete('cascade');
             $table->foreignId('species_id')->constrained()->onDelete('cascade');
+            $table->string('specie_legal_documents_file_url');
+            $table->boolean('is_valid_specie_legal_document');
+
             $table->timestamps();
         });
     }

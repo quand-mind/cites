@@ -98,6 +98,11 @@ Route::group(['prefix' => 'permissions'], function () {
     Route::get('/authorizations', 'AuthorizationController@index')->middleware('jwt.verify');
     Route::post('/authorizations/createZoo', 'AuthorizationController@storeZoo');
     Route::post('/authorizations/createNurseries', 'AuthorizationController@storeNurseries');
+
+    // Permissions Routes
+    Route::get('/list', 'PermissionController@index');
+    Route::get('/comercialExportSpecies/requirements', 'PermissionController@showComercialExportSpecies');
+    // Route::post('//create', 'AuthorizationController@storeZoo');
 });
 
 Route::middleware(['auth', 'panel.auth'])->group(function () {

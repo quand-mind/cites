@@ -23,11 +23,12 @@ class CreateExportsComercialSpeciesRequirements extends Migration
             $table->boolean('is_valid_revenue_stamps');
             $table->string('revenue_stamps_errors')->nullable();
 
-            $table->string('species_legal_documents_file_url');
             $table->boolean('is_valid_species_legal_documents');
             $table->string('species_legal_documents_errors')->nullable();
             
             $table->foreignId('client_id')->references('id')->on('clients')->onDelete('cascade');
+
+            $table->foreignId('permit_id')->references('id')->on('permits')->onDelete('cascade');
             $table->timestamps();
         });
     }

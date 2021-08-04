@@ -20,20 +20,20 @@ class CreatePermitsTable extends Migration
             $table->string('permit_type');
             $table->string('frequent_processing');
             $table->string('valid_until'); //es una fecha valido hasta
-            $table->string('name', 45);
-            $table->string('address', 250);
-            $table->string('country', 60);
-            $table->text('special_conditions', 500);
-            $table->string('purpose', 60);
-            $table->string('half_signature');
-            $table->string('issued_by'); 
-            $table->string('official_position');
-            $table->string('palce');
+            $table->string('name', 45); //nompre del solicitante
+            $table->string('address', 250); //direccion
+            $table->string('country', 60); //país
+            $table->text('special_conditions', 500); //conndiciones especiales
+            $table->string('purpose', 60); //proposito
+            $table->string('half_signature')->nullable();
+            $table->string('issued_by')->nullable(); //nombre del funcionario 
+            $table->string('official_position')->nullable(); //cargo del funcionario
+            $table->string('palce'); //lugar
             $table->string('date_permit');
-            $table->string('permit_cancele');
-            $table->string('observations');
-            $table->string('port', null);
-            $table->string('departure_date', null);
+            $table->string('permit_cancele')->nullable();
+            $table->string('observations')->nullable();
+            $table->string('port')->nullable();
+            $table->string('departure_date')->nullable();
             $table->timestamps();
         });
     }

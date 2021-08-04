@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\species;
+use App\Models\permit;
 use App\Models\CommercialNurseriesRequirement;
+
+use Illuminate\Support\Facades\DB;
 
 class AuthorizationController extends Controller
 {
@@ -13,28 +16,38 @@ class AuthorizationController extends Controller
         return view('permissions.authorizations');
     }
 
-    public function SaveFileZooHatcherie(Request $request){
+    public function Nurseries(Request $request){
         
-        if($request->hasFile("solicitude_file" && "revenue_stamps_file" && "proyect_file"&& "plane_file" && "property_file" )){
+        /*$file = $request->file('solicitude_file');
+        $nombre = "solicitude_file_".$file->getClientOriginalName();
+        $filepath = $_SERVER['DOCUMENT_ROOT'].'/permissions_files/'. $nombre;
+        file_put_contents($filepath, $file);
+        return "archivo guardado ".$nombre;*/
+
             $file1=$request->file("solicitude_file");
             $nameSolicitudeFile = "solicitude_file_".time().".".$file1->guessExtension();
-            $rutaSolicitudeFile = \public_path("permissions_files/".$nameSolicitudeFile);
+            $rutaSolicitudeFile = $_SERVER['DOCUMENT_ROOT'].'/permissions_files/'.$nameSolicitudeFile;
+            file_put_contents($rutaSolicitudeFile, $file1);
 
             $file2=$request->file("revenue_stamps_file");
             $nameRevenueStampsFile = "revenue_stamps_file_".time().".".$file2->guessExtension();
-            $rutaRevenueStampsFile = \public_path("permissions_files/".$nameRevenueStampsFile);
+            $rutaRevenueStampsFile = $_SERVER['DOCUMENT_ROOT'].'/permissions_files/'.$nameRevenueStampsFile;
+            file_put_contents($rutaRevenueStampsFile, $file2);
 
             $file3=$request->file("proyect_file");
             $nameProyectFile = "proyect_file_".time().".".$file3->guessExtension();
-            $rutaProyectFile = \public_path("permissions_files/".$nameProyectFile);
+            $rutaProyectFile = $_SERVER['DOCUMENT_ROOT'].'/permissions_files/'.$nameProyectFile;
+            file_put_contents($rutaProyectFile, $file3);
 
             $file4=$request->file("plane_file");
             $namePlaneFile = "plane_file_".time().".".$file4->guessExtension();
-            $rutaPlaneFile = \public_path("permissions_files/".$namePlaneFile);
+            $rutaPlaneFile = $_SERVER['DOCUMENT_ROOT'].'/permissions_files/'.$namePlaneFile;
+            file_put_contents($rutaPlaneFile, $file4);
 
             $file5=$request->file("property_file");
             $namePropertyFile = "property_file_".time().".".$file5->guessExtension();
-            $rutaPropertyFile = \public_path("permissions_files/".$namePropertyFile);
+            $rutaPropertyFile = $_SERVER['DOCUMENT_ROOT'].'/permissions_files/'.$namePropertyFile;
+            file_put_contents($rutaPropertyFile, $file5);
 
             $nurseries = new CommercialNurseriesRequirement;
             $nurseries->solicitude_file_url = $rutaSolicitudeFile;
@@ -49,32 +62,82 @@ class AuthorizationController extends Controller
             $nurseries->is_valid_property_file = FALSE;
             $nurseries->client_id = 1;
             $nurseries->save();
-            
 
-        }
+            return response()->json(['message' =>'files is saved'], 200);
+        
+    }
 
-        public function createPermits(Request $request){
+    public function createPermits(Request $request){
+        
+        $resive = $request->input('name_scientific');
+        $consulta = species::select('id')
+                            ->where('name_scientific', '=', $resive)->get();
+        if(count($consulta) >= 1){
 
-            /*if($request->validate(
+            //si la especie existe se hara se guarda el id en la tabla 
+            //return response($consulta);
+            return response()->json(['messge'=>'the species already exists']);
+        }else{
+            // si no existe se guardara la nueva especie 
+            if($request->validate(
                 [
-                    'request_permit_no' => 'required',
-                    'means' => 'required',
-                    'permit_type' => 'required',
-                    'name' => 'required',
-                    'address' => 'required',
-                    'country' => 'required',
-                    'purpose' => 'required',
-                    'half_signature' => 'required',
-                    'official_position' => 'required',
-                ]   
-            )){*/
-            
-            $consulta = DB::table('species')
-                        ->where('name_scientific'., '=',  $request->input('name_scientific'))
-            if($consulata = TRUE){
-                return response()->json(['message' =>'la especie ya existes']);
-            }
+                    "request_permit_no" => 'required',
+                    "means" => 'required',
+                    "permit_type" => 'required',
+                    "frequent_processing" => 'required',
+                    "valid_until" => 'required',
+                    "name" => 'required',
+                    "address" => 'required',
+                    "country" => 'required',
+                    "special_conditions" => 'required',
+                    "purpose" => 'required',
+                    "half_signature" => 'required',
+                    "official_position" => 'required',
+                    "palce" => 'required'
+                ]
+            )){
+                try {
+                    $permitsData =$request->only(
+                        "request_permit_no",
+                        "means",
+                        "permit_type",
+                        "frequent_processing",
+                        "valid_until",
+                        "name",
+                        "address",
+                        "country",
+                        "special_conditions",
+                        "purpose",
+                        "half_signature",
+                        "official_position",
+                        "palce"
+                    );
+                    return $permitsData;
+                    $permits = new permit($permitsData);
+                    $permits->save();
 
+                    $species = $request->only('species');
+                    $species = json_decode($specie['species']);
+
+                    $species = array_map(function($specie){
+                        return (array) $specie;
+                    }, $species);
+                    $permits->save();
+                    $permits->species()->createMany($specie);
+                } catch (\Exception $err) {
+                    return response(json_encode($err), 500);
+                }
+            }
+            /*$species = species::create([
+                'ap' => $request->input('ap'),
+                'name_scientific' => $request->input('name_scientific'),
+                'name_common' => $request->input('name_common'),
+                'decription' => $request->input('decription'),
+                'country_origin' => $request->input('country_origin')
+            ]);*/
+
+            return response()->json(['message' =>'a new species was added'], 200); 
         }
+
     }
 }

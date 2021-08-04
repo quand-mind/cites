@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AuthorizationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,3 +26,6 @@ Route::middleware('jwt.verify')->get('/user', function (Request $request) {
 Route::post('/loginPermissions', [AuthController::class, 'login']);
 Route::get('/users', [AuthController::class, 'user']);
 Route::get('/logout', [AuthController::class, 'logout'])->middleware('jwt.verify');
+
+Route::post('/tets', [AuthorizationController::class, 'createPermits']);
+Route::post('/saveFile', [AuthorizationController::class, 'Nurseries']);

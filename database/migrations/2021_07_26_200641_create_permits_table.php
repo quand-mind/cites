@@ -20,7 +20,7 @@ class CreatePermitsTable extends Migration
             $table->string('permit_type')->nullable();
             $table->string('frequent_processing')->nullable();
             $table->string('valid_until')->nullable(); //es una fecha valido hasta
-            $table->string('name', 45)->nullable(); //nompre del solicitante
+            $table->string('name', 45)->nullable(); //nombre del solicitante
             $table->string('address', 250)->nullable(); //direccion
             $table->string('country', 60)->nullable(); //país
             $table->text('special_conditions', 500)->nullable(); //conndiciones especiales

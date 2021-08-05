@@ -27,5 +27,5 @@ Route::post('/loginPermissions', [AuthController::class, 'login']);
 Route::get('/users', [AuthController::class, 'user']);
 Route::get('/logout', [AuthController::class, 'logout'])->middleware('jwt.verify');
 
-Route::post('/tets', [AuthorizationController::class, 'createPermits']);
+Route::post('/tets/create', [AuthorizationController::class, 'createPermits'])->name('test');
 Route::post('/saveFile', [AuthorizationController::class, 'Nurseries']);

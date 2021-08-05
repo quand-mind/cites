@@ -63,55 +63,59 @@ class AuthorizationController extends Controller
 
     public function createPermits(Request $request){
         
-        $resive = $request->input('species.*.name_scientific');
-       
+        $resive = $request->input('species.name_scientific');
+        //return  $resive;
         $consulta = species::select('id')
                             ->where('name_scientific', '=', $resive)->get();
         if(count($consulta) >= 1){
 
             //si la especie existe se hara se guarda el id en la tabla 
-            //return response($consulta);
-
-            /*$permitsData = $request->all();
+            
+            //return $speciesId;
+            $permitsData = $request->only("request_permit_no", "means", "permit_type", "frequent_processing", "valid_until", "name", "address", "country", "special_conditions", "purpose", "palce");
             
             $permits = new permit($permitsData);
             $permits->official_id = 1;
             $permits->client_id = 1;
+
             $permits->save();
 
-            $species = $request->only('species');
-            $species = json_decode($specie['species']);
-
-            $species = array_map(function($specie){
-                        return (array) $specie;
-            }, $species);
-            $permits->save();
-            $permits->species()->createMany($specie);*/
-
-            //return response()->json(['messge'=>'the species already exists']);
+            $consulta = json_decode($consulta);
+            
+            $speciesId = array_map(function($consult){
+                return $consult->id;
+            }, $consulta);
+            
+            $permits->species()->sync($speciesId);
+            
+        
+            return response()->json(['messge'=>'permission created successfully'], 200);
 
         }else{
             // si no existe se guardara la nueva especie 
-            $permitsData = $request->only();
+            $permitsData = $request->only("request_permit_no", "means", "permit_type", "frequent_processing", "valid_until", "name", "address", "country", "special_conditions", "purpose", "palce");
             
             $permits = new permit($permitsData);
             $permits->official_id = 1;
             $permits->client_id = 1;
 
-            return $permits;
-            /*$permits->save();
+            //return $permits;
+            $permits->save();
 
             $species = $request->only('species');
-            $species = json_decode($specie['species']);
+            //$species = json_decode($species['species']);
 
+            //return $species;
             $species = array_map(function($specie){
                         return (array) $specie;
             }, $species);
-            $permits->save();
-            $permits->species()->createMany($specie);*/
+            //return $species;
+            //$permits->save();
+            $permits->species()->createMany($species);
+            
+            return response()->json(['message' =>'a new species was added'], 200);
             
         }
-        
-            //return response()->json(['message' =>'a new species was added'], 200); 
-        }
+            
+    }
 }

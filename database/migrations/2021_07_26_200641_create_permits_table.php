@@ -15,21 +15,21 @@ class CreatePermitsTable extends Migration
     {
         Schema::create('permits', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('request_permit_no');
-            $table->string('means', 45);
-            $table->string('permit_type');
-            $table->string('frequent_processing');
-            $table->string('valid_until'); //es una fecha valido hasta
-            $table->string('name', 45); //nompre del solicitante
-            $table->string('address', 250); //direccion
-            $table->string('country', 60); //país
-            $table->text('special_conditions', 500); //conndiciones especiales
-            $table->string('purpose', 60); //proposito
+            $table->integer('request_permit_no')->nullable();
+            $table->string('means', 45)->nullable();
+            $table->string('permit_type')->nullable();
+            $table->string('frequent_processing')->nullable();
+            $table->string('valid_until')->nullable(); //es una fecha valido hasta
+            $table->string('name', 45)->nullable(); //nompre del solicitante
+            $table->string('address', 250)->nullable(); //direccion
+            $table->string('country', 60)->nullable(); //país
+            $table->text('special_conditions', 500)->nullable(); //conndiciones especiales
+            $table->string('purpose', 60)->nullable(); //proposito
             $table->string('half_signature')->nullable();
             $table->string('issued_by')->nullable(); //nombre del funcionario 
             $table->string('official_position')->nullable(); //cargo del funcionario
-            $table->string('palce'); //lugar
-            $table->string('date_permit');
+            $table->string('palce')->nullable(); //lugar
+            $table->string('date_permit')->nullable();
             $table->string('permit_cancele')->nullable();
             $table->string('observations')->nullable();
             $table->string('port')->nullable();

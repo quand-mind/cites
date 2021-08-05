@@ -69,64 +69,50 @@ class AuthorizationController extends Controller
 
     public function createPermits(Request $request){
         
-        $resive = $request->input('name_scientific');
+        $resive = $request->input('species*name_scientific');
         $consulta = species::select('id')
                             ->where('name_scientific', '=', $resive)->get();
         if(count($consulta) >= 1){
 
             //si la especie existe se hara se guarda el id en la tabla 
             //return response($consulta);
+
+            $permitsData = $request->all();
+            
+            $permits = new permit($permitsData);
+            $permits->official_id = 1;
+            $permits->client_id = 1;
+            $permits->save();
+
+            $species = $request->only('species');
+            $species = json_decode($specie['species']);
+
+            $species = array_map(function($specie){
+                        return (array) $specie;
+            }, $species);
+            $permits->save();
+            $permits->species()->createMany($specie);
+
             return response()->json(['messge'=>'the species already exists']);
+
         }else{
             // si no existe se guardara la nueva especie 
-            if($request->validate(
-                [
-                    "request_permit_no" => 'required',
-                    "means" => 'required',
-                    "permit_type" => 'required',
-                    "frequent_processing" => 'required',
-                    "valid_until" => 'required',
-                    "name" => 'required',
-                    "address" => 'required',
-                    "country" => 'required',
-                    "special_conditions" => 'required',
-                    "purpose" => 'required',
-                    "half_signature" => 'required',
-                    "official_position" => 'required',
-                    "palce" => 'required'
-                ]
-            )){
-                try {
-                    $permitsData =$request->only(
-                        "request_permit_no",
-                        "means",
-                        "permit_type",
-                        "frequent_processing",
-                        "valid_until",
-                        "name",
-                        "address",
-                        "country",
-                        "special_conditions",
-                        "purpose",
-                        "half_signature",
-                        "official_position",
-                        "palce"
-                    );
-                    return $permitsData;
-                    $permits = new permit($permitsData);
-                    $permits->save();
+            /*$permitsData = $request->all();
+            
+            $permits = new permit($permitsData);
+            $permits->official_id = 1;
+            $permits->client_id = 1;
+            $permits->save();
 
-                    $species = $request->only('species');
-                    $species = json_decode($specie['species']);
+            $species = $request->only('species');
+            $species = json_decode($specie['species']);
 
-                    $species = array_map(function($specie){
+            $species = array_map(function($specie){
                         return (array) $specie;
-                    }, $species);
-                    $permits->save();
-                    $permits->species()->createMany($specie);
-                } catch (\Exception $err) {
-                    return response(json_encode($err), 500);
-                }
+            }, $species);
+            $permits->save();
+            $permits->species()->createMany($specie);*/
+            
             }
             /*$species = species::create([
                 'ap' => $request->input('ap'),
@@ -139,5 +125,4 @@ class AuthorizationController extends Controller
             return response()->json(['message' =>'a new species was added'], 200); 
         }
 
-    }
 }

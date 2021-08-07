@@ -101,6 +101,7 @@ Route::group(['prefix' => 'permissions'], function () {
 
     // Permissions Routes
     Route::get('/list', 'PermissionController@index');
+    Route::get('/comercialExportSpecies/requirements/check', 'PermissionController@showComercialExportSpeciesChecklist');
     Route::get('/comercialExportSpecies/requirements', 'PermissionController@showComercialExportSpecies');
     // Route::post('//create', 'AuthorizationController@storeZoo');
 });
@@ -205,6 +206,10 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         Route::post('/social-links/create', 'LinkController@store');
         Route::get('/social-links/toggleIsVisible/{id}', 'LinkController@toggleIsVisible');
         Route::delete('/social-links/{id}', 'LinkController@destroy');
+
+        // Permissions Routes
+        Route::get('/permissions/comercialExportSpecies/requirements/{id}', 'PermissionController@showComercialExportSpeciesChecklist');
+        Route::post('/permissions/comercialExportSpecies/check/{id}', 'PermissionController@checkComercialExportSpecies');
     });
 });
 

@@ -32,7 +32,7 @@ class OfficialsTableSeeder extends Seeder
             'remember_token' => Str::random(10)
         ]);
         DB::table('officials')->insert([
-            'email'     => 'writer@mail.com',
+            'email'     => 'writer@ .com',
             'password'  => bcrypt('writer123'),
             'username'  => 'writertester',
             'role'      => 'writer',

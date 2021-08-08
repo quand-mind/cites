@@ -11,21 +11,26 @@ use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Log;
 
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
+    
+use Illuminate\Support\Facades\Auth;
+
+
 class AuthController extends Controller
 {
     public function login(Request $request)
     {
       $credentials = $request->only('email', 'password');
       try {
-          if (! $token = JWTAuth::attempt($credentials)) {
+          if (! $token = Auth::guard('api')->attempt($credentials)) {
               return response()->json(['error' => 'invalid_credentials'], 400);
               
           }
       } catch (JWTException $e) {
           return response()->json(['error' => 'could_not_create_token'], 500);
       }
-      //return response()->json($token)
-      return response()->view('permissions.authorizations')->header('Authorization', 'bearer '."$token");
+      return redirect("permissions/authorizations");
+     // return response()->view('permissions.authorizations')->header('Authorization', 'bearer '."$token");
     }
 
     public function user()

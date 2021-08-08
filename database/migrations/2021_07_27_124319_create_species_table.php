@@ -19,12 +19,12 @@ class CreateSpeciesTable extends Migration
             $table->string('name_scientific', 45);
             $table->string('name_common', 45);
             $table->string('decription', 250);
-            $table->bigInteger('qty'); //-> cantidad
-            $table->string('unity');  //-> Kg./cantidad en letra/muestras
+            //$table->bigInteger('qty'); //-> cantidad
+            //$table->string('unity');  //-> Kg./cantidad en letra/muestras
             $table->string('country_origin');
-            $table->string('permit_no');
-            $table->bigInteger('code_stamp');    
-            $table->string('date');
+            //$table->string('permit_no');
+            //$table->bigInteger('code_stamp');    
+            //$table->string('date');
             $table->timestamps();
         });
     }

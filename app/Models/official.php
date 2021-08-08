@@ -17,7 +17,8 @@ class official extends Authenticatable
         'email',
         'role',
         'user_id',
-        'password'
+        'password',
+        'remember_token'
     ];
 
     public function users()

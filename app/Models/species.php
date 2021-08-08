@@ -13,12 +13,12 @@ class species extends Model
         'name_scientific',
         'name_common',
         'decription',
-        'qty',
-        'unity',
+        //'qty',
+        //'unity',
         'country_origin',
-        'permit_no',
-        'code_stamp',
-        'date'
+        //'permit_no',
+        //'code_stamp',
+        //'date'
     ];
 
     public function permits()

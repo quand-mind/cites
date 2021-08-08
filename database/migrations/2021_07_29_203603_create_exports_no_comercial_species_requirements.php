@@ -33,8 +33,6 @@ class CreateExportsNoComercialSpeciesRequirements extends Migration
             $table->string('species_list_file_url');
             $table->boolean('is_valid_species_list');
             $table->string('species_list_errors')->nullable();
-            
-            $table->foreignId('client_id')->references('id')->on('clients')->onDelete('cascade');
 
             $table->foreignId('permit_id')->references('id')->on('permits')->onDelete('cascade');
             $table->timestamps();

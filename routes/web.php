@@ -101,7 +101,8 @@ Route::group(['prefix' => 'permissions'], function () {
 
     // Permissions Routes
     Route::get('/list', 'PermissionController@index');
-    Route::get('/comercialExportSpecies/requirements/check', 'PermissionController@showComercialExportSpeciesChecklist');
+    Route::post('/list/createComercialExportSpecies', 'PermissionController@storePermit');
+    Route::get('/comercialExportSpecies/requirements/check/{id}', 'PermissionController@showComercialExportSpeciesChecklist');
     Route::get('/comercialExportSpecies/requirements', 'PermissionController@showComercialExportSpecies');
     // Route::post('//create', 'AuthorizationController@storeZoo');
 });

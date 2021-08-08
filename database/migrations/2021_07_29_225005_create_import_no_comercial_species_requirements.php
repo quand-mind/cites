@@ -54,8 +54,6 @@ class CreateImportNoComercialSpeciesRequirements extends Migration
             $table->boolean('is_valid_introduced_species_authorization');
             $table->string('introduced_species_authorization_errors')->nullable();
             
-            $table->foreignId('client_id')->references('id')->on('clients')->onDelete('cascade');
-            
             $table->foreignId('permit_id')->references('id')->on('permits')->onDelete('cascade');
             $table->timestamps();
         });

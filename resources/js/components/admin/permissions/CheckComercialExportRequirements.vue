@@ -1,6 +1,10 @@
 <template>
   <div>
-    <div class="caja bg-light p-2 my-2">
+    <div v-if="permit.length === 0">
+      <h1>Error, el permiso no se ha podido encontrar.</h1>
+      <a class="btn btn-primary mt-4 text-white" href="/permissions">Volver al Inicio</a>
+    </div>
+    <div v-else class="caja bg-light p-2 my-2">
       <h1 class="ml-4 mb-4">Hoja de Checkeo de Requisitos</h1>
       <h4 class="ml-4 mb-2">Requisitos para: <br> (Permiso de exportación de especies de la fauna silvestre vivas, muertas o de sus productos no incluida en los apéndices de la Convención sobre el Comercio Internacional de Especies Amenazadas de Fauna y Flora Silvestres (CITES) con fines comerciales.)</h4>
       <div class="card card-body">
@@ -149,6 +153,7 @@
 </template>
 <script>
 export default {
+  props: ['permit'],
   tableData: [
       {
         id: 1,
@@ -187,72 +192,72 @@ export default {
       },
     ],
   data: () => ({
-    permit:{
-      code: '0918289213',
-      requirements:{
-        id:1,
-        export_form_file_url: '/images/default-user.png',
-        is_valid_export_form: false,
-        export_form_errors: null,
-        revenue_stamps_file_url:'/images/default-user.png',
-        is_valid_revenue_stamps: false,
-        revenue_stamps_errors: null,
-        is_valid_species_legal_documents: false,
-        species_legal_documents_errors: null,
-      },
-      pivot:[
-        {
-          specie_id: 1,
-          permit_id: 1,
-          specie_legal_documents_file_url: '/images/default-user.png',
-          is_valid_specie_legal_document: false,
-          specie:{
-            id:1,
-            type: 'Animalia',
-            name: 'Perro',
-            qty: 100,
-            search_id: 12,
-          }
-        },
-        {
-          specie_id: 2,
-          permit_id: 1,
-          specie_legal_documents_file_url: '/images/default-user.png',
-          is_valid_specie_legal_document: false,
-          specie:{
-            id:2,
-            type: 'Animalia',
-            name: 'Gato',
-            qty: 200,
-            search_id: 123,
-          }
-        },
-      ],
-      client_id:1,
-      client:{
-        email:'client@mail.com',
-        dni_file_url: '/images/default-user.png',
-        is_valid_dni: false,
-        dni_errors: null,
-        checked_dni: false,
-        rif_file_url: '/images/default-user.png',
-        is_valid_rif: false,
-        rif_errors: null,
-        checked_rif: false,
-        comerce_species_license_file_url: '/images/default-user.png',
-        is_valid_comerce_species_license: false,
-        comerce_species_license_errors: null,
-        checked_comerce_species_license: false,
-        zoo_hatcheries_authorization_file_url: '/images/default-user.png',
-        is_valid_zoo_hatcheries_authorization: false,
-        zoo_hatcheries_authorization_errors: null,
-        checked_zoo_hatcheries_authorization: false,
-        national_register_of_biologic_colections_file_url: '/images/default-user.png',
-        is_valid_national_register_of_biologic_colections: false,
-        national_register_of_biologic_colections_errors: null,
-        checked_national_register_of_biologic_colections: false,
-      }
-    }
+    // permit:{
+    //   code: '0918289213',
+    //   requirements:{
+    //     id:1,
+    //     export_form_file_url: '/images/default-user.png',
+    //     is_valid_export_form: false,
+    //     export_form_errors: null,
+    //     revenue_stamps_file_url:'/images/default-user.png',
+    //     is_valid_revenue_stamps: false,
+    //     revenue_stamps_errors: null,
+    //     is_valid_species_legal_documents: false,
+    //     species_legal_documents_errors: null,
+    //   },
+    //   pivot:[
+    //     {
+    //       specie_id: 1,
+    //       permit_id: 1,
+    //       specie_legal_documents_file_url: '/images/default-user.png',
+    //       is_valid_specie_legal_document: false,
+    //       specie:{
+    //         id:1,
+    //         type: 'Animalia',
+    //         name: 'Perro',
+    //         qty: 100,
+    //         search_id: 12,
+    //       }
+    //     },
+    //     {
+    //       specie_id: 2,
+    //       permit_id: 1,
+    //       specie_legal_documents_file_url: '/images/default-user.png',
+    //       is_valid_specie_legal_document: false,
+    //       specie:{
+    //         id:2,
+    //         type: 'Animalia',
+    //         name: 'Gato',
+    //         qty: 200,
+    //         search_id: 123,
+    //       }
+    //     },
+    //   ],
+    //   client_id:1,
+    //   client:{
+    //     email:'client@mail.com',
+    //     dni_file_url: '/images/default-user.png',
+    //     is_valid_dni: false,
+    //     dni_errors: null,
+    //     checked_dni: false,
+    //     rif_file_url: '/images/default-user.png',
+    //     is_valid_rif: false,
+    //     rif_errors: null,
+    //     checked_rif: false,
+    //     comerce_species_license_file_url: '/images/default-user.png',
+    //     is_valid_comerce_species_license: false,
+    //     comerce_species_license_errors: null,
+    //     checked_comerce_species_license: false,
+    //     zoo_hatcheries_authorization_file_url: '/images/default-user.png',
+    //     is_valid_zoo_hatcheries_authorization: false,
+    //     zoo_hatcheries_authorization_errors: null,
+    //     checked_zoo_hatcheries_authorization: false,
+    //     national_register_of_biologic_colections_file_url: '/images/default-user.png',
+    //     is_valid_national_register_of_biologic_colections: false,
+    //     national_register_of_biologic_colections_errors: null,
+    //     checked_national_register_of_biologic_colections: false,
+    //   }
+    // }
   })
 }
 </script>

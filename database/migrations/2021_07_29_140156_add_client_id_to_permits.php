@@ -14,7 +14,7 @@ class AddClientIdToPermits extends Migration
     public function up()
     {
         Schema::table('permits', function (Blueprint $table) {
-            $table->foreignId('client_id')->constrained()->onDelete('cascade');
+            $table->foreignId('client_id')->references('id')->on('clients')->onDelete('cascade');
         });
     }
 

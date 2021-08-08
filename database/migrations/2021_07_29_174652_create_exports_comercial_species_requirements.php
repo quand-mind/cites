@@ -25,8 +25,6 @@ class CreateExportsComercialSpeciesRequirements extends Migration
 
             $table->boolean('is_valid_species_legal_documents');
             $table->string('species_legal_documents_errors')->nullable();
-            
-            $table->foreignId('client_id')->references('id')->on('clients')->onDelete('cascade');
 
             $table->foreignId('permit_id')->references('id')->on('permits')->onDelete('cascade');
             $table->timestamps();

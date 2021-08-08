@@ -14,7 +14,7 @@ class AddOfficilIdToPermits extends Migration
     public function up()
     {
         Schema::table('permits', function (Blueprint $table) {
-            $table->foreignId('official_id')->constrained()->onDelete('cascade');
+            $table->foreignId('official_id')->nullable()->references('id')->on('officials')->onDelete('cascade');
         });
     }
 

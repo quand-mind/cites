@@ -39,9 +39,17 @@
               <li class="" v-if="!is_valid_zoo_hatcheries_authorization">Autorización para la instalación y funcionamiento de Zoocriaderos con fines comerciales, emitido por el MINEC.</li>
             </ul>
             <div class="w-100 d-flex justify-content-end align-items-center">
-              <button class="btn btn-primary">Solicitar Autorización</button>
+             <button v-if="!showPurpose" class="btn btn-primary" @click="openPurposeData('comercial_export')">Solicitar Autorización</button>
+            </div>
+            <div class="mt-3 d-flex flex-row justify-content-between" v-if="showPurpose && permit_type === 'comercial_export'">
+              <b-form-input v-model="purpose" placeholder="Propósito del Permiso:"></b-form-input>
+              <div>
+                <button class="btn btn-danger" @click="showPurpose = false">Cancelar</button>
+                <button class="btn btn-primary" @click="requestAuthorization()">Solicitar Autorización</button>
+              </div>
             </div>
           </div>
+
         </div>
 
         <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
@@ -78,7 +86,14 @@
               <li class="">Autorización para Introducir la Especie Silvestre Exótica  emitida por el MINEC, aplica para el animal vivo de cada especie exótica a importar.</li>
             </ul>
             <div class="w-100 d-flex justify-content-end align-items-center">
-              <button class="btn btn-primary">Solicitar Autorización</button>
+              <button v-if="!showPurpose" class="btn btn-primary" @click="openPurposeData('comercial_import')">Solicitar Autorización</button>
+            </div>
+            <div class="mt-3 d-flex flex-row justify-content-between" v-if="showPurpose && permit_type === 'comercial_import'">
+              <b-form-input v-model="purpose" placeholder="Propósito del Permiso:"></b-form-input>
+              <div>
+                <button  class="btn btn-danger" @click="showPurpose = false">Cancelar</button>
+                <button  class="btn btn-primary" @click="requestAuthorization()">Solicitar Autorización</button>
+              </div>
             </div>
           </div>
         </div>
@@ -116,7 +131,14 @@
               </li>
             </ul>
             <div class="w-100 d-flex justify-content-end align-items-center">
-              <button class="btn btn-primary">Solicitar Autorización</button>
+              <button v-if="!showPurpose" class="btn btn-primary" @click="openPurposeData('comercial_reexport')">Solicitar Autorización</button>
+            </div>
+            <div class="mt-3 d-flex flex-row justify-content-between" v-if="showPurpose && permit_type === 'comercial_reexport'">
+              <b-form-input v-model="purpose" placeholder="Propósito del Permiso:"></b-form-input>
+              <div>
+                <button  class="btn btn-danger" @click="showPurpose = false">Cancelar</button>
+                <button  class="btn btn-primary" @click="requestAuthorization()">Solicitar Autorización</button>
+              </div>
             </div>
           </div>
         </div>
@@ -135,8 +157,28 @@ export default {
     is_valid_rif: false,
     is_valid_zoo_hatcheries_authorization: false,
     is_valid_comerce_species_license: false,
+    permit_type: null,
+    showPurpose: false,
+    purpose: null,
+    client_id:1,
   }),
   methods: {
+    openPurposeData(type){
+      this.permit_type = type
+      this.showPurpose = true
+    },
+    requestAuthorization(){
+
+      axios
+        .post(`/permissions/list/createComercialExportSpecies`, {type: this.permit_type, purpose: this.purpose, client_id: this.client_id})
+        .then(res => {
+          this.makeToast(res.data)
+          setTimeout(() => window.location.reload(), 1200)
+        })
+        .catch(err => {
+          this.makeToast(err.toString(), 'danger')
+        });
+    },
     showCreateModal() {
       this.$refs["create-modal"].show();
       this.form = {
@@ -212,11 +254,11 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 // Table styles
 
 // hide default filter
-.VueTables__search {
-  display: none;
+input {
+  width: 400px;
 }
 </style>

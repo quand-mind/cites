@@ -38,8 +38,7 @@ class CreateZooHatcheriesRequirements extends Migration
             $table->string('foliate_control_book_file_url');
             $table->boolean('is_valid_foliate_control_book_file');
             $table->string('foliate_control_book_file_errors')->nullable();
-
-            $table->foreignId('client_id')->references('id')->on('clients')->onDelete('cascade');
+            
             $table->timestamps();
         });
     }

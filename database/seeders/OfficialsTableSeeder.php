@@ -40,13 +40,13 @@ class OfficialsTableSeeder extends Seeder
             'remember_token' => Str::random(10)
         ]);
         
-        official::factory()->count(10)->create([
+        /*official::factory()->count(10)->create([
             'role' => 'writer'
         ]);
 
         official::factory()->count(10)->create([
             'role' => 'admin'
-        ]);
+        ]);*/
 
         
     }

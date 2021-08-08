@@ -91,7 +91,7 @@ Route::get('/loginPermissions', 'Auth\PermissionsLoginController@showLoginForm')
 
 Route::get('/home', 'HomeController@index')->name('home')->middleware('jwt.verify');
 
-Route::group(['prefix' => 'permissions'], function () {
+Route::middleware(['jwt.verify'])->group(['prefix' => 'permissions'], function () {
     Route::get('/', 'AuthorizationController@index');
 
     // Authorizations Routes
@@ -267,3 +267,8 @@ Route::get('/{slug}/{subpage}', 'PageController@showSubPage');
 
 
 Route::post('/save-file-nurseris', 'AuthorizationController@SaveFileZooHatcherie');
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::post('/loginAdmin', 'AuthController@login_admin');

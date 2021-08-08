@@ -91,7 +91,8 @@ Route::get('/loginPermissions', 'Auth\PermissionsLoginController@showLoginForm')
 
 Route::get('/home', 'HomeController@index')->name('home')->middleware('jwt.verify');
 
-Route::middleware(['jwt.verify'])->group(['prefix' => 'permissions'], function () {
+// Route::middleware(['jwt.verify'])->group(['prefix' => 'permissions'], function () {
+Route::group(['prefix' => 'permissions'], function () {
     Route::get('/', 'AuthorizationController@index');
 
     // Authorizations Routes
@@ -209,7 +210,7 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         Route::delete('/social-links/{id}', 'LinkController@destroy');
 
         // Permissions Routes
-        Route::get('/permissions/comercialExportSpecies/requirements/{id}', 'PermissionController@showComercialExportSpeciesChecklist');
+        Route::get('/permissions/comercialExportSpecies/check/{id}', 'PermissionController@showComercialExportSpeciesChecklist');
         Route::post('/permissions/comercialExportSpecies/check/{id}', 'PermissionController@checkComercialExportSpecies');
     });
 });

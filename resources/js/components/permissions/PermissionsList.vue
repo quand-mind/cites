@@ -28,7 +28,7 @@
                   <li>Factura de compra venta de los animales y/o productos a exportar, con fines mercantiles.</li>
                   <li>Documento(s) de traspaso notariado.</li>
                   <li>Guía(s) de Movilización (es) de canje y guía(s) de movilización canjeada(s), para pieles de la especie silvestre Hydrochoerus hydrochaeris (Chigüire) y otras especies silvestres con aprovechamientos comerciales similares.</li>
-                  <li>Autorización para curtir pieles de la especie silvestre Hydrochoerus hydrochaeris (Chigüire) y otras especies silvestres con aprovechamientos comerciales similares.</li>
+                  <li>Permiso para curtir pieles de la especie silvestre Hydrochoerus hydrochaeris (Chigüire) y otras especies silvestres con aprovechamientos comerciales similares.</li>
                   <li>Guía(s) de Movilización (es) de canje y guía(s) de movilización canjeada(s), para productos de especies silvestres distintas a las anteriores, con aprovechamientos comerciales diferentes.</li>
                   <li>Actas de inspección de animales silvestres y/o sus productos a exportar.</li>
                   <li>Informe(s) parcial(es) o total(es) de inspección(es) y/o de inventario(s) de los productos almacenados.</li>
@@ -36,16 +36,16 @@
                 </ul>
               </li>
               <li class="" v-if="!is_valid_comerce_species_license">Licencia para ejercer el comercio o industria de animales silvestres vivos, muertos y de sus productos, emitido por el MINEC.</li>
-              <li class="" v-if="!is_valid_zoo_hatcheries_authorization">Autorización para la instalación y funcionamiento de Zoocriaderos con fines comerciales, emitido por el MINEC.</li>
+              <li class="" v-if="!is_valid_zoo_hatcheries_authorization">Permiso para la instalación y funcionamiento de Zoocriaderos con fines comerciales, emitido por el MINEC.</li>
             </ul>
             <div class="w-100 d-flex justify-content-end align-items-center">
-             <button v-if="!showPurpose" class="btn btn-primary" @click="openPurposeData('comercial_export')">Solicitar Autorización</button>
+             <button v-if="!showPurpose" class="btn btn-primary" @click="openPurposeData('comercial_export')">Solicitar Permiso</button>
             </div>
             <div class="mt-3 d-flex flex-row justify-content-between" v-if="showPurpose && permit_type === 'comercial_export'">
               <b-form-input v-model="purpose" placeholder="Propósito del Permiso:"></b-form-input>
               <div>
                 <button class="btn btn-danger" @click="showPurpose = false">Cancelar</button>
-                <button class="btn btn-primary" @click="requestAuthorization()">Solicitar Autorización</button>
+                <button class="btn btn-primary" @click="requestAuthorization()">Solicitar Permiso</button>
               </div>
             </div>
           </div>
@@ -74,25 +74,25 @@
                   <li>Factura de compra venta de los animales y/o productos a exportar, con fines mercantiles.</li>
                   <li>Documento(s) de traspaso notariado.</li>
                   <li>Guía(s) de Movilización (es) de canje y guía(s) de movilización canjeada(s), para pieles de la especie silvestre Hydrochoerus hydrochaeris (Chigüire) y otras especies silvestres con aprovechamientos comerciales similares.</li>
-                  <li>Autorización para curtir pieles de la especie silvestre Hydrochoerus hydrochaeris (Chigüire) y otras especies silvestres con aprovechamientos comerciales similares.</li>
+                  <li>Permiso para curtir pieles de la especie silvestre Hydrochoerus hydrochaeris (Chigüire) y otras especies silvestres con aprovechamientos comerciales similares.</li>
                   <li>Guía(s) de Movilización (es) de canje y guía(s) de movilización canjeada(s), para productos de especies silvestres distintas a las anteriores, con aprovechamientos comerciales diferentes.</li>
                   <li>Actas de inspección de animales silvestres y/o sus productos a exportar.</li>
                   <li>Informe(s) parcial(es) o total(es) de inspección(es) y/o de inventario(s) de los productos almacenados.</li>
                   <li>Informe(s) más reciente de inspección(es) y/o de inventario(s) de los animales por cada especie silvestre cautiva en el zoocriadero.</li>
                 </ul>
               </li>
-              <li class="" v-if="!is_valid_zoo_hatcheries_authorization">Autorización para la instalación y funcionamiento de Zoocriaderos con fines comerciales, emitido por el MINEC.</li>
+              <li class="" v-if="!is_valid_zoo_hatcheries_authorization">Permiso para la instalación y funcionamiento de Zoocriaderos con fines comerciales, emitido por el MINEC.</li>
               <li class="" v-if="!is_valid_comerce_species_license">Licencia para ejercer el comercio o industria de animales silvestres vivos, muertos y de sus productos, emitido por el MINEC.</li>
-              <li class="">Autorización para Introducir la Especie Silvestre Exótica  emitida por el MINEC, aplica para el animal vivo de cada especie exótica a importar.</li>
+              <li class="">Permiso para Introducir la Especie Silvestre Exótica  emitida por el MINEC, aplica para el animal vivo de cada especie exótica a importar.</li>
             </ul>
             <div class="w-100 d-flex justify-content-end align-items-center">
-              <button v-if="!showPurpose" class="btn btn-primary" @click="openPurposeData('comercial_import')">Solicitar Autorización</button>
+              <button v-if="!showPurpose" class="btn btn-primary" @click="openPurposeData('comercial_import')">Solicitar Permiso</button>
             </div>
             <div class="mt-3 d-flex flex-row justify-content-between" v-if="showPurpose && permit_type === 'comercial_import'">
               <b-form-input v-model="purpose" placeholder="Propósito del Permiso:"></b-form-input>
               <div>
                 <button  class="btn btn-danger" @click="showPurpose = false">Cancelar</button>
-                <button  class="btn btn-primary" @click="requestAuthorization()">Solicitar Autorización</button>
+                <button  class="btn btn-primary" @click="requestAuthorization()">Solicitar Permiso</button>
               </div>
             </div>
           </div>
@@ -114,7 +114,7 @@
               <li class="">Timbres fiscales por <b>2</b> unidades tributarias.</li>
               <li class="" v-if="!is_valid_dni">Cédula de identidad.</li>
               <li class="" v-if="!is_valid_rif">Registro Único de Información Fiscal RIF.</li>
-              <li class="" v-if="!is_valid_zoo_hatcheries_authorization">Autorización para la instalación y funcionamiento de Zoocriaderos con fines comerciales, emitido por el MINEC.</li>
+              <li class="" v-if="!is_valid_zoo_hatcheries_authorization">Permiso para la instalación y funcionamiento de Zoocriaderos con fines comerciales, emitido por el MINEC.</li>
               <li class="" v-if="!is_valid_comerce_species_license">Licencia para ejercer el comercio o industria de animales silvestres vivos, muertos y de sus productos, emitido por el MINEC.</li>
               <li class="">Documentos demostrativos de la legalidad de la procedencia de los animales silvestres y/o de sus productos, dependiendo del caso, seleccionar uno o varios si aplican.
                 <ul>
@@ -122,7 +122,7 @@
                   <li>Factura de compra venta de los animales y/o productos a exportar, con fines mercantiles.</li>
                   <li>Documento(s) de traspaso notariado.</li>
                   <li>Guía(s) de Movilización (es) de canje y guía(s) de movilización canjeada(s), para pieles de la especie silvestre Hydrochoerus hydrochaeris (Chigüire) y otras especies silvestres con aprovechamientos comerciales similares.</li>
-                  <li>Autorización para curtir pieles de la especie silvestre Hydrochoerus hydrochaeris (Chigüire) y otras especies silvestres con aprovechamientos comerciales similares.</li>
+                  <li>Permiso para curtir pieles de la especie silvestre Hydrochoerus hydrochaeris (Chigüire) y otras especies silvestres con aprovechamientos comerciales similares.</li>
                   <li>Guía(s) de Movilización (es) de canje y guía(s) de movilización canjeada(s), para productos de especies silvestres distintas a las anteriores, con aprovechamientos comerciales diferentes.</li>
                   <li>Actas de inspección de animales silvestres y/o sus productos a exportar.</li>
                   <li>Informe(s) parcial(es) o total(es) de inspección(es) y/o de inventario(s) de los productos almacenados.</li>
@@ -131,13 +131,13 @@
               </li>
             </ul>
             <div class="w-100 d-flex justify-content-end align-items-center">
-              <button v-if="!showPurpose" class="btn btn-primary" @click="openPurposeData('comercial_reexport')">Solicitar Autorización</button>
+              <button v-if="!showPurpose" class="btn btn-primary" @click="openPurposeData('comercial_reexport')">Solicitar Permiso</button>
             </div>
             <div class="mt-3 d-flex flex-row justify-content-between" v-if="showPurpose && permit_type === 'comercial_reexport'">
               <b-form-input v-model="purpose" placeholder="Propósito del Permiso:"></b-form-input>
               <div>
                 <button  class="btn btn-danger" @click="showPurpose = false">Cancelar</button>
-                <button  class="btn btn-primary" @click="requestAuthorization()">Solicitar Autorización</button>
+                <button  class="btn btn-primary" @click="requestAuthorization()">Solicitar Permiso</button>
               </div>
             </div>
           </div>

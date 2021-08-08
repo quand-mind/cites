@@ -2,6 +2,8 @@
 
 
 use App\Http\Controllers\SetPasswordController;
+
+use App\Http\Controllers\ApiController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -267,8 +269,12 @@ Route::get('/{slug}/{subpage}', 'PageController@showSubPage');
 
 
 Route::post('/save-file-nurseris', 'AuthorizationController@SaveFileZooHatcherie');
-Auth::routes();
+//Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::post('/loginAdmin', 'AuthController@login_admin');
+//Route::post('/loginAdmin', 'AuthController@login_admin');
+
+Route::prefix('species')->group(function () {
+    Route::get('cite', [ApiController::class, 'api_cites'])->name('cite_species');
+});

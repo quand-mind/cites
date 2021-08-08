@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AuthorizationController;
+use App\Http\Controllers\ApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,3 +30,5 @@ Route::get('/logout', [AuthController::class, 'logout'])->middleware('jwt.verify
 
 Route::post('/tets', [AuthorizationController::class, 'createPermits'])->name('test');
 Route::post('/saveFile', [AuthorizationController::class, 'Nurseries']);
+
+Route::get('species', [ApiController::class, 'api_cites']);

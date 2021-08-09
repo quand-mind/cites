@@ -281,5 +281,4 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 //Route::post('/loginAdmin', 'AuthController@login_admin');
 
-
-Route::get('species_cite', 'App\Http\Controllers\ApiController@api_cites')->name('cite_species');
+Route::get('/species_cite', 'ApiController@api_cites')->name('cite_species');

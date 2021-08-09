@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use GuzzleHttp\Client;
 
 class ApiController extends Controller
 {
@@ -12,7 +13,7 @@ class ApiController extends Controller
         $url = "https://api.speciesplus.net/api/v1/taxon_concepts";
 
         $headers= [
-            'Authorization' => "barrea uD2JyZT7CvR1Snol3xKrYgtt ",
+            'X-Authentication-Token' => "uD2JyZT7CvR1Snol3xKrYgtt",
         ];
 
         $response = $client->request('GET', $url, [
@@ -20,8 +21,9 @@ class ApiController extends Controller
             'headers' => $headers,
         ]);
 
-        $responseBody = json_decode($response);
+        $responseBody = json_decode($response->getBody());
 
         return $responseBody;
+        //return view('species_cite', compact('responseBody'));
     }
 }

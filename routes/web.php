@@ -1,6 +1,5 @@
 <?php
 
-
 use App\Http\Controllers\SetPasswordController;
 
 use App\Http\Controllers\ApiController;
@@ -282,6 +281,5 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 //Route::post('/loginAdmin', 'AuthController@login_admin');
 
-Route::prefix('species')->group(function () {
-    Route::get('cite', [ApiController::class, 'api_cites'])->name('cite_species');
-});
+
+Route::get('species_cite', 'App\Http\Controllers\ApiController@api_cites')->name('cite_species');

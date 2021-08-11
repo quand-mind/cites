@@ -11,7 +11,9 @@ class PermissionController extends Controller
 {
     public function index()
     {
-        return view('permissions.permissions');
+        $id = 1;
+        $permissions = permit::where(['client_id' => $id])->with(['requeriments', 'permit_type'])->get();
+        return view('permissions.permissions', compact('permissions'));
     }
 
     public function showComercialExportSpecies()

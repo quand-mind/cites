@@ -1,6 +1,8 @@
 @extends('layouts.permissions')
 @section('content')
-    <div id="authorizathionsList">
-    	<permissions-list></permissions-list>
+    <div id="permissions">
+        
+    	<permissions :permissions="{{$permissions}}"></permissions>
+    	{{-- <permissions></permissions> --}}
     </div>
 @endsection

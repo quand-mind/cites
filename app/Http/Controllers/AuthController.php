@@ -41,7 +41,7 @@ class AuthController extends Controller
     protected function sendLoginResponse(Request $request, $token)
     {
         //$this->clearLoginAttempts($request);
-        Log::info('El solicitante '.$this->guard()->user()->username.' a ingresado al sistema');
+        Log::info('El solicitante '.$this->guard()->user()->username.' a ingresado al sistema desde la siguente direccion '. $_SERVER['REMOTE_ADDR']);
         return $this->authenticated($request, $this->guard()->user(), $token);
     }
 
@@ -56,7 +56,7 @@ class AuthController extends Controller
 
     protected function sendFailedLoginResponse(Request $request)
     {
-        Log::info('Fallo de autentificacion: '.$request);
+        Log::error('Fallo de autentificacion desde la siguente direccion '. $_SERVER['REMOTE_ADDR'] );
         $errors= "las credenciales no concuerdan con nuestros datos";
         return response()->view('auth.permissions_login', compact('errors'));
         return response()->json(['message' => "not found",], 401);
@@ -69,7 +69,7 @@ class AuthController extends Controller
 
     public function logout()
     {
-        Log::info('El solicitante '.$this->guard()->user()->username.' a salido del sistema');
+        Log::info('El solicitante '.$this->guard()->user()->username.' a salido del sistema desde la siguente direccion '. $_SERVER['REMOTE_ADDR']);
         $this->guard()->logout();
 
         return redirect('/loginPermissions');

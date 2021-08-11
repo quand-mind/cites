@@ -41,7 +41,7 @@ class AuthController extends Controller
     protected function sendLoginResponse(Request $request, $token)
     {
         //$this->clearLoginAttempts($request);
-        Log::info('El solicitante a ingresado al sistema: '.$this->guard()->user());
+        Log::info('El solicitante '.$this->guard()->user()->username.' a ingresado al sistema');
         return $this->authenticated($request, $this->guard()->user(), $token);
     }
 
@@ -56,6 +56,9 @@ class AuthController extends Controller
 
     protected function sendFailedLoginResponse(Request $request)
     {
+        Log::info('Fallo de autentificacion: '.$request);
+        $errors= "las credenciales no concuerdan con nuestros datos";
+        return response()->view('auth.permissions_login', compact('errors'));
         return response()->json(['message' => "not found",], 401);
     }
 
@@ -66,9 +69,10 @@ class AuthController extends Controller
 
     public function logout()
     {
+        Log::info('El solicitante '.$this->guard()->user()->username.' a salido del sistema');
         $this->guard()->logout();
 
-        return \redirect('/loginPermissions');
+        return redirect('/loginPermissions');
     }
 
 

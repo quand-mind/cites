@@ -13,6 +13,11 @@ class PermitType extends Model
         'name',
     ];
 
+    public function permits()
+    {
+        return $this->hasMany(permit::class);
+    }
+
     public function requeriments()
     {
         return $this->belongsToMany(Requeriment::class, 

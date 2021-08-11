@@ -18,7 +18,7 @@ class Requeriment extends Model
         return $this->belongsToMany(permits::class, 
                                     'permit_requeriment',
                                     'permit_id',
-                                    'requeriment_id');
+                                    'requeriment_id')->withPivot('file_url', 'is_valid', 'file_errors');
     }
     public function permitTypes()
     {

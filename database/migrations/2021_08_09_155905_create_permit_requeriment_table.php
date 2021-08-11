@@ -19,6 +19,7 @@ class CreatePermitRequerimentTable extends Migration
             $table->foreignId('requeriment_id')->references('id')->on('requeriments')->onDelete('cascade')->constrained()->onDelete('cascade');
             $table->string('file_url')->nullable();
             $table->boolean('is_valid')->nullable();
+            $table->string('file_errors', 255)->nullable();
             $table->timestamps();
         });
     }

@@ -24,5 +24,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PermitTypesSeeder::class);
         $this->call(RequerimentsSeeder::class);
         $this->call(RequerimentPermitTypeSeeder::class);
+        $this->call(PermitSeeder::class);
+        $this->call(PermitRequerimentSeeder::class);
     }
 }

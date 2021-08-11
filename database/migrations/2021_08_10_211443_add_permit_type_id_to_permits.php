@@ -14,7 +14,7 @@ class AddPermitTypeIdToPermits extends Migration
     public function up()
     {
         Schema::table('permits', function (Blueprint $table) {
-            //
+            $table->foreignId('permit_type_id')->references('id')->on('permit_types')->onDelete('cascade');
         });
     }
 
@@ -26,7 +26,7 @@ class AddPermitTypeIdToPermits extends Migration
     public function down()
     {
         Schema::table('permits', function (Blueprint $table) {
-            $table->foreignId('permit_type_id')->references('id')->on('permit_types')->onDelete('cascade');
+            
         });
     }
 }

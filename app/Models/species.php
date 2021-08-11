@@ -24,7 +24,7 @@ class species extends Model
     public function permits()
     {
         return $this->belongsToMany(permits::class, 
-                                    'permit_species',
+                                    'permit_specie',
                                     'permit_id',
                                     'species_id');
     }

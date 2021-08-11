@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 
+use Illuminate\Support\Str;
+
 class ApiController extends Controller
 {
     public function api_cites()
@@ -13,17 +15,18 @@ class ApiController extends Controller
         $url = "https://api.speciesplus.net/api/v1/taxon_concepts";
 
         $headers= [
-            'X-Authentication-Token' => "uD2JyZT7CvR1Snol3xKrYgtt",
+            //'Content-Type' => 'application/json',
+            'X-Authentication-Token' => 'uD2JyZT7CvR1Snol3xKrYgtt',
         ];
 
         $response = $client->request('GET', $url, [
-            'verify'  => false,
+            //'verify'  => false,
             'headers' => $headers,
         ]);
 
-        $responseBody = json_decode($response->getBody());
+        $species = json_decode($response->getBody()->getContents());
 
-        return $responseBody;
-        //return view('species_cite', compact('responseBody'));
+        //return $species;
+        return view('species', compact('species'));
     }
 }

@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\auth\LoginController;
 use App\Http\Controllers\AuthorizationController;
 use App\Http\Controllers\ApiController;
 
@@ -16,7 +17,7 @@ use App\Http\Controllers\ApiController;
 |
 */
 
-Route::middleware('jwt.verify')->get('/user', function (Request $request) {
+Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
@@ -32,3 +33,27 @@ Route::post('/tets', [AuthorizationController::class, 'createPermits'])->name('t
 Route::post('/saveFile', [AuthorizationController::class, 'Nurseries']);
 
 Route::get('species', [ApiController::class, 'api_cites']);
+
+/**
+ *  login admin
+*/
+Route::post('/loginAdmin', [LoginController::class, 'login_admin']);
+
+
+Route::middleware('auth:api')->group(function () {
+    Route::group(['prefix' => 'permissions'], function () {
+        Route::get('/', 'AuthorizationController@index');
+    
+        // Authorizations Routes
+        Route::get('/authorizations', 'AuthorizationController@index');
+        Route::post('/authorizations/createZoo', 'AuthorizationController@storeZoo');
+        Route::post('/authorizations/createNurseries', 'AuthorizationController@storeNurseries');
+    
+        // Permissions Routes
+        Route::get('/list', 'PermissionController@index');
+        Route::post('/list/createComercialExportSpecies', 'PermissionController@storePermit');
+        Route::get('/comercialExportSpecies/requirements/check/{id}', 'PermissionController@showComercialExportSpeciesChecklist');
+        Route::get('/comercialExportSpecies/requirements', 'PermissionController@showComercialExportSpecies');
+        // Route::post('//create', 'AuthorizationController@storeZoo');
+    });
+});

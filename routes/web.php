@@ -90,24 +90,27 @@ Auth::routes();
 
 Route::get('/loginPermissions', 'Auth\PermissionsLoginController@showLoginForm')->name('loginPermissions');
 
-Route::get('/home', 'HomeController@index')->name('home')->middleware('jwt.verify');
+Route::middleware('auth:api')->get('/home', 'HomeController@index')->name('home');
 
 // Route::middleware(['jwt.verify'])->group(['prefix' => 'permissions'], function () {
-Route::group(['prefix' => 'permissions'], function () {
-    Route::get('/', 'PermissionController@index');
-
-    // Authorizations Routes
-    Route::get('/authorizations', 'AuthorizationController@index')->middleware('jwt.verify');
-    Route::post('/authorizations/createZoo', 'AuthorizationController@storeZoo');
-    Route::post('/authorizations/createNurseries', 'AuthorizationController@storeNurseries');
-
-    // Permissions Routes
-    Route::get('/list', 'PermitTypeController@index');
-    Route::post('/list/createComercialExportSpecies', 'PermissionController@storePermit');
-    Route::get('/comercialExportSpecies/requirements/check/{id}', 'PermissionController@showComercialExportSpeciesChecklist');
-    Route::get('/comercialExportSpecies/requirements', 'PermissionController@showComercialExportSpecies');
-    // Route::post('//create', 'AuthorizationController@storeZoo');
+Route::middleware('auth:api')->group(function () {
+    Route::group(['prefix' => 'permissions'], function () {
+        Route::get('/', 'AuthorizationController@index');
+    
+        // Authorizations Routes
+        Route::get('/authorizations', 'AuthorizationController@index');
+        Route::post('/authorizations/createZoo', 'AuthorizationController@storeZoo');
+        Route::post('/authorizations/createNurseries', 'AuthorizationController@storeNurseries');
+    
+        // Permissions Routes
+        Route::get('/list', 'PermissionController@index');
+        Route::post('/list/createComercialExportSpecies', 'PermissionController@storePermit');
+        Route::get('/comercialExportSpecies/requirements/check/{id}', 'PermissionController@showComercialExportSpeciesChecklist');
+        Route::get('/comercialExportSpecies/requirements', 'PermissionController@showComercialExportSpecies');
+        // Route::post('//create', 'AuthorizationController@storeZoo');
+    });
 });
+
 
 Route::middleware(['auth', 'panel.auth'])->group(function () {
     Route::group(['prefix' => 'dashboard'], function () {

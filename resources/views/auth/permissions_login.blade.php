@@ -8,7 +8,7 @@
                 <div class="card-header">{{ __('Login (Permisos MINEC)') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ url('/api/loginPermissions') }}" aria-label="{{ __('Login') }}">
+                    <form method="POST" action="{{ url('/solicitante/loginPermissions') }}" aria-label="{{ __('Login') }}">
                         @csrf
 
                         <div class="form-group row">

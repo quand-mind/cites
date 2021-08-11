@@ -42,7 +42,7 @@ Route::post('/loginAdmin', [LoginController::class, 'login_admin']);
 
 Route::middleware('auth:api')->group(function () {
     Route::group(['prefix' => 'permissions'], function () {
-        Route::get('/', 'AuthorizationController@index');
+        Route::get('/', 'PermissionController@index');
     
         // Authorizations Routes
         Route::get('/authorizations', 'AuthorizationController@index');

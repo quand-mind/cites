@@ -23,7 +23,7 @@ class PermissionController extends Controller
     public function showComercialExportSpeciesChecklist($id)
     {
         try {
-            $permit = permit::where(['id' => $id, 'permit_type' => 'comercial_export'])->get();
+            $permit = permit::where(['id' => $id, 'permit_type_id' => 1])->get();
             if ($permit) {
                 return view('panel.dashboard.permissions.check_comercial_export_requirements', compact('permit'));
             }

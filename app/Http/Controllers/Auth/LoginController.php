@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 
@@ -37,10 +38,21 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+    
+  
 
-    /*0protected function validateLogin(Request $request)
+    /*public function login_admin(Request $request)
     {
-        Auth::attempt(['email' => $request->email, 'password' => $request->password]);
+        $credentials = $request->only('email', 'password');
+        if (Auth::guard('web')->attempt($credentials))
+        { 
+            // Si los datos son correctos le envias a la vista, como lo tenias anteriormente , te funcionaba pero lo estabas enviando al formulario de login nuevamente .
+            //return redirect('/dashboard');
+            return response()->json('haz iniciado sesion pa');
+        } 
+        // en casi de que los datos esten mal , lo envias de regreso con los siguientes errores.
+        //return Redirect::back()->with('login_error',1)->withInput();
+        return response()->json('tienes un error');
     }*/
 
     public function redirectTo(){

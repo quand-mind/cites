@@ -93,7 +93,7 @@ Route::get('/loginPermissions', 'Auth\PermissionsLoginController@showLoginForm')
 Route::middleware('auth:api')->get('/home', 'HomeController@index')->name('home');
 
 // Route::middleware(['jwt.verify'])->group(['prefix' => 'permissions'], function () {
-Route::middleware('auth:api')->group(function () {
+/*Route::middleware(['auth:api'])->group(function () {
     Route::group(['prefix' => 'permissions'], function () {
         Route::get('/', 'AuthorizationController@index');
     
@@ -109,7 +109,7 @@ Route::middleware('auth:api')->group(function () {
         Route::get('/comercialExportSpecies/requirements', 'PermissionController@showComercialExportSpecies');
         // Route::post('//create', 'AuthorizationController@storeZoo');
     });
-});
+});*/
 
 
 Route::middleware(['auth', 'panel.auth'])->group(function () {

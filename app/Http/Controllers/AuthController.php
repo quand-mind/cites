@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use JWTGuard;
-use Log;
+use Illuminate\Support\Facades\Log;
 
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
     
@@ -19,30 +19,7 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    /*public function login(Request $request)
-    {
-      $credentials = $request->only('email', 'password');
-      try {
-            if (! $token = JWTAuth::attempt($credentials)) {
-                return response()->json(['error' => 'invalid_credentials'], 400);  
-            }
-        } catch (JWTException $e) {
-            return response()->json(['error' => 'could_not_create_token'], 500);
-        }
-        return response()->json($token);
-      //return redirect("permissions/authorizations");
-     // return response()->view('permissions.authorizations')->header('Authorization', 'bearer '."$token");
-    }*/
 
-    /**
-     * Create a new AuthController instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth:api', ['except' => ['login']]);
-    }
     /**
      * Get a JWT token via given credentials.
      *
@@ -64,14 +41,14 @@ class AuthController extends Controller
     protected function sendLoginResponse(Request $request, $token)
     {
         //$this->clearLoginAttempts($request);
-
+        Log::info('El solicitante a ingresado al sistema: '.$this->guard()->user());
         return $this->authenticated($request, $this->guard()->user(), $token);
     }
 
     protected function authenticated(Request $request, $user, $token)
     {
         setcookie("jwt_token", $token);
-        return redirect('api/permissions/authorizations');
+        return redirect('solicitante/permissions');
         return response()->json([
             'token' => $token,
         ]);

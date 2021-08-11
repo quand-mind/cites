@@ -13,11 +13,7 @@ class permit extends Model
         'request_permit_no',
         'means',
         'permit_type',
-        'frequent_processing',
         'valid_until',
-        'name',
-        'address',
-        'country',
         'special_conditions',
         'purpose',
         'half_signature',
@@ -37,6 +33,10 @@ class permit extends Model
                                     'permit_species',
                                     'permit_id',
                                     'species_id');
+    }
+    public function client ()
+    {
+        return $this->belongsToMany()
     }
     
 }

@@ -11,6 +11,7 @@ class PermissionController extends Controller
 {
     public function index()
     {
+        $permissions = Client::where()
         return view('permissions.permissions');
     }
 

@@ -94,7 +94,7 @@ Route::get('/home', 'HomeController@index')->name('home')->middleware('jwt.verif
 
 // Route::middleware(['jwt.verify'])->group(['prefix' => 'permissions'], function () {
 Route::group(['prefix' => 'permissions'], function () {
-    Route::get('/', 'AuthorizationController@index');
+    Route::get('/', 'PermissionController@index');
 
     // Authorizations Routes
     Route::get('/authorizations', 'AuthorizationController@index')->middleware('jwt.verify');
@@ -102,7 +102,7 @@ Route::group(['prefix' => 'permissions'], function () {
     Route::post('/authorizations/createNurseries', 'AuthorizationController@storeNurseries');
 
     // Permissions Routes
-    Route::get('/list', 'PermissionController@index');
+    Route::get('/list', 'PermitTypeController@index');
     Route::post('/list/createComercialExportSpecies', 'PermissionController@storePermit');
     Route::get('/comercialExportSpecies/requirements/check/{id}', 'PermissionController@showComercialExportSpeciesChecklist');
     Route::get('/comercialExportSpecies/requirements', 'PermissionController@showComercialExportSpecies');

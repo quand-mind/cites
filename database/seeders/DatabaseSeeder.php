@@ -21,5 +21,8 @@ class DatabaseSeeder extends Seeder
         $this->call(QuestionsTableSeeder::class);
         $this->call(ChatterTableSeeder::class);
         $this->call(ImagesTableSeeder::class);
+        $this->call(PermitTypesSeeder::class);
+        $this->call(RequerimentsSeeder::class);
+        $this->call(RequerimentPermitTypeSeeder::class);
     }
 }

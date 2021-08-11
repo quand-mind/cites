@@ -5,7 +5,8 @@
       <a class="btn btn-primary mt-4 text-white" href="/permissions">Volver al Inicio</a>
     </div>
     <div>
-      <h1 class="ml-4 mb-4">Hoja de Checkeo de Requisitos</h1>
+      <h1 class="ml-4 mb-4">Permiso N° {{permit[0].request_permit_no}}</h1>
+      <h4 class="ml-4 mb-4">Hoja de Checkeo de Requisitos</h4>
       <h4 class="ml-4 mb-4">Requisitos para: <br> (Permiso de exportación de especies de la fauna silvestre vivas, muertas o de sus productos no incluida en los apéndices de la Convención sobre el Comercio Internacional de Especies Amenazadas de Fauna y Flora Silvestres (CITES) con fines comerciales.)</h4>
       <div class="card card-body">
         <div class="d-flex justify-content-center align-items-center flex-column">
@@ -89,7 +90,7 @@
           </div>
         </div>
 
-        <div v-if="showSelectSpecie">
+        <!-- <div v-if="showSelectSpecie">
           Especie:
           <div class="mt-3">
             <span> <small>Filtros de Busqueda</small></span>
@@ -131,7 +132,7 @@
               <button class="btn btn-danger" @click="showSelectSpecie = false">Cancelar</button>
             </b-col>
           </b-row>
-        </div>
+        </div> -->
 
         <div class="ml-4" v-if="showSelectedSpecies && selectedSpecies.length >0">
           Listado de Especies: <button class="ml-4 btn btn-info" @click="showSelectedSpecies = false">Ocultar Listado</button>
@@ -149,6 +150,20 @@
       </div>
 
     </div>
+    <b-modal v-model="showSelectSpecie" size="xl" id="species-modal" title="Agregar Especie" hide-footer>
+      <AddSpecie
+      v-on:addSpecie="addSpecieToList"
+      v-on:closeAddSpecieDialog="closeAddSpecieDialog"
+      :selectedSpecies="selectedSpecies" :showSelectSpecie="showSelectSpecie"
+      type="client"/>
+    </b-modal>
+    <b-modal v-model="showSelectedSpecies" size="xl" id="species-modal" title="Listado de Especies" hide-footer>
+      <SelectedSpeciesList
+      v-on:deleteSpecie="deleteSpecie"
+      v-on:closeSpecieListDialog="closeSpecieListDialog"
+      :selectedSpecies="selectedSpecies" :showSelectedSpecies="showSelectedSpecies"
+      type="client"/>
+    </b-modal>
   </div>
 </template>
 <script>

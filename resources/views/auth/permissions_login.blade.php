@@ -7,7 +7,9 @@
             <div class="card">
                 <div class="card-header">{{ __('Login (Permisos MINEC)') }}</div>
 
+
                 <div class="card-body">
+                    @include('permissions.includes.messages')
                     <form method="POST" action="{{ url('/solicitante/loginPermissions') }}" aria-label="{{ __('Login') }}">
                         @csrf
 
@@ -15,13 +17,13 @@
                             <label for="email" class="col-sm-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autofocus>
+                                <input id="email" type="email" class="form-control  @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autofocus>
 
-                                {{--@if ($errors->has('email'))--}}
+                                @error('email')
                                     <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors }}</strong>
+                                        <strong>{{ $message }}</strong>
                                     </span>
-                                {{--@endif--}}
+                                @enderror
                             </div>
                         </div>
 
@@ -29,7 +31,7 @@
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
 
                             <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password" required>
+                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required>
 
                                 
                                     <span class="invalid-feedback" role="alert">

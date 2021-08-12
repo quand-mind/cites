@@ -16,6 +16,8 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
     
 use Illuminate\Support\Facades\Auth;
 
+use Illuminate\Support\MessageBag;
+
 
 class AuthController extends Controller
 {
@@ -29,13 +31,23 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
-        $credentials = $request->only(["email","password"]);
-        if ($token = $this->guard()->attempt($credentials)) {
-            return $this->sendLoginResponse($request, $token);
+        if ($request->validate(
+            [
+                // Proveedor
+                'email' => 'required',
+            ]
+        )) {
+            try{
+                $credentials = $request->only(["email","password"]);
+                if ($token = $this->guard()->attempt($credentials)) {
+                    return $this->sendLoginResponse($request, $token);
+                }
+            } catch (\Exception $err){
+                return response(json_encode($err), 500);
+            }
         }
-
-        //$this->incrementLoginAttempts($request);
         return $this->sendFailedLoginResponse($request);
+        //$this->incrementLoginAttempts($request);
     }
 
     protected function sendLoginResponse(Request $request, $token)
@@ -58,7 +70,8 @@ class AuthController extends Controller
     {
         Log::error('Fallo de autentificacion desde la siguente direccion '. $_SERVER['REMOTE_ADDR'] );
         $errors= "las credenciales no concuerdan con nuestros datos";
-        return response()->view('auth.permissions_login', compact('errors'));
+        //return response()->view('auth.permissions_login', compact('errors'));
+        return Redirect::back()->with('msg','Verifique sus datos');
         return response()->json(['message' => "not found",], 401);
     }
 

@@ -7,7 +7,15 @@
             <div class="card">
                 <div class="card-header">{{ __('Login (Permisos MINEC)') }}</div>
 
+
                 <div class="card-body">
+                @if (\Session::has('errors'))
+                    <div class="alert alert-danger">
+                        <ul>
+                            <li>{{ \Session::get(errors)}}</li>
+                        </ul>               
+                    </div>
+                @endif
                     <form method="POST" action="{{ url('/solicitante/loginPermissions') }}" aria-label="{{ __('Login') }}">
                         @csrf
 
@@ -15,13 +23,10 @@
                             <label for="email" class="col-sm-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required autofocus>
-
+                                <input id="email" type="email" class="form-control  @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autofocus>
                                 @if ($errors->has('email'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
+                                    <p>{{ $errors->first('email')}}</p>
+                                @endif  
                             </div>
                         </div>
 
@@ -29,13 +34,13 @@
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
 
                             <div class="col-md-6">
-                                <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
+                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required>
 
-                                @if ($errors->has('password'))
+                                
                                     <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('password') }}</strong>
+                                        <strong>{{ $errors }}</strong>
                                     </span>
-                                @endif
+                               
                             </div>
                         </div>
 

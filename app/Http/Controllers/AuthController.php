@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Auth;
 class AuthController extends Controller
 {
 
+
     /**
      * Get a JWT token via given credentials.
      *
@@ -29,19 +30,23 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
+        $this->validate($request, [
+            'email' => 'required',
+            'password' => 'required',
+        ]);
+        
         $credentials = $request->only(["email","password"]);
         if ($token = $this->guard()->attempt($credentials)) {
             return $this->sendLoginResponse($request, $token);
         }
-
-        //$this->incrementLoginAttempts($request);
+           
         return $this->sendFailedLoginResponse($request);
     }
 
     protected function sendLoginResponse(Request $request, $token)
     {
         //$this->clearLoginAttempts($request);
-        Log::info('El solicitante a ingresado al sistema: '.$this->guard()->user());
+        Log::info('El solicitante '.$this->guard()->user()->username.' a ingresado al sistema desde la siguente direccion '. $_SERVER['REMOTE_ADDR']);
         return $this->authenticated($request, $this->guard()->user(), $token);
     }
 
@@ -56,6 +61,10 @@ class AuthController extends Controller
 
     protected function sendFailedLoginResponse(Request $request)
     {
+        Log::error('Fallo de autentificacion desde la siguente direccion '. $_SERVER['REMOTE_ADDR'] );
+        
+        return redirect()->back()->with('errors', 'todo mal');
+       //return redirect('/loginPermissions')->withErrors(['las credenciales no concuerdan con nuestra data']);
         return response()->json(['message' => "not found",], 401);
     }
 
@@ -66,9 +75,10 @@ class AuthController extends Controller
 
     public function logout()
     {
+        Log::info('El solicitante '.$this->guard()->user()->username.' a salido del sistema desde la siguente direccion '. $_SERVER['REMOTE_ADDR']);
         $this->guard()->logout();
 
-        return \redirect('/loginPermissions');
+        return redirect('/loginPermissions');
     }
 
 

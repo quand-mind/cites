@@ -92,25 +92,6 @@ Route::get('/loginPermissions', 'Auth\PermissionsLoginController@showLoginForm')
 
 Route::middleware('auth:api')->get('/home', 'HomeController@index')->name('home');
 
-// Route::middleware(['jwt.verify'])->group(['prefix' => 'permissions'], function () {
-/*Route::middleware(['auth:api'])->group(function () {
-    Route::group(['prefix' => 'permissions'], function () {
-        Route::get('/', 'AuthorizationController@index');
-    
-        // Authorizations Routes
-        Route::get('/authorizations', 'AuthorizationController@index');
-        Route::post('/authorizations/createZoo', 'AuthorizationController@storeZoo');
-        Route::post('/authorizations/createNurseries', 'AuthorizationController@storeNurseries');
-    
-        // Permissions Routes
-        Route::get('/list', 'PermissionController@index');
-        Route::post('/list/createComercialExportSpecies', 'PermissionController@storePermit');
-        Route::get('/comercialExportSpecies/requirements/check/{id}', 'PermissionController@showComercialExportSpeciesChecklist');
-        Route::get('/comercialExportSpecies/requirements', 'PermissionController@showComercialExportSpecies');
-        // Route::post('//create', 'AuthorizationController@storeZoo');
-    });
-});*/
-
 
 Route::middleware(['auth', 'panel.auth'])->group(function () {
     Route::group(['prefix' => 'dashboard'], function () {
@@ -214,8 +195,9 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         Route::delete('/social-links/{id}', 'LinkController@destroy');
 
         // Permissions Routes
-        Route::get('/permissions/comercialExportSpecies/check/{id}', 'PermissionController@showComercialExportSpeciesChecklist');
-        Route::post('/permissions/comercialExportSpecies/check/{id}', 'PermissionController@checkComercialExportSpecies');
+        Route::get('/permissions', 'PermissionController@getList');
+        Route::get('/permissions/check/{id}', 'PermissionController@showChecklist');
+        Route::post('/permissions/check/{id}', 'PermissionController@checkPermit');
     });
 });
 

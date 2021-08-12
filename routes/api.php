@@ -50,8 +50,8 @@ Route::middleware('auth:api')->group(function () {
         Route::post('/authorizations/createNurseries', 'AuthorizationController@storeNurseries');
     
         // Permissions Routes
-        Route::get('/list', 'PermissionController@index');
-        Route::post('/list/createComercialExportSpecies', 'PermissionController@storePermit');
+        Route::get('/list', 'PermitTypeController@index');
+        Route::post('/list/createPermit', 'PermissionController@storePermit');
         Route::get('/comercialExportSpecies/requirements/check/{id}', 'PermissionController@showComercialExportSpeciesChecklist');
         Route::get('/comercialExportSpecies/requirements', 'PermissionController@showComercialExportSpecies');
         // Route::post('//create', 'AuthorizationController@storeZoo');

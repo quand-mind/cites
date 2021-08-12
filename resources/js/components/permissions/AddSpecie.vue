@@ -27,8 +27,9 @@
     <b-row class="d-flex justify-content-end align-items-center">
       <b-col v-if="type !== 'client'" sm="12" md="8" lg="9" class="input-group mb-3">
         <b-form-file
+          @input="uploadFile()"
           accept=".pdf, .jpg, .png"
-          v-model="newSpecie.legal_document"
+          v-model="file"
           placeholder="Documento Legal: (Formatos aceptados: .pdf, .jpg, .png)"
           drop-placeholder="Subir archivo aquí..."
           max-size="2048"
@@ -53,8 +54,10 @@ export default {
       class: null,
       kingdom: null,
       legal_document:null,
+      file_url:null,
       qty: null
     },
+    file:null,
 
     kingdoms:[
       { value: null, text: 'Tipo' },
@@ -98,6 +101,9 @@ export default {
     }
   },
   methods: {
+    uploadFile () {
+      this.$emit('uploadFile', this.file)
+    },
     closeAddSpecieDialog(){
       false
       this.$emit('closeAddSpecieDialog')
@@ -111,6 +117,7 @@ export default {
         class: null,
         kingdom: null,
         legal_document:null,
+        file_url:null,
         qty: null
       }
       this.closeAddSpecieDialog()

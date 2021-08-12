@@ -29,10 +29,10 @@ class permit extends Model
 
     public function species()
     {
-        return $this->belongsToMany(species::class,
+        return $this->belongsToMany(Specie::class,
                                     'permit_specie',
                                     'permit_id',
-                                    'specie_id');
+                                    'specie_id')->withPivot('file_url', 'is_valid', 'qty');
     }
     public function client()
     {

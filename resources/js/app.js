@@ -115,7 +115,7 @@ Vue.component("header-manager", require("./components/admin/HeaderManager.vue").
 
 Vue.component("aside-manager", require("./components/admin/AsideManager.vue").default);
 
-Vue.component("check-comercial-export-requirements", require("./components/admin/permissions/CheckComercialExportRequirements.vue").default);
+Vue.component("check-requirements", require("./components/admin/permissions/CheckRequirements.vue").default);
 
 Vue.component("page-template", require("./views/PageTemplate.vue").default);
 

@@ -16,11 +16,10 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
     
 use Illuminate\Support\Facades\Auth;
 
-use Illuminate\Support\MessageBag;
-
 
 class AuthController extends Controller
 {
+
 
     /**
      * Get a JWT token via given credentials.
@@ -31,23 +30,17 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
-        if ($request->validate(
-            [
-                // Proveedor
-                'email' => 'required',
-            ]
-        )) {
-            try{
-                $credentials = $request->only(["email","password"]);
-                if ($token = $this->guard()->attempt($credentials)) {
-                    return $this->sendLoginResponse($request, $token);
-                }
-            } catch (\Exception $err){
-                return response(json_encode($err), 500);
-            }
+        $this->validate($request, [
+            'email' => 'required',
+            'password' => 'required',
+        ]);
+        
+        $credentials = $request->only(["email","password"]);
+        if ($token = $this->guard()->attempt($credentials)) {
+            return $this->sendLoginResponse($request, $token);
         }
+           
         return $this->sendFailedLoginResponse($request);
-        //$this->incrementLoginAttempts($request);
     }
 
     protected function sendLoginResponse(Request $request, $token)
@@ -69,9 +62,9 @@ class AuthController extends Controller
     protected function sendFailedLoginResponse(Request $request)
     {
         Log::error('Fallo de autentificacion desde la siguente direccion '. $_SERVER['REMOTE_ADDR'] );
-        $errors= "las credenciales no concuerdan con nuestros datos";
-        //return response()->view('auth.permissions_login', compact('errors'));
-        return Redirect::back()->with('msg','Verifique sus datos');
+        
+        return redirect()->back()->with('errors', 'todo mal');
+       //return redirect('/loginPermissions')->withErrors(['las credenciales no concuerdan con nuestra data']);
         return response()->json(['message' => "not found",], 401);
     }
 

@@ -9,7 +9,13 @@
 
 
                 <div class="card-body">
-                    @include('permissions.includes.messages')
+                @if (\Session::has('errors'))
+                    <div class="alert alert-danger">
+                        <ul>
+                            <li>{{ \Session::get(errors)}}</li>
+                        </ul>               
+                    </div>
+                @endif
                     <form method="POST" action="{{ url('/solicitante/loginPermissions') }}" aria-label="{{ __('Login') }}">
                         @csrf
 
@@ -18,12 +24,9 @@
 
                             <div class="col-md-6">
                                 <input id="email" type="email" class="form-control  @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autofocus>
-
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                @if ($errors->has('email'))
+                                    <p>{{ $errors->first('email')}}</p>
+                                @endif  
                             </div>
                         </div>
 

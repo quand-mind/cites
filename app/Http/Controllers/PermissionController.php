@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\client;
 use Illuminate\Http\Request;
 use Faker\Factory as Faker;
 use App\Models\permit;
@@ -127,8 +128,9 @@ class PermissionController extends Controller
     public function index()
     {
         $id = 1;
+        $clientData = client::with(['users'])->get();
         $permissions = permit::where(['client_id' => $id])->with(['requeriments', 'permit_type'])->get();
-        return view('permissions.permissions', compact('permissions'));
+        return view('permissions.permissions', compact(['permissions', 'clientData']));
     }
     public function getList()
     {
@@ -216,7 +218,7 @@ class PermissionController extends Controller
         $date = strtotime("+60 day");
         $permit->valid_until = date('M d, Y', $date);
         $permit->purpose = $request->input('purpose');
-        $permit->status = "requested";
+        $permit->status = "not_requ";
         $permit->client_id = $request->input('client_id');
         $permit->save();
         

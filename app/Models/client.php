@@ -22,7 +22,7 @@ class client extends Authenticatable implements JWTSubject
 
     public function users()
     {
-        return $this->hasOne(Users::class);
+        return $this->hasOne(User::class);
     }
 
     public function getJWTIdentifier()

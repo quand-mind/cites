@@ -18,16 +18,16 @@
         <b-form-select v-model="newSpecie.phylum" :options="phylums"></b-form-select>
       </b-col>
       <b-col sm="12" md="4" lg="2" class="input-group mb-3">
-        <b-form-select v-model="newSpecie.name" :options="species"></b-form-select>
+        <b-form-select v-model="newSpecie.name_common" :options="species"></b-form-select>
       </b-col>
       <b-col sm="12" md="4" lg="2" class="input-group mb-3">
         <b-form-input v-model="newSpecie.qty" placeholder="Cantidad:"></b-form-input>
       </b-col>
     </b-row>
     <b-row class="d-flex justify-content-end align-items-center">
-      <b-col v-if="type !== 'client'" sm="12" md="8" lg="9" class="input-group mb-3">
+      <b-col sm="12" md="8" lg="9" class="input-group mb-3">
         <b-form-file
-          @input="uploadFile()"
+          @input="uploadFile(newSpecie)"
           accept=".pdf, .jpg, .png"
           v-model="file"
           placeholder="Documento Legal: (Formatos aceptados: .pdf, .jpg, .png)"
@@ -48,13 +48,14 @@ export default {
   data: () =>({
 
     newSpecie: {
-      name: null,
+      name_common: null,
       phylum: null,
       family: null,
       class: null,
       kingdom: null,
-      legal_document:null,
-      file_url:null,
+      pivot:{
+        file_url:null
+      },
       qty: null
     },
     file:null,
@@ -86,23 +87,17 @@ export default {
   }),
   computed: {
     validSpecie(){
-      let valid_name = Boolean(this.newSpecie.name)
+      let valid_name_common = Boolean(this.newSpecie.name_common)
       let valid_kingdom = Boolean(this.newSpecie.kingdom)
-      let valid_legal_document
-      if(this.type !== 'client'){
-        valid_legal_document = Boolean(this.newSpecie.legal_document)
-      }
-      else{
-        valid_legal_document = true
-      }
+      let valid_legal_document = Boolean(this.newSpecie.pivot.file_url)
       let valid_qty = Boolean(this.newSpecie.qty)
 
-      return valid_name && valid_legal_document && valid_qty && valid_kingdom
+      return valid_name_common && valid_legal_document && valid_qty && valid_kingdom
     }
   },
   methods: {
-    uploadFile () {
-      this.$emit('uploadFile', this.file)
+    uploadFile (specie) {
+      this.$emit('uploadSpecieFile', this.file, specie)
     },
     closeAddSpecieDialog(){
       false
@@ -111,13 +106,14 @@ export default {
     addSpecieToList(){
       this.$emit('addSpecie', this.newSpecie)
       this.newSpecie = {
-        name: null,
+        name_common: null,
         phylum: null,
         family: null,
         class: null,
         kingdom: null,
-        legal_document:null,
-        file_url:null,
+        pivot:{
+          file_url:null,
+        },
         qty: null
       }
       this.closeAddSpecieDialog()

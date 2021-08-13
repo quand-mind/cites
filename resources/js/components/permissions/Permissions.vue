@@ -37,7 +37,7 @@
         <b-col sm="12" lg="6">{{requeriment.name}}</b-col>
         <b-col sm="12" lg="3">
           <div v-if="requeriment.pivot.file_url">
-            <a :href="requeriment.pivot.file_url" target="_blank"><font-awesome-icon :icon="['fa', 'eye']"></font-awesome-icon> Ver Archivo</a>
+            <a :href="`/${requeriment.pivot.file_url}`" target="_blank"><font-awesome-icon :icon="['fa', 'eye']"></font-awesome-icon> Ver Archivo</a>
           </div>
           <div v-else>
             <div v-if="requeriment.short_name ==='documentos_especies'"></div>

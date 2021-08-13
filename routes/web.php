@@ -196,6 +196,8 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
 
         // Permissions Routes
         Route::get('/permissions', 'PermissionController@getList');
+        Route::post('/permissions/uploadSpecieFile', 'PermissionController@storeSpecieFile');
+        Route::post('/permissions/uploadFile', 'PermissionController@storeFile');
         Route::get('/permissions/check/{id}', 'PermissionController@showChecklist');
         Route::post('/permissions/check/{id}', 'PermissionController@checkPermit');
     });
@@ -228,6 +230,7 @@ Route::get('/clear-app', function () {
     return "Clear the app deployment completed";
 });
 // Render files
+Route::get('/files/permissions/{name}', 'PermissionController@showFile');
 Route::get('/files/{name}', 'LegalFileController@show');
 
 Route::get('/forums', ['uses' => '\DevDojo\Chatter\Controllers\ChatterController@index'])->name('chatter.home');         

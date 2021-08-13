@@ -8,10 +8,47 @@ use App\Models\permit;
 use App\Models\PermitType;
 use App\Models\Requeriment;
 use App\Models\Specie;
+use Illuminate\Support\Facades\Storage;
+use Response;
 use Exception;
 
 class PermissionController extends Controller
 {
+    public function storeFile(Request $request)
+    {
+        $file = $request->file('file');
+        $requeriment = json_decode($request->input('requeriment'));
+        $requeriment_id = $requeriment->id;
+        $permit_id = $requeriment->pivot->permit_id;
+        $nameFile = "permit_".$permit_id."_requeriment_".$requeriment_id."_file_".time().".".$file->guessExtension();
+        $url = $request->file('file')->storeAs('files/permissions', $nameFile);
+        $permit = permit::find($permit_id);
+        $permit->requeriments[$requeriment_id -1]->pivot->file_url = $url;
+        $permit->push();
+
+        return $url;
+    }
+    public function showFile($name)
+    {
+        return Response::make(Storage::get('files/permissions/'. $name), 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="'.$name.'"'
+        ]);
+    }
+    public function storeSpecieFile(Request $request)
+    {
+        $file = $request->file('file');
+        $specie = json_decode($request->input('specie'));
+        $specie_id = $specie->id;
+        $permit_id = $specie->pivot->permit_id;
+        $nameFile = "permit_".$permit_id."_specie_".$specie_id."_file_".time().".".$file->guessExtension();
+        $url = $request->file('file')->storeAs('files/permissions', $nameFile);
+        $permit = permit::find($permit_id);
+        $permit->species[$specie_id -1]->pivot->file_url = $url;
+        $permit->push();
+
+        return $url;
+    }
     public function index()
     {
         $id = 1;
@@ -48,7 +85,7 @@ class PermissionController extends Controller
     public function showChecklist($id)
     {
         try {
-            $permit = permit::where(['id' => $id])->with(['requeriments', 'permit_type'])->get();
+            $permit = permit::where(['id' => $id])->with(['requeriments', 'permit_type', 'species'])->get();
             if ($permit) {
                 return view('panel.dashboard.permissions.check_requirements', compact('permit'));
             }

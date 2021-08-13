@@ -1,11 +1,7 @@
 <template>
   <div>
-    <div v-if="permit.length === 0">
-      <h1>Error, el permiso no se ha podido encontrar.</h1>
-      <a class="btn btn-primary mt-4 text-white" href="/permissions">Volver al Inicio</a>
-    </div>
     <div>
-      <h1 class="ml-4 mb-4">Permiso N° {{permit[0].request_permit_no}}</h1>
+      <h1 class="ml-4 mb-4">Permiso N° {{permit[0].request_permit_type_no}}</h1>
       <h4 class="ml-4 mb-4">Hoja de Checkeo de Requisitos</h4>
       <h4 class="ml-4 mb-4">Requisitos para: <br> ({{permit[0].permit_type.name}})</h4>
       <div class="card card-body">
@@ -54,6 +50,9 @@
                   <button :disabled="!permit[0].species.length > 0" class="btn text-dark" @click="showSelectedSpecies = true" style="cursor:pointer">
                     <font-awesome-icon :icon="['fa', 'eye']"></font-awesome-icon>
                   </button>
+                  <button class="btn text-primary" @click="showSelectSpecie = true" style="cursor:pointer">
+                    <font-awesome-icon :icon="['fa', 'plus']"></font-awesome-icon>
+                  </button>
                 </div>
                 <div
                   class="d-flex justify-content-center align-items-center"
@@ -72,32 +71,9 @@
                     drop-placeholder="Subir archivo aquí..."
                     max-size="2048"
                   ></b-form-file>
-                  <button v-if="requeriment.pivot.file_url" class="ml-3 btn text-danger relative" @click.prevent="deleteFile(requeriment)" style="cursor:pointer">
-                    <font-awesome-icon :icon="['fa', 'trash']" @click.prevent="deleteFile(requeriment)"></font-awesome-icon>
+                  <button v-if="requeriment.pivot.file_url" class="ml-3 btn text-danger relative" @click="deleteFile(requeriment)" style="cursor:pointer">
+                    <font-awesome-icon :icon="['fa', 'trash']"></font-awesome-icon>
                   </button>
-                </div>
-              </b-col>
-              <b-col lg="3" class="d-flex justify-content-center align-items-center">
-                <div v-if="(requeriment.short_name === 'cedula' && is_valid_dni) ||
-                  (requeriment.short_name === 'rif' && is_valid_rif) ||
-                  (requeriment.short_name === 'licencia_comercio_animales' && is_valid_comerce_species_license) ||
-                  (requeriment.short_name === 'autorizacion_zoocriaderos' && is_valid_zoo_hatcheries_authorization)">
-                    Checkeado
-                </div>
-                <div class="d-flex justify-content-center align-items-center flex-column" v-else-if="requeriment.short_name !== 'documentos_especies'">
-                  <b-form-checkbox
-                    :disabled="!requeriment.pivot.file_url"
-                    @change="changeValid(requeriment, permit[0])"
-                    :id="'checkbox'+ requeriment.id"
-                    v-model="requeriment.pivot.is_valid"
-                    :value="1"
-                    :unchecked-value="0"
-                  >
-                    Válido
-                  </b-form-checkbox>
-                  <div >
-                    <b-form-input v-if="!requeriment.pivot.is_valid" v-model="requeriment.pivot.file_errors" placeholder="Indique el problema:" ></b-form-input>
-                  </div>
                 </div>
               </b-col>
             </b-row>
@@ -106,10 +82,20 @@
       </div>
 
     </div>
+
+    <b-modal v-model="showSelectSpecie" size="xl" id="species-modal" title="Agregar Especie" hide-footer>
+      <AddSpecie
+      v-on:addSpecie="addSpecieToList"
+      v-on:uploadSpecieFile="uploadSpecieFile"
+      v-on:closeAddSpecieDialog="closeAddSpecieDialog"
+      :selectedSpecies="permit[0].species" :showSelectSpecie="showSelectSpecie"
+      :type="type"/>
+    </b-modal>
     <b-modal v-model="showSelectedSpecies" size="xl" id="species-modal" title="Listado de Especies" hide-footer>
       <SelectedSpecies
       v-on:uploadSpecieFile="uploadSpecieFile"
-      v-on:deleteFile="deleteFile"
+      v-on:deleteSpecieFile="deleteSpecieFile"
+      v-on:deleteSpecie="deleteSpecie"
       v-on:closeSpecieListDialog="closeSpecieListDialog"
       :selectedSpecies="permit[0].species" :showSelectedSpecies="showSelectedSpecies"
       :type="type"/>
@@ -118,18 +104,19 @@
 </template>
 <script>
 
-import SelectedSpecies from '../permissions/SelectedSpecies.vue';
+import SelectedSpecies from '../../admin/permissions/SelectedSpecies.vue';
+import AddSpecie from '../AddSpecie.vue';
 export default {
   props: ['permit','type'],
   components: {
-    SelectedSpecies
+    SelectedSpecies,
+    AddSpecie
   },
   data: () => ({
     columns: [
       "Requerimiento",
       "Archivo",
-      "Acciones",
-      "Validación"
+      "Acciones"
     ],
     fileUpload: null,
     options: {
@@ -145,6 +132,7 @@ export default {
     showSelectSpecie: false,
     showSelectedSpecies: false,
 
+    selectedSpecies:[],
     families:[],
 
     kingdoms:[
@@ -179,21 +167,23 @@ export default {
       var form = new FormData();
       form.append("file", file);
       form.append("specie", JSON.stringify(specie));
+      form.append("permit", JSON.stringify(this.permit[0]));
       axios
-        .post(`/dashboard/permissions/uploadSpecieFile/`, form, {
+        .post(`/solicitante/permissions/uploadSpecieFile/`, form, {
           headers: {
               'Content-Type': 'multipart/form-data'
           }
         })
         .then(res => {
-          console.log(res.data)
+  
           specie.pivot.file_url = res.data
           this.makeToast('Archivo Guardado')
-          setTimeout(() => window.location.reload(), 1200)
+          // setTimeout(() => window.location.reload(), 1200)
         })
         .catch(err => {
           this.makeToast(err.toString(), 'danger')
         });
+        this.closeSpecieListDialog()
     },
     uploadFile (file, requeriment, index) {
 
@@ -202,13 +192,13 @@ export default {
       form.append("requeriment", JSON.stringify(requeriment));
 
       axios
-        .post(`/dashboard/permissions/uploadFile/`, form, {
+        .post(`/solicitante/permissions/uploadFile/`, form, {
           headers: {
               'Content-Type': 'multipart/form-data'
           }
         })
         .then(res => {
-          console.log(res.data)
+  
           this.makeToast('Archivo Guardado')
           requeriment.pivot.file_url = res.data
           setTimeout(() => window.location.reload(), 1200)
@@ -220,7 +210,7 @@ export default {
     changeValid(requeriment, permit){
 
       axios
-        .post(`/dashboard/permissions/check/`+permit.id, {requeriment: JSON.stringify(requeriment), permit: permit})
+        .post(`/dashboard/permissions/check/`+permit.id, {requeriment: requeriment, permit: permit})
         .then(res => {
           this.makeToast(res.data)
           // setTimeout(() => window.location.reload(), 1200)
@@ -229,11 +219,48 @@ export default {
           this.makeToast(err.toString(), 'danger')
         });
     },
+    closeAddSpecieDialog(){
+      this.showSelectSpecie = false
+    },
     closeSpecieListDialog(){
       this.showSelectedSpecies = false
     },
-    deleteFile(file){
-      console.log(file)
+    deleteFile(requeriment){
+      axios
+        .post(`/solicitante/permissions/deleteFile/${requeriment.pivot.permit_id}`, {requeriment: JSON.stringify(requeriment)})
+        .then(res => {
+          requeriment.pivot.file_url = null
+          this.makeToast(res.data)
+          setTimeout(() => window.location.reload(), 1200)
+        })
+        .catch(err => {
+          this.makeToast(err.toString(), 'danger')
+        });
+    },
+    deleteSpecie(specie){
+      console.log(specie)
+      axios
+        .post(`/solicitante/permissions/deleteSpecie`, {specie: JSON.stringify(specie), permit: JSON.stringify(this.permit[0])})
+        .then(res => {
+          this.permit[0].species.splice(specie.id - 1)
+          this.makeToast(res.data)
+          setTimeout(() => window.location.reload(), 1200)
+        })
+        .catch(err => {
+          this.makeToast(err.toString(), 'danger')
+        });
+    },
+    deleteSpecieFile(specie){
+      axios
+        .post(`/solicitante/permissions/deleteSpecieFile/${specie.pivot.permit_id}`, {specie: JSON.stringify(specie)})
+        .then(res => {
+          specie.pivot.file_url = null
+          this.makeToast(res.data)
+          setTimeout(() => window.location.reload(), 1200)
+        })
+        .catch(err => {
+          this.makeToast(err.toString(), 'danger')
+        });
     },
     makeToast(msg, variant = "success", delay = 3000, append = false) {
       this.$bvToast.toast(`${msg}`, {
@@ -243,9 +270,19 @@ export default {
         variant
       });
     },
+    submit(){},
     addSpecieToList(newSpecie){
-      console.log(newSpecie)
-      this.selectedSpecies.push(newSpecie)
+      axios
+        .post(`/solicitante/permissions/addSpecie`, {specie: JSON.stringify(newSpecie), permit: JSON.stringify(this.permit[0])})
+        .then(res => {
+          newSpecie.pivot.file_url = null
+          this.makeToast(res.data)
+          setTimeout(() => window.location.reload(), 1200)
+        })
+        .catch(err => {
+          this.makeToast(err.toString(), 'danger')
+        });
+      this.permit[0].species.push(newSpecie)
     },
   },
 }

@@ -8,6 +8,7 @@ use App\Models\permit;
 use App\Models\PermitType;
 use App\Models\Requeriment;
 use App\Models\Specie;
+use Carbon\Carbon;
 use Exception;
 
 class PermissionController extends Controller
@@ -61,10 +62,25 @@ class PermissionController extends Controller
     }
     public function storePermit(Request $request)
     {
+        $Date_day = Carbon::now()->format('Y-m-d');
+        $DateDay = Carbon::now()->format('Ymd');
+
+        $permisos =  permit::where('created_at','like', '%'.$Date_day.'%')->count();
+
         $faker = Faker::create();
         $permit = new permit();
-        $permit_no = intval($faker->ean8());
-        $permit->request_permit_no = $permit_no;
+        //$permit_no = intval($faker->ean8());
+        switch($countPermit){
+            case $countPermit < 10 :
+                $total_pemisos_dia = $countPermit + 1; 
+                $permit->request_permit_no = $DateDay.'00'.$total_pemisos_dia;
+            break;
+            case $countPermit >= 10 :
+                $total_pemisos_dia = $countPermit + 1; 
+                $permit->request_permit_no = $DateDay.'0'.$total_pemisos_dia;
+            break;
+        }
+        //$permit->request_permit_no = $permit_no;
         $permit->permit_type_id = $request->input('permit_type_id');
         $date = strtotime("+60 day");
         $permit->valid_until = date('M d, Y', $date);
@@ -109,4 +125,27 @@ class PermissionController extends Controller
 
         return response('Se ha solicitado el permiso, dirijase a la oficina del MINEC para entregar los recaudos.', 200);
     }
+
+    /*public function count(){
+
+        $Date_day = Carbon::now()->format('Y-m-d');
+        $DateDay = Carbon::now()->format('Ymd');
+
+        $countPermit =  permit::where('created_at','like', '%'.$Date_day.'%')->count();
+        switch($countPermit){
+            case $countPermit < 10 :
+                $total_pemisos_dia = $countPermit + 1; 
+                return $DateDay.'00'.$total_pemisos_dia;
+            break;
+            case $countPermit >= 10 :
+                $total_pemisos_dia = $countPermit + 1; 
+                return $DateDay.'0'.$total_pemisos_dia;
+            break;
+        }
+        /*if ($permisos < 10) {
+
+            $total_pemisos_dia = $permisos + 1; 
+        }
+        //return $DateDay.'00'.$total_pemisos_dia;
+    }*/
 }

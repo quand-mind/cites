@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Faker\Factory as Faker;
 use App\Models\permit;
+use App\Models\PermitType;
+use App\Models\Requeriment;
+use App\Models\Specie;
 use Exception;
 
 class PermissionController extends Controller
@@ -15,17 +18,39 @@ class PermissionController extends Controller
         $permissions = permit::where(['client_id' => $id])->with(['requeriments', 'permit_type'])->get();
         return view('permissions.permissions', compact('permissions'));
     }
+    public function getList()
+    {
+        $permissions = permit::with(['requeriments', 'permit_type'])->get();
+        return view('panel.dashboard.permissions.permissions', compact('permissions'));
+    }
+    public function checkPermit(Request $request, $id)
+    {
+        $permit = permit::find($id);
+        $newRequeriment = (object) $request->input('requeriment');
+        $pivot = (object) $newRequeriment->pivot;
+        if ($pivot->is_valid) {
+            $pivot->is_valid = 1;
+        } else {
+            $pivot->is_valid = 0;
+        }
+        $requeriment_id = $newRequeriment->id;
+        
+        $permit->requeriments[$requeriment_id -1]->pivot->is_valid = $pivot->is_valid;
+        $permit->push();
+        
+        return response('Estatus del Requerimiento Actualizado.', 200);
+    }
 
     public function showComercialExportSpecies()
     {   
         return view('permissions.requirements.comercial_export_species_requirements');
     }
-    public function showComercialExportSpeciesChecklist($id)
+    public function showChecklist($id)
     {
         try {
-            $permit = permit::where(['id' => $id, 'permit_type' => 'comercial_export'])->get();
+            $permit = permit::where(['id' => $id])->with(['requeriments', 'permit_type'])->get();
             if ($permit) {
-                return view('panel.dashboard.permissions.check_comercial_export_requirements', compact('permit'));
+                return view('panel.dashboard.permissions.check_requirements', compact('permit'));
             }
             else {
                 return view('errors.404');
@@ -37,21 +62,51 @@ class PermissionController extends Controller
     public function storePermit(Request $request)
     {
         $faker = Faker::create();
-        try {
-            $permit = new permit();
-            $permit_no = intval($faker->ean8());
-            $permit->request_permit_no = $permit_no;
-            $permit->permit_type = $request->input('type');
-            $date = strtotime("+60 day");
-            $permit->valid_until = date('M d, Y', $date);
-            $permit->purpose = $request->input('purpose');
-            $permit->status = "requested";
-            $permit->client_id = $request->input('client_id');
-            $permit->official_id = null;
-            $permit->save();
-            return response('Se ha solicitado el permiso, dirijase a la oficina del MINEC para entregar los recaudos.', 200);
-        } catch (\Exception $err) {
-            return response($err, 500);
-        } 
+        $permit = new permit();
+        $permit_no = intval($faker->ean8());
+        $permit->request_permit_no = $permit_no;
+        $permit->permit_type_id = $request->input('permit_type_id');
+        $date = strtotime("+60 day");
+        $permit->valid_until = date('M d, Y', $date);
+        $permit->purpose = $request->input('purpose');
+        $permit->status = "requested";
+        $permit->client_id = $request->input('client_id');
+        $permit->save();
+        
+        $species = $request->input('species');
+
+        foreach($species as $specie) {
+            $name = $specie['name'];
+            $findedSpecie = Specie::where('name_scientific', '=', $name)->get()->first();
+            if($findedSpecie) {
+                
+                $speciesIdsWithPivot[$findedSpecie->id] = ["qty" => $specie['qty']];
+            }
+            else{
+                $newSpecie = new Specie();
+                $newSpecie->type = $specie['kingdom'];
+                $newSpecie->name_scientific = $specie['name'];
+                $newSpecie->name_common = $specie['name'];
+                // $newSpecie->search_id = $specie->search_id;
+                $newSpecie->search_id = 1;
+                $newSpecie->save();
+
+                $speciesIdsWithPivot[$newSpecie->id] = ["qty" => $specie['qty']];
+            }
+        }
+        $permit->species()->sync($speciesIdsWithPivot);
+        $permitType = PermitType::where(['id' =>  $permit->permit_type_id])->with(['requeriments'])->get()->first();
+
+        $requeriments = $permitType->requeriments;
+
+        foreach($requeriments as $requeriment) {
+            $requerimentsIdsWithPivot[$requeriment->id] = ["file_url" => null, "is_valid" => false, "file_errors" => null];
+        }
+
+
+        $permit->requeriments()->sync($requerimentsIdsWithPivot);
+        $permit->save();
+
+        return response('Se ha solicitado el permiso, dirijase a la oficina del MINEC para entregar los recaudos.', 200);
     }
 }

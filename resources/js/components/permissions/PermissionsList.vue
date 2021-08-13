@@ -20,9 +20,9 @@
               <li class="">{{requeriment.name}}</li>
             </ul>
             <div class="w-100 d-flex justify-content-end align-items-center">
-             <button v-if="!showPurpose" class="btn btn-primary" @click="openPurposeData('comercial_export')">Solicitar Permiso</button>
+             <button v-if="!showPurpose" class="btn btn-primary" @click="openPurposeData(permit.id)">Solicitar Permiso</button>
             </div>
-            <div class="mt-3 d-flex flex-row justify-content-between" v-if="showPurpose && permit_type === 'comercial_export'">
+            <div class="mt-3 d-flex flex-row justify-content-between" v-if="showPurpose && permit_type_id === permit.id">
               <b-form-input v-model="purpose" placeholder="Propósito del Permiso:"></b-form-input>
               <div>
                 <b-button @click="showSelectSpecie = !showSelectSpecie" variant="info" v-b-modal>Añadir Especies</b-button>
@@ -40,14 +40,14 @@
         v-on:addSpecie="addSpecieToList"
         v-on:closeAddSpecieDialog="closeAddSpecieDialog"
         :selectedSpecies="selectedSpecies" :showSelectSpecie="showSelectSpecie"
-        type="client"/>
+        :type="type"/>
       </b-modal>
       <b-modal v-model="showSelectedSpecies" size="xl" id="species-modal" title="Listado de Especies" hide-footer>
         <SelectedSpeciesList
         v-on:deleteSpecie="deleteSpecie"
         v-on:closeSpecieListDialog="closeSpecieListDialog"
         :selectedSpecies="selectedSpecies" :showSelectedSpecies="showSelectedSpecies"
-        type="client"/>
+        :type="type"/>
       </b-modal>
     </div>
   </div>
@@ -63,13 +63,13 @@ export default {
     AddSpecie,
     SelectedSpeciesList
   },
-  props: ["permit_types"],
+  props: ["permit_types", 'type'],
   data: () => ({
     is_valid_dni: false,
     is_valid_rif: false,
     is_valid_zoo_hatcheries_authorization: false,
     is_valid_comerce_species_license: false,
-    permit_type: null,
+    permit_type_id: null,
     showPurpose: false,
     purpose: null,
     client_id:1,
@@ -81,8 +81,8 @@ export default {
     selectedSpecies:[],
   }),
   methods: {
-    openPurposeData(type){
-      this.permit_type = type
+    openPurposeData(id){
+      this.permit_type_id = id
       this.showPurpose = true
     },
     closeAddSpecieDialog(){
@@ -98,7 +98,7 @@ export default {
     requestAuthorization(){
 
       axios
-        .post(`/permissions/list/createComercialExportSpecies`, {species: this.selectedSpecies, type: this.permit_type, purpose: this.purpose, client_id: this.client_id})
+        .post(`/solicitante/permissions/list/createPermit`, {species: this.selectedSpecies, permit_type_id: this.permit_type_id, purpose: this.purpose, client_id: this.client_id})
         .then(res => {
           this.makeToast(res.data)
           setTimeout(() => window.location.reload(), 1200)
@@ -106,6 +106,14 @@ export default {
         .catch(err => {
           this.makeToast(err.toString(), 'danger')
         });
+    },
+    makeToast(msg, variant = "success", delay = 3000, append = false) {
+      this.$bvToast.toast(`${msg}`, {
+        title: 'Solicitud de Permiso Realizada, dirijase a las oficinas de MINEC para entregar los recaudos.',
+        autoHideDelay: delay,
+        appendToast: append,
+        variant
+      });
     },
     addSpecieToList(newSpecie){
       this.selectedSpecies.push(newSpecie)

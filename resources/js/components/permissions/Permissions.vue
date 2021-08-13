@@ -10,7 +10,8 @@
         </div>
         <div class="d-flex justify-content-between align-items-center">
           <span>{{permit.permit_type.name}}</span>
-          <button class="btn btn-primary" @click="showPermitStatus(permit)">Ver estado del Permiso</button>
+          <button v-if="type === 'client'" class="btn btn-primary" @click="showPermitStatus(permit)">Ver estado del Permiso</button>
+          <a v-if="type === 'admin'" class="btn btn-primary" :href="'/dashboard/permissions/check/'+ permit.id">Realizar Checkeo de la orden</a>
         </div>
       </div>
       <b-row>
@@ -39,8 +40,11 @@
             <a :href="requeriment.pivot.file_url" target="_blank"><font-awesome-icon :icon="['fa', 'eye']"></font-awesome-icon> Ver Archivo</a>
           </div>
           <div v-else>
-            <font-awesome-icon :icon="['fa', 'ban']"></font-awesome-icon>
-            No se ha subido el documento
+            <div v-if="requeriment.short_name ==='documentos_especies'"></div>
+            <div v-else>
+              <font-awesome-icon :icon="['fa', 'ban']"></font-awesome-icon>
+              No se ha subido el documento
+            </div>
           </div>
         </b-col>
         <b-col sm="12" lg="3">
@@ -69,7 +73,7 @@
 </template>
 <script>
 export default {
-  props:['permissions'],
+  props:['permissions', 'type'],
   data: () => ({
 
     columns: [

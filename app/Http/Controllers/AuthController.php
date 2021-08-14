@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use App\Models\client;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use JWTAuth;
@@ -28,6 +29,47 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
+
+    protected function storeClient(Request $request){
+         
+        $request->validate([
+            //model client
+            'username' => 'required',
+            'email' => 'required|unique:clients',
+            'role' => 'required',
+            'password' => 'required',
+            'name' => 'required',
+            'dni' => 'required|unique:users',
+            'nationality' => 'required',
+            'domicile' => 'required',
+            'address' => 'required',
+            'phone' => 'required',
+            'mobile' => 'required',
+            'fax' => 'required',
+        ]);
+
+                //$usersData = $request->only('users');
+        $users = User::create([
+            $users->name = $request->input('name'),
+            $users->dni = $request->input('dni'),
+            $users->nationality = $request->input('nationality'),
+            $users->domicile = $request->input('domicile'),
+            $users->address = $request->input('address'),
+            $users->phone = $request->input('phone'),
+            $users->mobile = $request->input('mobile'),
+            $users->fax = $request->input('fax')
+        ]);
+                
+        $client = new client();
+        $client->username = $request->input('username');
+        $client->email = $request->input('email');
+        $client->passwors = Hash::make($request->input('password'));
+        $client->user_id = $users->id;
+        $client->save();
+
+        return 'Client create';
+    }           
+
     public function login(Request $request)
     {
         $this->validate($request, [

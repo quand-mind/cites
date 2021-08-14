@@ -20,7 +20,6 @@ class CreateClientsTable extends Migration
             $table->enum('role', ['persona_juridica', 'persona_natural']);
             $table->string('password');
             $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->string('api_token')->nullabel();
             $table->rememberToken();
 
             //Recaudos

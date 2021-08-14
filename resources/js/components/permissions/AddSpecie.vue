@@ -5,28 +5,20 @@
       <span> <small>Filtros de Busqueda</small></span>
     </div>
     <b-row class="d-flex justify-content-center align-items-center">
-      <b-col sm="12" md="4" lg="2" class="input-group mb-3 ">
-        <b-form-select v-model="newSpecie.kingdom" :options="kingdoms"></b-form-select>
+      <b-col sm="12" md="4" lg="4" class="input-group mb-3 ">
+        <b-form-select @input="setSpecieData()" v-model="newSpecie.kingdom" :options="kingdoms"></b-form-select>
+      </b-col>
+      <b-col sm="12" md="4" lg="6" class="input-group mb-3">
+        <b-form-select :disabled="!showSpecies" v-model="newSpecie.name_common" :options="species"></b-form-select>
       </b-col>
       <b-col sm="12" md="4" lg="2" class="input-group mb-3">
-        <b-form-select v-model="newSpecie.family" :options="families"></b-form-select>
-      </b-col>
-      <b-col sm="12" md="4" lg="2" class="input-group mb-3">
-        <b-form-select v-model="newSpecie.class" :options="classes"></b-form-select>
-      </b-col>
-      <b-col sm="12" md="4" lg="2" class="input-group mb-3">
-        <b-form-select v-model="newSpecie.phylum" :options="phylums"></b-form-select>
-      </b-col>
-      <b-col sm="12" md="4" lg="2" class="input-group mb-3">
-        <b-form-select v-model="newSpecie.name_common" :options="species"></b-form-select>
-      </b-col>
-      <b-col sm="12" md="4" lg="2" class="input-group mb-3">
-        <b-form-input v-model="newSpecie.qty" placeholder="Cantidad:"></b-form-input>
+        <b-form-input :disabled="!showSpecies" v-model="newSpecie.qty" placeholder="Cantidad:"></b-form-input>
       </b-col>
     </b-row>
     <b-row class="d-flex justify-content-end align-items-center">
       <b-col sm="12" md="8" lg="9" class="input-group mb-3">
         <b-form-file
+          :disabled="!showSpecies"
           @input="uploadFile(newSpecie)"
           accept=".pdf, .jpg, .png"
           v-model="file"
@@ -49,39 +41,36 @@ export default {
 
     newSpecie: {
       name_common: null,
-      phylum: null,
-      family: null,
-      class: null,
       kingdom: null,
       pivot:{
         file_url:null
       },
       qty: null
     },
+    showSpecies: false,
     file:null,
 
     kingdoms:[
-      { value: null, text: 'Tipo' },
+      { value: null, text: 'Tipo', disabled: true },
       { value: 'Animalia', text: 'Animalia' },
       { value: 'Plantae', text: 'Plantae' },
     ],
-    families:[
-      { value: null, text: 'Familia' },
-      { value: 'Antilocapridae', text: 'Antilocapridae' },
+
+    plants:[
+      { value: null, text: 'Especie', disabled: true },
+      { value: 'Orquidea', text: 'Orquidea' },
+      { value: 'Araguaney', text: 'Araguaney' },
+      { value: 'Girasol', text: 'Girasol' },
     ],
-    classes:[
-      { value: null, text: 'Clase' },
-      { value: 'Mammalia', text: 'Mammalia' },
-    ],
-    phylums:[
-      { value: null, text: 'Filo' },
-      { value: 'Chordata', text: 'Chordata' },
-    ],
-    species:[
-      { value: null, text: 'Especie' },
+
+    animals:[
+      { value: null, text: 'Especie', disabled: true },
       { value: 'Berrendo', text: 'Berrendo' },
       { value: 'Perro', text: 'Perro' },
       { value: 'Gato', text: 'Gato' },
+    ],
+    species:[
+      { value: null, text: 'Especie', disabled: true },
     ],
 
   }),
@@ -96,8 +85,17 @@ export default {
     }
   },
   methods: {
+    setSpecieData(){
+      if (this.newSpecie.kingdom === 'Animalia'){
+        this.species = this.animals
+      }
+      else {
+        this.species = this.plants
+      }
+      this.showSpecies = true
+    },
     uploadFile (specie) {
-      this.$emit('uploadSpecieFile', this.file, specie)
+      this.$emit('uploadSpecieFile', this.file, specie, true)
     },
     closeAddSpecieDialog(){
       false
@@ -107,9 +105,6 @@ export default {
       this.$emit('addSpecie', this.newSpecie)
       this.newSpecie = {
         name_common: null,
-        phylum: null,
-        family: null,
-        class: null,
         kingdom: null,
         pivot:{
           file_url:null,

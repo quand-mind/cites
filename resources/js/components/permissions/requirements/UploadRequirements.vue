@@ -1,8 +1,8 @@
 <template>
   <div>
     <div>
-      <h1 class="ml-4 mb-4">Permiso N° {{permit[0].request_permit_type_no}}</h1>
-      <h4 class="ml-4 mb-4">Hoja de Checkeo de Requisitos</h4>
+      <h1 class="ml-4 mb-4">Permiso N° {{permit[0].request_permit_no}}</h1>
+      <h4 class="ml-4 mb-4">Subida de Requisitos</h4>
       <h4 class="ml-4 mb-4">Requisitos para: <br> ({{permit[0].permit_type.name}})</h4>
       <div class="card card-body">
         <div class="d-flex justify-content-center align-items-center flex-column">
@@ -62,7 +62,7 @@
             </b-row>
           </div>
         </div>
-        <button :disabled="!isUploadedRequirements" class="btn btn-primary">Finalizar Subida de Recaudos</button>
+        <button v-if="permit[0].status === 'uploading_requeriments'" :disabled="!isUploadedRequirements" @click="requestPermit()" class="btn btn-primary">Finalizar Subida de Recaudos</button>
       </div>
 
     </div>
@@ -179,12 +179,13 @@ export default {
         return 1
       }
     },
-    uploadSpecieFile (file, specie) {
+    uploadSpecieFile (file, specie, isNew) {
 
       var form = new FormData();
       form.append("file", file);
       form.append("specie", JSON.stringify(specie));
       form.append("permit", JSON.stringify(this.permit[0]));
+      form.append("isNew", JSON.stringify(isNew));
       axios
         .post(`/solicitante/permissions/uploadSpecieFile/`, form, {
           headers: {
@@ -242,6 +243,17 @@ export default {
     closeSpecieListDialog(){
       this.showSelectedSpecies = false
     },
+    requestPermit(){
+      axios
+        .post(`/solicitante/permissions/requestPermit/${this.permit[0].id}`)
+        .then(res => {
+          this.makeToast(res.data)
+          setTimeout(() => window.location.reload(), 1200)
+        })
+        .catch(err => {
+          this.makeToast(err.toString(), 'danger')
+        });
+    },
     deleteFile(requeriment){
       axios
         .post(`/solicitante/permissions/deleteFile/${requeriment.pivot.permit_id}`, {requeriment: JSON.stringify(requeriment)})
@@ -294,7 +306,7 @@ export default {
         .then(res => {
           newSpecie.pivot.file_url = null
           this.makeToast(res.data)
-          setTimeout(() => window.location.reload(), 1200)
+          // setTimeout(() => window.location.reload(), 1200)
         })
         .catch(err => {
           this.makeToast(err.toString(), 'danger')

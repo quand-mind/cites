@@ -22,14 +22,6 @@
                 <div v-if="requeriment.short_name === 'documentos_especies'">
                   <font-awesome-icon :icon="['fa', 'clipboard-list']"></font-awesome-icon> Especies Agregadas: {{permit[0].species.length}}
                 </div>
-                <div v-else-if="(requeriment.short_name === 'cedula' && is_valid_dni) ||
-                (requeriment.short_name === 'dni' && is_valid_rif) ||
-                (requeriment.short_name === 'licencia_comercio_animales' && is_valid_comerce_species_license) ||
-                (requeriment.short_name === 'autorizacion_zoocriaderos' && is_valid_zoo_hatcheries_authorization)">
-
-                  <font-awesome-icon :icon="['fa', 'check']"></font-awesome-icon>
-                  Ya está registrado este Documento
-                </div>
                 <div v-else-if="!requeriment.pivot.file_url">
                   <font-awesome-icon :icon="['fa', 'ban']"></font-awesome-icon> No hay un archivo subido
                 </div>
@@ -37,54 +29,17 @@
                   <a :href="`/${requeriment.pivot.file_url}`" target="_blank"><font-awesome-icon :icon="['fa', 'eye']"></font-awesome-icon> Ver Archivo</a>
                 </div>
               </b-col>
-              <b-col lg="3">
+              
+              <b-col lg="3" class="d-flex justify-content-center align-items-center">
                 <div
                   class="d-flex justify-content-center align-items-center"
-                  v-if="(requeriment.short_name === 'cedula' && is_valid_dni) ||
-                  (requeriment.short_name === 'rif' && is_valid_rif) ||
-                  (requeriment.short_name === 'licencia_comercio_animales' && is_valid_comerce_species_license) ||
-                  (requeriment.short_name === 'autorizacion_zoocriaderos' && is_valid_zoo_hatcheries_authorization)"
-                >
-                Checkeado
-                </div>
-                <div
-                  class="d-flex justify-content-center align-items-center"
-                  v-else-if="requeriment.short_name === 'documentos_especies'"
+                  v-if="requeriment.short_name === 'documentos_especies'"
                 >
                   <button :disabled="!permit[0].species.length > 0" class="btn text-dark" @click="showSelectedSpecies = true" style="cursor:pointer">
                     <font-awesome-icon :icon="['fa', 'eye']"></font-awesome-icon>
                   </button>
                 </div>
-                <div
-                  class="d-flex justify-content-center align-items-center"
-                  v-else
-                >
-                  <label v-if="!requeriment.pivot.file_url" class="btn text-dark" :for="'file'+ requeriment.id" style="cursor:pointer">
-                    <font-awesome-icon :icon="['fa', 'upload']"></font-awesome-icon>
-                  </label>
-                  <b-form-file
-                    @input="uploadFile(file, requeriment, index)"
-                    :data-id="requeriment.id"
-                    style="display:none"
-                    :id="'file'+ requeriment.id"
-                    accept=".pdf, .jpg, .png"
-                    v-model="file"
-                    drop-placeholder="Subir archivo aquí..."
-                    max-size="2048"
-                  ></b-form-file>
-                  <button v-if="requeriment.pivot.file_url" class="ml-3 btn text-danger relative" @click.prevent="deleteFile(requeriment)" style="cursor:pointer">
-                    <font-awesome-icon :icon="['fa', 'trash']" @click.prevent="deleteFile(requeriment)"></font-awesome-icon>
-                  </button>
-                </div>
-              </b-col>
-              <b-col lg="3" class="d-flex justify-content-center align-items-center">
-                <div v-if="(requeriment.short_name === 'cedula' && is_valid_dni) ||
-                  (requeriment.short_name === 'rif' && is_valid_rif) ||
-                  (requeriment.short_name === 'licencia_comercio_animales' && is_valid_comerce_species_license) ||
-                  (requeriment.short_name === 'autorizacion_zoocriaderos' && is_valid_zoo_hatcheries_authorization)">
-                    Checkeado
-                </div>
-                <div class="d-flex justify-content-center align-items-center flex-column" v-else-if="requeriment.short_name !== 'documentos_especies'">
+                <div class="d-flex justify-content-center align-items-center flex-row" v-else-if="requeriment.short_name !== 'documentos_especies'">
                   <b-form-checkbox
                     :disabled="!requeriment.pivot.file_url"
                     @change="changeValid(requeriment, permit[0])"
@@ -96,7 +51,7 @@
                     Válido
                   </b-form-checkbox>
                   <div >
-                    <b-form-input v-if="!requeriment.pivot.is_valid" v-model="requeriment.pivot.file_errors" placeholder="Indique el problema:" ></b-form-input>
+                    <b-form-input @change="sendErrors(requeriment, permit[0])" class="ml-4" v-if="showErrors && errorId === requeriment.id" v-model="requeriment.pivot.file_errors" placeholder="Indique el problema:" ></b-form-input>
                   </div>
                 </div>
               </b-col>
@@ -109,6 +64,7 @@
     <b-modal v-model="showSelectedSpecies" size="xl" id="species-modal" title="Listado de Especies" hide-footer>
       <SelectedSpecies
       v-on:uploadSpecieFile="uploadSpecieFile"
+      v-on:validSpecies="validSpecies"
       v-on:deleteFile="deleteFile"
       v-on:closeSpecieListDialog="closeSpecieListDialog"
       :selectedSpecies="permit[0].species" :showSelectedSpecies="showSelectedSpecies"
@@ -128,7 +84,6 @@ export default {
     columns: [
       "Requerimiento",
       "Archivo",
-      "Acciones",
       "Validación"
     ],
     fileUpload: null,
@@ -142,6 +97,8 @@ export default {
     is_valid_zoo_hatcheries_authorization: false,
     is_valid_comerce_species_license: false,
 
+    errorId: null,
+    showErrors: false,
     showSelectSpecie: false,
     showSelectedSpecies: false,
 
@@ -218,7 +175,37 @@ export default {
         });
     },
     changeValid(requeriment, permit){
-
+      requeriment.pivot.is_valid = !requeriment.pivot.is_valid
+      if (requeriment.pivot.is_valid){
+        this.showErrors = false
+        this.errorId = null
+        requeriment.pivot.file_errors = null
+        axios
+          .post(`/dashboard/permissions/check/`+permit.id, {requeriment: JSON.stringify(requeriment), permit: permit})
+          .then(res => {
+            this.makeToast(res.data)
+            // setTimeout(() => window.location.reload(), 1200)
+          })
+          .catch(err => {
+            this.makeToast(err.toString(), 'danger')
+          });
+      } else {
+        this.showErrors = true
+        this.errorId = requeriment.id
+      }
+    },
+    validSpecies(specie, index){
+      axios
+        .post(`/dashboard/permissions/checkSpecies/`+this.permit[0].id, {specie: JSON.stringify(specie), permit: this.permit[0], index: index})
+        .then(res => {
+          this.makeToast(res.data)
+          // setTimeout(() => window.location.reload(), 1200)
+        })
+        .catch(err => {
+          this.makeToast(err.toString(), 'danger')
+        });
+    },
+    sendErrors(requeriment, permit){
       axios
         .post(`/dashboard/permissions/check/`+permit.id, {requeriment: JSON.stringify(requeriment), permit: permit})
         .then(res => {

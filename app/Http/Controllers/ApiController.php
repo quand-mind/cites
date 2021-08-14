@@ -15,7 +15,7 @@ class ApiController extends Controller
         $url = "https://api.speciesplus.net/api/v1/taxon_concepts";
 
         $headers= [
-            //'Content-Type' => 'application/json',
+            // 'Content-Type' => 'application/json',
             'X-Authentication-Token' => 'uD2JyZT7CvR1Snol3xKrYgtt',
         ];
 
@@ -26,7 +26,7 @@ class ApiController extends Controller
 
         $species = json_decode($response->getBody()->getContents());
 
-        //return $species;
-        return view('species', compact('species'));
+        // return $species;
+        // return view('species', compact('species'));
     }
 }

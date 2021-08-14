@@ -51,15 +51,15 @@ Route::middleware('auth:api')->group(function () {
     
         // Permissions Routes
         Route::get('/list', 'PermitTypeController@index');
-        Route::post('/uploadSpecieFile', 'PermissionController@storeSpecieFile');
+        Route::post('/requestPermit/{id}', 'PermissionController@requestPermit');
+        Route::post('/list/createPermit', 'PermissionController@storePermit');
+        Route::get('/uploadRequirements/{id}', 'PermissionController@showUploadRequeriments');
         Route::post('/uploadFile', 'PermissionController@storeFile');
         Route::post('/deleteFile/{id}', 'PermissionController@deleteFile');
+        Route::post('/uploadSpecieFile', 'PermissionController@storeSpecieFile');
         Route::post('/deleteSpecieFile/{id}', 'PermissionController@deleteSpecieFile');
         Route::post('/addSpecie', 'PermissionController@addSpecie');
         Route::post('/deleteSpecie', 'PermissionController@deleteSpecie');
-        Route::get('/permissions/check/{id}', 'PermissionController@showChecklist');
-        Route::post('/list/createPermit', 'PermissionController@storePermit');
-        Route::get('/uploadRequirements/{id}', 'PermissionController@showUploadRequeriments');
         Route::get('/comercialExportSpecies/requirements/check/{id}', 'PermissionController@showComercialExportSpeciesChecklist');
         Route::get('/comercialExportSpecies/requirements', 'PermissionController@showComercialExportSpecies');
         // Route::post('//create', 'AuthorizationController@storeZoo');

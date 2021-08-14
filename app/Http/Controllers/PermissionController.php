@@ -54,10 +54,10 @@ class PermissionController extends Controller
             // $newSpecie->search_id = $specie->search_id;
             $newSpecie->search_id = 1;
             $newSpecie->save();
-            $speciesIdsWithPivot[$newSpecie->id] = ["qty" => $specie->qty, "file_url" => $specie->pivot->qty, "is_valid" => false];
-            $getPermit->species()->attach($newSpecie->id);
+            $speciesIdsWithPivot[$newSpecie->id] = ["qty" => $specie->qty, "file_url" => $specie->pivot->file_url, "is_valid" => false];
+            $getPermit->species()->attach($speciesIdsWithPivot);
         }
-        return response('Especie Eliminada', 200);
+        return response('Especie Añadida', 200);
     }
     public function deleteSpecie(Request $request)
     {
@@ -71,7 +71,7 @@ class PermissionController extends Controller
         
         $getPermit->species()->detach($specie->id);
         
-        return response('Especie Añadida', 200);
+        return response('Especie Eliminada', 200);
     }
     public function showFile($name)
     {
@@ -79,6 +79,13 @@ class PermissionController extends Controller
             'Content-Type' => 'application/pdf',
             'Content-Disposition' => 'inline; filename="'.$name.'"'
         ]);
+    }
+    public function requestPermit($id)
+    {
+        $permit = permit::find($id);
+        $permit->status = 'requested';
+        $permit->save();
+        return response('Solicitud de Permiso finalizada', 200);
     }
     public function deleteFile($id, Request $request)
     {
@@ -114,11 +121,12 @@ class PermissionController extends Controller
         $file = $request->file('file');
         $specie = json_decode($request->input('specie'));
         $permit = json_decode($request->input('permit'));
+        $isNew = json_decode($request->input('isNew'));
         $specie_name = $specie->name_common;
         $permit_id = $permit->id;
         $nameFile = "permit_".$permit_id."_specie_".$specie_name."_file_".time().".".$file->guessExtension();
         $url = $request->file('file')->storeAs('files/permissions', $nameFile);
-        if ($specie->id) {
+        if (!$isNew) {
             $permit = permit::find($permit_id);
             $permit->species[$specie->id -1]->pivot->file_url = $url;
             $permit->push();
@@ -142,9 +150,8 @@ class PermissionController extends Controller
     public function checkPermit(Request $request, $id)
     {
         $permit = permit::find($id);
-        $getRequeriment = $request->input('requeriment');
-        $newRequeriment = (object) $request->input('requeriment');
-        $pivot = (object) $newRequeriment->pivot;
+        $newRequeriment = json_decode($request->input('requeriment'));
+        $pivot = $newRequeriment->pivot;
         $requeriment_id = $newRequeriment->id;
         if ($pivot->is_valid) {
             $pivot->is_valid = 1;
@@ -152,9 +159,30 @@ class PermissionController extends Controller
             $permit->requeriments[$requeriment_id -1]->pivot->file_errors = null;
         } else {
             $pivot->is_valid = 0;
-            $pivot->file_errors = 0;
             $permit->requeriments[$requeriment_id -1]->pivot->is_valid = $pivot->is_valid;
             $permit->requeriments[$requeriment_id -1]->pivot->file_errors = $pivot->file_errors;
+        }
+        
+        $permit->push();
+        
+        return response('Estatus del Requerimiento Actualizado.', 200);
+    }
+    public function checkSpecies(Request $request, $id)
+    {
+        $permit = permit::find($id);
+        $newSpecie = json_decode($request->input('specie'));
+        $index = $request->input('index');
+        // return $newSpecie;
+        $pivot = $newSpecie->pivot;
+        $specie_id = $newSpecie->id;
+        if ($pivot->is_valid) {
+            $pivot->is_valid = 1;
+            $permit->species[$index]->pivot->file_errors = null;
+            $permit->species[$index]->pivot->is_valid = $pivot->is_valid;
+        } else {
+            $pivot->is_valid = 0;
+            $permit->species[$index]->pivot->is_valid = $pivot->is_valid;
+            $permit->species[$index]->pivot->file_errors = $pivot->file_errors;
         }
         
         $permit->push();
@@ -200,18 +228,18 @@ class PermissionController extends Controller
         $Date_day = Carbon::now()->format('Y-m-d');
         $DateDay = Carbon::now()->format('Ymd');
 
-        $permisos =  permit::where('created_at','like', '%'.$Date_day.'%')->count();
+        $permisos =  permit::where('created_at', 'like', '%'.$Date_day.'%')->count();
 
         $faker = Faker::create();
         $permit = new permit();
         //$permit_no = intval($faker->ean8());
-        switch($countPermit){
-            case $countPermit < 10 :
-                $total_pemisos_dia = $countPermit + 1; 
+        switch($permisos){
+            case $permisos < 10 :
+                $total_pemisos_dia = $permisos + 1; 
                 $permit->request_permit_no = $DateDay.'00'.$total_pemisos_dia;
             break;
-            case $countPermit >= 10 :
-                $total_pemisos_dia = $countPermit + 1; 
+            case $permisos >= 10 :
+                $total_pemisos_dia = $permisos + 1; 
                 $permit->request_permit_no = $DateDay.'0'.$total_pemisos_dia;
             break;
         }
@@ -223,29 +251,8 @@ class PermissionController extends Controller
         $permit->status = "uploading_requeriments";
         $permit->client_id = $request->input('client_id');
         $permit->save();
+
         
-        $species = $request->input('species');
-
-        foreach($species as $specie) {
-            $name = $specie['name'];
-            $findedSpecie = Specie::where('name_scientific', '=', $name)->get()->first();
-            if($findedSpecie) {
-                
-                $speciesIdsWithPivot[$findedSpecie->id] = ["qty" => $specie['qty']];
-            }
-            else{
-                $newSpecie = new Specie();
-                $newSpecie->type = $specie['kingdom'];
-                $newSpecie->name_scientific = $specie['name'];
-                $newSpecie->name_common = $specie['name'];
-                // $newSpecie->search_id = $specie->search_id;
-                $newSpecie->search_id = 1;
-                $newSpecie->save();
-
-                $speciesIdsWithPivot[$newSpecie->id] = ["qty" => $specie['qty']];
-            }
-        }
-        $permit->species()->sync($speciesIdsWithPivot);
         $permitType = PermitType::where(['id' =>  $permit->permit_type_id])->with(['requeriments'])->get()->first();
 
         $requeriments = $permitType->requeriments;

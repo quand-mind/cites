@@ -4,6 +4,8 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
+
+import VueBootstrapTypeahead from 'vue-bootstrap-typeahead'
 require("./bootstrap");
 
 window.Vue = require("vue");
@@ -34,6 +36,8 @@ library.add(far);
 Vue.component("font-awesome-icon", FontAwesomeIcon);
 
 import BootstrapVue from "bootstrap-vue";
+
+Vue.component('vue-bootstrap-typeahead', VueBootstrapTypeahead)
 
 Vue.use(BootstrapVue);
 

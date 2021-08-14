@@ -200,6 +200,7 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         Route::post('/permissions/uploadFile', 'PermissionController@storeFile');
         Route::get('/permissions/check/{id}', 'PermissionController@showChecklist');
         Route::post('/permissions/check/{id}', 'PermissionController@checkPermit');
+        Route::post('/permissions/checkSpecies/{id}', 'PermissionController@checkSpecies');
     });
 });
 

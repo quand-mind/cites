@@ -18,6 +18,7 @@ class CreatePermitSpecieTable extends Migration
             $table->foreignId('permit_id')->references('id')->on('permits')->onDelete('cascade')->constrained()->onDelete('cascade');
             $table->foreignId('specie_id')->references('id')->on('species')->onDelete('cascade')->constrained()->onDelete('cascade');
             $table->string('file_url')->nullable();
+            $table->string('file_errors')->nullable();
             $table->boolean('is_valid')->nullable();
             $table->bigInteger('qty');
             $table->timestamps();

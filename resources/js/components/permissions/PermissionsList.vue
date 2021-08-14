@@ -25,45 +25,23 @@
             <div class="mt-3 d-flex flex-row justify-content-between" v-if="showPurpose && permit_type_id === permit.id">
               <b-form-input v-model="purpose" placeholder="Propósito del Permiso:"></b-form-input>
               <div>
-                <b-button @click="showSelectSpecie = !showSelectSpecie" variant="info" v-b-modal>Añadir Especies</b-button>
-                <b-button @click="showSelectedSpecies = !showSelectedSpecies" variant="success" :disabled="!selectedSpecies.length > 0" v-b-modal>Listado de Especies</b-button>
                 <button class="btn btn-danger" @click="showPurpose = false">Cancelar</button>
-                <button class="btn btn-primary" :disabled="!(selectedSpecies.length > 0 && purpose) " @click="requestAuthorization()">Solicitar Permiso</button>
+                <button class="btn btn-primary" :disabled="!purpose" @click="requestAuthorization()">Solicitar Permiso</button>
               </div>
             </div>
           </div>
 
         </div>
       </ul>
-      <b-modal v-model="showSelectSpecie" size="xl" id="species-modal" title="Agregar Especie" hide-footer>
-        <AddSpecie
-        v-on:addSpecie="addSpecieToList"
-        v-on:closeAddSpecieDialog="closeAddSpecieDialog"
-        :selectedSpecies="selectedSpecies" :showSelectSpecie="showSelectSpecie"
-        :type="type"/>
-      </b-modal>
-      <b-modal v-model="showSelectedSpecies" size="xl" id="species-modal" title="Listado de Especies" hide-footer>
-        <SelectedSpeciesList
-        v-on:deleteSpecie="deleteSpecie"
-        v-on:closeSpecieListDialog="closeSpecieListDialog"
-        :selectedSpecies="selectedSpecies" :showSelectedSpecies="showSelectedSpecies"
-        :type="type"/>
-      </b-modal>
     </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
-import AddSpecie from '../permissions/AddSpecie.vue';
-import SelectedSpeciesList from '../permissions/SelectedSpeciesList.vue';
 
 export default {
-  components: {
-    AddSpecie,
-    SelectedSpeciesList
-  },
-  props: ["permit_types", 'type'],
+  props: ["permit_types", 'type', 'client_data'],
   data: () => ({
     is_valid_dni: false,
     is_valid_rif: false,
@@ -85,20 +63,10 @@ export default {
       this.permit_type_id = id
       this.showPurpose = true
     },
-    closeAddSpecieDialog(){
-      this.showSelectSpecie = false
-    },
-    closeSpecieListDialog(){
-      this.showSelectedSpecies = false
-    },
-    deleteSpecie(index){
-      console.log(index)
-      this.selectedSpecies.splice(index, 1)
-    },
     requestAuthorization(){
 
       axios
-        .post(`/solicitante/permissions/list/createPermit`, {species: this.selectedSpecies, permit_type_id: this.permit_type_id, purpose: this.purpose, client_id: this.client_id})
+        .post(`/solicitante/permissions/list/createPermit`, { permit_type_id: this.permit_type_id, purpose: this.purpose, client_id: this.client_data[0].clients[0].id})
         .then(res => {
           this.makeToast(res.data)
           setTimeout(() => window.location.reload(), 1200)
@@ -114,10 +82,6 @@ export default {
         appendToast: append,
         variant
       });
-    },
-    addSpecieToList(newSpecie){
-      this.selectedSpecies.push(newSpecie)
-      this.showSelectSpecie = false
     },
   },
   mounted() {

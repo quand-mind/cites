@@ -128,7 +128,7 @@ class PermissionController extends Controller
     public function index()
     {
         $id = 1;
-        $clientData = client::with(['users'])->get();
+        $clientData = client::with(['users']);
         $permissions = permit::where(['client_id' => $id])->with(['requeriments', 'permit_type'])->get();
         return view('permissions.permissions', compact(['permissions', 'clientData']));
     }
@@ -218,7 +218,7 @@ class PermissionController extends Controller
         $date = strtotime("+60 day");
         $permit->valid_until = date('M d, Y', $date);
         $permit->purpose = $request->input('purpose');
-        $permit->status = "not_requ";
+        $permit->status = "uploading_requeriments";
         $permit->client_id = $request->input('client_id');
         $permit->save();
         

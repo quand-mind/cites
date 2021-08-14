@@ -10,7 +10,8 @@
         </div>
         <div class="d-flex justify-content-between align-items-center">
           <span>{{permit.permit_type.name}}</span>
-          <button v-if="type === 'client'" class="btn btn-primary" @click="showPermitStatus(permit)">Ver estado del Permiso</button>
+          <a v-if="permit.status === 'uploading_requeriments'" class="btn btn-primary" :href="'/solicitante/permissions/uploadRequirements/'.permit.id">Ver estado del Permiso</a>
+          <button v-else-if="type === 'client'" class="btn btn-primary" @click="showPermitStatus(permit)">Ver estado del Permiso</button>
           <a v-if="type === 'admin'" class="btn btn-primary" :href="'/dashboard/permissions/check/'+ permit.id">Realizar Checkeo de la orden</a>
         </div>
       </div>

@@ -18,14 +18,6 @@
                 <div v-if="requeriment.short_name === 'documentos_especies'">
                   <font-awesome-icon :icon="['fa', 'clipboard-list']"></font-awesome-icon> Especies Agregadas: {{permit[0].species.length}}
                 </div>
-                <div v-else-if="(requeriment.short_name === 'cedula' && is_valid_dni) ||
-                (requeriment.short_name === 'dni' && is_valid_rif) ||
-                (requeriment.short_name === 'licencia_comercio_animales' && is_valid_comerce_species_license) ||
-                (requeriment.short_name === 'autorizacion_zoocriaderos' && is_valid_zoo_hatcheries_authorization)">
-
-                  <font-awesome-icon :icon="['fa', 'check']"></font-awesome-icon>
-                  Ya está registrado este Documento
-                </div>
                 <div v-else-if="!requeriment.pivot.file_url">
                   <font-awesome-icon :icon="['fa', 'ban']"></font-awesome-icon> No hay un archivo subido
                 </div>
@@ -36,16 +28,7 @@
               <b-col lg="3">
                 <div
                   class="d-flex justify-content-center align-items-center"
-                  v-if="(requeriment.short_name === 'cedula' && is_valid_dni) ||
-                  (requeriment.short_name === 'rif' && is_valid_rif) ||
-                  (requeriment.short_name === 'licencia_comercio_animales' && is_valid_comerce_species_license) ||
-                  (requeriment.short_name === 'autorizacion_zoocriaderos' && is_valid_zoo_hatcheries_authorization)"
-                >
-                Checkeado
-                </div>
-                <div
-                  class="d-flex justify-content-center align-items-center"
-                  v-else-if="requeriment.short_name === 'documentos_especies'"
+                  v-if="requeriment.short_name === 'documentos_especies'"
                 >
                   <button :disabled="!permit[0].species.length > 0" class="btn text-dark" @click="showSelectedSpecies = true" style="cursor:pointer">
                     <font-awesome-icon :icon="['fa', 'eye']"></font-awesome-icon>
@@ -79,6 +62,7 @@
             </b-row>
           </div>
         </div>
+        <button :disabled="!isUploadedRequirements" class="btn btn-primary">Finalizar Subida de Recaudos</button>
       </div>
 
     </div>
@@ -161,7 +145,40 @@ export default {
 
 
   }),
+  computed: {
+    isUploadedRequirements(){
+      let count = 0 
+      for (const requeriment of this.permit[0].requeriments) {
+        if (requeriment.short_name === 'documentos_especies') {
+          let speciesCount = this.checkUploadedSpecies(count)
+          count += speciesCount
+        }
+        else if (requeriment.pivot.file_url){
+          count++
+        }
+      }
+      if(this.permit[0].requeriments.length === count) {
+        return true
+        // return count
+      }
+      else{
+        // return count
+        return false
+      }
+    }
+  },
   methods: {
+    checkUploadedSpecies(count){
+      let speciesCount = 0
+      for (const specie of this.permit[0].species) {
+        if (specie.pivot.file_url){
+          speciesCount++
+        }
+      }
+      if(speciesCount === this.permit[0].species.length){
+        return 1
+      }
+    },
     uploadSpecieFile (file, specie) {
 
       var form = new FormData();

@@ -24,7 +24,7 @@ class permit extends Model
         'consignado_a_destiny',
         'port_boarding_destiny',
         'port_disembarkation_destiny',
-        'destiny place',
+        'destiny_place',
         'place_departure',
         'departure_date'
     ];

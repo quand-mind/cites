@@ -29,7 +29,7 @@ class CreatePermitsTable extends Migration
             $table->string('consignado_a_destiny')->nullable();
             $table->string('port_boarding_destiny')->nullable();
             $table->string('port_disembarkation_destiny')->nullable();
-            $table->string('destiny place')->nullable();
+            $table->string('destiny_place')->nullable();
             $table->string('place_departure')->nullable();
             $table->string('departure_date')->nullable();
             $table->timestamps();

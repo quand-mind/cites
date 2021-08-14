@@ -11,19 +11,21 @@ class permit extends Model
 
     protected $fillable = [
         'request_permit_no',
-        'means',
-        'permit_type',
         'valid_until',
         'special_conditions',
         'purpose',
-        'half_signature',
-        'issued_by',
-        'official_position',
-        'palce',
-        'date_permit',
-        'permit_cancele',
+        'status',
         'observations',
-        'port',
+        'transportation_way_origin',
+        'consignado_a_origin',
+        'origin_country',
+        'transportation_way_destiny',
+        'destiny_country',
+        'consignado_a_destiny',
+        'port_boarding_destiny',
+        'port_disembarkation_destiny',
+        'destiny place',
+        'place_departure',
         'departure_date'
     ];
 

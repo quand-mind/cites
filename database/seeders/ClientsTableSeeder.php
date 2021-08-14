@@ -24,7 +24,6 @@ class ClientsTableSeeder extends Seeder
             'username'  => 'client',
             'role'      => 'persona_natural',
             'user_id'   => 1,
-            'api_token' => Str::random(10)
 
         ]);
 

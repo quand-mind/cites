@@ -29,7 +29,6 @@ class ClientFactory extends Factory
             'password' => bcrypt('123456'), // secret
             //'remember_token' => Str::random(10),
             'username' => strtolower(str_replace(' ', '_', $name)),
-            'api_token' => Str::random(10),
             'user_id' => rand(4, 23),
         ];
     }

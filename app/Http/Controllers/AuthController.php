@@ -30,9 +30,14 @@ class AuthController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
 
+    public function index()
+    {
+        return view('auth.registerClient');
+    }
+
     protected function storeClient(Request $request){
          
-        $request->validate([
+        /*$request->validate([
             //model client
             'username' => 'required',
             'email' => 'required|unique:clients',
@@ -46,28 +51,33 @@ class AuthController extends Controller
             'phone' => 'required',
             'mobile' => 'required',
             'fax' => 'required',
-        ]);
+        ]);*/
+        
+        $usersData= new User;
+        $usersData->name = $request->input('name');
+        $usersData->dni = $request->input('dni');
+        $usersData->nationality = $request->input('nationality');
+        $usersData->domicile = $request->input('domicile');
+        $usersData->address = $request->input('address');
+        $usersData->phone = $request->input('phone');
+        $usersData->mobile = $request->input('mobile');
+        //$usersData->fax = $request->input('fax');
+        $usersData->save();
 
-                //$usersData = $request->only('users');
-        $users = User::create([
-            $users->name = $request->input('name'),
-            $users->dni = $request->input('dni'),
-            $users->nationality = $request->input('nationality'),
-            $users->domicile = $request->input('domicile'),
-            $users->address = $request->input('address'),
-            $users->phone = $request->input('phone'),
-            $users->mobile = $request->input('mobile'),
-            $users->fax = $request->input('fax')
-        ]);
+        //$users = new User($usersData);
+        //$users->save();
+
                 
         $client = new client();
         $client->username = $request->input('username');
         $client->email = $request->input('email');
-        $client->passwors = Hash::make($request->input('password'));
-        $client->user_id = $users->id;
+        $client->role = $request->input('role');
+        $client->password = Hash::make($request->input('password'));
+        $client->user_id = $usersData->id;
         $client->save();
 
-        return 'Client create';
+        //return 'Client create';
+        return $this->login($request);
     }           
 
     public function login(Request $request)

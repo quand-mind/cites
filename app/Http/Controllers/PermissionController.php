@@ -194,6 +194,12 @@ class PermissionController extends Controller
     {   
         return view('permissions.requirements.comercial_export_species_requirements');
     }
+    public function getForm($id)
+    {   
+        $clientData = User::with('clients')->where('id', '=', auth()->user()->id)->get();
+        $permitType = PermitType::with(['requeriments'])->where('id', '=', $id)->get();
+        return view('permissions.permit_form', compact(['permitType', 'clientData']));
+    }
     public function showChecklist($id)
     {
         try {

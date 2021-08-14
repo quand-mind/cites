@@ -20,7 +20,7 @@
               <li class="">{{requeriment.name}}</li>
             </ul>
             <div class="w-100 d-flex justify-content-end align-items-center">
-             <button v-if="!showPurpose" class="btn btn-primary" @click="openPurposeData(permit.id)">Solicitar Permiso</button>
+             <a v-if="!showPurpose" class="btn btn-primary" :href="`/solicitante/permissions/permit_form/${permit.id}`">Solicitar Permiso</a>
             </div>
             <div class="mt-3 d-flex flex-row justify-content-between" v-if="showPurpose && permit_type_id === permit.id">
               <b-form-input v-model="purpose" placeholder="Propósito del Permiso:"></b-form-input>

@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Faker\Factory as Faker;
 
 class UsersTableSeeder extends Seeder
 {
@@ -15,25 +16,47 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
+        $faker = Faker::create();
         DB::table('users')->insert([
             'name'      => 'Admin',
-            'dni'       => '27647120'
-            
+            'nationality'=> 'Venezolano',
+            'dni'       => '27647120',
+            'domicile'  => 'Caracas',
+            'address'   => 'Av urdaneta edificio dorsay',
+            'phone'     => $faker->tollFreePhoneNumber,    
+            'mobile'    => $faker->e164PhoneNumber,
+            'fax'       => $faker->tollFreePhoneNumber,
         ]);
 
         DB::table('users')->insert([
             'name'      => 'Super',
-            'dni'       => '27647121'
-            
+            'nationality'=> 'Venezolano',
+            'dni'       => '27647121',
+            'domicile'  => 'Caracas',
+            'address'   => 'Av urdaneta edificio dorsay',
+            'phone'     => $faker->tollFreePhoneNumber,    
+            'mobile'    => $faker->e164PhoneNumber,
+            'fax'       => $faker->tollFreePhoneNumber,
         ]);
 
         DB::table('users')->insert([
             'name'      => 'Writer Tester',
-            'dni'       => '27647122'
-            
+            'nationality'=> 'Venezolano',
+            'dni'       => '27647122',
+            'domicile'  => 'Caracas',
+            'address'   => 'Av urdaneta edificio dorsay',
+            'phone'     => $faker->tollFreePhoneNumber,    
+            'mobile'    => $faker->e164PhoneNumber,
+            'fax'       => $faker->tollFreePhoneNumber,
         ]);
 
-        User::factory()->count(20)->create();
+        User::factory()->count(10)->create([
+            'nationality' => 'Venezolano'
+        ]);
+
+        User::factory()->count(10)->create([
+            'nationality' => 'Extranjero'
+        ]);
         
         
     }

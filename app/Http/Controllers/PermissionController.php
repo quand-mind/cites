@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\client;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Faker\Factory as Faker;
 use App\Models\permit;
@@ -127,10 +128,11 @@ class PermissionController extends Controller
     }
     public function index()
     {
-        $id = 1;
-        $clientData = client::with(['users']);
-        $permissions = permit::where(['client_id' => $id])->with(['requeriments', 'permit_type'])->get();
-        return view('permissions.permissions', compact(['permissions', 'clientData']));
+        //$id = 1;
+        $clientData = User::with('clients')->where('id', '=', auth()->user()->id )->get();
+        $permissions = permit::where(['client_id' => auth()->user()->id])->with(['requeriments', 'permit_type'])->get();
+        //return $clientData;
+        return view('permissions.permissions', compact('permissions', 'clientData'));
     }
     public function getList()
     {

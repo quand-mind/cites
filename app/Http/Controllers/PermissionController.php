@@ -106,13 +106,13 @@ class PermissionController extends Controller
     {
         
         $specie = json_decode($request->input('specie'));
-        $specie_id = $specie->id;
+        $index = $request->input('index');
         $specie_url = $specie->pivot->file_url;
         
         Storage::delete(str_replace("/storage/", "", $specie_url));
         
         $permit = permit::find($id);
-        $permit->species[$specie_id -1]->pivot->file_url = null;
+        $permit->species[$index]->pivot->file_url = null;
         $permit->push();
         return response('Archivo Eliminado', 200);
     }

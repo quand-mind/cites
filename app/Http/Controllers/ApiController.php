@@ -18,15 +18,22 @@ class ApiController extends Controller
             // 'Content-Type' => 'application/json',
             'X-Authentication-Token' => 'uD2JyZT7CvR1Snol3xKrYgtt',
         ];
+        if (env('APP_ENV') === 'local') {
+            $response = $client->request('GET', $url, [
+                'verify'  => false,
+                'headers' => $headers,
+            ]);
+        } else {
+            $response = $client->request('GET', $url, [
+                'verify'  => true,
+                'headers' => $headers,
+            ]);
+        }
 
-        $response = $client->request('GET', $url, [
-            //'verify'  => false,
-            'headers' => $headers,
-        ]);
 
         $species = json_decode($response->getBody()->getContents());
 
         // return $species;
-        // return view('species', compact('species'));
+        return view('species', compact('species'));
     }
 }

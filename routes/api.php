@@ -51,8 +51,10 @@ Route::middleware('auth:api')->group(function () {
     
         // Permissions Routes
         Route::get('/list', 'PermitTypeController@index');
+
         Route::post('/requestPermit/{id}', 'PermissionController@requestPermit');
         Route::post('/list/createPermit', 'PermissionController@storePermit');
+        
         Route::get('/uploadRequirements/{id}', 'PermissionController@showUploadRequeriments');
         Route::post('/uploadFile', 'PermissionController@storeFile');
         Route::post('/deleteFile/{id}', 'PermissionController@deleteFile');

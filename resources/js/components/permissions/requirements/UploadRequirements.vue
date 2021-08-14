@@ -279,9 +279,9 @@ export default {
           this.makeToast(err.toString(), 'danger')
         });
     },
-    deleteSpecieFile(specie){
+    deleteSpecieFile(specie, index){
       axios
-        .post(`/solicitante/permissions/deleteSpecieFile/${specie.pivot.permit_id}`, {specie: JSON.stringify(specie)})
+        .post(`/solicitante/permissions/deleteSpecieFile/${specie.pivot.permit_id}`, {specie: JSON.stringify(specie),index: index})
         .then(res => {
           specie.pivot.file_url = null
           this.makeToast(res.data)

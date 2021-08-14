@@ -14,7 +14,7 @@
       <b-col lg="2" class="w-100">{{specie.type}}</b-col>
       <b-col lg="2" class="w-100">{{specie.pivot.qty}}</b-col>
       <b-col lg="2"  v-if="type==='client'" class="w-100">
-        <button v-if="specie.pivot.file_url" class="ml-3 btn text-danger relative" @click="deleteFile(specie)" style="cursor:pointer">
+        <button v-if="specie.pivot.file_url" class="ml-3 btn text-danger relative" @click="deleteFile(specie, index)" style="cursor:pointer">
           <font-awesome-icon :icon="['fa', 'trash']"></font-awesome-icon>
         </button>
         <div v-else>
@@ -71,8 +71,8 @@ export default {
     uploadFile (specie) {
       this.$emit('uploadSpecieFile', this.file, specie, false)
     },
-    deleteFile(specie){
-      this.$emit('deleteSpecieFile', specie)
+    deleteFile(specie, index){
+      this.$emit('deleteSpecieFile', specie, index)
     },
     closeSpecieListDialog(){
       false

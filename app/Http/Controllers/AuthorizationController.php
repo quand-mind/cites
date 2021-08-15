@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\species;
-use App\Models\permit;
+use App\Models\Species;
+use App\Models\Permit;
 use App\Models\CommercialNurseriesRequirement;
 
 use Illuminate\Support\Facades\DB;

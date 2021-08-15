@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
-use App\Models\client;
+use App\Models\Client;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -68,7 +68,7 @@ class AuthController extends Controller
         //$users->save();
 
                 
-        $client = new client();
+        $client = new Client();
         $client->username = $request->input('username');
         $client->email = $request->input('email');
         $client->role = $request->input('role');

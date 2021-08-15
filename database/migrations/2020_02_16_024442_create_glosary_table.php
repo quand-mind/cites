@@ -14,7 +14,7 @@ class CreateGlosaryTable extends Migration
     public function up()
     {
         Schema::create('glosary', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->string('word', 20);
             $table->string('description', 100);
             $table->timestamps();

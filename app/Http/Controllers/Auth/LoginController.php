@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 
@@ -37,12 +38,7 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
-
-    /*0protected function validateLogin(Request $request)
-    {
-        Auth::attempt(['email' => $request->email, 'password' => $request->password]);
-    }*/
-
+    
     public function redirectTo(){
 
         // User role

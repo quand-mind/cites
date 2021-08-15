@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Foundation\Auth\client as Authenticatable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
@@ -16,12 +16,17 @@ class client extends Authenticatable implements JWTSubject
         'email',
         'role',
         'user_id',
+        'api_token',
         'password'
+    ];
+
+    protected $hidden = [
+        'password', 'remember_token',
     ];
 
     public function users()
     {
-        return $this->hasOne(Users::class);
+        return $this->hasOne(User::class);
     }
 
     public function getJWTIdentifier()
@@ -31,5 +36,9 @@ class client extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+    public function permits()
+    {
+        return $this->hasMany(permit::class);
     }
 }

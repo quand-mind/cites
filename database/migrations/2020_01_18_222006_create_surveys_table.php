@@ -14,15 +14,15 @@ class CreateSurveysTable extends Migration
     public function up()
     {
         Schema::create('surveys', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->string('title', 100);
             $table->text('description');
             $table->string('url');
             $table->date('published_date');
-            $table->unsignedInteger('created_by');
+            //$table->unsignedInteger('created_by');
             $table->timestamps();
 
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
+            $table->foreignId('created_by')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

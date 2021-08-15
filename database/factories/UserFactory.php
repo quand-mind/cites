@@ -36,11 +36,14 @@ class UserFactory extends Factory {
 
         return [
             'name' => $name,
-            'email' => $this->faker->unique()->safeEmail,
-            'password' => bcrypt('123456'), // secret
-            'remember_token' => Str::random(10),
-            'username' => strtolower(str_replace(' ', '_', $name)),
-            'photo' => $this->faker->imageUrl($width = 200, $height = 200)
+            'dni' => $this->faker->unique()->numerify('########'),
+            'domicile'  => $this->faker->state,
+            'address'   => $this->faker->address,
+            'phone'     => $this->faker->tollFreePhoneNumber,    
+            'mobile'    => $this->faker->e164PhoneNumber,
+            'fax'       => $this->faker->tollFreePhoneNumber,
+            'photo' => $this->faker->imageUrl($width = 200, $height = 200),
+            'rif_institution' => 'J'.$this->faker->unique()->numerify('########')
         ];
     }
 }

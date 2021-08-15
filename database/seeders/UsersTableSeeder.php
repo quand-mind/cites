@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Faker\Factory as Faker;
 
 class UsersTableSeeder extends Seeder
 {
@@ -15,50 +16,48 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
+        $faker = Faker::create();
         DB::table('users')->insert([
             'name'      => 'Admin',
-            'dni'       => '27647120'
-            /*'email'     => 'admin@mail.com',
-            'password'  => bcrypt('admin123'),
-            'username'  => 'admin',
-            'role'      => 'admin',
-            'remember_token' => Str::random(10)*/
+            'nationality'=> 'Venezolano',
+            'dni'       => '27647120',
+            'domicile'  => 'Caracas',
+            'address'   => 'Av urdaneta edificio dorsay',
+            'phone'     => $faker->tollFreePhoneNumber,    
+            'mobile'    => $faker->e164PhoneNumber,
+            'fax'       => $faker->tollFreePhoneNumber,
         ]);
 
         DB::table('users')->insert([
             'name'      => 'Super',
-            'dni'       => '27647121'
-            /*'email'     => 'superuser@mail.com',
-            'password'  => bcrypt('super123'),
-            'username'  => 'superuser',
-            'role'      => 'superuser'*/
+            'nationality'=> 'Venezolano',
+            'dni'       => '27647121',
+            'domicile'  => 'Caracas',
+            'address'   => 'Av urdaneta edificio dorsay',
+            'phone'     => $faker->tollFreePhoneNumber,    
+            'mobile'    => $faker->e164PhoneNumber,
+            'fax'       => $faker->tollFreePhoneNumber,
         ]);
 
         DB::table('users')->insert([
             'name'      => 'Writer Tester',
-            'dni'       => '27647122'
-            /*'email'     => 'writer@mail.com',
-            'password'  => bcrypt('writer123'),
-            'username'  => 'writertester',
-            'role'      => 'writer'*/
+            'nationality'=> 'Venezolano',
+            'dni'       => '27647122',
+            'domicile'  => 'Caracas',
+            'address'   => 'Av urdaneta edificio dorsay',
+            'phone'     => $faker->tollFreePhoneNumber,    
+            'mobile'    => $faker->e164PhoneNumber,
+            'fax'       => $faker->tollFreePhoneNumber,
         ]);
 
-        /*User::factory()->count(20)->create([
-            'role' => 'writer'
+        User::factory()->count(10)->create([
+            'nationality' => 'Venezolano'
         ]);
 
-        User::factory()->count(5)->create([
-            'role' => 'admin'
+        User::factory()->count(10)->create([
+            'nationality' => 'Extranjero'
         ]);
-
-        User::factory()->count(50)->create([
-            'role' => 'client'
-        ]);
-        User::factory()->count(50)->create([
-            'role' => 'perosna_juridica'
-        ]);
-        User::factory()->count(50)->create([
-            'role' => 'persona_natural'
-        ]);*/
+        
+        
     }
 }

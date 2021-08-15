@@ -14,7 +14,7 @@ class CreateHeaderImagesTable extends Migration
     public function up()
     {
         Schema::create('header_images', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->unsignedTinyInteger('image_order')->default(0);
             $table->string('src', 255);
             $table->boolean('active')->default(true);

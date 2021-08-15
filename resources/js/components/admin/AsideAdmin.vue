@@ -54,6 +54,9 @@
       <a v-if="!iswriter" href="/dashboard/social-links" class="list-group-item list-group-item-action">
         <font-awesome-icon :icon="['fas', 'link']"></font-awesome-icon>&nbsp;Social links
       </a>
+      <a v-if="!iswriter" href="/dashboard/permissions/" class="list-group-item list-group-item-action">
+        <font-awesome-icon :icon="['fas', 'clipboard-check']"></font-awesome-icon>&nbsp;Chequeo de Requerimientos
+      </a>
     </div>
   </aside>
 </template>

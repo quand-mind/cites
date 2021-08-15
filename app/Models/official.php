@@ -9,15 +9,16 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class official extends Authenticatable
 {
-    use Notifiable;
     use HasFactory;
-
+    use Notifiable;
+    
     protected $fillable = [
         'username',
         'email',
         'role',
         'user_id',
-        'password'
+        'password',
+        'remember_token'
     ];
 
     public function users()
@@ -40,4 +41,9 @@ class official extends Authenticatable
     {
         return $this->role == 'writer';
     }
+
+    /*protected static function newFactory()
+    {
+        return new OfficialFactory();
+    }*/
 }

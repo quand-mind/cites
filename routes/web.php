@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\SetPasswordController;
+
+use App\Http\Controllers\ApiController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -85,7 +88,11 @@ Route::group(['prefix' => 'recursos'], function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/registro_solicitante', 'AuthController@index')->name('registerSolicitante');
+Route::get('/loginPermissions', 'Auth\PermissionsLoginController@showLoginForm')->name('loginPermissions');
+
+Route::middleware('auth:api')->get('/home', 'HomeController@index')->name('home');
+
 
 Route::middleware(['auth', 'panel.auth'])->group(function () {
     Route::group(['prefix' => 'dashboard'], function () {
@@ -145,7 +152,6 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
 
         Route::delete('/questions/{id}', 'QuestionController@destroy');
 
-
         // Surveys Routes
         Route::get('/surveys', 'SurveyController@index');
         Route::post('/survey', 'SurveyController@store');
@@ -188,6 +194,14 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         Route::post('/social-links/create', 'LinkController@store');
         Route::get('/social-links/toggleIsVisible/{id}', 'LinkController@toggleIsVisible');
         Route::delete('/social-links/{id}', 'LinkController@destroy');
+
+        // Permissions Routes
+        Route::get('/permissions', 'PermissionController@getList');
+        Route::post('/permissions/uploadSpecieFile', 'PermissionController@storeSpecieFile');
+        Route::post('/permissions/uploadFile', 'PermissionController@storeFile');
+        Route::get('/permissions/check/{id}', 'PermissionController@showChecklist');
+        Route::post('/permissions/check/{id}', 'PermissionController@checkPermit');
+        Route::post('/permissions/checkSpecies/{id}', 'PermissionController@checkSpecies');
     });
 });
 
@@ -218,6 +232,7 @@ Route::get('/clear-app', function () {
     return "Clear the app deployment completed";
 });
 // Render files
+Route::get('/files/permissions/{name}', 'PermissionController@showFile');
 Route::get('/files/{name}', 'LegalFileController@show');
 
 Route::get('/forums', ['uses' => '\DevDojo\Chatter\Controllers\ChatterController@index'])->name('chatter.home');         
@@ -238,8 +253,22 @@ Route::get('/header-images', 'HeaderImageController@show');
 // Aside
 Route::get('/aside-images', 'AsideImageController@show');
 
+Route::post('/sendEmail', [SetPasswordController::class, 'sendEmail']);
+Route::get('/setPassword/{token}', [SetPasswordController::class, 'showSetPasswordForm'])->name('set.password.get');
+Route::post('/setPasswordSubmit', [SetPasswordController::class, 'submitSetPasswordForm'])->name('set.password.submit');
+
 // Frontend pages controller
 Route::get('/{slug?}', 'PageController@show');
 
 // Frontend pages controller
 Route::get('/{slug}/{subpage}', 'PageController@showSubPage');
+
+
+Route::post('/save-file-nurseris', 'AuthorizationController@SaveFileZooHatcherie');
+//Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+//Route::post('/loginAdmin', 'AuthController@login_admin');
+
+Route::get('/species_cite', 'ApiController@api_cites')->name('cite_species');

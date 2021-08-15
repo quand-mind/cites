@@ -14,7 +14,7 @@ class CreatePagesTable extends Migration
     public function up()
     {
         Schema::create('pages', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->string('title');
             $table->string('slug');
             $table->boolean('is_subpage')->default(false);
@@ -24,15 +24,15 @@ class CreatePagesTable extends Migration
             $table->string('meta_keywords')->nullable();
             $table->text('content');
             $table->unsignedInteger('menu_order')->nullable();
-            $table->unsignedInteger('created_by');
-            $table->unsignedInteger('lastModified_by');
+            //$table->unsignedInteger('created_by');
+            //$table->unsignedInteger('lastModified_by');
             $table->unsignedInteger('main_page')->nullable();
             $table->timestamps();
 
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('lastModified_by')->references('id')->on('users')->onDelete('cascade');
+            $table->foreignId('created_by')->references('id')->on('users')->onDelete('cascade');
+            $table->foreignId('lastModified_by')->references('id')->on('users')->onDelete('cascade');
 
-            $table->foreign('main_page')->references('id')->on('pages');
+            // $table->foreignId('main_page')->references('id')->on('pages')->nullable();
         });
     }
 

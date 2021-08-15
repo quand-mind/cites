@@ -1,7 +1,7 @@
 <?php
 
 namespace Database\Seeders;
-use App\Models\officials;
+use App\Models\official;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -15,9 +15,7 @@ class OfficialsTableSeeder extends Seeder
      */
     public function run()
     {
-        /*DB::table('officials')->insert([
-            //'name'      => 'Admin',
-            //'dni'       => '27647120'
+        DB::table('officials')->insert([
             'email'     => 'admin@mail.com',
             'password'  => bcrypt('admin123'),
             'username'  => 'admin',
@@ -26,8 +24,6 @@ class OfficialsTableSeeder extends Seeder
             'remember_token' => Str::random(10)
         ]);
         DB::table('officials')->insert([
-            //'name'      => 'Admin',
-            //'dni'       => '27647120'
             'email'     => 'superuser@mail.com',
             'password'  => bcrypt('super123'),
             'username'  => 'superuser',
@@ -36,23 +32,22 @@ class OfficialsTableSeeder extends Seeder
             'remember_token' => Str::random(10)
         ]);
         DB::table('officials')->insert([
-            //'name'      => 'Admin',
-            //'dni'       => '27647120'
-            'email'     => 'writer@mail.com',
+            'email'     => 'writer@ .com',
             'password'  => bcrypt('writer123'),
             'username'  => 'writertester',
             'role'      => 'writer',
             'user_id'   => 3,
             'remember_token' => Str::random(10)
-        ]);*/
-        DB::table('clients')->insert([
-            //'name'      => 'Admin',
-            //'dni'       => '27647120'
-            'email'     => 'client@mail.com',
-            'password'  => bcrypt('client123'),
-            'username'  => 'client',
-            'role'      => 'persona_natural',
-            'user_id'   => 1,
         ]);
+        
+        /*official::factory()->count(10)->create([
+            'role' => 'writer'
+        ]);
+
+        official::factory()->count(10)->create([
+            'role' => 'admin'
+        ]);*/
+
+        
     }
 }

@@ -15,13 +15,13 @@
           </b-row>
           <b-row>
             <b-col>
-              <b-form-input type="number" v-model="personals.phone" ></b-form-input>
+              <b-form-input type="tel" v-model="personals.phone" ></b-form-input>
             </b-col>
             <b-col>
-              <b-form-input type="number" v-model="personals.mobile" ></b-form-input>
+              <b-form-input type="tel" v-model="personals.mobile" ></b-form-input>
             </b-col>
             <b-col>
-              <b-form-input v-model="personals.fax" ></b-form-input>
+              <b-form-input type="tel" v-model="personals.fax" ></b-form-input>
             </b-col>
           </b-row>
         </b-card-text>
@@ -178,7 +178,7 @@ export default {
         .post(`/solicitante/permissions/list/createPermit`, { permit_type_id: this.permit_type[0].id, personals: JSON.stringify(this.personals), permit: JSON.stringify(this.permit), client_id: this.client_data[0].clients[0].id, species: JSON.stringify(this.selectedSpecies)})
         .then(res => {
           this.makeToast(res.data)
-          // setTimeout(() => window.location.reload(), 1200)
+          setTimeout(() => window.location.assign('/solicitante/permissions'), 1200)
         })
         .catch(err => {
           this.makeToast(err.toString(), 'danger')

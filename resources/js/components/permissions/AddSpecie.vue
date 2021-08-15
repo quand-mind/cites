@@ -20,11 +20,11 @@
         <b-form-file
           :disabled="!showSpecies"
           @input="uploadFile(newSpecie)"
-          accept=".pdf, .jpg, .png"
+          accept=".pdf"
           v-model="file"
-          placeholder="Documento Legal: (Formatos aceptados: .pdf, .jpg, .png)"
+          placeholder="Documento Legal: (Formatos aceptados: .pdf)"
           drop-placeholder="Subir archivo aquí..."
-          max-size="2048"
+          max-size="10240"
         ></b-form-file>
       </b-col>
       <b-col v-if="isNew === false" sm="12" md='6' lg='3' class="input-group mb-3 d-flex justify-content-end align-items-center">

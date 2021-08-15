@@ -38,7 +38,7 @@
                   class="d-flex justify-content-center align-items-center"
                   v-else
                 >
-                  <label v-if="!requeriment.pivot.file_url" class="btn text-dark" :for="'file'+ requeriment.id" style="cursor:pointer">
+                  <label v-if="!requeriment.pivot.file_url" class="btn text-primary" :for="'file'+ requeriment.id" style="cursor:pointer">
                     <font-awesome-icon :icon="['fa', 'upload']"></font-awesome-icon>
                   </label>
                   <b-form-file
@@ -46,10 +46,10 @@
                     :data-id="requeriment.id"
                     style="display:none"
                     :id="'file'+ requeriment.id"
-                    accept=".pdf, .jpg, .png"
+                    accept=".pdf"
                     v-model="file"
                     drop-placeholder="Subir archivo aquí..."
-                    max-size="2048"
+                    max-size="10240"
                   ></b-form-file>
                   <button v-if="requeriment.pivot.file_url" class="ml-3 btn text-danger relative" @click="deleteFile(requeriment)" style="cursor:pointer">
                     <font-awesome-icon :icon="['fa', 'trash']"></font-awesome-icon>
@@ -168,13 +168,14 @@ export default {
         return 1
       }
     },
-    uploadSpecieFile (file, specie, isNew) {
+    uploadSpecieFile (file, specie, isNew, index) {
 
       var form = new FormData();
       form.append("file", file);
       form.append("specie", JSON.stringify(specie));
       form.append("permit", JSON.stringify(this.permit[0]));
       form.append("isNew", JSON.stringify(isNew));
+      form.append("index", JSON.stringify(index));
       axios
         .post(`/solicitante/permissions/uploadSpecieFile/`, form, {
           headers: {

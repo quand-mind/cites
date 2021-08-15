@@ -38,7 +38,7 @@ class ApiController extends Controller
         $arraySpecies = [];
 
         foreach ($especies as $especie) {
-            if ($especie->rank === "SPECIES" ){
+            if ($especie->rank === "SPECIES" || $especie->rank === "SUBSPECIES" ){
                 array_push($arraySpecies, $especie);
             }
         }

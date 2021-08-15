@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 
-class official extends Authenticatable
+class Official extends Authenticatable
 {
     use HasFactory;
     use Notifiable;

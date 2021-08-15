@@ -122,13 +122,14 @@ class PermissionController extends Controller
         $specie = json_decode($request->input('specie'));
         $permit = json_decode($request->input('permit'));
         $isNew = json_decode($request->input('isNew'));
+        $index = $request->input('index');
         $specie_name = $specie->name_common;
         $permit_id = $permit->id;
         $nameFile = "permit_".$permit_id."_specie_".$specie_name."_file_".time().".".$file->guessExtension();
         $url = $request->file('file')->storeAs('files/permissions', $nameFile);
         if (!$isNew) {
             $permit = Permit::find($permit_id);
-            $permit->species[$specie->id -1]->pivot->file_url = $url;
+            $permit->species[$index]->pivot->file_url = $url;
             $permit->push();
         }
 

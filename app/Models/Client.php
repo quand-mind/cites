@@ -8,7 +8,7 @@ use Illuminate\Foundation\Auth\Client as Authenticatable;
 
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class client extends Authenticatable implements JWTSubject
+class Client extends Authenticatable implements JWTSubject
 {
     use HasFactory;
     protected $fillable = [

@@ -33,7 +33,17 @@ class ApiController extends Controller
 
         $species = json_decode($response->getBody()->getContents());
 
-        return $species;
+        $especies = $species->taxon_concepts;
+    
+        $arraySpecies = [];
+
+        foreach ($especies as $especie) {
+            if ($especie->rank === "SPECIES" ){
+                array_push($arraySpecies, $especie);
+            }
+        }
+        return $arraySpecies;
+        //return $species;
         // return view('species', compact('species'));
     }
 }

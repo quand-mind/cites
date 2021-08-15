@@ -80,6 +80,7 @@
   </div>
 </template>
 <script>
+import {mapActions, mapGetters} from 'vuex'
 export default {
   props:['permissions', 'type'],
   data: () => ({
@@ -93,11 +94,14 @@ export default {
     selectedPermit: {} 
   }),
   methods: {
+    ...mapActions([
+      'fetchSpecies',
+    ]),
     showPermitStatus(permit){
       this.showPermit = true
       this.selectedPermit = permit
     }
-  }
+  },
 }
 </script>
 <style scoped>

@@ -12,7 +12,7 @@ class OfficialFactory extends Factory
      *
      * @var string
      */
-    protected $model = official::class;
+    protected $model = Official::class;
 
     /**
      * Define the model's default state.

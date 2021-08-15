@@ -39,6 +39,6 @@ class Client extends Authenticatable implements JWTSubject
     }
     public function permits()
     {
-        return $this->hasMany(permit::class);
+        return $this->hasMany(Permit::class);
     }
 }

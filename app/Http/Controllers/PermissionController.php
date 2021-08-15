@@ -25,7 +25,7 @@ class PermissionController extends Controller
         $permit_id = $requeriment->pivot->permit_id;
         $nameFile = "permit_".$permit_id."_requeriment_".$requeriment_id."_file_".time().".".$file->guessExtension();
         $url = $request->file('file')->storeAs('files/permissions', $nameFile);
-        $permit = permit::find($permit_id);
+        $permit = Permit::find($permit_id);
         $permit->requeriments[$requeriment_id -1]->pivot->file_url = $url;
         $permit->push();
 
@@ -38,7 +38,7 @@ class PermissionController extends Controller
         // return $specie;
         $specie_name = $specie->name_common;
         $permit_id = $permit->id;
-        $getPermit = permit::where(['id' => $permit_id])->get()->first();
+        $getPermit = Permit::where(['id' => $permit_id])->get()->first();
         
         $findedSpecie = Specie::where('name_common', '=', $specie_name)->get()->first();
         
@@ -65,7 +65,7 @@ class PermissionController extends Controller
         $permit = json_decode($request->input('permit'));
         // return $specie;
         $permit_id = $permit->id;
-        $getPermit = permit::where(['id' => $permit_id])->get()->first();
+        $getPermit = Permit::where(['id' => $permit_id])->get()->first();
         
         // $findedSpecie = Specie::where('name_common', '=', $specie_name)->get()->first();
         
@@ -82,7 +82,7 @@ class PermissionController extends Controller
     }
     public function requestPermit($id)
     {
-        $permit = permit::find($id);
+        $permit = Permit::find($id);
         $permit->status = 'requested';
         $permit->save();
         return response('Solicitud de Permiso finalizada', 200);
@@ -96,7 +96,7 @@ class PermissionController extends Controller
         
         Storage::delete(str_replace("/storage/", "", $requeriment_url));
         
-        $permit = permit::find($id);
+        $permit = Permit::find($id);
         $permit->requeriments[$requeriment_id -1]->pivot->file_url = null;
         $permit->requeriments[$requeriment_id -1]->pivot->file_errors = null;
         $permit->push();
@@ -111,7 +111,7 @@ class PermissionController extends Controller
         
         Storage::delete(str_replace("/storage/", "", $specie_url));
         
-        $permit = permit::find($id);
+        $permit = Permit::find($id);
         $permit->species[$index]->pivot->file_url = null;
         $permit->push();
         return response('Archivo Eliminado', 200);
@@ -127,7 +127,7 @@ class PermissionController extends Controller
         $nameFile = "permit_".$permit_id."_specie_".$specie_name."_file_".time().".".$file->guessExtension();
         $url = $request->file('file')->storeAs('files/permissions', $nameFile);
         if (!$isNew) {
-            $permit = permit::find($permit_id);
+            $permit = Permit::find($permit_id);
             $permit->species[$specie->id -1]->pivot->file_url = $url;
             $permit->push();
         }
@@ -138,18 +138,18 @@ class PermissionController extends Controller
     {
         //$id = 1;
         $clientData = User::with('clients')->where('id', '=', auth()->user()->id )->get();
-        $permissions = permit::where(['client_id' => auth()->user()->id])->with(['requeriments', 'permit_type'])->get();
+        $permissions = Permit::where(['client_id' => auth()->user()->id])->with(['requeriments', 'permit_type'])->get();
         //return $clientData;
         return view('permissions.permissions', compact('permissions', 'clientData'));
     }
     public function getList()
     {
-        $permissions = permit::with(['requeriments', 'permit_type'])->get();
+        $permissions = Permit::with(['requeriments', 'permit_type'])->get();
         return view('panel.dashboard.permissions.permissions', compact('permissions'));
     }
     public function checkPermit(Request $request, $id)
     {
-        $permit = permit::find($id);
+        $permit = Permit::find($id);
         $newRequeriment = json_decode($request->input('requeriment'));
         $pivot = $newRequeriment->pivot;
         $requeriment_id = $newRequeriment->id;
@@ -169,7 +169,7 @@ class PermissionController extends Controller
     }
     public function checkSpecies(Request $request, $id)
     {
-        $permit = permit::find($id);
+        $permit = Permit::find($id);
         $newSpecie = json_decode($request->input('specie'));
         $index = $request->input('index');
         // return $newSpecie;
@@ -203,7 +203,7 @@ class PermissionController extends Controller
     public function showChecklist($id)
     {
         try {
-            $permit = permit::where(['id' => $id])->with(['requeriments', 'permit_type', 'species'])->get();
+            $permit = Permit::where(['id' => $id])->with(['requeriments', 'permit_type', 'species'])->get();
             if ($permit) {
                 return view('panel.dashboard.permissions.check_requirements', compact('permit'));
             }
@@ -217,7 +217,7 @@ class PermissionController extends Controller
     public function showUploadRequeriments($id)
     {
         try {
-            $permit = permit::where(['id' => $id])->with(['requeriments', 'permit_type', 'species'])->get();
+            $permit = Permit::where(['id' => $id])->with(['requeriments', 'permit_type', 'species'])->get();
             if ($permit) {
                 // return $permit;
                 return view('permissions.requirements.upload_requeriments', compact('permit'));
@@ -234,7 +234,7 @@ class PermissionController extends Controller
         $Date_day = Carbon::now()->format('Y-m-d');
         $DateDay = Carbon::now()->format('Ymd');
 
-        $permisos =  permit::where('created_at', 'like', '%'.$Date_day.'%')->count();
+        $permisos =  Permit::where('created_at', 'like', '%'.$Date_day.'%')->count();
 
         $faker = Faker::create();
 
@@ -245,7 +245,7 @@ class PermissionController extends Controller
         $getSpecies = json_decode($request->input('species'));
 
         // return $getSpecies;
-        $permit = new permit();
+        $permit = new Permit();
 
         switch($permisos){
             case $permisos < 10 :
@@ -326,7 +326,7 @@ class PermissionController extends Controller
         $Date_day = Carbon::now()->format('Y-m-d');
         $DateDay = Carbon::now()->format('Ymd');
 
-        $countPermit =  permit::where('created_at','like', '%'.$Date_day.'%')->count();
+        $countPermit =  Permit::where('created_at','like', '%'.$Date_day.'%')->count();
         switch($countPermit){
             case $countPermit < 10 :
                 $total_pemisos_dia = $countPermit + 1; 

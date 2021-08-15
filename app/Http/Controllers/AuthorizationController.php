@@ -65,7 +65,7 @@ class AuthorizationController extends Controller
         
         $resive = $request->input('species.name_scientific');
         //return  $resive;
-        $consulta = species::select('id')
+        $consulta = Species::select('id')
                             ->where('name_scientific', '=', $resive)->get();
         if(count($consulta) >= 1){
 
@@ -74,7 +74,7 @@ class AuthorizationController extends Controller
             //return $speciesId;
             $permitsData = $request->only("request_permit_no", "means", "permit_type", "frequent_processing", "valid_until", "name", "address", "country", "special_conditions", "purpose", "palce");
             
-            $permits = new permit($permitsData);
+            $permits = new Permit($permitsData);
             $permits->official_id = 1;
             $permits->client_id = 1;
 
@@ -95,7 +95,7 @@ class AuthorizationController extends Controller
             // si no existe se guardara la nueva especie 
             $permitsData = $request->only("request_permit_no", "means", "permit_type", "frequent_processing", "valid_until", "name", "address", "country", "special_conditions", "purpose", "palce");
             
-            $permits = new permit($permitsData);
+            $permits = new Permit($permitsData);
             $permits->official_id = 1;
             $permits->client_id = 1;
 

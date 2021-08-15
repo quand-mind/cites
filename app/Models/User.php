@@ -65,11 +65,11 @@ class User extends Model
     
     public function officials()
     {
-        return $this->hasMany(official::class);
+        return $this->hasMany(Official::class);
     }
     public function clients()
     {
-        return $this->hasMany(client::class);
+        return $this->hasMany(Client::class);
     }
     // methods
     public function isWriter()

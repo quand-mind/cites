@@ -27,11 +27,11 @@ class ClientsTableSeeder extends Seeder
 
         ]);
 
-        client::factory()->count(10)->create([
+        Client::factory()->count(10)->create([
             'role' => 'persona_juridica'
         ]);
 
-        client::factory()->count(10)->create([
+        Client::factory()->count(10)->create([
             'role' => 'persona_natural'
         ]);
     }

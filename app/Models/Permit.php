@@ -39,7 +39,7 @@ class Permit extends Model
     public function client()
     {
         
-        return $this->belongsTo(client::class);
+        return $this->belongsTo(Client::class);
     }
     public function permit_type()
     {

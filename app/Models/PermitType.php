@@ -15,7 +15,7 @@ class PermitType extends Model
 
     public function permits()
     {
-        return $this->hasMany(permit::class);
+        return $this->hasMany(Permit::class);
     }
 
     public function requeriments()

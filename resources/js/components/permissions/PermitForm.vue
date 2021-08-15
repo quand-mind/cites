@@ -105,6 +105,7 @@
     <b-modal v-model="showSelectSpecie" size="xl" id="species-modal" title="Agregar Especie" hide-footer>
       <AddSpecie
       v-on:addSpecie="addSpecieToList"
+      :isNew="true"
       v-on:closeAddSpecieDialog="closeAddSpecieDialog"
       :selectedSpecies="selectedSpecies" :showSelectSpecie="showSelectSpecie"
       :type="type"/>

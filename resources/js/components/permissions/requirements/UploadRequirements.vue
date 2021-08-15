@@ -33,9 +33,6 @@
                   <button :disabled="!permit[0].species.length > 0" class="btn text-dark" @click="showSelectedSpecies = true" style="cursor:pointer">
                     <font-awesome-icon :icon="['fa', 'eye']"></font-awesome-icon>
                   </button>
-                  <button class="btn text-primary" @click="showSelectSpecie = true" style="cursor:pointer">
-                    <font-awesome-icon :icon="['fa', 'plus']"></font-awesome-icon>
-                  </button>
                 </div>
                 <div
                   class="d-flex justify-content-center align-items-center"
@@ -67,14 +64,6 @@
 
     </div>
 
-    <b-modal v-model="showSelectSpecie" size="xl" id="species-modal" title="Agregar Especie" hide-footer>
-      <AddSpecie
-      v-on:addSpecie="addSpecieToList"
-      v-on:uploadSpecieFile="uploadSpecieFile"
-      v-on:closeAddSpecieDialog="closeAddSpecieDialog"
-      :selectedSpecies="permit[0].species" :showSelectSpecie="showSelectSpecie"
-      :type="type"/>
-    </b-modal>
     <b-modal v-model="showSelectedSpecies" size="xl" id="species-modal" title="Listado de Especies" hide-footer>
       <SelectedSpecies
       v-on:uploadSpecieFile="uploadSpecieFile"

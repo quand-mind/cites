@@ -16,7 +16,7 @@ class PermitSeeder extends Seeder
      */
     public function run()
     {
-        
+        $date = strtotime("+60 day");
         DB::table('permits')->insert([
             'request_permit_no'      => Carbon::now()->format('Ymd')."001",
             'purpose'      => "Exportacion de especies para el Zoológico El Pinar",

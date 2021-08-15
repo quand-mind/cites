@@ -16,7 +16,21 @@
       </b-col>
     </b-row>
     <b-row class="d-flex justify-content-end align-items-center">
-      <b-col sm="12" class="input-group mb-3 d-flex justify-content-end align-items-center">
+      <b-col v-if="isNew === false" sm="12" md="8" lg="9" class="input-group mb-3">
+        <b-form-file
+          :disabled="!showSpecies"
+          @input="uploadFile(newSpecie)"
+          accept=".pdf, .jpg, .png"
+          v-model="file"
+          placeholder="Documento Legal: (Formatos aceptados: .pdf, .jpg, .png)"
+          drop-placeholder="Subir archivo aquí..."
+          max-size="2048"
+        ></b-form-file>
+      </b-col>
+      <b-col v-if="isNew === false" sm="12" md='6' lg='3' class="input-group mb-3 d-flex justify-content-end align-items-center">
+        <button class="w-100 btn btn-primary" :disabled="!validSpecie" @click="addSpecieToList()">Agregar Especie a la Lista</button>
+      </b-col>
+      <b-col v-if="isNew === true" sm="12" class="input-group mb-3 d-flex justify-content-end align-items-center">
         <button class="w-100 btn btn-primary" :disabled="!validSpecie" @click="addSpecieToList()">Agregar Especie a la Lista</button>
       </b-col>
     </b-row>
@@ -24,7 +38,7 @@
 </template>
 <script>
 export default {
-  props: ['selectedSpecies', 'showSelectSpecie','type'],
+  props: ['selectedSpecies', 'showSelectSpecie','type', 'isNew'],
   data: () =>({
 
     newSpecie: {
@@ -100,6 +114,18 @@ export default {
       }
       this.closeAddSpecieDialog()
     },
+  },
+  mounted() {
+    axios
+        .get(`/solicitante/species`)
+        .then(res => {
+          this.allSpecies = res.data
+          this.makeToast('Archivo Guardado')
+          // setTimeout(() => window.location.reload(), 1200)
+        })
+        .catch(err => {
+          this.makeToast(err.toString(), 'danger')
+        });
   }
 }
 </script>

@@ -244,10 +244,9 @@ class PermissionController extends Controller
         $getClientId = $request->input('client_id');
         $getSpecies = json_decode($request->input('species'));
 
-        return $getPermit->purpose;
-
+        // return $getSpecies;
         $permit = new permit();
-        //$permit_no = intval($faker->ean8());
+
         switch($permisos){
             case $permisos < 10 :
                 $total_pemisos_dia = $permisos + 1; 
@@ -258,17 +257,32 @@ class PermissionController extends Controller
                 $permit->request_permit_no = $DateDay.'0'.$total_pemisos_dia;
             break;
         }
-        //$permit->request_permit_no = $permit_no;
+
         $permit->permit_type_id = $getPermitTypeId;
         $date = strtotime("+60 day");
         $permit->valid_until = date('M d, Y', $date);
         $permit->purpose = $getPermit->purpose;
+        $permit->transportation_way = $getPermit->transportation_way;
+        $permit->consigned_to = $getPermit->consigned_to;
+        $permit->country = $getPermit->country;
+        $permit->landing_port = $getPermit->landing_port;
+        $permit->shipment_port = $getPermit->shipment_port;
+        $permit->destiny_place = $getPermit->destiny_place;
+        $permit->departure_place = $getPermit->departure_place;
         $permit->status = "uploading_requeriments";
         $permit->client_id = $request->input('client_id');
         $permit->save();
 
+        $user = User::where(['id' =>  $getClientId])->get()->first();
+        $user->phone = $getPersonals->phone;
+        $user->mobile = $getPersonals->mobile;
+        $user->fax = $getPersonals->fax;
+        $user->push();
+        // return $user;
         
-        $permitType = PermitType::where(['id' =>  $permit->permit_type_id])->with(['requeriments'])->get()->first();
+
+        
+        $permitType = PermitType::where(['id' =>  $getPermitTypeId])->with(['requeriments'])->get()->first();
 
         $requeriments = $permitType->requeriments;
 
@@ -276,25 +290,26 @@ class PermissionController extends Controller
             $requerimentsIdsWithPivot[$requeriment->id] = ["file_url" => null, "is_valid" => false, "file_errors" => null];
         }
 
-        $species = $request->input('species');
 
-        foreach($species as $specie) {
-            $name = $specie['name'];
+        $speciesIdsWithPivot=[];
+
+        foreach($getSpecies as $specie) {
+            $name = $specie->name_common;
             $findedSpecie = Specie::where('name_scientific', '=', $name)->get()->first();
             if($findedSpecie) {
                 
-                $speciesIdsWithPivot[$findedSpecie->id] = ["qty" => $specie['qty']];
+                $speciesIdsWithPivot[$findedSpecie->id] = ["qty" => $specie->qty];
             }
             else{
                 $newSpecie = new Specie();
-                $newSpecie->type = $specie['kingdom'];
-                $newSpecie->name_scientific = $specie['name'];
-                $newSpecie->name_common = $specie['name'];
+                $newSpecie->type = $specie->kingdom;
+                $newSpecie->name_scientific = $specie->name_common;
+                $newSpecie->name_common = $specie->name_common;
                 // $newSpecie->search_id = $specie->search_id;
                 $newSpecie->search_id = 1;
                 $newSpecie->save();
 
-                $speciesIdsWithPivot[$newSpecie->id] = ["qty" => $specie['qty']];
+                $speciesIdsWithPivot[$newSpecie->id] = ["qty" => $specie->qty];
             }
         }
         $permit->species()->sync($speciesIdsWithPivot);

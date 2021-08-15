@@ -33,7 +33,7 @@ class ApiController extends Controller
 
         $species = json_decode($response->getBody()->getContents());
 
-        // return $species;
-        return view('species', compact('species'));
+        return $species;
+        // return view('species', compact('species'));
     }
 }

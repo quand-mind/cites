@@ -12,7 +12,7 @@
         <b-form-select :disabled="!showSpecies" v-model="newSpecie.name_common" :options="species"></b-form-select>
       </b-col>
       <b-col sm="12" md="4" lg="2" class="input-group mb-3">
-        <b-form-input :disabled="!showSpecies" v-model="newSpecie.qty" placeholder="Cantidad:"></b-form-input>
+        <b-form-input type="number" :disabled="!showSpecies" v-model="newSpecie.qty" placeholder="Cantidad:"></b-form-input>
       </b-col>
     </b-row>
     <b-row class="d-flex justify-content-end align-items-center">
@@ -40,6 +40,8 @@
 export default {
   props: ['selectedSpecies', 'showSelectSpecie','type', 'isNew'],
   data: () =>({
+
+    allSpecies:[],
 
     newSpecie: {
       name_common: null,
@@ -115,12 +117,12 @@ export default {
       this.closeAddSpecieDialog()
     },
   },
-  mounted() {
+  beforeMount() {
     axios
         .get(`/solicitante/species`)
         .then(res => {
-          this.allSpecies = res.data
-          this.makeToast('Archivo Guardado')
+          console.log(res.data.taxon_concepts)
+          this.allSpecies = res.data.taxon_concepts
           // setTimeout(() => window.location.reload(), 1200)
         })
         .catch(err => {

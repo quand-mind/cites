@@ -22,13 +22,6 @@
             <div class="w-100 d-flex justify-content-end align-items-center">
              <a v-if="!showPurpose" class="btn btn-primary" :href="`/solicitante/permissions/permit_form/${permit.id}`">Solicitar Permiso</a>
             </div>
-            <div class="mt-3 d-flex flex-row justify-content-between" v-if="showPurpose && permit_type_id === permit.id">
-              <b-form-input v-model="purpose" placeholder="Propósito del Permiso:"></b-form-input>
-              <div>
-                <button class="btn btn-danger" @click="showPurpose = false">Cancelar</button>
-                <button class="btn btn-primary" :disabled="!purpose" @click="requestAuthorization()">Solicitar Permiso</button>
-              </div>
-            </div>
           </div>
 
         </div>
@@ -43,47 +36,8 @@ import axios from "axios";
 export default {
   props: ["permit_types", 'type', 'client_data'],
   data: () => ({
-    is_valid_dni: false,
-    is_valid_rif: false,
-    is_valid_zoo_hatcheries_authorization: false,
-    is_valid_comerce_species_license: false,
-    permit_type_id: null,
-    showPurpose: false,
-    purpose: null,
-    client_id:1,
 
-    showSelectSpecie: false,
-    showSelectedSpecies: false,
-    showSpecies: false,
-
-    selectedSpecies:[],
   }),
-  methods: {
-    openPurposeData(id){
-      this.permit_type_id = id
-      this.showPurpose = true
-    },
-    requestAuthorization(){
-
-      axios
-        .post(`/solicitante/permissions/list/createPermit`, { permit_type_id: this.permit_type_id, purpose: this.purpose, client_id: this.client_data[0].clients[0].id})
-        .then(res => {
-          this.makeToast(res.data)
-          setTimeout(() => window.location.reload(), 1200)
-        })
-        .catch(err => {
-          this.makeToast(err.toString(), 'danger')
-        });
-    },
-    makeToast(msg, variant = "success", delay = 3000, append = false) {
-      this.$bvToast.toast(`${msg}`, {
-        title: 'Solicitud de Permiso Realizada, dirijase a las oficinas de MINEC para entregar los recaudos.',
-        autoHideDelay: delay,
-        appendToast: append,
-        variant
-      });
-    },
-  },
   mounted() {
   }
 };

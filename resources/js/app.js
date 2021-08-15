@@ -73,6 +73,9 @@ import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.bubble.css';
 import 'quill/dist/quill.snow.css';
 
+
+import store from './stores/index.js'
+
 // Copy to clipboard library
 import VueClipboard from 'vue-clipboard2';
 Vue.use(VueClipboard);
@@ -162,6 +165,7 @@ Vue.component("error", require("./components/Error404.vue").default);
 if ($("#app").length !== 0) {
 
     let app = new Vue({
-        el: "#app"
+        el: "#app",
+        store: store,
     });
 }

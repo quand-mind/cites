@@ -187,7 +187,7 @@ export default {
 
     makeToast(msg, variant = "success", delay = 3000, append = false) {
       this.$bvToast.toast(`${msg}`, {
-        title: 'Estatus del Requerimiento Actualizado.',
+        title: 'Planilla',
         autoHideDelay: delay,
         appendToast: append,
         variant

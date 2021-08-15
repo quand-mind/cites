@@ -16,20 +16,8 @@
       </b-col>
     </b-row>
     <b-row class="d-flex justify-content-end align-items-center">
-      <b-col sm="12" md="8" lg="9" class="input-group mb-3">
-        <b-form-file
-          :disabled="!showSpecies"
-          @input="uploadFile(newSpecie)"
-          accept=".pdf, .jpg, .png"
-          v-model="file"
-          placeholder="Documento Legal: (Formatos aceptados: .pdf, .jpg, .png)"
-          drop-placeholder="Subir archivo aquí..."
-          max-size="2048"
-        ></b-form-file>
-      </b-col>
-      <b-col sm="12" md="4" lg="3" class="input-group mb-3 d-flex justify-content-end align-items-center">
-        <button class="btn btn-primary" :disabled="!validSpecie" @click="addSpecieToList()">Agregar Especie a la Lista</button>
-      </b-col>
+      <b-col sm="12" class="input-group mb-3 d-flex justify-content-end align-items-center">
+        <button class="w-100 btn btn-primary" :disabled="!validSpecie" @click="addSpecieToList()">Agregar Especie a la Lista</button>
       </b-col>
     </b-row>
   </div>
@@ -78,10 +66,9 @@ export default {
     validSpecie(){
       let valid_name_common = Boolean(this.newSpecie.name_common)
       let valid_kingdom = Boolean(this.newSpecie.kingdom)
-      let valid_legal_document = Boolean(this.newSpecie.pivot.file_url)
       let valid_qty = Boolean(this.newSpecie.qty)
 
-      return valid_name_common && valid_legal_document && valid_qty && valid_kingdom
+      return valid_name_common && valid_qty && valid_kingdom
     }
   },
   methods: {

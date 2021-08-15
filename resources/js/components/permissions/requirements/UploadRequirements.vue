@@ -282,7 +282,7 @@ export default {
     },
     makeToast(msg, variant = "success", delay = 3000, append = false) {
       this.$bvToast.toast(`${msg}`, {
-        title: 'Estatus del Requerimiento Actualizado.',
+        title: 'Requerimientos',
         autoHideDelay: delay,
         appendToast: append,
         variant

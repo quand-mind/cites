@@ -54,6 +54,12 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('register') }}">{{ __('Registro') }}</a>
                             </li>
+                            <li class="nav-item ml-4">
+                                <a class="nav-link" href="{{ route('loginPermissions') }}">{{ __('Sistema de Permisos MINEC') }}</a>
+                            </li>
+                            {{-- <li class="nav-item">
+                                <a class="nav-link" href="{{ route('register') }}">{{ __('Registro de Solicitantes') }}</a>
+                            </li> --}}
                         @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

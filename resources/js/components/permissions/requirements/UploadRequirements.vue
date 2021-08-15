@@ -1,6 +1,12 @@
 <template>
   <div>
     <div>
+      <b-alert v-model="loading" variant="info" class="alertFile d-flex justify-content-between align-items-center">
+        <span>Subiendo Archivo...</span> <b-spinner small label="Spinning"></b-spinner>
+      </b-alert>
+      <b-alert v-model="loadingDelete" variant="info" class="alertFile d-flex justify-content-between align-items-center">
+        <span>Elimnando Archivo...</span> <b-spinner small label="Spinning"></b-spinner>
+      </b-alert>
       <h1 class="ml-4 mb-4">Permiso N° {{permit[0].request_permit_no}}</h1>
       <h4 class="ml-4 mb-4">Subida de Requisitos</h4>
       <h4 class="ml-4 mb-4">Requisitos para: <br> ({{permit[0].permit_type.name}})</h4>
@@ -91,6 +97,8 @@ export default {
       "Archivo",
       "Acciones"
     ],
+    loading: false,
+    loadingDelete: false,
     fileUpload: null,
     options: {
       perPage: 10,
@@ -170,6 +178,9 @@ export default {
     },
     uploadSpecieFile (file, specie, isNew, index) {
 
+      this.closeSpecieListDialog()
+      this.loading = true
+
       var form = new FormData();
       form.append("file", file);
       form.append("specie", JSON.stringify(specie));
@@ -185,10 +196,12 @@ export default {
         .then(res => {
   
           specie.pivot.file_url = res.data
+          this.loading = false
           this.makeToast('Archivo Guardado')
           // setTimeout(() => window.location.reload(), 1200)
         })
         .catch(err => {
+          this.loading = false
           this.makeToast(err.toString(), 'danger')
         });
         this.closeSpecieListDialog()
@@ -198,6 +211,7 @@ export default {
       var form = new FormData()
       form.append("file", file)
       form.append("requeriment", JSON.stringify(requeriment));
+      this.loading = true
 
       axios
         .post(`/solicitante/permissions/uploadFile/`, form, {
@@ -209,9 +223,11 @@ export default {
   
           this.makeToast('Archivo Guardado')
           requeriment.pivot.file_url = res.data
+          this.loading = false
           setTimeout(() => window.location.reload(), 1200)
         })
         .catch(err => {
+          this.loading = false
           this.makeToast(err.toString(), 'danger')
         });
     },
@@ -245,14 +261,17 @@ export default {
         });
     },
     deleteFile(requeriment){
+      this.loadingDelete = true
       axios
         .post(`/solicitante/permissions/deleteFile/${requeriment.pivot.permit_id}`, {requeriment: JSON.stringify(requeriment)})
         .then(res => {
           requeriment.pivot.file_url = null
           this.makeToast(res.data)
+          this.loadingDelete = false
           setTimeout(() => window.location.reload(), 1200)
         })
         .catch(err => {
+          this.loadingDelete = false
           this.makeToast(err.toString(), 'danger')
         });
     },
@@ -270,14 +289,18 @@ export default {
         });
     },
     deleteSpecieFile(specie, index){
+      this.closeSpecieListDialog()
+      this.loadingDelete = true
       axios
         .post(`/solicitante/permissions/deleteSpecieFile/${specie.pivot.permit_id}`, {specie: JSON.stringify(specie),index: index})
         .then(res => {
           specie.pivot.file_url = null
+          this.loadingDelete = false
           this.makeToast(res.data)
           setTimeout(() => window.location.reload(), 1200)
         })
         .catch(err => {
+          this.loadingDelete = false
           this.makeToast(err.toString(), 'danger')
         });
     },
@@ -306,3 +329,11 @@ export default {
   },
 }
 </script>
+<style>
+ .alertFile{
+   position: fixed;
+   top: 0;
+   right: 0;
+   z-index:100;
+ }
+</style>

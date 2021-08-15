@@ -1,6 +1,10 @@
 <template>
   <div>
-    Especie:
+    <div v-if="!loading" class="d-flex justify-content-between align-items-center">
+      Cargando las Especies... <b-spinner small variant="success" label="Spinning"></b-spinner>
+    </div>
+    <div v-if="loading">
+      Especie:
     <div class="mt-3">
       <span> <small>Filtros de Busqueda</small></span>
     </div>
@@ -34,14 +38,15 @@
         <button class="w-100 btn btn-primary" :disabled="!validSpecie" @click="addSpecieToList()">Agregar Especie a la Lista</button>
       </b-col>
     </b-row>
+    </div>
+    
   </div>
 </template>
 <script>
+import {mapActions, mapGetters} from 'vuex'
 export default {
   props: ['selectedSpecies', 'showSelectSpecie','type', 'isNew'],
   data: () =>({
-
-    allSpecies:[],
 
     newSpecie: {
       name_common: null,
@@ -51,6 +56,7 @@ export default {
       },
       qty: null
     },
+    loading: false,
     showSpecies: false,
     file:null,
 
@@ -79,6 +85,15 @@ export default {
 
   }),
   computed: {
+    ...mapGetters([
+        'allSpecies',
+    ]),
+    animalsSpecies(){
+      return this.allSpecies.filter( specie => specie.higher_taxa.kingdom === 'Animalia')
+    },
+    plantSpecies(){
+      return this.allSpecies.filter( specie => specie.higher_taxa.kingdom === 'Plantae')
+    },
     validSpecie(){
       let valid_name_common = Boolean(this.newSpecie.name_common)
       let valid_kingdom = Boolean(this.newSpecie.kingdom)
@@ -88,6 +103,9 @@ export default {
     }
   },
   methods: {
+    ...mapActions([
+      'fetchSpecies',
+    ]),
     setSpecieData(){
       if (this.newSpecie.kingdom === 'Animalia'){
         this.species = this.animals
@@ -117,17 +135,13 @@ export default {
       this.closeAddSpecieDialog()
     },
   },
-  beforeMount() {
-    axios
-        .get(`/solicitante/species`)
-        .then(res => {
-          console.log(res.data.taxon_concepts)
-          this.allSpecies = res.data.taxon_concepts
-          // setTimeout(() => window.location.reload(), 1200)
-        })
-        .catch(err => {
-          this.makeToast(err.toString(), 'danger')
-        });
+  beforeCreate: async function () {
+      try {
+          await this.$store.dispatch('fetchSpecies')
+          this.loading = true
+      } catch (err) {
+      console.log(err)
+    }
   }
 }
 </script>

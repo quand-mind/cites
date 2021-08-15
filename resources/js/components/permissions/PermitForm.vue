@@ -123,6 +123,8 @@
 import SelectedSpeciesList from '../permissions/SelectedSpeciesList.vue';
 import AddSpecie from '../permissions/AddSpecie.vue';
 
+import {mapActions, mapGetters} from 'vuex'
+
 export default {
   props:['permit_type', 'client_data', 'type'],
   components: {
@@ -151,6 +153,9 @@ export default {
     showSelectedSpecies: false
   }),
   methods:{
+    ...mapActions([
+      'fetchSpecies',
+    ]),
     addSpecieToList(newSpecie){
       this.selectedSpecies.push(newSpecie)
       this.makeToast('Especie Añadida')
@@ -193,6 +198,6 @@ export default {
         variant
       });
     },
-  }
+  },
 }
 </script>

@@ -1,13 +1,12 @@
 import axios from "axios"
 
 export default {
-  async fetchBuyOrders ({commit}, payload) {
+  async fetchSpecies ({commit}, payload) {
     return new Promise((resolve, reject) => {
       axios.get('/solicitante/species')
       .then(response => {
-        const species = response.data.map(specie => {
-          return specie
-        })
+        console.log(response.data)
+        const species = response.data
         commit('fetchSpecies', species)
         resolve(species)
       })

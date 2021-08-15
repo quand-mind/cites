@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\client;
+use App\Models\Client;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Faker\Factory as Faker;
-use App\Models\permit;
+use App\Models\Permit;
 use App\Models\PermitType;
 use App\Models\Requeriment;
 use App\Models\Specie;

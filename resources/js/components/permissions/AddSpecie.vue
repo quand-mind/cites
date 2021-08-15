@@ -89,10 +89,32 @@ export default {
         'allSpecies',
     ]),
     animalsSpecies(){
-      return this.allSpecies.filter( specie => specie.higher_taxa.kingdom === 'Animalia')
+      let speciesRaw = this.allSpecies.filter( specie => specie.higher_taxa.kingdom === 'Animalia')
+      let species = speciesRaw.map(specie => specie.common_names[1])
+      let names = []
+      const selec = { value: null, text: 'Especie', disabled: true }
+      names.push(selec)
+      for (const specie of species) {
+        if (specie){
+          let name = specie.name
+          names.push(name)
+        }
+      }
+      return names
     },
     plantSpecies(){
-      return this.allSpecies.filter( specie => specie.higher_taxa.kingdom === 'Plantae')
+      let speciesRaw = this.allSpecies.filter( specie => specie.higher_taxa.kingdom === 'Plantae')
+      let species = speciesRaw.map(specie => specie.common_names[1])
+      let names = []
+      const selec = { value: null, text: 'Especie', disabled: true }
+      names.push(selec)
+      for (const specie of species) {
+        if (specie){
+          let name = specie.name
+          names.push(name)
+        }
+      }
+      return names
     },
     validSpecie(){
       let valid_name_common = Boolean(this.newSpecie.name_common)
@@ -108,7 +130,7 @@ export default {
     ]),
     setSpecieData(){
       if (this.newSpecie.kingdom === 'Animalia'){
-        this.species = this.animals
+        this.species = this.animalsSpecies
       }
       else {
         this.species = this.plants

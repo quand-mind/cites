@@ -21,7 +21,13 @@ class CreatePermitsTable extends Migration
             $table->string('purpose', 60);
             $table->string('status');
             $table->string('observations')->nullable();
-            $table->string('port')->nullable();
+            $table->string('transportation_way')->nullable();
+            $table->string('consignado_a')->nullable();
+            $table->string('country')->nullable();
+            $table->string('port_boarding')->nullable();
+            $table->string('port_disembarkation')->nullable();
+            $table->string('destiny_place')->nullable();
+            $table->string('place_departure')->nullable();
             $table->string('departure_date')->nullable();
             $table->timestamps();
         });

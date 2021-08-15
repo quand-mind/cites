@@ -88,6 +88,7 @@ Route::group(['prefix' => 'recursos'], function () {
 
 Auth::routes();
 
+Route::get('/registro_solicitante', 'AuthController@index')->name('registerSolicitante');
 Route::get('/loginPermissions', 'Auth\PermissionsLoginController@showLoginForm')->name('loginPermissions');
 
 Route::middleware('auth:api')->get('/home', 'HomeController@index')->name('home');

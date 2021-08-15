@@ -20,6 +20,10 @@ class client extends Authenticatable implements JWTSubject
         'password'
     ];
 
+    protected $hidden = [
+        'password', 'remember_token',
+    ];
+
     public function users()
     {
         return $this->hasOne(User::class);

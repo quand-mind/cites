@@ -24,7 +24,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 /**
  *  rutas para el login y logout de los clientes
  */
-
+Route::post('/RegisterClient', [AuthController::class, 'storeClient']);
 Route::post('/loginPermissions', [AuthController::class, 'login']);
 Route::get('/users', [AuthController::class, 'user']);
 Route::get('/logout', [AuthController::class, 'logout'])->middleware('jwt.verify');

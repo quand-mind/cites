@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use App\Models\client;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use JWTAuth;
@@ -28,6 +29,57 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
+
+    public function index()
+    {
+        return view('auth.registerClient');
+    }
+
+    protected function storeClient(Request $request){
+         
+        /*$request->validate([
+            //model client
+            'username' => 'required',
+            'email' => 'required|unique:clients',
+            'role' => 'required',
+            'password' => 'required',
+            'name' => 'required',
+            'dni' => 'required|unique:users',
+            'nationality' => 'required',
+            'domicile' => 'required',
+            'address' => 'required',
+            'phone' => 'required',
+            'mobile' => 'required',
+            'fax' => 'required',
+        ]);*/
+        
+        $usersData= new User;
+        $usersData->name = $request->input('name');
+        $usersData->dni = $request->input('dni');
+        $usersData->nationality = $request->input('nationality');
+        $usersData->domicile = $request->input('domicile');
+        $usersData->address = $request->input('address');
+        $usersData->phone = $request->input('phone');
+        $usersData->mobile = $request->input('mobile');
+        //$usersData->fax = $request->input('fax');
+        $usersData->save();
+
+        //$users = new User($usersData);
+        //$users->save();
+
+                
+        $client = new client();
+        $client->username = $request->input('username');
+        $client->email = $request->input('email');
+        $client->role = $request->input('role');
+        $client->password = Hash::make($request->input('password'));
+        $client->user_id = $usersData->id;
+        $client->save();
+
+        //return 'Client create';
+        return $this->login($request);
+    }           
+
     public function login(Request $request)
     {
         $this->validate($request, [

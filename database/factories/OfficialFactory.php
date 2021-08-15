@@ -2,10 +2,10 @@
 
 namespace Database\Factories;
 
-use App\Models\official;
+use App\Models\Official;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
-class officialFactory extends Factory
+class OfficialFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.

@@ -224,7 +224,7 @@ export default {
           this.makeToast('Archivo Guardado')
           requeriment.pivot.file_url = res.data
           this.loading = false
-          setTimeout(() => window.location.reload(), 1200)
+          // setTimeout(() => window.location.reload(), 1200)
         })
         .catch(err => {
           this.loading = false
@@ -268,7 +268,7 @@ export default {
           requeriment.pivot.file_url = null
           this.makeToast(res.data)
           this.loadingDelete = false
-          setTimeout(() => window.location.reload(), 1200)
+          // setTimeout(() => window.location.reload(), 1200)
         })
         .catch(err => {
           this.loadingDelete = false

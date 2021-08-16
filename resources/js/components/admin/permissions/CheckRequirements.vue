@@ -6,6 +6,36 @@
     </div>
     <div>
       <h1 class="ml-4 mb-4">Permiso N° {{permit[0].request_permit_no}}</h1>
+      <div class="ml-5 mb-4">
+        <hr>
+        <b-row class=" mb-2 mt-2">
+          <b-col md="6">Cliente: <span class="ml-2">{{this.permit[0].client.user.name}}</span></b-col>
+          <b-col md="6">Nacionalidad: <span class="ml-2">{{this.permit[0].client.user.nationality}}</span></b-col>
+        </b-row>
+        <b-row class=" mb-2 mt-2">
+          <b-col md="6">Email: <span class="ml-2">{{this.permit[0].client.email}}</span></b-col>
+          <b-col md="6">DNI: <span class="ml-2">{{this.permit[0].client.user.dni}}</span></b-col>
+        </b-row>
+        <hr>
+        <b-row class=" mb-2 mt-2">
+          <b-col md="6">Lugar de Envio: <span class="ml-2">{{this.permit[0].destiny_place}}</span></b-col>
+          <b-col md="6">Lugar de Llegada: <span class="ml-2">{{this.permit[0].departure_place}}</span></b-col>
+        </b-row>
+        <b-row class="mb-2 mt-2">
+          <b-col md="6">Puerto de Salida: <span class="ml-2">{{this.permit[0].shipment_port}}</span></b-col>
+          <b-col md="6">Puerto de Llegada: <span class="ml-2">{{this.permit[0].landing_port}}</span></b-col>
+        </b-row>
+        <b-row class="mb-2 mt-2">
+          <b-col md="6">Consignado a: <span class="ml-2">{{this.permit[0].consigned_to}}</span></b-col>
+          <b-col md="6">Medio de Transporte: <span class="ml-2">{{this.permit[0].transportation_way}}</span></b-col>
+        </b-row>
+        <b-row class="mb-2 mt-2">
+          <b-col v-if="permit[0].permit_type_id === 1" md="6">País Destino: <span class="ml-2">{{this.permit[0].country}}</span></b-col>
+          <b-col v-if="permit[0].permit_type_id !== 1" md="6">País De Envío: <span class="ml-2">{{this.permit[0].country}}</span></b-col>
+          <b-col md="3">Propósito: <span class="ml-2">{{this.permit[0].purpose}}</span></b-col>
+        </b-row>
+        <hr>
+      </div>
       <h4 class="ml-4 mb-4">Hoja de Checkeo de Requisitos</h4>
       <h4 class="ml-4 mb-4">Requisitos para: <br> ({{permit[0].permit_type.name}})</h4>
       <div class="card card-body">
@@ -51,13 +81,14 @@
                     Válido
                   </b-form-checkbox>
                   <div >
-                    <b-form-input @change="sendErrors(requeriment, permit[0])" class="ml-4" v-if="showErrors && errorId === requeriment.id" v-model="requeriment.pivot.file_errors" placeholder="Indique el problema:" ></b-form-input>
+                    <b-form-input @change="sendErrors(requeriment, permit[0])" class="ml-4" v-if="!requeriment.pivot.is_valid" v-model="requeriment.pivot.file_errors" placeholder="Indique el problema:" ></b-form-input>
                   </div>
                 </div>
               </b-col>
             </b-row>
           </div>
         </div>
+        <button class="btn btn-primary" :disabled="!isValidRequirements" @click="validPermit()">Validar Permiso</button>
       </div>
 
     </div>
@@ -76,7 +107,7 @@
 
 import SelectedSpecies from '../permissions/SelectedSpecies.vue';
 export default {
-  props: ['permit','type'],
+  props: ['permit','type', 'official'],
   components: {
     SelectedSpecies
   },
@@ -130,7 +161,40 @@ export default {
 
 
   }),
+  computed: {
+    isValidRequirements(){
+      let count = 0 
+      for (const requeriment of this.permit[0].requeriments) {
+        if (requeriment.short_name === 'documentos_especies') {
+          let speciesCount = this.checkUploadedSpecies(count)
+          count += speciesCount
+        }
+        else if (requeriment.pivot.is_valid){
+          count++
+        }
+      }
+      if(this.permit[0].requeriments.length === count) {
+        return true
+        // return count
+      }
+      else{
+        // return count
+        return false
+      }
+    }
+  },
   methods: {
+    checkUploadedSpecies(count){
+      let speciesCount = 0
+      for (const specie of this.permit[0].species) {
+        if (specie.pivot.is_valid){
+          speciesCount++
+        }
+      }
+      if(speciesCount === this.permit[0].species.length){
+        return 1
+      }
+    },
     uploadSpecieFile (file, specie) {
 
       var form = new FormData();
@@ -180,23 +244,35 @@ export default {
         this.showErrors = false
         this.errorId = null
         requeriment.pivot.file_errors = null
-        axios
-          .post(`/dashboard/permissions/check/`+permit.id, {requeriment: JSON.stringify(requeriment), permit: permit})
-          .then(res => {
-            this.makeToast(res.data)
-            // setTimeout(() => window.location.reload(), 1200)
-          })
-          .catch(err => {
-            this.makeToast(err.toString(), 'danger')
-          });
       } else {
         this.showErrors = true
         this.errorId = requeriment.id
       }
+      axios
+        .post(`/dashboard/permissions/check/`+permit.id, {requeriment: JSON.stringify(requeriment), permit: permit})
+        .then(res => {
+          this.makeToast(res.data)
+          setTimeout(() => window.location.reload(), 1200)
+        })
+        .catch(err => {
+          this.makeToast(err.toString(), 'danger')
+        });
     },
     validSpecies(specie, index){
       axios
         .post(`/dashboard/permissions/checkSpecies/`+this.permit[0].id, {specie: JSON.stringify(specie), permit: this.permit[0], index: index})
+        .then(res => {
+          this.makeToast(res.data)
+          this.showSelectedSpecies = false
+          // setTimeout(() => window.location.reload(), 1200)
+        })
+        .catch(err => {
+          this.makeToast(err.toString(), 'danger')
+        });
+    },
+    validPermit(index){
+      axios
+        .post(`/dashboard/permissions/validPermit/`+ this.permit[0].id, {official_id: this.official.id, permit: this.permit[0], index: index})
         .then(res => {
           this.makeToast(res.data)
           // setTimeout(() => window.location.reload(), 1200)
@@ -210,7 +286,7 @@ export default {
         .post(`/dashboard/permissions/check/`+permit.id, {requeriment: JSON.stringify(requeriment), permit: permit})
         .then(res => {
           this.makeToast(res.data)
-          // setTimeout(() => window.location.reload(), 1200)
+          setTimeout(() => window.location.reload(), 1200)
         })
         .catch(err => {
           this.makeToast(err.toString(), 'danger')

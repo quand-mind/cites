@@ -16,16 +16,13 @@ class Permit extends Model
         'purpose',
         'status',
         'observations',
-        'transportation_way_origin',
-        'consignado_a_origin',
-        'origin_country',
-        'transportation_way_destiny',
-        'destiny_country',
-        'consignado_a_destiny',
-        'port_boarding_destiny',
-        'port_disembarkation_destiny',
+        'transportation_way',
+        'consigned_to',
+        'country',
+        'landing_port',
+        'shipment_port',
         'destiny_place',
-        'place_departure',
+        'departure_place',
         'departure_date'
     ];
 
@@ -34,7 +31,7 @@ class Permit extends Model
         return $this->belongsToMany(Specie::class,
                                     'permit_specie',
                                     'permit_id',
-                                    'specie_id')->withPivot('file_url', 'is_valid', 'qty');
+                                    'specie_id')->withPivot('file_url', 'is_valid', 'qty', 'file_errors');
     }
     public function client()
     {

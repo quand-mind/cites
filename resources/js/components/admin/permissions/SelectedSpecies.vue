@@ -21,14 +21,13 @@
           <font-awesome-icon :icon="['fa', 'trash']"></font-awesome-icon>
         </button>
         <div v-else>
-          <label class="btn text-primary" :for="'file'+ index" style="cursor:pointer">
+          <label class="btn text-primary" :for="'file_specie'+ specie.id" style="cursor:pointer">
             <font-awesome-icon :icon="['fa', 'upload']"></font-awesome-icon>
           </label>
           <b-form-file
-            @input="uploadFile(specie, index)"
-            :data-id="index"
+            @input="uploadSpecieFile(specie, index)"
             style="display:none"
-            :id="'file'+ index"
+            :id="'file_specie'+ specie.id"
             accept=".pdf"
             v-model="file"
             drop-placeholder="Subir archivo aquí..."
@@ -56,22 +55,19 @@
 </template>
 <script>
 export default {
-  props: ['selectedSpecies','showSelectedSpecies', 'type'],
+  props: ['selectedSpecies', 'type'],
   data: () =>({
     file: null,
     errorId: null,
     showErrors: false,
   }),
   methods:{
-    uploadFile (specie, index) {
+    uploadSpecieFile (specie, index) {
+      console.log(index)
       this.$emit('uploadSpecieFile', this.file, specie, false, index)
     },
     deleteFile(specie, index){
       this.$emit('deleteSpecieFile', specie, index)
-    },
-    closeSpecieListDialog(){
-      false
-      this.$emit('closeSpecieListDialog')
     },
     deleteSpecie(specie){
       this.$emit('deleteSpecie', specie)

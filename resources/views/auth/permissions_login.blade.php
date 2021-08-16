@@ -11,7 +11,7 @@
                 <div class="card-body">
                 @if (\Session::has('errors'))
                     <div class="alert alert-danger">
-                        <ul>
+                        <ul> 
                             <li>{{ \Session::get(errors)}}</li>
                         </ul>               
                     </div>

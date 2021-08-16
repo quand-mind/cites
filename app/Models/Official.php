@@ -21,7 +21,7 @@ class Official extends Authenticatable
         'remember_token'
     ];
 
-    public function users()
+    public function user()
     {
         return $this->hasOne(Users::class);
     }

@@ -10,7 +10,7 @@ class PermitTypeController extends Controller
 {
     public function index()
     {
-        $clientData = User::with('clients')->where('id', '=', auth()->user()->id)->get();
+        $clientData = User::with('client')->where('id', '=', auth()->user()->id)->get();
         $permitTypes = PermitType::with(['requeriments'])->get();
         return view('permissions.permissions_list', compact(['permitTypes', 'clientData']));
     }

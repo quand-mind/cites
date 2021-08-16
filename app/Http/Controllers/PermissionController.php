@@ -22,13 +22,13 @@ class PermissionController extends Controller
 
     public function index()
     {
-        $clientData = User::with('clients')->where('id', '=', auth()->user()->id )->get();
+        $clientData = User::with('client')->where('id', '=', auth()->user()->id )->get();
         $permissions = Permit::where(['client_id' => auth()->user()->id])->with(['requeriments', 'permit_type'])->get();
         return view('permissions.permissions', compact('permissions', 'clientData'));
     }
     public function getForm($id)
     {   
-        $clientData = User::with('clients')->where('id', '=', auth()->user()->id)->get();
+        $clientData = User::with('client')->where('id', '=', auth()->user()->id)->get();
         $permitType = PermitType::with(['requeriments'])->where('id', '=', $id)->get();
         return view('permissions.permit_form', compact(['permitType', 'clientData']));
     }
@@ -49,7 +49,7 @@ class PermissionController extends Controller
     }
     public function getList()
     {
-        $clientData = User::with('clients')->where('id', '=', auth()->user()->id)->get()->first();
+        $clientData = User::with('client')->where('id', '=', auth()->user()->id)->get()->first();
         if ($clientData) {
             $clientId = $clientData->id;
         } else {

@@ -65,7 +65,7 @@ Route::middleware('auth:api')->group(function () {
         Route::post('/addSpecie', 'PermissionController@addSpecie');
         Route::post('/deleteSpecie', 'PermissionController@deleteSpecie');
 
-        Route::get('/printPermit', 'PermissionController@showAprovedPermit');
-        Route::post('/printPermit', 'PermissionController@printAprovedPermit');
+        Route::get('/printPermit/{id}', 'PermissionController@showAprovedPermit');
+        Route::post('/printPermit/{id}', 'PermissionController@printAprovedPermit');
     });
 });

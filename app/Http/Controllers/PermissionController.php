@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use App\Models\Official;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Faker\Factory as Faker;
@@ -17,203 +18,21 @@ use Exception;
 
 class PermissionController extends Controller
 {
-    public function storeFile(Request $request)
-    {
-        $file = $request->file('file');
-        $requeriment = json_decode($request->input('requeriment'));
-        $requeriment_id = $requeriment->id;
-        $permit_id = $requeriment->pivot->permit_id;
-        $nameFile = "permit_".$permit_id."_requeriment_".$requeriment_id."_file_".time().".".$file->guessExtension();
-        $url = $request->file('file')->storeAs('files/permissions', $nameFile);
-        $permit = Permit::find($permit_id);
-        $permit->requeriments[$requeriment_id -1]->pivot->file_url = $url;
-        $permit->push();
 
-        return $url;
-    }
-    public function addSpecie(Request $request)
-    {
-        $specie = json_decode($request->input('specie'));
-        $permit = json_decode($request->input('permit'));
-        // return $specie;
-        $specie_name = $specie->name_common;
-        $permit_id = $permit->id;
-        $getPermit = Permit::where(['id' => $permit_id])->get()->first();
-        
-        $findedSpecie = Specie::where('name_common', '=', $specie_name)->get()->first();
-        
-        if($findedSpecie) {  
-            $speciesIdsWithPivot[$findedSpecie->id] = ["qty" => $specie->qty, "file_url" => $specie->pivot->file_url, "is_valid" => false];
-            $getPermit->species()->attach($speciesIdsWithPivot);
-        }
-        else{
-            $newSpecie = new Specie();
-            $newSpecie->type = $specie->kingdom;
-            $newSpecie->name_scientific = $specie->name_common;
-            $newSpecie->name_common = $specie->name_common;
-            // $newSpecie->search_id = $specie->search_id;
-            $newSpecie->search_id = 1;
-            $newSpecie->save();
-            $speciesIdsWithPivot[$newSpecie->id] = ["qty" => $specie->qty, "file_url" => $specie->pivot->file_url, "is_valid" => false];
-            $getPermit->species()->attach($speciesIdsWithPivot);
-        }
-        return response('Especie Añadida', 200);
-    }
-    public function deleteSpecie(Request $request)
-    {
-        $specie = json_decode($request->input('specie'));
-        $permit = json_decode($request->input('permit'));
-        // return $specie;
-        $permit_id = $permit->id;
-        $getPermit = Permit::where(['id' => $permit_id])->get()->first();
-        
-        // $findedSpecie = Specie::where('name_common', '=', $specie_name)->get()->first();
-        
-        $getPermit->species()->detach($specie->id);
-        
-        return response('Especie Eliminada', 200);
-    }
-    public function showFile($name)
-    {
-        return Response::make(Storage::get('files/permissions/'. $name), 200, [
-            'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'inline; filename="'.$name.'"'
-        ]);
-    }
-    public function requestPermit($id)
-    {
-        $permit = Permit::find($id);
-        $permit->status = 'requested';
-        $permit->save();
-        return response('Solicitud de Permiso finalizada', 200);
-    }
-    public function deleteFile($id, Request $request)
-    {
-        
-        $requeriment = json_decode($request->input('requeriment'));
-        $requeriment_id = $requeriment->id;
-        $requeriment_url = $requeriment->pivot->file_url;
-        
-        Storage::delete(str_replace("/storage/", "", $requeriment_url));
-        
-        $permit = Permit::find($id);
-        $permit->requeriments[$requeriment_id -1]->pivot->file_url = null;
-        $permit->requeriments[$requeriment_id -1]->pivot->file_errors = null;
-        $permit->push();
-        return response('Archivo Eliminado', 200);
-    }
-    public function deleteSpecieFile($id, Request $request)
-    {
-        
-        $specie = json_decode($request->input('specie'));
-        $index = $request->input('index');
-        $specie_url = $specie->pivot->file_url;
-        
-        Storage::delete(str_replace("/storage/", "", $specie_url));
-        
-        $permit = Permit::find($id);
-        $permit->species[$index]->pivot->file_url = null;
-        $permit->push();
-        return response('Archivo Eliminado', 200);
-    }
-    public function storeSpecieFile(Request $request)
-    {
-        $file = $request->file('file');
-        $specie = json_decode($request->input('specie'));
-        $permit = json_decode($request->input('permit'));
-        $isNew = json_decode($request->input('isNew'));
-        $index = $request->input('index');
-        $specie_name = $specie->name_common;
-        $permit_id = $permit->id;
-        $nameFile = "permit_".$permit_id."_specie_".$specie_name."_file_".time().".".$file->guessExtension();
-        $url = $request->file('file')->storeAs('files/permissions', $nameFile);
-        if (!$isNew) {
-            $permit = Permit::find($permit_id);
-            $permit->species[$index]->pivot->file_url = $url;
-            $permit->push();
-        }
+    // GET
 
-        return $url;
-    }
     public function index()
     {
-        //$id = 1;
-        $clientData = User::with('clients')->where('id', '=', auth()->user()->id )->get();
-        $permissions = Permit::where(['client_id' => auth()->user()->id])->with(['requeriments', 'permit_type'])->get();
-        //return $clientData;
+        $clientData = Client::with('user')->where(['id' => auth()->user()->id])->get()->first();
+        // return $clientData->user;
+        $permissions = Permit::where(['client_id' => $clientData->id])->with(['requeriments', 'permit_type'])->get();
         return view('permissions.permissions', compact('permissions', 'clientData'));
-    }
-    public function getList()
-    {
-        $permissions = Permit::with(['requeriments', 'permit_type'])->get();
-        return view('panel.dashboard.permissions.permissions', compact('permissions'));
-    }
-    public function checkPermit(Request $request, $id)
-    {
-        $permit = Permit::find($id);
-        $newRequeriment = json_decode($request->input('requeriment'));
-        $pivot = $newRequeriment->pivot;
-        $requeriment_id = $newRequeriment->id;
-        if ($pivot->is_valid) {
-            $pivot->is_valid = 1;
-            $permit->requeriments[$requeriment_id -1]->pivot->is_valid = $pivot->is_valid;
-            $permit->requeriments[$requeriment_id -1]->pivot->file_errors = null;
-        } else {
-            $pivot->is_valid = 0;
-            $permit->requeriments[$requeriment_id -1]->pivot->is_valid = $pivot->is_valid;
-            $permit->requeriments[$requeriment_id -1]->pivot->file_errors = $pivot->file_errors;
-        }
-        
-        $permit->push();
-        
-        return response('Estatus del Requerimiento Actualizado.', 200);
-    }
-    public function checkSpecies(Request $request, $id)
-    {
-        $permit = Permit::find($id);
-        $newSpecie = json_decode($request->input('specie'));
-        $index = $request->input('index');
-        // return $newSpecie;
-        $pivot = $newSpecie->pivot;
-        $specie_id = $newSpecie->id;
-        if ($pivot->is_valid) {
-            $pivot->is_valid = 1;
-            $permit->species[$index]->pivot->file_errors = null;
-            $permit->species[$index]->pivot->is_valid = $pivot->is_valid;
-        } else {
-            $pivot->is_valid = 0;
-            $permit->species[$index]->pivot->is_valid = $pivot->is_valid;
-            $permit->species[$index]->pivot->file_errors = $pivot->file_errors;
-        }
-        
-        $permit->push();
-        
-        return response('Estatus del Requerimiento Actualizado.', 200);
-    }
-
-    public function showComercialExportSpecies()
-    {   
-        return view('permissions.requirements.comercial_export_species_requirements');
     }
     public function getForm($id)
     {   
-        $clientData = User::with('clients')->where('id', '=', auth()->user()->id)->get();
+        $clientData = Client::with('user')->where('id', '=', auth()->user()->id)->get();
         $permitType = PermitType::with(['requeriments'])->where('id', '=', $id)->get();
         return view('permissions.permit_form', compact(['permitType', 'clientData']));
-    }
-    public function showChecklist($id)
-    {
-        try {
-            $permit = Permit::where(['id' => $id])->with(['requeriments', 'permit_type', 'species'])->get();
-            if ($permit) {
-                return view('panel.dashboard.permissions.check_requirements', compact('permit'));
-            }
-            else {
-                return view('errors.404');
-            }
-        } catch (Exception $err) {
-            return view('errors.404');
-        }
     }
     public function showUploadRequeriments($id)
     {
@@ -230,6 +49,46 @@ class PermissionController extends Controller
             return view('errors.404');
         }
     }
+    public function getList()
+    {
+        $clientData = Client::with('user')->where('id', '=', auth()->user()->id)->get()->first();
+        if ($clientData) {
+            $clientId = $clientData->id;
+        } else {
+            $clientId = -1;
+        }
+        $permissions = Permit::with(['requeriments', 'permit_type'])->whereNotIn('client_id', [$clientId])->get();
+        return view('panel.dashboard.permissions.permissions', compact('permissions'));
+    }
+    public function showChecklist($id)
+    {
+        try {
+            $getPermit= Permit::find($id);
+            $officialData = Official::with('user')->where('id', '=', auth()->user()->id)->get()->first();
+
+            if ($officialData->user_id !== $getPermit->client->user_id) {
+                $permit = Permit::where(['id' => $id])->with(['requeriments', 'permit_type', 'species'])->get();
+            } else {
+                $permit = null;
+            }
+            if ($permit) {
+                return view('panel.dashboard.permissions.check_requirements', compact('permit', 'officialData'));
+            } else {
+                return view('errors.404');
+            }
+        } catch (Exception $err) {
+            return view('errors.404');
+        }
+    }
+    public function showAprovedPermit($id)
+    {
+        // $permissions = Permit::where(['id' => '$id', 'status' => 'aproved'])->with(['requeriments', 'permit_type','official_id'])->get();
+        $permit = Permit::where(['id' => $id])->with(['requeriments', 'permit_type'])->get();
+        return view('permissions.aproved_permit', compact('permit'));
+    }
+
+    // POST
+
     public function storePermit(Request $request)
     {
         $Date_day = Carbon::now()->format('Y-m-d');
@@ -274,7 +133,9 @@ class PermissionController extends Controller
         $permit->client_id = $request->input('client_id');
         $permit->save();
 
-        $user = User::where(['id' =>  $getClientId])->get()->first();
+        $client = Client::find($getClientId);
+
+        $user = User::where(['id' =>  $client->user_id])->get()->first();
         $user->phone = $getPersonals->phone;
         $user->mobile = $getPersonals->mobile;
         $user->fax = $getPersonals->fax;
@@ -321,27 +182,179 @@ class PermissionController extends Controller
 
         return response('Se ha solicitado el permiso, dirijase a la oficina del MINEC para entregar los recaudos.', 200);
     }
-
-    /*public function count(){
-
-        $Date_day = Carbon::now()->format('Y-m-d');
-        $DateDay = Carbon::now()->format('Ymd');
-
-        $countPermit =  Permit::where('created_at','like', '%'.$Date_day.'%')->count();
-        switch($countPermit){
-            case $countPermit < 10 :
-                $total_pemisos_dia = $countPermit + 1; 
-                return $DateDay.'00'.$total_pemisos_dia;
-            break;
-            case $countPermit >= 10 :
-                $total_pemisos_dia = $countPermit + 1; 
-                return $DateDay.'0'.$total_pemisos_dia;
-            break;
+    public function requestPermit($id)
+    {
+        $permit = Permit::find($id);
+        $permit->status = 'requested';
+        $permit->save();
+        return response('Solicitud de Permiso finalizada', 200);
+    }
+    public function addSpecie(Request $request)
+    {
+        $specie = json_decode($request->input('specie'));
+        $permit = json_decode($request->input('permit'));
+        // return $specie;
+        $specie_name = $specie->name_common;
+        $permit_id = $permit->id;
+        $getPermit = Permit::where(['id' => $permit_id])->get()->first();
+        
+        $findedSpecie = Specie::where('name_common', '=', $specie_name)->get()->first();
+        
+        if($findedSpecie) {  
+            $speciesIdsWithPivot[$findedSpecie->id] = ["qty" => $specie->qty, "file_url" => $specie->pivot->file_url, "is_valid" => false];
+            $getPermit->species()->attach($speciesIdsWithPivot);
         }
-        /*if ($permisos < 10) {
-
-            $total_pemisos_dia = $permisos + 1; 
+        else{
+            $newSpecie = new Specie();
+            $newSpecie->type = $specie->kingdom;
+            $newSpecie->name_scientific = $specie->name_common;
+            $newSpecie->name_common = $specie->name_common;
+            // $newSpecie->search_id = $specie->search_id;
+            $newSpecie->search_id = 1;
+            $newSpecie->save();
+            $speciesIdsWithPivot[$newSpecie->id] = ["qty" => $specie->qty, "file_url" => $specie->pivot->file_url, "is_valid" => false];
+            $getPermit->species()->attach($speciesIdsWithPivot);
         }
-        //return $DateDay.'00'.$total_pemisos_dia;
-    }*/
+        return response('Especie Añadida', 200);
+    }
+    public function deleteSpecie(Request $request)
+    {
+        $specie = json_decode($request->input('specie'));
+        $permit = json_decode($request->input('permit'));
+        // return $specie;
+        $permit_id = $permit->id;
+        $getPermit = Permit::where(['id' => $permit_id])->get()->first();
+        
+        // $findedSpecie = Specie::where('name_common', '=', $specie_name)->get()->first();
+        
+        $getPermit->species()->detach($specie->id);
+        
+        return response('Especie Eliminada', 200);
+    }
+    public function storeFile(Request $request)
+    {
+        $file = $request->file('file');
+        $requeriment = json_decode($request->input('requeriment'));
+        $requeriment_id = $requeriment->id;
+        $permit_id = $requeriment->pivot->permit_id;
+        $nameFile = "permit_".$permit_id."_requeriment_".$requeriment_id."_file_".time().".".$file->guessExtension();
+        $url = $request->file('file')->storeAs('files/permissions', $nameFile);
+        $permit = Permit::find($permit_id);
+        $permit->requeriments[$requeriment_id -1]->pivot->file_url = $url;
+        $permit->push();
+
+        return $url;
+    }
+    public function deleteFile($id, Request $request)
+    {
+        
+        $requeriment = json_decode($request->input('requeriment'));
+        $requeriment_id = $requeriment->id;
+        $requeriment_url = $requeriment->pivot->file_url;
+        
+        Storage::delete(str_replace("/storage/", "", $requeriment_url));
+        
+        $permit = Permit::find($id);
+        $permit->requeriments[$requeriment_id -1]->pivot->file_url = null;
+        $permit->requeriments[$requeriment_id -1]->pivot->file_errors = null;
+        $permit->push();
+        return response('Archivo Eliminado', 200);
+    }
+    public function storeSpecieFile(Request $request)
+    {
+        $file = $request->file('file');
+        $specie = json_decode($request->input('specie'));
+        $permit = json_decode($request->input('permit'));
+        $isNew = json_decode($request->input('isNew'));
+        $index = $request->input('index');
+        $specie_name = $specie->name_common;
+        $permit_id = $permit->id;
+        $nameFile = "permit_".$permit_id."_specie_".$specie_name."_file_".time().".".$file->guessExtension();
+        $url = $request->file('file')->storeAs('files/permissions', $nameFile);
+        if (!$isNew) {
+            $permit = Permit::find($permit_id);
+            $permit->species[$index]->pivot->file_url = $url;
+            $permit->push();
+        }
+
+        return $url;
+    }
+    public function deleteSpecieFile($id, Request $request)
+    {
+        
+        $specie = json_decode($request->input('specie'));
+        $index = $request->input('index');
+        $specie_url = $specie->pivot->file_url;
+        
+        Storage::delete(str_replace("/storage/", "", $specie_url));
+        
+        $permit = Permit::find($id);
+        $permit->species[$index]->pivot->file_url = null;
+        $permit->push();
+        return response('Archivo Eliminado', 200);
+    }
+    public function showFile($name)
+    {
+        return Response::make(Storage::get('files/permissions/'. $name), 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="'.$name.'"'
+        ]);
+    }    
+    public function checkPermit(Request $request, $id)
+    {
+        $permit = Permit::find($id);
+        $newRequeriment = json_decode($request->input('requeriment'));
+        $pivot = $newRequeriment->pivot;
+        $requeriment_id = $newRequeriment->id;
+        if ($pivot->is_valid) {
+            $pivot->is_valid = 1;
+            $permit->requeriments[$requeriment_id -1]->pivot->is_valid = $pivot->is_valid;
+            $permit->requeriments[$requeriment_id -1]->pivot->file_errors = null;
+        } else {
+            $pivot->is_valid = 0;
+            $permit->requeriments[$requeriment_id -1]->pivot->is_valid = $pivot->is_valid;
+            $permit->requeriments[$requeriment_id -1]->pivot->file_errors = $pivot->file_errors;
+        }
+        
+        $permit->push();
+        
+        return response('Estatus del Requerimiento Actualizado.', 200);
+    }
+    public function checkSpecies(Request $request, $id)
+    {
+        $permit = Permit::find($id);
+        $newSpecie = json_decode($request->input('specie'));
+        $index = $request->input('index');
+        // return $newSpecie;
+        $pivot = $newSpecie->pivot;
+        $specie_id = $newSpecie->id;
+        if ($pivot->is_valid) {
+            $pivot->is_valid = 1;
+            $permit->species[$index]->pivot->file_errors = null;
+            $permit->species[$index]->pivot->is_valid = $pivot->is_valid;
+        } else {
+            $pivot->is_valid = 0;
+            $permit->species[$index]->pivot->is_valid = $pivot->is_valid;
+            $permit->species[$index]->pivot->file_errors = $pivot->file_errors;
+        }
+        
+        $permit->push();
+        
+        return response('Estatus del Requerimiento Actualizado.', 200);
+    }
+    public function validPermit(Request $request, $id)
+    {
+        $permit = Permit::find($id);
+        $permit->official_id= $request->input('official_id');
+        $permit->status= 'valid';
+        
+        $permit->save();
+        
+        return response('Estatus del Requerimiento Actualizado.', 200);
+    }
+    public function printAprovedPermit($id)
+    {
+        
+        return response('Permiso Impreso.', 200);
+    }
 }

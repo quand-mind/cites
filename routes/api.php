@@ -45,9 +45,7 @@ Route::middleware('auth:api')->group(function () {
         Route::get('/', 'PermissionController@index');
     
         // Authorizations Routes
-        Route::get('/authorizations', 'AuthorizationController@index');
-        Route::post('/authorizations/createZoo', 'AuthorizationController@storeZoo');
-        Route::post('/authorizations/createNurseries', 'AuthorizationController@storeNurseries');
+        // Route::get('/authorizations', 'AuthorizationController@index');
     
         // Permissions Routes
         Route::get('/list', 'PermitTypeController@index');
@@ -67,8 +65,7 @@ Route::middleware('auth:api')->group(function () {
         Route::post('/addSpecie', 'PermissionController@addSpecie');
         Route::post('/deleteSpecie', 'PermissionController@deleteSpecie');
 
-        Route::get('/comercialExportSpecies/requirements/check/{id}', 'PermissionController@showComercialExportSpeciesChecklist');
-        Route::get('/comercialExportSpecies/requirements', 'PermissionController@showComercialExportSpecies');
-        // Route::post('//create', 'AuthorizationController@storeZoo');
+        Route::get('/printPermit/{id}', 'PermissionController@showAprovedPermit');
+        Route::post('/printPermit/{id}', 'PermissionController@printAprovedPermit');
     });
 });

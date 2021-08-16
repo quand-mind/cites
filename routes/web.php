@@ -197,11 +197,16 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
 
         // Permissions Routes
         Route::get('/permissions', 'PermissionController@getList');
+
+        Route::get('/permissions/check/{id}', 'PermissionController@showChecklist');
+
         Route::post('/permissions/uploadSpecieFile', 'PermissionController@storeSpecieFile');
         Route::post('/permissions/uploadFile', 'PermissionController@storeFile');
-        Route::get('/permissions/check/{id}', 'PermissionController@showChecklist');
+
         Route::post('/permissions/check/{id}', 'PermissionController@checkPermit');
         Route::post('/permissions/checkSpecies/{id}', 'PermissionController@checkSpecies');
+        
+        Route::post('/permissions/validPermit/{id}', 'PermissionController@validPermit');
     });
 });
 
@@ -257,13 +262,6 @@ Route::post('/sendEmail', [SetPasswordController::class, 'sendEmail']);
 Route::get('/setPassword/{token}', [SetPasswordController::class, 'showSetPasswordForm'])->name('set.password.get');
 Route::post('/setPasswordSubmit', [SetPasswordController::class, 'submitSetPasswordForm'])->name('set.password.submit');
 
-// Frontend pages controller
-Route::get('/{slug?}', 'PageController@show');
-
-// Frontend pages controller
-Route::get('/{slug}/{subpage}', 'PageController@showSubPage');
-
-
 Route::post('/save-file-nurseris', 'AuthorizationController@SaveFileZooHatcherie');
 //Auth::routes();
 
@@ -272,3 +270,9 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 //Route::post('/loginAdmin', 'AuthController@login_admin');
 
 Route::get('/species_cite', 'ApiController@api_cites')->name('cite_species');
+
+// Frontend pages controller
+Route::get('/{slug?}', 'PageController@show');
+
+// Frontend pages controller
+Route::get('/{slug}/{subpage}', 'PageController@showSubPage');

@@ -22,17 +22,17 @@ class ClientsTableSeeder extends Seeder
             'email'     => 'client@mail.com',
             'password'  => bcrypt('client123'),
             'username'  => 'client',
-            'role'      => 'persona_natural',
+            'role'      => 'businessman',
             'user_id'   => 1,
 
         ]);
 
         Client::factory()->count(10)->create([
-            'role' => 'persona_juridica'
+            'role' => 'businessman'
         ]);
 
         Client::factory()->count(10)->create([
-            'role' => 'persona_natural'
+            'role' => 'business_firm'
         ]);
     }
 }

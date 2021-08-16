@@ -17,7 +17,7 @@ class CreateClientsTable extends Migration
             $table->id();
             $table->string('username');
             $table->string('email')->unique();
-            $table->enum('role', ['persona_juridica', 'persona_natural']);
+            $table->enum('role', ['businessman', 'business_firm']);
             $table->string('password');
             $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->rememberToken();

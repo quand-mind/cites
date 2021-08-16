@@ -59,8 +59,6 @@ class AuthController extends Controller
         $usersData->nationality = $request->input('nationality');
         $usersData->domicile = $request->input('domicile');
         $usersData->address = $request->input('address');
-        $usersData->phone = $request->input('phone');
-        $usersData->mobile = $request->input('mobile');
         //$usersData->fax = $request->input('fax');
         $usersData->save();
 
@@ -76,7 +74,7 @@ class AuthController extends Controller
         $client->user_id = $usersData->id;
         $client->save();
 
-        //return 'Client create';
+        // return 'Client create';
         return $this->login($request);
     }           
 

@@ -5,10 +5,10 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Registro') }}</div>
+                <div class="card-header">{{ __('Registro de Solicitantes') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" enctype="multipart/form-data" action="{{ route('register') }}" aria-label="{{ __('Register') }}">
+                    <form method="POST" enctype="multipart/form-data" action="{{ url('/solicitante/registerClient') }}" aria-label="{{ __('Register') }}">
                         @csrf
 
                         <div class="form-group row">
@@ -55,6 +55,48 @@
                         </div>
 
                         <div class="form-group row">
+                            <label for="dni" class="col-md-4 col-form-label text-md-right">{{ __('Cédula') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="dni" type="text" class="form-control{{ $errors->has('dni') ? ' is-invalid' : '' }}" name="dni" value="{{ old('dni') }}" required autofocus>
+
+                                @if ($errors->has('dni'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('dni') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="nationality" class="col-md-4 col-form-label text-md-right">{{ __('Nacionalidad') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="nationality" type="text" class="form-control{{ $errors->has('nationality') ? ' is-invalid' : '' }}" name="nationality" value="{{ old('nationality') }}" required autofocus>
+
+                                @if ($errors->has('nationality'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('nationality') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="address" class="col-md-4 col-form-label text-md-right">{{ __('Dirección') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="address" type="text" class="form-control{{ $errors->has('address') ? ' is-invalid' : '' }}" name="address" value="{{ old('address') }}" required autofocus>
+
+                                @if ($errors->has('address'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('address') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Contraseña') }}</label>
 
                             <div class="col-md-6">
@@ -67,6 +109,7 @@
                                 @endif
                             </div>
                         </div>
+                        
 
                         <div class="form-group row">
                             <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirmar Contraseña') }}</label>

@@ -12,9 +12,7 @@ use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use JWTGuard;
 use Illuminate\Support\Facades\Log;
-
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-    
 use Illuminate\Support\Facades\Auth;
 
 
@@ -75,6 +73,7 @@ class AuthController extends Controller
         $client->save();
 
         // return 'Client create';
+        Log::info('Se a registrado un nuevo solicitante con el DNI: '.$request->input('dni').'| Se a registrado en el sistema desde la direccion: '. request()->ip());
         return $this->login($request);
     }           
 
@@ -96,7 +95,7 @@ class AuthController extends Controller
     protected function sendLoginResponse(Request $request, $token)
     {
         //$this->clearLoginAttempts($request);
-        Log::info('El solicitante '.$this->guard()->user()->username.' a ingresado al sistema desde la siguente direccion '. $_SERVER['REMOTE_ADDR']);
+        Log::info('El solicitante '.$this->guard()->user()->username.'| A ingresado al sistema desde la siguente direccion: '. request()->ip());
         return $this->authenticated($request, $this->guard()->user(), $token);
     }
 
@@ -111,7 +110,7 @@ class AuthController extends Controller
 
     protected function sendFailedLoginResponse(Request $request)
     {
-        Log::error('Fallo de autentificacion desde la siguente direccion '. $_SERVER['REMOTE_ADDR'] );
+        Log::error('Fallo de autentificacion desde la siguente direccion: '. request()->ip());
         
         return redirect()->back()->with('errors', 'todo mal');
        //return redirect('/loginPermissions')->withErrors(['las credenciales no concuerdan con nuestra data']);
@@ -125,10 +124,10 @@ class AuthController extends Controller
 
     public function logout()
     {
-        Log::info('El solicitante '.$this->guard()->user()->username.' a salido del sistema desde la siguente direccion '. $_SERVER['REMOTE_ADDR']);
+        Log::info('El solicitante '.$this->guard()->user()->username.' a salido del sistema desde la siguente direccion: '. request()->ip());
         $this->guard()->logout();
 
-        return redirect('/loginPermissions');
+        return redirect('/home');
     }
 
 

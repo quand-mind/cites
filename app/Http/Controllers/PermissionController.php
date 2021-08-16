@@ -22,8 +22,8 @@ class PermissionController extends Controller
 
     public function index()
     {
-        $clientData = User::with('client')->where('id', '=', auth()->user()->id )->get();
-        $permissions = Permit::where(['client_id' => auth()->user()->id])->with(['requeriments', 'permit_type'])->get();
+        $clientData = User::with('client')->where(['id' => auth()->user()->id])->get();
+        $permissions = Permit::where(['client_id' => $clientData->client->id])->with(['requeriments', 'permit_type'])->get();
         return view('permissions.permissions', compact('permissions', 'clientData'));
     }
     public function getForm($id)
@@ -51,7 +51,7 @@ class PermissionController extends Controller
     {
         $clientData = User::with('client')->where('id', '=', auth()->user()->id)->get()->first();
         if ($clientData) {
-            $clientId = $clientData->id;
+            $clientId = $clientData->client->id;
         } else {
             $clientId = -1;
         }
@@ -61,12 +61,17 @@ class PermissionController extends Controller
     public function showChecklist($id)
     {
         try {
-            $officialData = User::with('offcials')->where('id', '=', auth()->user()->id)->get();
-            $permit = Permit::where(['id' => $id])->whereNotIn(['email' => $officialData])->with(['requeriments', 'permit_type', 'species'])->get();
+            $getPermit= Permit::find($id);
+            $officialData = User::with('official')->where('id', '=', auth()->user()->id)->get()->first();
+
+            if ($officialData->id !== $getPermit->client->user_id) {
+                $permit = Permit::where(['id' => $id])->with(['requeriments', 'permit_type', 'species'])->get();
+            } else {
+                $permit = null;
+            }
             if ($permit) {
                 return view('panel.dashboard.permissions.check_requirements', compact('permit', 'officialData'));
-            }
-            else {
+            } else {
                 return view('errors.404');
             }
         } catch (Exception $err) {

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use App\Models\Official;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Faker\Factory as Faker;
@@ -22,13 +23,14 @@ class PermissionController extends Controller
 
     public function index()
     {
-        $clientData = User::with('client')->where(['id' => auth()->user()->id])->get();
-        $permissions = Permit::where(['client_id' => $clientData->client->id])->with(['requeriments', 'permit_type'])->get();
+        $clientData = Client::with('user')->where(['id' => auth()->user()->id])->get()->first();
+        // return $clientData->user;
+        $permissions = Permit::where(['client_id' => $clientData->id])->with(['requeriments', 'permit_type'])->get();
         return view('permissions.permissions', compact('permissions', 'clientData'));
     }
     public function getForm($id)
     {   
-        $clientData = User::with('client')->where('id', '=', auth()->user()->id)->get();
+        $clientData = Client::with('user')->where('id', '=', auth()->user()->id)->get();
         $permitType = PermitType::with(['requeriments'])->where('id', '=', $id)->get();
         return view('permissions.permit_form', compact(['permitType', 'clientData']));
     }
@@ -49,9 +51,9 @@ class PermissionController extends Controller
     }
     public function getList()
     {
-        $clientData = User::with('client')->where('id', '=', auth()->user()->id)->get()->first();
+        $clientData = Client::with('user')->where('id', '=', auth()->user()->id)->get()->first();
         if ($clientData) {
-            $clientId = $clientData->client->id;
+            $clientId = $clientData->id;
         } else {
             $clientId = -1;
         }
@@ -62,9 +64,9 @@ class PermissionController extends Controller
     {
         try {
             $getPermit= Permit::find($id);
-            $officialData = User::with('official')->where('id', '=', auth()->user()->id)->get()->first();
+            $officialData = Official::with('user')->where('id', '=', auth()->user()->id)->get()->first();
 
-            if ($officialData->id !== $getPermit->client->user_id) {
+            if ($officialData->user_id !== $getPermit->client->user_id) {
                 $permit = Permit::where(['id' => $id])->with(['requeriments', 'permit_type', 'species'])->get();
             } else {
                 $permit = null;
@@ -131,7 +133,9 @@ class PermissionController extends Controller
         $permit->client_id = $request->input('client_id');
         $permit->save();
 
-        $user = User::where(['id' =>  $getClientId])->get()->first();
+        $client = Client::find($getClientId);
+
+        $user = User::where(['id' =>  $client->user_id])->get()->first();
         $user->phone = $getPersonals->phone;
         $user->mobile = $getPersonals->mobile;
         $user->fax = $getPersonals->fax;

@@ -180,7 +180,7 @@ export default {
     requestPermit(){
 
       axios
-        .post(`/solicitante/permissions/list/createPermit`, { permit_type_id: this.permit_type[0].id, personals: JSON.stringify(this.personals), permit: JSON.stringify(this.permit), client_id: this.client_data[0].clients[0].id, species: JSON.stringify(this.selectedSpecies)})
+        .post(`/solicitante/permissions/list/createPermit`, { permit_type_id: this.permit_type[0].id, personals: JSON.stringify(this.personals), permit: JSON.stringify(this.permit), client_id: this.client_data[0].id, species: JSON.stringify(this.selectedSpecies)})
         .then(res => {
           this.makeToast(res.data)
           setTimeout(() => window.location.assign('/solicitante/permissions'), 1200)

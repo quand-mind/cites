@@ -23,7 +23,7 @@ class Official extends Authenticatable
 
     public function user()
     {
-        return $this->hasOne(Users::class);
+        return $this->belongsTo(User::class);
     }
     
     /**

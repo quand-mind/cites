@@ -70,5 +70,7 @@ Route::middleware('auth:api')->group(function () {
         Route::get('/comercialExportSpecies/requirements/check/{id}', 'PermissionController@showComercialExportSpeciesChecklist');
         Route::get('/comercialExportSpecies/requirements', 'PermissionController@showComercialExportSpecies');
         // Route::post('//create', 'AuthorizationController@storeZoo');
+
+        Route::get('/export-certificate/{id}', 'GenerateCertificateController@create');
     });
 });

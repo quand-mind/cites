@@ -140,10 +140,10 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function refresh()
+    /*public function refresh()
     {
         return $this->respondWithToken(auth()->refresh());
-    }
+    }*/
 
     /**
      * Get the token array structure.

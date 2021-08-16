@@ -124,8 +124,8 @@
                             <div class="col-md-6">
                                 <select id="role" class="form-control{{ $errors->has('role') ? ' is-invalid' : '' }}" name="role" required>
                                     <option value="" disabled selected>Seleccione</option> 
-                                    <option value="businessman">Empresario</option> 
-                                    <option value="business_firm">Firma Personal</option> 
+                                    <option value="natural">Personal Natural</option> 
+                                    <option value="juridica">Persona Juridica</option> 
                                 </select>
 
                                 @if ($errors->has('role'))

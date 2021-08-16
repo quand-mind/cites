@@ -25,7 +25,7 @@ class PermissionController extends Controller
     {
         $clientData = Client::with('user')->where(['id' => auth()->user()->id])->get()->first();
         // return $clientData->user;
-        $permissions = Permit::where(['client_id' => $clientData->id])->with(['requeriments', 'permit_type'])->get();
+        $permissions = Permit::where(['client_id' => $clientData->id])->with(['requeriments', 'permit_type', 'species', 'client.user'])->get();
         return view('permissions.permissions', compact('permissions', 'clientData'));
     }
     public function getForm($id)
@@ -57,7 +57,7 @@ class PermissionController extends Controller
         } else {
             $clientId = -1;
         }
-        $permissions = Permit::with(['requeriments', 'permit_type'])->whereNotIn('client_id', [$clientId])->get();
+        $permissions = Permit::with(['requeriments', 'permit_type', 'species', 'client.user'])->whereNotIn('client_id', [$clientId])->get();
         return view('panel.dashboard.permissions.permissions', compact('permissions'));
     }
     public function showChecklist($id)
@@ -67,7 +67,7 @@ class PermissionController extends Controller
             $officialData = Official::with('user')->where('id', '=', auth()->user()->id)->get()->first();
 
             if ($officialData->user_id !== $getPermit->client->user_id) {
-                $permit = Permit::where(['id' => $id])->with(['requeriments', 'permit_type', 'species'])->get();
+                $permit = Permit::where(['id' => $id])->with(['requeriments', 'permit_type', 'species', 'client.user'])->get();
             } else {
                 $permit = null;
             }
@@ -82,7 +82,7 @@ class PermissionController extends Controller
     }
     public function showAprovedPermit($id)
     {
-        // $permissions = Permit::where(['id' => '$id', 'status' => 'aproved'])->with(['requeriments', 'permit_type','official_id'])->get();
+        // $permissions = Permit::where(['id' => '$id', 'status' => 'valid'])->with(['requeriments', 'permit_type','official_id'])->get();
         $permit = Permit::where(['id' => $id])->with(['requeriments', 'permit_type'])->get();
         return view('permissions.aproved_permit', compact('permit'));
     }
@@ -201,7 +201,7 @@ class PermissionController extends Controller
         $findedSpecie = Specie::where('name_common', '=', $specie_name)->get()->first();
         
         if($findedSpecie) {  
-            $speciesIdsWithPivot[$findedSpecie->id] = ["qty" => $specie->qty, "file_url" => $specie->pivot->file_url, "is_valid" => false];
+            $speciesIdsWithPivot[$findedSpecie->id] = ["qty" => $specie->qty, "file_url" => $specie->pivot->file_url, "is_valid" => false, 'file_errors' => null];
             $getPermit->species()->attach($speciesIdsWithPivot);
         }
         else{

@@ -51,7 +51,7 @@ class ApiController extends Controller
 
     public function api_cites_filter(Request $request)
     {
-        $filter  = $equest->get('filter');
+        $filter  = $request->get('filter');
         $client = new Client(); //GuzzleHttp\Client
         $url = "https://api.speciesplus.net/api/v1/taxon_concepts?name=".$filter;
 
@@ -73,18 +73,19 @@ class ApiController extends Controller
 
 
         $species = json_decode($response->getBody()->getContents());
-
         $especies = $species->taxon_concepts;
+
+        //return $especies;
     
-        $arraySpecies = [];
+        /*$arraySpecies = [];
 
         foreach ($especies as $especie) {
             if ($especie->rank === "SPECIES" || $especie->rank === "SUBSPECIES" ){
                 array_push($arraySpecies, $especie);
             }
-        }
-        return $arraySpecies;
+        }*/
+        //return $arraySpecies;
         //return $species;
-        // return view('species', compact('species'));
+        return view('species', compact('especies'));
     }
 }

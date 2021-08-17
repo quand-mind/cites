@@ -49,6 +49,7 @@ class PermissionController extends Controller
             return view('errors.404');
         }
     }
+
     public function getList()
     {
         $clientData = Client::with('user')->where('id', '=', auth()->user()->id)->get()->first();
@@ -83,7 +84,12 @@ class PermissionController extends Controller
     public function showAprovedPermit($id)
     {
         $permit = Permit::where(['id' => $id, 'status' => 'valid'])->with(['requeriments', 'permit_type', 'client.user', 'official.user', 'species'])->get()->first();
-        return view('permissions.aproved_permit', compact('permit'));
+        // return $permit;
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->setOptions(['dpi' => 150, 'defaultFont' => 'sans-serif']);
+        $pdf->loadView('permissions.aproved_permit', [ 'permit' => $permit ]);
+        return $pdf->stream();
+        // return view('permissions.aproved_permit', compact('permit'));
     }
 
     // POST
@@ -118,8 +124,6 @@ class PermissionController extends Controller
         }
 
         $permit->permit_type_id = $getPermitTypeId;
-        $date = strtotime("+60 day");
-        $permit->valid_until = date('M d, Y', $date);
         $permit->purpose = $getPermit->purpose;
         $permit->transportation_way = $getPermit->transportation_way;
         $permit->consigned_to = $getPermit->consigned_to;
@@ -344,6 +348,8 @@ class PermissionController extends Controller
     public function validPermit(Request $request, $id)
     {
         $permit = Permit::find($id);
+        $date = strtotime("+60 day");
+        $permit->valid_until = date('M d, Y', $date);
         $permit->official_id= $request->input('official_id');
         $permit->status= 'valid';
         

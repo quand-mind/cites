@@ -2,7 +2,7 @@
 
 @section('content')
     <h1>Consuming the Species + / CITE api</h1>
-    <div class="row p-4 w-100">
+    <!--div class="row p-4 w-100">
         <div class="col-12 d-flex flex-wrap justify-content-center p-4">
         <div class="col-5 p-2">
                 <label for="">Appendix</label>
@@ -95,6 +95,11 @@
                 </select>
             </div>
         </div>
-    </div>
+    </div-->
+
+    <form class="form-inline">
+        <input name="filter" class="form-control mr-sm-2" type="search" placeholder="Buscar por nombre" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
+    </form>
         
 @endsection

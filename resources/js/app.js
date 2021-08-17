@@ -150,6 +150,8 @@ Vue.component("permissions-list", require("./components/permissions/PermissionsL
 
 Vue.component("permit-form", require("./components/permissions/PermitForm.vue").default);
 
+Vue.component("view-permit", require("./components/permissions/ViewPermit.vue").default);
+
 Vue.component("comercial-export-species-requirements", require("./components/permissions/requirements/ComercialExportSpeciesRequirements").default);
 
 Vue.component("upload-requirements", require("./components/permissions/requirements/UploadRequirements").default);

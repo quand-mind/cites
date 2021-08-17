@@ -38,6 +38,11 @@ class Permit extends Model
         
         return $this->belongsTo(Client::class);
     }
+    public function official()
+    {
+        
+        return $this->belongsTo(Official::class);
+    }
     public function permit_type()
     {
         

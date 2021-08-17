@@ -275,7 +275,7 @@ export default {
         .post(`/dashboard/permissions/validPermit/`+ this.permit[0].id, {official_id: this.official.id, permit: this.permit[0], index: index})
         .then(res => {
           this.makeToast(res.data)
-          // setTimeout(() => window.location.reload(), 1200)
+          setTimeout(() => window.location.assign('/dashboard/permissions/'), 1200)
         })
         .catch(err => {
           this.makeToast(err.toString(), 'danger')

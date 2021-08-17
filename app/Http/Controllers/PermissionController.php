@@ -82,8 +82,7 @@ class PermissionController extends Controller
     }
     public function showAprovedPermit($id)
     {
-        // $permissions = Permit::where(['id' => '$id', 'status' => 'valid'])->with(['requeriments', 'permit_type','official_id'])->get();
-        $permit = Permit::where(['id' => $id])->with(['requeriments', 'permit_type'])->get();
+        $permit = Permit::where(['id' => $id, 'status' => 'valid'])->with(['requeriments', 'permit_type', 'client.user', 'official.user', 'species'])->get()->first();
         return view('permissions.aproved_permit', compact('permit'));
     }
 

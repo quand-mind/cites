@@ -6,17 +6,21 @@
         <div class="d-flex justify-content-between align-items-center">
           <h4 class=" mb-3">N° de Permiso: {{permit.request_permit_no}}</h4>
           <b-badge v-if="permit.status === 'uploading_requeriments'" class="p-2" variant="warning">Requerimientos Por Subir</b-badge>
+          <b-badge v-if="permit.status === 'requested'" class="p-2" variant="info">Por Validar</b-badge>
+          <b-badge v-if="permit.status === 'valid'" class="p-2" variant="success">Validado Correctamente</b-badge>
           <b-badge v-if="permit.status === 'committed'" class="p-2" variant="success">Entregado</b-badge>
           <b-badge v-if="permit.status === 'not_valid'" class="p-2" variant="danger">No Valido</b-badge>
         </div>
         <div class="d-flex justify-content-between align-items-center">
           <span>{{permit.permit_type.name}}</span>
-          <div>
-            <a v-if="permit.status !== 'committed' && type === 'client'" class="btn btn-info" :href="`/solicitante/permissions/uploadRequirements/${permit.id}`">Subir Recaudos</a>
-            <button v-if="type === 'client'" class="btn btn-primary" @click="showPermitStatus(permit)">Ver estado del Permiso</button>
+          <div v-if="type === 'client'">
+            <a v-if="permit.status !== 'committed' && permit.status !== 'valid'" class="btn btn-info" :href="`/solicitante/permissions/uploadRequirements/${permit.id}`">Subir Recaudos</a>
+            <a v-if="permit.status === 'committed' || permit.status === 'valid'" class="btn btn-info" :href="`/solicitante/permissions/viewPermit/${permit.id}`">Imprimir Certificado</a>
+            <button class="btn btn-primary" @click="showPermitStatus(permit)">Ver estado del Permiso</button>
           </div>
           <div v-if="type === 'admin'">
             <a v-if="!(permit.status === 'uploading_requeriments' || permit.status === 'committed')" class="btn btn-primary" :href="'/dashboard/permissions/check/'+ permit.id">Realizar Checkeo de la orden</a>
+            <button class="btn btn-primary" @click="showPermitStatus(permit)">Ver estado del Permiso</button>
           </div>
         </div>
       </div>
@@ -28,11 +32,23 @@
     <b-modal v-if="showPermit" v-model="showPermit" size="xl" id="species-modal" title="Estado del Permiso" hide-footer> 
       <div class="ma-5 d-flex justify-content-between align-items-center">
         <h4 class=" mb-3">N° de Permiso: {{selectedPermit.request_permit_no}}</h4>
-        <b-badge v-if="selectedPermit.status === 'committed'" class="p-2" variant="success">Entregado</b-badge>
+        <b-badge v-if="selectedPermit.status === 'requested'" class="p-2" variant="info">Por Validar</b-badge>
+          <b-badge v-if="selectedPermit.status === 'valid'" class="p-2" variant="success">Validado Correctamente</b-badge>
+          <b-badge v-if="selectedPermit.status === 'committed'" class="p-2" variant="success">Entregado</b-badge>
+          <b-badge v-if="selectedPermit.status === 'not_valid'" class="p-2" variant="danger">No Valido</b-badge>
         <b-badge v-if="selectedPermit.status === 'uploading_requeriments'" class="p-2" variant="danger">Falta subir requerimientos o pulsar el boton de finalizar proceso.</b-badge>
       </div>
       <div class="ml-4 mb-4">
         <hr>
+        <b-row v-if="type === 'admin'" class=" mb-2 mt-2">
+          <b-col md="6">Cliente: <span class="ml-2">{{selectedPermit.client.user.name}}</span></b-col>
+          <b-col md="6">Nacionalidad: <span class="ml-2">{{selectedPermit.client.user.nationality}}</span></b-col>
+        </b-row>
+        <b-row v-if="type === 'admin'" class=" mb-2 mt-2">
+          <b-col md="6">Email: <span class="ml-2">{{selectedPermit.client.email}}</span></b-col>
+          <b-col md="6">DNI: <span class="ml-2">{{selectedPermit.client.user.dni}}</span></b-col>
+        </b-row>
+        <hr v-if="type === 'admin'">
         <b-row class=" mb-2 mt-2">
           <b-col md="6">Lugar de Envio: <span class="ml-2">{{selectedPermit.destiny_place}}</span></b-col>
           <b-col md="6">Lugar de Llegada: <span class="ml-2">{{selectedPermit.departure_place}}</span></b-col>

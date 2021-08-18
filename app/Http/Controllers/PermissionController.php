@@ -233,7 +233,7 @@ class PermissionController extends Controller
     public function storePermit(Request $request)
     {
         $Date_day = Carbon::now()->format('Y-m-d');
-        $DateDay = Carbon::now()->format('Ymd');
+        $DateDay = Carbon::now()->format('ymd');
 
         $permisos =  Permit::where('created_at', 'like', '%'.$Date_day.'%')->count();
 
@@ -325,7 +325,7 @@ class PermissionController extends Controller
     /*public function count(){
 
         $Date_day = Carbon::now()->format('Y-m-d');
-        $DateDay = Carbon::now()->format('Ymd');
+        $DateDay = Carbon::now()->format('ymd');
 
         $countPermit =  Permit::where('created_at','like', '%'.$Date_day.'%')->count();
         switch($countPermit){
@@ -338,10 +338,5 @@ class PermissionController extends Controller
                 return $DateDay.'0'.$total_pemisos_dia;
             break;
         }
-        /*if ($permisos < 10) {
-
-            $total_pemisos_dia = $permisos + 1; 
-        }
-        //return $DateDay.'00'.$total_pemisos_dia;
     }*/
 }

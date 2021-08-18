@@ -72,3 +72,4 @@ Route::middleware('auth:api')->group(function () {
         Route::post('/printPermit/{id}', 'PermissionController@printAprovedPermit');
     });
 });
+

@@ -53,8 +53,7 @@ class ApiController extends Controller
     {
         $filter  = $request->get('filter');
         $client = new Client(); //GuzzleHttp\Client
-        $url = "https://api.speciesplus.net/api/v1/taxon_concepts?name=".$filter;
-
+        $url = "https://speciesplus.net/api/v1/auto_complete_taxon_concepts?taxon_concept_query=".$filter;
         $headers= [
             // 'Content-Type' => 'application/json',
             'X-Authentication-Token' => 'uD2JyZT7CvR1Snol3xKrYgtt',
@@ -73,19 +72,19 @@ class ApiController extends Controller
 
 
         $species = json_decode($response->getBody()->getContents());
-        $especies = $species->taxon_concepts;
+        $especies = $species->auto_complete_taxon_concepts;
 
         //return $especies;
     
-        /*$arraySpecies = [];
+        $arraySpecies = [];
 
         foreach ($especies as $especie) {
-            if ($especie->rank === "SPECIES" || $especie->rank === "SUBSPECIES" ){
+            if ($especie->rank_name === "SPECIES" || $especie->rank_name === "SUBSPECIES" ){
                 array_push($arraySpecies, $especie);
             }
-        }*/
+        }
         //return $arraySpecies;
         //return $species;
-        return view('species', compact('especies'));
+        return view('species', compact('arraySpecies'));
     }
 }

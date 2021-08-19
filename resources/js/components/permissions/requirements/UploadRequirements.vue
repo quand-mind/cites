@@ -49,7 +49,6 @@
                   </label>
                   <b-form-file
                     @input="uploadFile(file, requeriment, index)"
-                    :data-id="requeriment.id"
                     style="display:none"
                     :id="'file'+ requeriment.id"
                     accept=".pdf"
@@ -76,7 +75,7 @@
       v-on:deleteSpecieFile="deleteSpecieFile"
       v-on:deleteSpecie="deleteSpecie"
       v-on:closeSpecieListDialog="closeSpecieListDialog"
-      :selectedSpecies="permit[0].species" :showSelectedSpecies="showSelectedSpecies"
+      :selectedSpecies="permit[0].species"
       :type="type"/>
     </b-modal>
   </div>
@@ -207,6 +206,7 @@ export default {
         this.closeSpecieListDialog()
     },
     uploadFile (file, requeriment, index) {
+      console.log(index)
 
       var form = new FormData()
       form.append("file", file)
@@ -224,7 +224,7 @@ export default {
           this.makeToast('Archivo Guardado')
           requeriment.pivot.file_url = res.data
           this.loading = false
-          setTimeout(() => window.location.reload(), 1200)
+          // setTimeout(() => window.location.reload(), 1200)
         })
         .catch(err => {
           this.loading = false
@@ -268,7 +268,7 @@ export default {
           requeriment.pivot.file_url = null
           this.makeToast(res.data)
           this.loadingDelete = false
-          setTimeout(() => window.location.reload(), 1200)
+          // setTimeout(() => window.location.reload(), 1200)
         })
         .catch(err => {
           this.loadingDelete = false
@@ -282,7 +282,7 @@ export default {
         .then(res => {
           this.permit[0].species.splice(specie.id - 1)
           this.makeToast(res.data)
-          setTimeout(() => window.location.reload(), 1200)
+          // setTimeout(() => window.location.reload(), 1200)
         })
         .catch(err => {
           this.makeToast(err.toString(), 'danger')
@@ -297,7 +297,7 @@ export default {
           specie.pivot.file_url = null
           this.loadingDelete = false
           this.makeToast(res.data)
-          setTimeout(() => window.location.reload(), 1200)
+          // setTimeout(() => window.location.reload(), 1200)
         })
         .catch(err => {
           this.loadingDelete = false

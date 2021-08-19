@@ -31,6 +31,27 @@
         <b-badge v-if="selectedPermit.status === 'committed'" class="p-2" variant="success">Entregado</b-badge>
         <b-badge v-if="selectedPermit.status === 'uploading_requeriments'" class="p-2" variant="danger">Falta subir requerimientos o pulsar el boton de finalizar proceso.</b-badge>
       </div>
+      <div class="ml-4 mb-4">
+        <hr>
+        <b-row class=" mb-2 mt-2">
+          <b-col md="6">Lugar de Envio: <span class="ml-2">{{selectedPermit.destiny_place}}</span></b-col>
+          <b-col md="6">Lugar de Llegada: <span class="ml-2">{{selectedPermit.departure_place}}</span></b-col>
+        </b-row>
+        <b-row class="mb-2 mt-2">
+          <b-col md="6">Puerto de Salida: <span class="ml-2">{{selectedPermit.shipment_port}}</span></b-col>
+          <b-col md="6">Puerto de Llegada: <span class="ml-2">{{selectedPermit.landing_port}}</span></b-col>
+        </b-row>
+        <b-row class="mb-2 mt-2">
+          <b-col md="6">Consignado a: <span class="ml-2">{{selectedPermit.consigned_to}}</span></b-col>
+          <b-col md="6">Medio de Transporte: <span class="ml-2">{{selectedPermit.transportation_way}}</span></b-col>
+        </b-row>
+        <b-row class="mb-2 mt-2">
+          <b-col v-if="selectedPermit.permit_type_id === 1" md="6">País Destino: <span class="ml-2">{{selectedPermit.country}}</span></b-col>
+          <b-col v-if="selectedPermit.permit_type_id !== 1" md="6">País De Envío: <span class="ml-2">{{selectedPermit.country}}</span></b-col>
+          <b-col md="3">Propósito: <span class="ml-2">{{selectedPermit.purpose}}</span></b-col>
+        </b-row>
+        <hr>
+      </div>
       <div class=" mb-5 d-flex justify-content-between align-items-center">
         <span>{{selectedPermit.permit_type.name}}</span>
       </div>

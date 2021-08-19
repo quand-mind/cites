@@ -21,14 +21,13 @@
           <font-awesome-icon :icon="['fa', 'trash']"></font-awesome-icon>
         </button>
         <div v-else>
-          <label class="btn text-primary" :for="'file'+ index" style="cursor:pointer">
+          <label class="btn text-primary" :for="'file_specie'+ specie.id" style="cursor:pointer">
             <font-awesome-icon :icon="['fa', 'upload']"></font-awesome-icon>
           </label>
           <b-form-file
-            @input="uploadFile(specie, index)"
-            :data-id="index"
+            @input="uploadSpecieFile(specie, index)"
             style="display:none"
-            :id="'file'+ index"
+            :id="'file_specie'+ specie.id"
             accept=".pdf"
             v-model="file"
             drop-placeholder="Subir archivo aquí..."
@@ -48,7 +47,7 @@
           Válido
         </b-form-checkbox>
         <div>
-          <b-form-input @change="sendErrors(specie, index)" class="ml-4" v-if="showErrors && errorId === specie.id" v-model="specie.pivot.file_errors" placeholder="Indique el problema:" ></b-form-input>
+          <b-form-input @change="sendErrors(specie, index)" class="ml-4" v-if="!specie.pivot.is_valid" v-model="specie.pivot.file_errors" placeholder="Indique el problema:" ></b-form-input>
         </div>
       </b-col>
     </b-row>
@@ -56,22 +55,19 @@
 </template>
 <script>
 export default {
-  props: ['selectedSpecies','showSelectedSpecies', 'type'],
+  props: ['selectedSpecies', 'type'],
   data: () =>({
     file: null,
     errorId: null,
     showErrors: false,
   }),
   methods:{
-    uploadFile (specie, index) {
+    uploadSpecieFile (specie, index) {
+      console.log(index)
       this.$emit('uploadSpecieFile', this.file, specie, false, index)
     },
     deleteFile(specie, index){
       this.$emit('deleteSpecieFile', specie, index)
-    },
-    closeSpecieListDialog(){
-      false
-      this.$emit('closeSpecieListDialog')
     },
     deleteSpecie(specie){
       this.$emit('deleteSpecie', specie)
@@ -82,11 +78,11 @@ export default {
         this.showErrors = false
         this.errorId = null
         specie.pivot.file_errors = null
-        this.$emit('validSpecies', specie, index)
       } else {
         this.showErrors = true
         this.errorId = specie.id
       }
+      this.$emit('validSpecies', specie, index)
     },
     sendErrors(specie, index){
       this.$emit('validSpecies', specie, index)

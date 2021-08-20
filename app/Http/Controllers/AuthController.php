@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
-use App\Models\Client;
-use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use JWTAuth;
@@ -14,6 +12,11 @@ use JWTGuard;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
+
+use App\Models\Client;
+use App\Models\User;
+use App\Models\Phone;
+use App\Models\Institution;
 
 
 class AuthController extends Controller
@@ -72,9 +75,20 @@ class AuthController extends Controller
         $client->user_id = $usersData->id;
         $client->save();
 
+        if($request->input('institution_name') === NULL){
+            return  $request->input('institution_name')." Nuevo Usuario Creado";
+        }else{
+            return "2. Nuevo Usuario Creado";
+        }
+        /*$phones= $request->only('phones');
+        $phones = json_decode($phones['phones']);
+        $phones = array_map(function($phone) {
+            return (array) $phone;
+        }, $phones);
+        $client->phones()->createMany($phones);
         // return 'Client create';
         Log::info('Se a registrado un nuevo solicitante con el DNI: '.$request->input('dni').'| Se a registrado en el sistema desde la direccion: '. request()->ip());
-        return $this->login($request);
+        return $this->login($request);*/
     }           
 
     public function login(Request $request)

@@ -74,8 +74,8 @@ class User extends Model
     public function phones(){
         return $this->belongsToMany(Phone::class,
                                         'phone_user',
-                                        'phone_id',
-                                        'user_id');
+                                        'user_id',
+                                        'phone_id');
     }
     // methods
     public function isWriter()

@@ -21,8 +21,6 @@ class CreateUsersTable extends Migration
             $table->bigInteger('dni')->unique();
             $table->string('domicile')->nullable();
             $table->string('address')->nullable();
-            $table->string('phone')->nullable();
-            $table->string('mobile')->nullable();
             $table->string('fax')->nullable();
             $table->boolean('is_active')->default(true);
             $table->string('photo')->default('/images/default-user.png');

@@ -83,13 +83,13 @@ class PermissionController extends Controller
     }
     public function showAprovedPermit($id)
     {
-        $permit = Permit::where(['id' => $id, 'status' => 'valid'])->with(['requeriments', 'permit_type', 'client.user', 'official.user', 'species'])->get()->first();
+        $permit = Permit::where(['id' => $id, 'status' => 'valid'])->orWhere(['id' => $id, 'status' => 'committed'])->with(['requeriments', 'permit_type', 'client.user', 'official.user', 'species'])->get()->first();
         // return $permit;
-        $pdf = \App::make('dompdf.wrapper');
-        $pdf->setOptions(['dpi' => 150, 'defaultFont' => 'sans-serif']);
-        $pdf->loadView('permissions.aproved_permit', [ 'permit' => $permit ]);
-        return $pdf->stream();
-        // return view('permissions.aproved_permit', compact('permit'));
+        // $pdf = \App::make('dompdf.wrapper');
+        // $pdf->setOptions(['dpi' => 150, 'defaultFont' => 'sans-serif']);
+        // $pdf->loadView('permissions.aproved_permit', [ 'permit' => $permit ]);
+        // return $pdf->stream();
+        return view('permissions.aproved_permit', compact('permit'));
     }
 
     // POST

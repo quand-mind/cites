@@ -23,8 +23,6 @@ class UsersTableSeeder extends Seeder
             'dni'       => '27647120',
             'domicile'  => 'Caracas',
             'address'   => 'Av urdaneta edificio dorsay',
-            'phone'     => $faker->tollFreePhoneNumber,    
-            'mobile'    => $faker->e164PhoneNumber,
             'fax'       => $faker->tollFreePhoneNumber,
         ]);
 
@@ -34,8 +32,6 @@ class UsersTableSeeder extends Seeder
             'dni'       => '27647121',
             'domicile'  => 'Caracas',
             'address'   => 'Av urdaneta edificio dorsay',
-            'phone'     => $faker->tollFreePhoneNumber,    
-            'mobile'    => $faker->e164PhoneNumber,
             'fax'       => $faker->tollFreePhoneNumber,
         ]);
 
@@ -45,8 +41,6 @@ class UsersTableSeeder extends Seeder
             'dni'       => '27647122',
             'domicile'  => 'Caracas',
             'address'   => 'Av urdaneta edificio dorsay',
-            'phone'     => $faker->tollFreePhoneNumber,    
-            'mobile'    => $faker->e164PhoneNumber,
             'fax'       => $faker->tollFreePhoneNumber,
         ]);
 

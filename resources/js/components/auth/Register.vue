@@ -172,6 +172,18 @@
           </div>
         </div>
 
+        <div class="form-group row">
+          <label for="phone_institution" class="col-md-4 col-form-label text-md-right">Número de la Empresa</label>
+
+          <div class="col-md-6">
+            <input id="phone_institution" type="text" class="form-control" name="phone_institution" v-model="phone_institution" required autofocus>
+
+              <span v-if="errors" class="invalid-feedback" role="alert">
+                <strong>{{errors.phone_institution}}</strong>
+              </span>
+          </div>
+        </div>
+
       </div>
 
       <div class="form-group row mb-0">
@@ -203,6 +215,7 @@ export default {
     institution_name: null,
     rif: null,
     institutional_email: null,
+    phone_institution: null,
   })
 }
 </script>

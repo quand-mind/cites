@@ -14,6 +14,8 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 
 use App\Models\Client;
+use App\Models\Institution;
+use App\Models\Phone;
 use App\Models\User;
 
 
@@ -71,31 +73,35 @@ class AuthController extends Controller
         $client->password = Hash::make($request->input('password'));
         $client->user_id = $usersData->id;
         $client->save();
-        $phones = [];
 
         $phone1 = $request->input('phone1');
+        $newPhone1 = new Phone();
+        $newPhone1->number = $phone1;
+        $newPhone1->save();
+
         $phone2 = $request->input('phone2');
-        array_push($phones, $phone1);
-        if ($phone2) {
-            array_push($phones, $phone2);
-        }
-        // $usersData->phones()->createMany($phones);
-
-        return $phones;
-
+        $newPhone2 = new Phone();
+        $newPhone2->number = $phone2;
+        $newPhone2->save();
+        
+        $usersData->phones()->sync([$newPhone1->id, $newPhone2->id]);
+        
         if ($role === 'juridica' ) {
            
             $institution = new Institution();
             $institution->name = $request->input('institution_name');
             $institution->name = $request->input('rif');
             $institution->institutional_email = $request->input('institutional_email');
+            $institution->client_id = $client->id;
             $institution->save();
         
-            $phones = [];
+            
+            $phoneInstitution = $request->input('phone_institution');
+            $newPhoneInstitution = new Phone();
+            $newPhoneInstitution->number = $phoneInstitution;
+            $newPhoneInstitution->save();
 
-            $phone1 = $request->input('phone_institution');
-            array_push($phones, $phone1);
-            // $institution->phones()->createMany($phones);
+            $institution->phones()->attach($newPhoneInstitution->id);
         }
 
         Log::info('Se a registrado un nuevo solicitante con el DNI: '.$request->input('dni').'| Se a registrado en el sistema desde la direccion: '. request()->ip());

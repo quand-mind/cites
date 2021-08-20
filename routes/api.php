@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\InstitutionController;
 use App\Http\Controllers\auth\LoginController;
 use App\Http\Controllers\AuthorizationController;
 use App\Http\Controllers\ApiController;
@@ -25,6 +26,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
  *  rutas para el login y logout de los clientes
  */
 Route::post('/registerClient', [AuthController::class, 'storeClient']);
+Route::post('/registerInstitution', [InstitutionController::class, 'storeInstitution']);
 Route::post('/loginPermissions', [AuthController::class, 'login']);
 Route::get('/users', [AuthController::class, 'user']);
 Route::get('/logout', [AuthController::class, 'logout'])->middleware('jwt.verify');

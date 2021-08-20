@@ -70,6 +70,12 @@ class AuthController extends Controller
         $client->user_id = $usersData->id;
         $client->save();
 
+        $phones= $request->only('phones');
+        $phones = json_decode(json_encode($phones['phones'])); 
+        $phones = array_map(function($phone) {
+            return (array) $phone;
+        }, $phones);
+        $usersData->phones()->createMany($phones);
         Log::info('Se a registrado un nuevo solicitante con el DNI: '.$request->input('dni').'| Se a registrado en el sistema desde la direccion: '. request()->ip());
         return $this->login($request);
         // return 'Client create';

@@ -71,6 +71,12 @@ class User extends Model
     {
         return $this->hasOne(Client::class);
     }
+    public function phones(){
+        return $this->belongsToMany(Phone::class,
+                                        'phone_user',
+                                        'phone_id',
+                                        'user_id');
+    }
     // methods
     public function isWriter()
     {
@@ -78,10 +84,10 @@ class User extends Model
     }
     public function isPersonLegal()
     {
-        return $this->role == 'perosna_juridica';
+        return $this->role == 'juridica';
     }
     public function isNaturalPerson()
     {
-        return $this->role == 'perosna_natural';
+        return $this->role == 'natural';
     }
 }

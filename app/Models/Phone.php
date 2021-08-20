@@ -18,4 +18,11 @@ class Phone extends Model
                                         'institution_id',
                                         'phone_id');
     }
+
+    public function users(){
+        return $this->belongsToMany(User::class,
+                                        'phone_user',
+                                        'phone_id',
+                                        'user_id');
+    }
 }

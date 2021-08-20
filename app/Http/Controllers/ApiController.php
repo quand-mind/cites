@@ -84,7 +84,7 @@ class ApiController extends Controller
             }
         }
         //return $arraySpecies;
-        //return $species;
+        return $species;
         return view('species', compact('arraySpecies'));
     }
 }

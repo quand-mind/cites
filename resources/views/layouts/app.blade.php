@@ -54,9 +54,6 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('register') }}">{{ __('Registro de Solicitantes') }}</a>
                             </li>
-                            <li class="nav-item ml-4">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Sistema Administrativo MINEC') }}</a>
-                            </li>
                             {{-- <li class="nav-item">
                                 <a class="nav-link" href="{{ route('register') }}">{{ __('Registro de Solicitantes') }}</a>
                             </li> --}}

@@ -56,6 +56,7 @@ Route::middleware('auth:api')->group(function () {
         Route::post('/requestPermit/{id}', 'PermissionController@requestPermit');
         Route::get('/permit_form/{id}', 'PermissionController@getForm');
         Route::post('/list/createPermit', 'PermissionController@storePermit');
+        Route::post('/searchSpecie', 'ApiController@api_cites_filter');
 
         Route::get('/uploadRequirements/{id}', 'PermissionController@showUploadRequeriments');
 

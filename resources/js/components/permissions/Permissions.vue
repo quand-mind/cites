@@ -15,12 +15,12 @@
           <span>{{permit.permit_type.name}}</span>
           <div v-if="type === 'client'">
             <a v-if="permit.status !== 'committed' && permit.status !== 'valid'" class="btn btn-info" :href="`/solicitante/permissions/uploadRequirements/${permit.id}`">Subir Recaudos</a>
-            <a v-if="permit.status === 'committed' || permit.status === 'valid'" class="btn btn-info" :href="`/solicitante/permissions/viewPermit/${permit.id}`">Imprimir Certificado</a>
             <button class="btn btn-primary" @click="showPermitStatus(permit)">Ver estado del Permiso</button>
           </div>
           <div v-if="type === 'admin'">
-            <a v-if="!(permit.status === 'uploading_requeriments' || permit.status === 'committed')" class="btn btn-primary" :href="'/dashboard/permissions/check/'+ permit.id">Realizar Checkeo de la orden</a>
+            <a v-if="permit.status === 'committed' || permit.status === 'valid'" class="btn btn-info" :href="`/dashboard/permissions/viewPermit/${permit.id}`">Imprimir Certificado</a>
             <button class="btn btn-primary" @click="showPermitStatus(permit)">Ver estado del Permiso</button>
+            <a v-if="!(permit.status === 'uploading_requeriments' || permit.status === 'committed' || permit.status === 'valid')" class="btn btn-primary" :href="'/dashboard/permissions/check/'+ permit.id">Realizar Checkeo de la orden</a>
           </div>
         </div>
       </div>
@@ -96,11 +96,22 @@
               Valido
               <font-awesome-icon :icon="['fa', 'check']"></font-awesome-icon>
             </b-badge>
-            <b-badge v-if="!requeriment.pivot.is_valid && !requeriment.pivot.file_errors" class="p-2" variant="danger">
-              No checkeado
+            <div v-else-if="requeriment.short_name === 'documentos_especies'">
+              <b-badge v-if="validSpecies" class="p-2" variant="success">
+                Valido
+                <font-awesome-icon :icon="['fa', 'check']"></font-awesome-icon>
+              </b-badge>
+              <b-badge v-else class="p-2" variant="danger">
+                No validado
+                <font-awesome-icon :icon="['fa', 'ban']"></font-awesome-icon>
+              </b-badge>
+            </div>
+            <b-badge v-else-if="!requeriment.pivot.is_valid && !requeriment.pivot.file_errors" class="p-2" variant="danger">
+              No validado
               <font-awesome-icon :icon="['fa', 'clipboard']"></font-awesome-icon>
             </b-badge>
-            <b-badge v-if="!requeriment.pivot.is_valid && requeriment.pivot.file_errors" class="p-2" variant="danger">
+            
+            <b-badge v-else-if="!requeriment.pivot.is_valid && requeriment.pivot.file_errors" class="p-2" variant="danger">
               No valido
               <font-awesome-icon :icon="['fa', 'ban']"></font-awesome-icon>
             </b-badge>
@@ -130,6 +141,22 @@ export default {
     showPermit : false,
     selectedPermit: {} 
   }),
+  computed: {
+    validSpecies(){
+      let count = 0
+      for (const specie of this.selectedPermit.species) {
+        if (specie.pivot.is_valid){
+          count++
+        }
+      }
+      if (count === this.selectedPermit.species.length){
+        return true
+      }
+      else {
+        return false
+      }
+    }
+  },
   methods: {
     ...mapActions([
       'fetchSpecies',

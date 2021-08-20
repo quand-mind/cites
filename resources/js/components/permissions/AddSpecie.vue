@@ -1,43 +1,45 @@
 <template>
   <div>
-    <div v-if="!loading" class="d-flex justify-content-between align-items-center">
+    <!-- <div v-if="!loading" class="d-flex justify-content-between align-items-center">
       Cargando las Especies... <b-spinner small variant="success" label="Spinning"></b-spinner>
-    </div>
-    <div v-if="loading">
+    </div> -->
+    <div>
       Especie:
-    <div class="mt-3">
-      <span> <small>Filtros de Busqueda</small></span>
-    </div>
-    <b-row class="d-flex justify-content-center align-items-center">
-      <b-col sm="12" md="4" lg="4" class="input-group mb-3 ">
-        <b-form-select @input="setSpecieData()" v-model="newSpecie.kingdom" :options="kingdoms"></b-form-select>
-      </b-col>
-      <b-col sm="12" md="4" lg="6" class="input-group mb-3">
-        <b-form-select :disabled="!showSpecies" v-model="newSpecie.name_common" :options="species"></b-form-select>
-      </b-col>
-      <b-col sm="12" md="4" lg="2" class="input-group mb-3">
-        <b-form-input type="number" :disabled="!showSpecies" v-model="newSpecie.qty" placeholder="Cantidad:"></b-form-input>
-      </b-col>
-    </b-row>
-    <b-row class="d-flex justify-content-end align-items-center">
-      <b-col v-if="isNew === false" sm="12" md="8" lg="9" class="input-group mb-3">
-        <b-form-file
-          :disabled="!showSpecies"
-          @input="uploadFile(newSpecie)"
-          accept=".pdf"
-          v-model="file"
-          placeholder="Documento Legal: (Formatos aceptados: .pdf)"
-          drop-placeholder="Subir archivo aquí..."
-          max-size="10240"
-        ></b-form-file>
-      </b-col>
-      <b-col v-if="isNew === false" sm="12" md='6' lg='3' class="input-group mb-3 d-flex justify-content-end align-items-center">
-        <button class="w-100 btn btn-primary" :disabled="!validSpecie" @click="addSpecieToList()">Agregar Especie a la Lista</button>
-      </b-col>
-      <b-col v-if="isNew === true" sm="12" class="input-group mb-3 d-flex justify-content-end align-items-center">
-        <button class="w-100 btn btn-primary" :disabled="!validSpecie" @click="addSpecieToList()">Agregar Especie a la Lista</button>
-      </b-col>
-    </b-row>
+      <div class="mt-3">
+        <span> <small>Filtros de Busqueda</small></span>
+      </div>
+      <b-row class="d-flex justify-content-center align-items-center">
+        <b-col sm="12" md="4" lg="4" class="input-group mb-3 ">
+          <vue-bootstrap-typeahead @hit="onNombreSeleccionado"
+          v-model="busqueda" :data="nombres" placeholder="Busca un nombre" />
+          <b-form-input @update="searchSpecie(newSpecie.name_common)" v-model="newSpecie.name_common"></b-form-input>
+        </b-col>
+        <b-col sm="12" md="4" lg="6" class="input-group mb-3">
+          <b-form-select :disabled="!showSpecies" v-model="newSpecie.name_common" :options="species"></b-form-select>
+        </b-col>
+        <b-col sm="12" md="4" lg="2" class="input-group mb-3">
+          <b-form-input type="number" :disabled="!showSpecies" v-model="newSpecie.qty" placeholder="Cantidad:"></b-form-input>
+        </b-col>
+      </b-row>
+      <b-row class="d-flex justify-content-end align-items-center">
+        <b-col v-if="isNew === false" sm="12" md="8" lg="9" class="input-group mb-3">
+          <b-form-file
+            :disabled="!showSpecies"
+            @input="uploadFile(newSpecie)"
+            accept=".pdf"
+            v-model="file"
+            placeholder="Documento Legal: (Formatos aceptados: .pdf)"
+            drop-placeholder="Subir archivo aquí..."
+            max-size="10240"
+          ></b-form-file>
+        </b-col>
+        <b-col v-if="isNew === false" sm="12" md='6' lg='3' class="input-group mb-3 d-flex justify-content-end align-items-center">
+          <button class="w-100 btn btn-primary" :disabled="!validSpecie" @click="addSpecieToList()">Agregar Especie a la Lista</button>
+        </b-col>
+        <b-col v-if="isNew === true" sm="12" class="input-group mb-3 d-flex justify-content-end align-items-center">
+          <button class="w-100 btn btn-primary" :disabled="!validSpecie" @click="addSpecieToList()">Agregar Especie a la Lista</button>
+        </b-col>
+      </b-row>
     </div>
     
   </div>
@@ -137,6 +139,19 @@ export default {
       }
       this.showSpecies = true
     },
+    searchSpecie(wordToSearch){
+      console.log(wordToSearch)
+      axios
+        .post(`/solicitante/permissions/searchSpecie`, {filter: wordToSearch})
+        .then(res => {
+          console.log(res.data)
+        })
+        .catch(err => {
+          console.log(err.toString())
+          this.loading = false
+          this.makeToast(err.toString(), 'danger')
+        });
+    },
     uploadFile (specie) {
       this.$emit('uploadSpecieFile', this.file, specie, true)
     },
@@ -156,14 +171,22 @@ export default {
       }
       this.closeAddSpecieDialog()
     },
+    makeToast(msg, variant = "success", delay = 3000, append = false) {
+      this.$bvToast.toast(`${msg}`, {
+        title: 'Requerimientos',
+        autoHideDelay: delay,
+        appendToast: append,
+        variant
+      });
+    },
   },
-  beforeCreate: async function () {
-      try {
-          await this.$store.dispatch('fetchSpecies')
-          this.loading = true
-      } catch (err) {
-      console.log(err)
-    }
-  }
+  // beforeCreate: async function () {
+  //     try {
+  //         await this.$store.dispatch('fetchSpecies')
+  //         this.loading = true
+  //     } catch (err) {
+  //     console.log(err)
+  //   }
+  // }
 }
 </script>

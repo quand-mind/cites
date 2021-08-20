@@ -62,36 +62,45 @@ class AuthController extends Controller
         $usersData->address = $request->input('address');
         //$usersData->fax = $request->input('fax')
         $usersData->save();
+
+        $role = $request->input('role');
          
         $client = new Client();
         $client->username = $request->input('username');
         $client->email = $request->input('email');
-        $client->role = $request->input('role');
+        $client->role = $role;
         $client->password = Hash::make($request->input('password'));
         $client->user_id = $usersData->id;
-        //$client->save();
+        $client->save();
+        $phones = [];
 
-        if($request->input('institution_name') === NULL){
-            Log::info('Se a registrado un nuevo solicitante con el DNI: '.$request->input('dni').'| Se a registrado en el sistema desde la direccion: '. request()->ip());
-            return $this->login($request);
-        }else{
+        $phone1 = $request->input('phone1');
+        $phone2 = $request->input('phone2');
+        array_push($phones, $phone1);
+        if ($phone2) {
+            array_push($phones, $phone2);
+        }
+        // $usersData->phones()->createMany($phones);
+
+        return $phones;
+
+        if ($role === 'juridica' ) {
            
             $institution = new Institution();
             $institution->name = $request->input('institution_name');
+            $institution->name = $request->input('rif');
             $institution->institutional_email = $request->input('institutional_email');
             $institution->save();
+        
+            $phones = [];
 
-            $phones= $request->only('phones');
-            $phones = json_decode($phones['phones']);
-            $phones = array_map(function($phone) {
-            return (array) $phone;
-            }, $phones);
-            $institution->phones()->createMany($phones);
-
-            Log::info('Se a registrado un nuevo solicitante con el DNI: '.$request->input('dni').'| Se a registrado en el sistema desde la direccion: '. request()->ip());
-            return $this->login($request);
+            $phone1 = $request->input('phone_institution');
+            array_push($phones, $phone1);
+            // $institution->phones()->createMany($phones);
         }
-        // return 'Client create';
+
+        Log::info('Se a registrado un nuevo solicitante con el DNI: '.$request->input('dni').'| Se a registrado en el sistema desde la direccion: '. request()->ip());
+        return $this->login($request);
        
     }           
 

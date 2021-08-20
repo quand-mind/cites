@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
-use App\Models\Client;
-use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use JWTAuth;
@@ -14,6 +12,11 @@ use JWTGuard;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
+
+use App\Models\Client;
+use App\Models\User;
+use App\Models\Phone;
+use App\Models\Institution;
 
 
 class AuthController extends Controller
@@ -57,24 +60,39 @@ class AuthController extends Controller
         $usersData->nationality = $request->input('nationality');
         $usersData->domicile = $request->input('domicile');
         $usersData->address = $request->input('address');
-        //$usersData->fax = $request->input('fax');
+        //$usersData->fax = $request->input('fax')
         $usersData->save();
-
-        //$users = new User($usersData);
-        //$users->save();
-
-                
+         
         $client = new Client();
         $client->username = $request->input('username');
         $client->email = $request->input('email');
         $client->role = $request->input('role');
         $client->password = Hash::make($request->input('password'));
         $client->user_id = $usersData->id;
-        $client->save();
+        //$client->save();
 
+        if($request->input('institution_name') === NULL){
+            Log::info('Se a registrado un nuevo solicitante con el DNI: '.$request->input('dni').'| Se a registrado en el sistema desde la direccion: '. request()->ip());
+            return $this->login($request);
+        }else{
+           
+            $institution = new Institution();
+            $institution->name = $request->input('institution_name');
+            $institution->institutional_email = $request->input('institutional_email');
+            $institution->save();
+
+            $phones= $request->only('phones');
+            $phones = json_decode($phones['phones']);
+            $phones = array_map(function($phone) {
+            return (array) $phone;
+            }, $phones);
+            $institution->phones()->createMany($phones);
+
+            Log::info('Se a registrado un nuevo solicitante con el DNI: '.$request->input('dni').'| Se a registrado en el sistema desde la direccion: '. request()->ip());
+            return $this->login($request);
+        }
         // return 'Client create';
-        Log::info('Se a registrado un nuevo solicitante con el DNI: '.$request->input('dni').'| Se a registrado en el sistema desde la direccion: '. request()->ip());
-        return $this->login($request);
+       
     }           
 
     public function login(Request $request)

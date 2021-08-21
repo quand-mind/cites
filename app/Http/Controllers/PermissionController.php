@@ -150,6 +150,7 @@ class PermissionController extends Controller
 
         foreach($getSpecies as $specie) {
             $name = $specie->name_common;
+            $apispecies = $this->api_cites($name);
             $findedSpecie = Specie::where('name_scientific', '=', $name)->get()->first();
             if($findedSpecie) {
                 
@@ -351,5 +352,36 @@ class PermissionController extends Controller
     {
         
         return response('Permiso Impreso.', 200);
+    }
+
+    public function api_cites($name)
+    {   
+        
+        $client = new Client(); //GuzzleHttp\Client
+        $url = "https://api.speciesplus.net/api/v1/taxon_concepts?name=". $name;
+        //return $url;
+        $headers= [
+            // 'Content-Type' => 'application/json',
+            'X-Authentication-Token' => 'uD2JyZT7CvR1Snol3xKrYgtt',
+        ];
+        if (env('APP_ENV') === 'local') {
+            $response = $client->request('GET', $url, [
+                'verify'  => false,
+                'headers' => $headers,
+            ]);
+        } else {
+            $response = $client->request('GET', $url, [
+                'verify'  => true,
+                'headers' => $headers,
+            ]);
+        }
+
+
+        $species = json_decode($response->getBody()->getContents());
+
+        $especies = $species->taxon_concepts;
+    
+        return $especies;
+        // return view('species', compact('species'));
     }
 }

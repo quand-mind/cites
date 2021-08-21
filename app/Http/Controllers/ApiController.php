@@ -11,15 +11,19 @@ class ApiController extends Controller
 {
     public function api_cites($arraySpecies)
     {   
+        foreach ($arraySpecies as $value) {
+            $full_name =  $value->full_name;
+        }
+        
         //resiviendo las especies de la funcion api_cites_filte por autocompletado
-        $requestSpecies = [];
+        /*$requestSpecies = [];
         foreach ($arraySpecies as $value) {
             array_push($requestSpecies,$full_name = $value->full_name);
             return $requestSpecies;
-        }
+        }*/
         
         $client = new Client(); //GuzzleHttp\Client
-        $url = "https://api.speciesplus.net/api/v1/taxon_concepts?name=". $requestSpecies;
+        $url = "https://api.speciesplus.net/api/v1/taxon_concepts?name=". $full_name;
         //return $url;
         $headers= [
             // 'Content-Type' => 'application/json',

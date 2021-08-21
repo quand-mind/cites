@@ -3,30 +3,6 @@
     <h2>Planilla de Importación o (Re) Exportación de Fauna Silvestre y/o sus Productos</h2>
     <div>
       <b-card
-        title="Datos Personales"
-        tag="article"
-        class="mb-2"
-      >
-        <b-card-text>
-          <b-row class="mb-2">
-            <b-col>Número de Telefono</b-col>
-            <b-col>Celular o móvil</b-col>
-            <b-col>Fax</b-col>
-          </b-row>
-          <b-row>
-            <b-col>
-              <b-form-input type="tel" v-model="personals.phone" ></b-form-input>
-            </b-col>
-            <b-col>
-              <b-form-input type="tel" v-model="personals.mobile" ></b-form-input>
-            </b-col>
-            <b-col>
-              <b-form-input type="tel" v-model="personals.fax" ></b-form-input>
-            </b-col>
-          </b-row>
-        </b-card-text>
-      </b-card>
-      <b-card
         title="Especies"
         tag="article"
         class="mb-2"

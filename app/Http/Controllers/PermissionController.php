@@ -136,16 +136,6 @@ class PermissionController extends Controller
         $permit->client_id = $request->input('client_id');
         $permit->save();
 
-        $client = Client::find($getClientId);
-
-        $user = User::where(['id' =>  $client->user_id])->get()->first();
-        $user->phone = $getPersonals->phone;
-        $user->mobile = $getPersonals->mobile;
-        $user->fax = $getPersonals->fax;
-        $user->push();
-        // return $user;
-        
-
         
         $permitType = PermitType::where(['id' =>  $getPermitTypeId])->with(['requeriments'])->get()->first();
 
@@ -167,7 +157,7 @@ class PermissionController extends Controller
             }
             else{
                 $newSpecie = new Specie();
-                $newSpecie->type = $specie->kingdom;
+                $newSpecie->type = 'Animalia';
                 $newSpecie->name_scientific = $specie->name_common;
                 $newSpecie->name_common = $specie->name_common;
                 // $newSpecie->search_id = $specie->search_id;

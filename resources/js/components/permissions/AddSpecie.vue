@@ -10,15 +10,16 @@
       </div>
       <b-row class="d-flex justify-content-center align-items-center">
         <b-col sm="12" md="4" lg="4" class="input-group mb-3 ">
-          <vue-bootstrap-typeahead @hit="onNombreSeleccionado"
-          v-model="busqueda" :data="nombres" placeholder="Busca un nombre" />
-          <b-form-input @update="searchSpecie(newSpecie.name_common)" v-model="newSpecie.name_common"></b-form-input>
+          <vue-bootstrap-typeahead style="width: 90%;" @input="searchSpecie(specieName)"  @hit="onSelectSpecie"
+          v-model="specieName" :data="species" placeholder="Busca la especie"/>
+          <b-spinner class="ml-3 mt-2" v-if="loadingSpecies" small variant="success" label="Spinning"></b-spinner>
+          <!-- <b-form-input @update="searchSpecie(newSpecie.name_common)" v-model="newSpecie.name_common"></b-form-input> -->
         </b-col>
         <b-col sm="12" md="4" lg="6" class="input-group mb-3">
-          <b-form-select :disabled="!showSpecies" v-model="newSpecie.name_common" :options="species"></b-form-select>
+          <b-form-input :disabled="!newSpecie.name_common" v-model="newSpecie.description" placeholder="Descripción:"></b-form-input>
         </b-col>
         <b-col sm="12" md="4" lg="2" class="input-group mb-3">
-          <b-form-input type="number" :disabled="!showSpecies" v-model="newSpecie.qty" placeholder="Cantidad:"></b-form-input>
+          <b-form-input type="number" :disabled="!newSpecie.name_common" v-model="newSpecie.qty" placeholder="Cantidad:"></b-form-input>
         </b-col>
       </b-row>
       <b-row class="d-flex justify-content-end align-items-center">
@@ -52,38 +53,21 @@ export default {
 
     newSpecie: {
       name_common: null,
-      kingdom: null,
+      description: null,
       pivot:{
         file_url:null
       },
       qty: null
     },
+    specieName:null,
     loading: false,
     showSpecies: false,
+    selectedSpecie: "",
     file:null,
 
-    kingdoms:[
-      { value: null, text: 'Tipo', disabled: true },
-      { value: 'Animalia', text: 'Animalia' },
-      { value: 'Plantae', text: 'Plantae' },
-    ],
-
-    plants:[
-      { value: null, text: 'Especie', disabled: true },
-      { value: 'Orquidea', text: 'Orquidea' },
-      { value: 'Araguaney', text: 'Araguaney' },
-      { value: 'Girasol', text: 'Girasol' },
-    ],
-
-    animals:[
-      { value: null, text: 'Especie', disabled: true },
-      { value: 'Berrendo', text: 'Berrendo' },
-      { value: 'Perro', text: 'Perro' },
-      { value: 'Gato', text: 'Gato' },
-    ],
-    species:[
-      { value: null, text: 'Especie', disabled: true },
-    ],
+    loadingSpecies: false,
+    
+    species:[],
 
   }),
   computed: {
@@ -130,6 +114,9 @@ export default {
     ...mapActions([
       'fetchSpecies',
     ]),
+    onSelectSpecie(specie) {
+      this.newSpecie.name_common = specie;
+    },
     setSpecieData(){
       if (this.newSpecie.kingdom === 'Animalia'){
         this.species = this.animalsSpecies
@@ -140,17 +127,22 @@ export default {
       this.showSpecies = true
     },
     searchSpecie(wordToSearch){
-      console.log(wordToSearch)
-      axios
-        .post(`/solicitante/permissions/searchSpecie`, {filter: wordToSearch})
-        .then(res => {
-          console.log(res.data)
-        })
-        .catch(err => {
-          console.log(err.toString())
-          this.loading = false
-          this.makeToast(err.toString(), 'danger')
-        });
+      if (wordToSearch.length >= 3){
+        this.loadingSpecies = true
+        axios
+          .post(`/solicitante/permissions/searchSpecie`, {filter: wordToSearch})
+          .then(res => {
+            this.loadingSpecies = false
+            for (const specieResult of res.data.auto_complete_taxon_concepts) {
+              this.species.push(specieResult.full_name)
+            }
+          })
+          .catch(err => {
+            console.log(err.toString())
+            this.loadingSpecies = true
+            this.makeToast(err.toString(), 'danger')
+          });
+      }
     },
     uploadFile (specie) {
       this.$emit('uploadSpecieFile', this.file, specie, true)

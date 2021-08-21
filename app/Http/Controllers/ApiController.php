@@ -9,11 +9,18 @@ use Illuminate\Support\Str;
 
 class ApiController extends Controller
 {
-    public function api_cites()
-    {
+    public function api_cites($arraySpecies)
+    {   
+        //resiviendo las especies de la funcion api_cites_filte por autocompletado
+        $requestSpecies = [];
+        foreach ($arraySpecies as $value) {
+            array_push($requestSpecies,$full_name = $value->full_name);
+            return $requestSpecies;
+        }
+        
         $client = new Client(); //GuzzleHttp\Client
-        $url = "https://api.speciesplus.net/api/v1/taxon_concepts";
-
+        $url = "https://api.speciesplus.net/api/v1/taxon_concepts?name=". $requestSpecies;
+        //return $url;
         $headers= [
             // 'Content-Type' => 'application/json',
             'X-Authentication-Token' => 'uD2JyZT7CvR1Snol3xKrYgtt',
@@ -42,8 +49,8 @@ class ApiController extends Controller
                 array_push($arraySpecies, $especie);
             }
         }
-        return $arraySpecies;
-        //return $species;
+        //return $arraySpecies;
+        return $species;
         // return view('species', compact('species'));
     }
 
@@ -82,9 +89,12 @@ class ApiController extends Controller
             if ($especie->rank_name === "SPECIES" || $especie->rank_name === "SUBSPECIES" ){
                 array_push($arraySpecies, $especie);
             }
+
         }
         //return $arraySpecies;
-        return $species;
-        return view('species', compact('arraySpecies'));
+        return $this->api_cites($arraySpecies);
+      
+        
+        //return view('species', compact('arraySpecies'));
     }
 }

@@ -133,7 +133,7 @@ export default {
           .post(`/solicitante/permissions/searchSpecie`, {filter: wordToSearch})
           .then(res => {
             this.loadingSpecies = false
-            for (const specieResult of res.data.auto_complete_taxon_concepts) {
+            for (const specieResult of res.data) {
               this.species.push(specieResult.full_name)
             }
           })

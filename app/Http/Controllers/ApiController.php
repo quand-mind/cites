@@ -95,10 +95,10 @@ class ApiController extends Controller
             }
 
         }
-        //return $arraySpecies;
-        return $this->api_cites($arraySpecies);
+        return $arraySpecies;
+        return view('species', compact('arraySpecies'));
+        // return $this->api_cites($arraySpecies);
       
         
-        //return view('species', compact('arraySpecies'));
     }
 }

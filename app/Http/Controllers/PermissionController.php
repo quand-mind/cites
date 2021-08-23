@@ -405,13 +405,24 @@ class PermissionController extends Controller
 
         switch($filter){
             case is_numeric($filter) :
-                $filterApplicant = User::where('dni', 'like', '%'.$filter.'%' )->with(['officials.permits'])->get();
-                return $filterApplicant;
+                $filterOficial = User::where('dni', 'like', '%'.$filter.'%' )->with([])->get();
+                $filterOficial = User::where('dni', 'like', '%'.$filter.'%' )->with(['officials.permits', 'clients.permits'])->get();
+                return $filterOficial;
             break;
             case is_string($filter):
-                $filterApplicant = User::where('name', 'like', '%'.$filter.'%' )->with(['officials.permits'])->get();
-                return $filterApplicant;
+                $filterOficial = User::where('name', 'like', '%'.$filter.'%' )->with(['officials.permits', 'clients.permits'])->get();
+                return $filterOficial;
             break;
         }  
+    }
+
+    public function filterCountry(Request $request){
+        $filter  = $request->get('filter');
+        return $filterCountry = Permit::where("country", "like", '%'.$filter.'%')->with('clients.users')->get();
+    }
+
+    public function filterDate(Request $request){
+        $filter  = $request->get('filter');
+        return $filterCountry = User::with(['clients.permits'])->where("clients.permits.created_at", "like", '%'.$filter.'%')->get();
     }
 }

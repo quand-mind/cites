@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use App\Models\Official;
 use App\Models\User;
+use GuzzleHttp\Client as ClientSpecie;
 use Illuminate\Http\Request;
 use Faker\Factory as Faker;
 use App\Models\Permit;
@@ -83,13 +84,15 @@ class PermissionController extends Controller
     }
     public function showAprovedPermit($id)
     {
-        $permit = Permit::where(['id' => $id, 'status' => 'valid'])->orWhere(['id' => $id, 'status' => 'committed'])->with(['requeriments', 'permit_type', 'client.user', 'official.user', 'species'])->get()->first();
+        $permit = Permit::where(['id' => $id])->with(['requeriments', 'permit_type', 'client.user', 'official.user', 'species'])->get()->first();
         // return $permit;
-        // $pdf = \App::make('dompdf.wrapper');
-        // $pdf->setOptions(['dpi' => 150, 'defaultFont' => 'sans-serif']);
-        // $pdf->loadView('permissions.aproved_permit', [ 'permit' => $permit ]);
-        // return $pdf->stream();
-        return view('permissions.aproved_permit', compact('permit'));
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->setOptions(['dpi' => 150, 'defaultFont' => 'sans-serif']);
+        $image = base64_encode(file_get_contents(public_path('/images/logos/logo-minec.png')));
+        $pdf->loadView('permissions.aproved_permit', [ 'permit' => $permit, 'logo' => $image ]);
+        return $pdf->stream();
+
+        // return view('permissions.aproved_permit', compact('permit'));
     }
 
     // POST
@@ -145,29 +148,64 @@ class PermissionController extends Controller
             $requerimentsIdsWithPivot[$requeriment->id] = ["file_url" => null, "is_valid" => false, "file_errors" => null];
         }
 
-
+        $searchedSpecies=[];
+        $correctNames = [];
         $speciesIdsWithPivot=[];
 
         foreach($getSpecies as $specie) {
             $name = $specie->name_common;
-            $apispecies = $this->api_cites($name);
             $findedSpecie = Specie::where('name_scientific', '=', $name)->get()->first();
-            if($findedSpecie) {
+            // break;
+            if ($findedSpecie) {
                 
-                $speciesIdsWithPivot[$findedSpecie->id] = ["qty" => $specie->qty];
-            }
-            else{
+                $speciesIdsWithPivot[$findedSpecie  ->id] = [ "qty" => $specie->qty,
+                                                        "description" => $specie->description,
+                                                        "origin" => $specie->origin,
+                                                        "origin_country" => $specie->origin_country,
+                                                        "appendix" => $specie->appendix,
+                                                        "file_url" => null,
+                                                        "file_errors" => null,
+                                                        "is_valid" => null,
+                ];
+            } else {
+                $apiSpecie = $this->api_cites($name);
                 $newSpecie = new Specie();
-                $newSpecie->type = 'Animalia';
-                $newSpecie->name_scientific = $specie->name_common;
-                $newSpecie->name_common = $specie->name_common;
-                // $newSpecie->search_id = $specie->search_id;
-                $newSpecie->search_id = 1;
-                $newSpecie->save();
+                $newSpecie->type = $apiSpecie->higher_taxa->kingdom;
+                $newSpecie->name_scientific = $apiSpecie->full_name;       
+                if (count($apiSpecie->common_names) > 0) {
 
-                $speciesIdsWithPivot[$newSpecie->id] = ["qty" => $specie->qty];
+                    $commonNames = array_filter($apiSpecie->common_names, function ($name) {
+                        {
+                            if ($name->language === 'ES') {
+                                return $name;
+                            }
+                        }
+                    });
+                    array_push($correctNames, $commonNames);
+                    $commonNameCorrect = $correctNames[0];
+                    
+                    $newSpecie->name_common = $commonNameCorrect[1]->name;
+                } else {
+                    $newSpecie->name_common = $apiSpecie->full_name;
+                }
+                $newSpecie->search_id = $apiSpecie->id;
+                $newSpecie->save();
+                array_push($searchedSpecies, $newSpecie);
+
+                $speciesIdsWithPivot[$newSpecie->id] = [ "qty" => $specie->qty,
+                                                        "description" => $specie->description,
+                                                        "origin" => $specie->origin,
+                                                        "origin_country" => $specie->origin_country,
+                                                        "appendix" => $specie->appendix,
+                                                        "file_url" => null,
+                                                        "file_errors" => null,
+                                                        "is_valid" => null,
+                ];
             }
         }
+        // return $correctNames;
+        // return $searchedSpecies;
+        // return $speciesIdsWithPivot;
         $permit->species()->sync($speciesIdsWithPivot);
 
 
@@ -176,6 +214,38 @@ class PermissionController extends Controller
 
         return response('Se ha solicitado el permiso, dirijase a la oficina del MINEC para entregar los recaudos.', 200);
     }
+
+    public function api_cites($name)
+    {   
+        
+        $client = new ClientSpecie(); //GuzzleHttp\Client
+        $url = "https://api.speciesplus.net/api/v1/taxon_concepts?name=". $name;
+        //return $url;
+        $headers= [
+            // 'Content-Type' => 'application/json',
+            'X-Authentication-Token' => 'uD2JyZT7CvR1Snol3xKrYgtt',
+        ];
+        if (env('APP_ENV') === 'local') {
+            $response = $client->request('GET', $url, [
+                'verify'  => false,
+                'headers' => $headers,
+            ]);
+        } else {
+            $response = $client->request('GET', $url, [
+                'verify'  => true,
+                'headers' => $headers,
+            ]);
+        }
+
+
+        $specie = json_decode($response->getBody()->getContents());
+
+        $especie = $specie->taxon_concepts[0];
+    
+        return $especie;
+        // return view('species', compact('species'));
+    }
+
     public function requestPermit($id)
     {
         $permit = Permit::find($id);
@@ -352,36 +422,5 @@ class PermissionController extends Controller
     {
         
         return response('Permiso Impreso.', 200);
-    }
-
-    public function api_cites($name)
-    {   
-        
-        $client = new Client(); //GuzzleHttp\Client
-        $url = "https://api.speciesplus.net/api/v1/taxon_concepts?name=". $name;
-        //return $url;
-        $headers= [
-            // 'Content-Type' => 'application/json',
-            'X-Authentication-Token' => 'uD2JyZT7CvR1Snol3xKrYgtt',
-        ];
-        if (env('APP_ENV') === 'local') {
-            $response = $client->request('GET', $url, [
-                'verify'  => false,
-                'headers' => $headers,
-            ]);
-        } else {
-            $response = $client->request('GET', $url, [
-                'verify'  => true,
-                'headers' => $headers,
-            ]);
-        }
-
-
-        $species = json_decode($response->getBody()->getContents());
-
-        $especies = $species->taxon_concepts;
-    
-        return $especies;
-        // return view('species', compact('species'));
     }
 }

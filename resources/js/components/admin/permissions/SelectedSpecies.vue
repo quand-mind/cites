@@ -10,7 +10,7 @@
     </b-row>
     <b-row class="mt-3 mb-3" v-for="(specie, index) of selectedSpecies" v-bind:key="index">
       <b-col lg="2" class="w-100">{{specie.name_common}}</b-col>
-      <b-col lg="2" class="w-100">{{specie.type}}</b-col>
+      <b-col lg="2" class="w-100">{{specie.description}}</b-col>
       <b-col lg="2" class="w-100">{{specie.pivot.qty}}</b-col>
       <b-col lg="2">
         <a v-if="specie.pivot.file_url" :href="`/${specie.pivot.file_url}`" target="_blank"><font-awesome-icon :icon="['fa', 'eye']"></font-awesome-icon> Ver Archivo </a>

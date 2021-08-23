@@ -31,7 +31,7 @@ class Permit extends Model
         return $this->belongsToMany(Specie::class,
                                     'permit_specie',
                                     'permit_id',
-                                    'specie_id')->withPivot('file_url', 'description','is_valid', 'qty', 'file_errors');
+                                    'specie_id')->withPivot('file_url', 'origin', 'description', 'is_valid', 'qty', 'file_errors', 'appendix');
     }
     public function client()
     {

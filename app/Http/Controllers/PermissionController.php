@@ -399,4 +399,19 @@ class PermissionController extends Controller
             break;
         }  
     }
+
+    public function filterOfficial(Request $request){
+        $filter  = $request->get('filter');
+
+        switch($filter){
+            case is_numeric($filter) :
+                $filterApplicant = User::where('dni', 'like', '%'.$filter.'%' )->with(['officials.permits'])->get();
+                return $filterApplicant;
+            break;
+            case is_string($filter):
+                $filterApplicant = User::where('name', 'like', '%'.$filter.'%' )->with(['officials.permits'])->get();
+                return $filterApplicant;
+            break;
+        }  
+    }
 }

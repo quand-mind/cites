@@ -25,7 +25,10 @@ class Official extends Authenticatable
     {
         return $this->belongsTo(User::class);
     }
-    
+    public function permits()
+    {
+        return $this->hasMany(Permit::class);
+    }
     /**
      * The attributes that should be hidden for arrays.
      *

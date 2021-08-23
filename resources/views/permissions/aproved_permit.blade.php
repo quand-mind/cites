@@ -28,6 +28,9 @@
     th {
       border-top: 1px solid;
     }
+    .mt-2{
+      margin-top: 20px;
+    }
     .mt-4{
       margin-top: 100px;
     }
@@ -86,7 +89,7 @@
 
           <tr>
             <td class="bordered w-50">
-              <img src="https://lh3.googleusercontent.com/proxy/U3Z-6_e65p7PrexKAtOJjRnQTH-MGUFerRy_rsyadt3TEsUWDEtAuVveEWJAuatxXPZHRWrWPsRtLzDFcg0H_ROY00yxjMmYFinA2OXF0XcOgItRXri35ok" alt="" height="50px">
+              <img class="mt-2" src="data:image/png;base64,{{ $logo }}" style="height: 120px; width: auto;"/>
               <h4 style="margin: 0px;">CONVENCIÓN SOBRE EL COMERCIO INTERNACIONAL DE ESPECIES AMENAZADAS DE FAUNA Y FLORA</h4>
             </td>
             <td class="bordered w-50">
@@ -152,7 +155,12 @@
               <div>
                 <span>4.1. Autoridad Administrativa:</span>
               </div>
-              {{-- <div>{{$permit->consigned_to}}</div> --}}
+              <div class="mt-2">
+                <div><b>República Bolivariana de Venezuela</b></div>
+                <div>Ministerio del Ambiente</div>
+                <div>y de los Recursos</div>
+                <div>Naturales Renovables.</div>
+              </div>
             </td>
           </tr>
 
@@ -196,8 +204,8 @@
                 <td class="bordered" style="font-size:18px;">
                   <div class="w-40 inline-block br-1">
                     <div>Descripción:</div>
-                    <div>Descripción</div>
-                    {{-- <div>{{$specie->pivot->descirption}}</div> --}}
+                    {{-- <div>Descripción</div> --}}
+                    <div>{{$specie->pivot->descirption}}</div>
                   </div>
                   <div class="w-50 pl-2 inline-block">
                     <div>Número de Especímenes:</div>

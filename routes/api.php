@@ -6,6 +6,7 @@ use App\Http\Controllers\InstitutionController;
 use App\Http\Controllers\auth\LoginController;
 use App\Http\Controllers\AuthorizationController;
 use App\Http\Controllers\ApiController;
+use App\Http\Controllers\PermissionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,7 +38,7 @@ Route::post('/saveFile', [AuthorizationController::class, 'Nurseries']);
 Route::get('species', [ApiController::class, 'api_cites']);
 Route::get('countries', [ApiController::class, 'api_country']);
 Route::get('species_filter', [ApiController::class, 'api_cites_filter']);
-
+Route::get('filterApplicant', [PermissionController::class, 'filterApplicant']);
 
 /**
  *  login admin

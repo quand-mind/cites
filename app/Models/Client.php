@@ -29,6 +29,7 @@ class Client extends Authenticatable implements JWTSubject
         return $this->belongsTo(User::class);
     }
 
+
     public function getJWTIdentifier()
     {
         return $this->getKey();

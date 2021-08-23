@@ -384,4 +384,19 @@ class PermissionController extends Controller
         return $especies;
         // return view('species', compact('species'));
     }
+
+    public function filterApplicant(Request $request){
+        $filter  = $request->get('filter');
+
+        switch($filter){
+            case is_numeric($filter) :
+                $filterApplicant = User::where('dni', 'like', '%'.$filter.'%' )->with(['clients.permits'])->get();
+                return $filterApplicant;
+            break;
+            case is_string($filter):
+                $filterApplicant = User::where('name', 'like', '%'.$filter.'%' )->with(['clients.permits'])->get();
+                return $filterApplicant;
+            break;
+        }  
+    }
 }

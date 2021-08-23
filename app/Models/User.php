@@ -63,11 +63,11 @@ class User extends Model
         return $this->hasMany('App\Models\Survey');
     }
     
-    public function official()
+    public function officials()
     {
         return $this->hasOne(Official::class);
     }
-    public function client()
+    public function clients()
     {
         return $this->hasOne(Client::class);
     }

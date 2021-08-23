@@ -11,17 +11,6 @@ class ApiController extends Controller
 {
     public function api_cites($arraySpecies)
     {   
-        foreach ($arraySpecies as $value) {
-            $full_name =  $value->full_name;
-        }
-        
-        //resiviendo las especies de la funcion api_cites_filte por autocompletado
-        /*$requestSpecies = [];
-        foreach ($arraySpecies as $value) {
-            array_push($requestSpecies,$full_name = $value->full_name);
-            return $requestSpecies;
-        }*/
-        
         $client = new Client(); //GuzzleHttp\Client
         $url = "https://api.speciesplus.net/api/v1/taxon_concepts?name=". $full_name;
         //return $url;
@@ -98,7 +87,24 @@ class ApiController extends Controller
         return $arraySpecies;
         return view('species', compact('arraySpecies'));
         // return $this->api_cites($arraySpecies);
-      
+    }
+
+    public function api_country(){
+        $client_country = new Client(); //GuzzleHttp\Client
+        $url = "https://restcountries.eu/rest/v2/all";
+        //return $url;
         
+        if (env('APP_ENV') === 'local') {
+            $response = $client_country->request('GET', $url, [
+                'verify'  => false,
+      
+            ]);
+        } else {
+            $response = $client_country->request('GET', $url, [
+                'verify'  => true,
+            ]);
+        }
+
+        return $countries = json_decode($response->getBody()->getContents());
     }
 }

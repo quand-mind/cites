@@ -423,6 +423,6 @@ class PermissionController extends Controller
 
     public function filterDate(Request $request){
         $filter  = $request->get('filter');
-        return $filterCountry = User::with(['clients.permits'])->where("clients.permits.created_at", "like", '%'.$filter.'%')->get();
+        return $filterCountry = Permit::join('clients', 'clients.id', "=", "permits.client_id")->get();
     }
 }

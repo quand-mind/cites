@@ -23,7 +23,8 @@ class Permit extends Model
         'shipment_port',
         'destiny_place',
         'departure_place',
-        'departure_date'
+        'departure_date',
+        'created_at'
     ];
 
     public function species()

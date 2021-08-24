@@ -436,11 +436,11 @@ class PermissionController extends Controller
 
         switch($filter){
             case is_numeric($filter) :
-                $filterApplicant = User::where('dni', 'like', '%'.$filter.'%' )->with(['clients.permits'])->get();
+                $filterApplicant = User::where('dni', 'like', '%'.$filter.'%' )->with(['client.permits'])->get();
                 return $filterApplicant;
             break;
             case is_string($filter):
-                $filterApplicant = User::where('name', 'like', '%'.$filter.'%' )->with(['clients.permits'])->get();
+                $filterApplicant = User::where('name', 'like', '%'.$filter.'%' )->with(['client.permits'])->get();
                 return $filterApplicant;
             break;
         }  
@@ -452,23 +452,24 @@ class PermissionController extends Controller
         switch($filter){
             case is_numeric($filter) :
                 $filterOficial = User::where('dni', 'like', '%'.$filter.'%' )->with([])->get();
-                $filterOficial = User::where('dni', 'like', '%'.$filter.'%' )->with(['officials.permits', 'clients.permits'])->get();
+                $filterOficial = User::where('dni', 'like', '%'.$filter.'%' )->with(['official.permits', 'client.permits'])->get();
                 return $filterOficial;
             break;
             case is_string($filter):
-                $filterOficial = User::where('name', 'like', '%'.$filter.'%' )->with(['officials.permits', 'clients.permits'])->get();
+                $filterOficial = User::where('name', 'like', '%'.$filter.'%' )->with(['official.permits', 'client.permits'])->get();
                 return $filterOficial;
             break;
         }  
     }
 
     public function filterCountry(Request $request){
-        $filter  = $request->get('filter');
-        return $filterCountry = Permit::where("country", "like", '%'.$filter.'%')->with('clients.users')->get();
+        //$filter  = $request->get('filter');
+        $filterCountry = Permit::with('client', 'client.user')->get();
+        return $filterCountry;
     }
 
     public function filterDate(Request $request){
         $filter  = $request->get('filter');
-        return $filterCountry = Permit::join('clients', 'clients.id', "=", "permits.client_id")->get();
+        return $filterCountry = Permit::where('created_at', 'like', '%'.$filter.'%' )->with('client', 'client.user')->get();
     }
 }

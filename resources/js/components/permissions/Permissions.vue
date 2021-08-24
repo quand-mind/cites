@@ -62,8 +62,8 @@
           <b-col md="6">Medio de Transporte: <span class="ml-2">{{selectedPermit.transportation_way}}</span></b-col>
         </b-row>
         <b-row class="mb-2 mt-2">
-          <b-col v-if="selectedPermit.permit_type_id === 1" md="6">País Destino: <span class="ml-2">{{selectedPermit.country}}</span></b-col>
-          <b-col v-if="selectedPermit.permit_type_id !== 1" md="6">País De Envío: <span class="ml-2">{{selectedPermit.country}}</span></b-col>
+          <b-col v-if="selectedPermit.permit_type_id === 2" md="6">País De Envío: <span class="ml-2">{{selectedPermit.country}}</span></b-col>
+          <b-col v-if="selectedPermit.permit_type_id !== 2" md="6">País Destino: <span class="ml-2">{{selectedPermit.country}}</span></b-col>
           <b-col md="3">Propósito: <span class="ml-2">{{selectedPermit.purpose}}</span></b-col>
         </b-row>
         <hr>

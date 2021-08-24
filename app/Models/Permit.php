@@ -34,7 +34,7 @@ class Permit extends Model
                                     'permit_id',
                                     'specie_id')->withPivot('file_url', 'origin', 'description', 'is_valid', 'qty', 'file_errors', 'appendix');
     }
-    public function clients()
+    public function client()
     {
         
         return $this->belongsTo(Client::class);

@@ -7,7 +7,6 @@
             <div class="card">
                 <div class="card-header">{{ __('Registro de Solicitantes') }}</div>
 
-                {{$errors}}
                 
                 <div class="card-body">
                     <register :errors={{$errors}}></register>

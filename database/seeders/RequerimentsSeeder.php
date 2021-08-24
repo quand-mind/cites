@@ -16,27 +16,27 @@ class RequerimentsSeeder extends Seeder
     {
         DB::table('requeriments')->insert([
             'name'      => 'Planilla de solicitud de Importación o (Re) Exportación de Fauna Silvestre y/o sus productos (disponible en www.minec.gob.ve).',
-            'short_name'      => 'planilla_solicitud',
+            'short_name'      => 'planilla_solicitud', //x
         ]);
         
         DB::table('requeriments')->insert([
             'name'      => 'Timbres fiscales por 002 unidades tributarias.',
-            'short_name'      => 'timbres_fiscales',
+            'short_name'      => 'timbres_fiscales', //x
         ]);
         
         DB::table('requeriments')->insert([
             'name'      => 'Cédula de identidad (Copia Simple).',
-            'short_name'      => 'cedula',
+            'short_name'      => 'cedula', //x
         ]);
         
         DB::table('requeriments')->insert([
             'name'      => 'Registro Único de Información Fiscal RIF (Copia Simple).',
-            'short_name'      => 'rif',
+            'short_name'      => 'rif', //x
         ]);
         
         DB::table('requeriments')->insert([
             'name'      => 'Autorización para la instalación y funcionamiento de zoocriaderos con fines comerciales, emitida por el MINEC (Copia Simple).',
-            'short_name'      => 'autorizacion_zoocriaderos',
+            'short_name'      => 'autorizacion_zoocriaderos', //x
         ]);
         
         DB::table('requeriments')->insert([
@@ -76,12 +76,20 @@ class RequerimentsSeeder extends Seeder
         
         DB::table('requeriments')->insert([
             'name'      => 'Licencia para ejercer el comercio o industria de animales silvestres vivos, muertos y de sus productos,  emitida por el MINEC (Copia Simple).',
-            'short_name'      => 'licencia_comercio_animales',
+            'short_name'      => 'licencia_comercio_animales', //x
         ]);
         
         DB::table('requeriments')->insert([
             'name'      => 'Autorización a tercera persona (en caso que el solicitante no pueda realizar el trámite).',
-            'short_name'      => 'autorizacion_tercera_persona',
+            'short_name'      => 'autorizacion_tercera_persona', //x
+        ]);
+        DB::table('requeriments')->insert([
+            'name'      => 'Copia Del Permiso Cites De Importación', //x
+            'short_name'      => 'import_permit_copy',
+        ]);
+        DB::table('requeriments')->insert([
+            'name'      => 'Copia del Contrato Acceso a los Recursos Genéticos Individual o Marco relacionados con los especímenes a exportar', //x
+            'short_name'      => 'import_permit_copy',
         ]);
     }
 }

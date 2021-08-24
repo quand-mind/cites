@@ -84,5 +84,51 @@ class RequerimentPermitTypeSeeder extends Seeder
             'permit_type_id'      => 1,
             'requeriment_id'      => 14,
         ]);
+
+
+        DB::table('requeriment_permit_type')->insert([
+            'permit_type_id'      => 2,
+            'requeriment_id'      => 1,
+        ]);
+
+        DB::table('requeriment_permit_type')->insert([
+            'permit_type_id'      => 2,
+            'requeriment_id'      => 2,
+        ]);
+
+        DB::table('requeriment_permit_type')->insert([
+            'permit_type_id'      => 2,
+            'requeriment_id'      => 3,
+        ]);
+
+        DB::table('requeriment_permit_type')->insert([
+            'permit_type_id'      => 2,
+            'requeriment_id'      => 4,
+        ]);
+
+        DB::table('requeriment_permit_type')->insert([
+            'permit_type_id'      => 2,
+            'requeriment_id'      => 5,
+        ]);
+
+        DB::table('requeriment_permit_type')->insert([
+            'permit_type_id'      => 2,
+            'requeriment_id'      => 13,
+        ]);
+
+        DB::table('requeriment_permit_type')->insert([
+            'permit_type_id'      => 2,
+            'requeriment_id'      => 14,
+        ]);
+
+        DB::table('requeriment_permit_type')->insert([
+            'permit_type_id'      => 2,
+            'requeriment_id'      => 15,
+        ]);
+
+        DB::table('requeriment_permit_type')->insert([
+            'permit_type_id'      => 2,
+            'requeriment_id'      => 16,
+        ]);
     }
 }

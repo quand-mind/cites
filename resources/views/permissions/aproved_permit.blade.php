@@ -98,6 +98,12 @@
                 @if ($permit->permit_type_id === 1)
                   <div class="fs-18" style="margin: 0px; padding-top: 10px">Tipo: Exportación</div>
                 @endif
+                @if ($permit->permit_type_id === 2)
+                  <div class="fs-18" style="margin: 0px; padding-top: 10px">Tipo: Importación</div>
+                @endif
+                @if ($permit->permit_type_id === 3)
+                  <div class="fs-18" style="margin: 0px; padding-top: 10px">Tipo: Reexportación</div>
+                @endif
               </div>
               <div class="w-45 pl-2 inline-block fs-18" style="margin-top:25px;">
                 <div style="padding-bottom:10%; border-bottom:1px solid;">Original</div>

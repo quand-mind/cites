@@ -178,13 +178,20 @@ class PermissionController extends Controller
                         {
                             if ($name->language === 'ES') {
                                 return $name;
+                            } elseif ($name->language === 'EN') {
+                                return $name;
                             }
                         }
                     });
-                    array_push($correctNames, $commonNames);
-                    $commonNameCorrect = $correctNames[0];
+                    if ($commonNames === []) {
+                        $newSpecie->name_common = $apiSpecie->full_name;
+                    } else {
+                        $name =  array_reverse($commonNames)[0];
+                        array_push($correctNames, $name);
+                        $commonNameCorrect = $correctNames[0];
+                        $newSpecie->name_common = $commonNameCorrect->name;
+                    }
                     
-                    $newSpecie->name_common = $commonNameCorrect[1]->name;
                 } else {
                     $newSpecie->name_common = $apiSpecie->full_name;
                 }

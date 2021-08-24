@@ -83,5 +83,35 @@ class RequerimentsSeeder extends Seeder
             'name'      => 'Autorización a tercera persona (en caso que el solicitante no pueda realizar el trámite).',
             'short_name'      => 'autorizacion_tercera_persona',
         ]);
+
+
+        /**
+         * requerimientos 92 reexportacion
+         */
+
+        DB::table('requeriments')->insert([
+            'name'      => 'Planilla de solicitud de exportación',
+            'short_name'      => 'planilla_exportación',
+        ]);
+        DB::table('requeriments')->insert([
+            'name'      => 'Permiso Cites De Importación Expedido Por La Autoridad Administrativa Cites De Venezuela',
+            'short_name'      => 'permiso_importacion_venezuela',
+        ]);
+        DB::table('requeriments')->insert([
+            'name'      => 'Licencia para ejercer el comercio e industria de animales silvestres, vivos, muertos o de sus productos (copia Simple).',
+            'short_name'      => 'licencia_para_comercio_de_especies',
+        ]);
+        DB::table('requeriments')->insert([
+            'name'      => 'Autorización de Instalación y Funcionamiento de Zoocriadero (copia Simple).',
+            'short_name'      => 'autorización_intalación_Zoocriaderos',
+        ]);
+        DB::table('requeriments')->insert([
+            'name'      => 'Permiso CITES de importación expedido por la Autoridad Administrativa CITES del país de destino (Copia Simple).',
+            'short_name'      => 'permiso_CITES_importación_del_país_de_destino',
+        ]);
+        DB::table('requeriments')->insert([
+            'name'      => ' Permiso CITES de exportación(Original y Copia).',
+            'short_name'      => 'permiso_CITES_importación_del_país_de_destino',
+        ]);
     }
 }

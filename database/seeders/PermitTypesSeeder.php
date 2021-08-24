@@ -17,5 +17,11 @@ class PermitTypesSeeder extends Seeder
         DB::table('permit_types')->insert([
             'name'      => 'Permiso de exportación de especies de la fauna silvestre incluidas en CITES con fines comerciales.',
         ]);
+        DB::table('permit_types')->insert([
+            'name'      => 'Permiso de importación de especies de la fauna silvestre incluidas en CITES con fines comerciales.',
+        ]);
+        DB::table('permit_types')->insert([
+            'name'      => 'Permiso de reexportación de especies de la fauna silvestre incluidas en CITES con fines comerciales.',
+        ]);
     }
 }

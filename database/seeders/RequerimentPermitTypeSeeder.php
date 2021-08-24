@@ -129,7 +129,7 @@ class RequerimentPermitTypeSeeder extends Seeder
         DB::table('requeriment_permit_type')->insert([
             'permit_type_id'      => 2,
             'requeriment_id'      => 16,
-
+        ]);
         
         DB::table('requeriment_permit_type')->insert([
             'permit_type_id'      => 3,

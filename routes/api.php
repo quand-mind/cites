@@ -38,10 +38,6 @@ Route::post('/saveFile', [AuthorizationController::class, 'Nurseries']);
 Route::get('species', [ApiController::class, 'api_cites']);
 Route::get('countries', [ApiController::class, 'api_country']);
 Route::get('species_filter', [ApiController::class, 'api_cites_filter']);
-Route::get('filterApplicant', [PermissionController::class, 'filterApplicant']);
-Route::get('filterOfficial', [PermissionController::class, 'filterOfficial']);
-Route::get('filterCountry', [PermissionController::class, 'filterCountry']);
-Route::get('filterDate', [PermissionController::class, 'filterDate']);
 
 /**
  *  login admin
@@ -80,3 +76,10 @@ Route::middleware('auth:api')->group(function () {
     });
 });
 
+/*
+* rutas para filtrar los permisos
+*/
+Route::get('filterApplicant', [PermissionController::class, 'filterApplicant']);
+Route::get('filterOfficial', [PermissionController::class, 'filterOfficial']);
+Route::get('filterCountry', [PermissionController::class, 'filterCountry']);
+Route::get('filterDate', [PermissionController::class, 'filterDate']);

@@ -31,8 +31,8 @@ class PermissionController extends Controller
     }
     public function getForm($id)
     {   
-        $clientData = Client::with('user')->where('id', '=', auth()->user()->id)->get();
-        $permitType = PermitType::with(['requeriments'])->where('id', '=', $id)->get();
+        $clientData = Client::with('user')->where('id', '=', auth()->user()->id)->get()->first();
+        $permitType = PermitType::with(['requeriments'])->where('id', '=', $id)->get()->first();
         return view('permissions.permit_form', compact(['permitType', 'clientData']));
     }
     public function showUploadRequeriments($id)

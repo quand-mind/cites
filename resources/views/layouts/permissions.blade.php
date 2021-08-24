@@ -13,6 +13,7 @@
 
     <div id="app">
         @include('permissions.includes.app-nav')
+        @include('permissions.includes.side-menu')
         <main class="dashboard-panel py-4 px-5">
             @yield('content')
         </main>

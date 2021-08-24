@@ -1,6 +1,9 @@
 <template>
   <div>
     <h1 class="mb-4">Permisos:</h1>
+    <div v-if="permissions.length === 0">
+      <span>No hay permisos solicitados. Solicite sus permisos <a href="/solicitante/permissions/list">Aquí.</a></span>
+    </div>
     <div class="ml-4" v-for="(permit, index) of permissions" v-bind:key="index">
       <div class="permit-container">
         <div class="d-flex justify-content-between align-items-center">

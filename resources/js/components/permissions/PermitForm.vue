@@ -36,7 +36,7 @@
       >
         <b-card-text>
           <b-row class="mb-2">
-            <b-col v-if="permit_type.id === 2">País de Procedencia</b-col>
+            <b-col v-if="permit_type.id == 2">País de Procedencia</b-col>
             <b-col v-if="permit_type.id !== 2">País de Destino</b-col>
             <b-col>Medio de Transporte</b-col>
             <b-col>Puerto o Aeropuerto de Embarque</b-col>

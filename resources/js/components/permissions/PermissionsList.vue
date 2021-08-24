@@ -7,11 +7,11 @@
       <ul class="list-group mt-4" v-for="(permit, index) of permit_types" v-bind:key="index">
         <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
            {{permit.name}}
-          <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#collapseComercialExports" aria-expanded="false" aria-controls="collapseComercialExports">
+          <button class="btn btn-secondary" type="button" data-toggle="collapse" :data-target="'#collapsePermit' + index" aria-expanded="false" aria-controls="collapsePermit">
             Recaudos
           </button>
         </li>
-        <div class="collapse" id="collapseComercialExports">
+        <div class="collapse" :id="'collapsePermit' + index">
           <div class="card card-body">
             <div class="d-flex">
               <h6>Lista de Recaudos:</h6>
@@ -20,7 +20,7 @@
               <li class="">{{requeriment.name}}</li>
             </ul>
             <div class="w-100 d-flex justify-content-end align-items-center">
-             <a v-if="!showPurpose" class="btn btn-primary" :href="`/solicitante/permissions/permit_form/${permit.id}`">Solicitar Permiso</a>
+             <a class="btn btn-primary" :href="`/solicitante/permissions/permit_form/${permit.id}`">Solicitar Permiso</a>
             </div>
           </div>
 

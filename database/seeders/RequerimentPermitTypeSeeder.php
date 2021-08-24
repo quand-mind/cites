@@ -129,6 +129,43 @@ class RequerimentPermitTypeSeeder extends Seeder
         DB::table('requeriment_permit_type')->insert([
             'permit_type_id'      => 2,
             'requeriment_id'      => 16,
+
+        
+        DB::table('requeriment_permit_type')->insert([
+            'permit_type_id'      => 3,
+            'requeriment_id'      => 4, //rif
+        ]);
+        DB::table('requeriment_permit_type')->insert([
+            'permit_type_id'      => 3,
+            'requeriment_id'      => 3, //c.i
+        ]);
+        DB::table('requeriment_permit_type')->insert([
+            'permit_type_id'      => 3,
+            'requeriment_id'      => 2, //timbres fiscales
+        ]);
+        DB::table('requeriment_permit_type')->insert([
+            'permit_type_id'      => 3,
+            'requeriment_id'      => 15,
+        ]);
+        DB::table('requeriment_permit_type')->insert([
+            'permit_type_id'      => 3,
+            'requeriment_id'      => 16,
+        ]);
+        DB::table('requeriment_permit_type')->insert([
+            'permit_type_id'      => 3,
+            'requeriment_id'      => 17,
+        ]);
+        DB::table('requeriment_permit_type')->insert([
+            'permit_type_id'      => 3,
+            'requeriment_id'      => 18,
+        ]);
+        DB::table('requeriment_permit_type')->insert([
+            'permit_type_id'      => 3,
+            'requeriment_id'      => 19,
+        ]);
+        DB::table('requeriment_permit_type')->insert([
+            'permit_type_id'      => 3,
+            'requeriment_id'      => 20,
         ]);
     }
 }

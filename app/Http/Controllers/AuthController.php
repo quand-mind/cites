@@ -159,7 +159,7 @@ class AuthController extends Controller
         Log::info('El solicitante '.$this->guard()->user()->username.' a salido del sistema desde la siguente direccion: '. request()->ip());
         $this->guard()->logout();
 
-        return redirect('/home');
+        return redirect('/');
     }
 
 

@@ -395,8 +395,9 @@ class PermissionController extends Controller
             $permit->requeriments[$requeriment_id -1]->pivot->is_valid = $pivot->is_valid;
             $permit->requeriments[$requeriment_id -1]->pivot->file_errors = $pivot->file_errors;
         }
-        
+        Log::info('El usuario con la cedula de identidad '.$this->returnUser().'a verificado el permiso | desde la direccion: '. request()->ip());
         $permit->push();
+
         return response('Estatus del Requerimiento Actualizado.', 200);
     }
     public function checkSpecies(Request $request, $id)

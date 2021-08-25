@@ -29,6 +29,7 @@ class CreatePermitsTable extends Migration
             $table->string('destiny_place')->nullable();
             $table->string('departure_place')->nullable();
             $table->string('departure_date')->nullable();
+            $table->string('committed_date')->nullable();
             $table->timestamps();
         });
     }

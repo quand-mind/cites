@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Contracts\Support\JsonableInterface; 
 use App\Models\Client;
 use App\Models\Official;
 use App\Models\User;
@@ -26,7 +27,7 @@ class PermissionController extends Controller
     {
         $clientData = Client::with('user')->where(['id' => auth()->user()->id])->get()->first();
         // return $clientData->user;
-        $permissions = Permit::where(['client_id' => $clientData->id])->with(['requeriments', 'permit_type', 'species', 'client.user'])->get();
+        $permissions = Permit::where(['client_id' => $clientData->id])->with(['requeriments', 'permit_type', 'species', 'client.user'])->paginate(2);
         return view('permissions.permissions', compact('permissions', 'clientData'));
     }
     public function getForm($id)

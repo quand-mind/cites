@@ -42,7 +42,7 @@
         </b-col>
       </b-row>
       
-      <b-row class="d-flex justify-content-start   align-items-center">
+      <!-- <b-row class="d-flex justify-content-start   align-items-center">
         <b-col sm="6" md="4" lg="3" class="input-group mb-3">
           <b-form-checkbox v-model="newSpecie.options.cautivery" :checked="true" name="check-button" :disabled="false" switch>
             ¿Criado en Cautividad?
@@ -84,7 +84,7 @@
         <b-col v-if="newSpecie.options.reexport" sm="12" md="3" lg="3" class="input-group mb-3">
           <b-form-input type="date"  v-model="newSpecie.old_reexport_date" placeholder="Fecha:"></b-form-input>
         </b-col>
-      </b-row>
+      </b-row> -->
 
       <b-row class="d-flex justify-content-end align-items-center">
         <b-col v-if="isNew === false" sm="12" md="8" lg="9" class="input-group mb-3">

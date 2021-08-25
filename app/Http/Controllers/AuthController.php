@@ -156,14 +156,19 @@ class AuthController extends Controller
 
     public function logout()
     {
-        Log::info('El solicitante '.$this->guard()->user()->username.' a salido del sistema desde la siguente direccion: '. request()->ip());
+        Log::info('El solicitante con el dni '.$this->returnUser().' a salido del sistema desde la siguente direccion: '. request()->ip());
         $this->guard()->logout();
 
         return redirect('/');
     }
 
+    public function returnUser(){
+        $user = Client::with('user')->where('user_id', '=', auth()->user()->id)->get();
+        foreach ($user as  $us) {
+            return $us->user->dni;
+        }
+    }
 
-    
     /**
      * Refresh a token.
      *

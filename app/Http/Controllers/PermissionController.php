@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Contracts\Support\JsonableInterface; 
+use Illuminate\Support\Facades\Log;
 use App\Models\Client;
 use App\Models\Official;
 use App\Models\User;
@@ -21,12 +23,18 @@ class PermissionController extends Controller
 {
 
     // GET
-
+    public function returnUser(){
+        $user = Client::with('user')->where('user_id', '=', auth()->user()->id)->get();
+        foreach ($user as  $us) {
+            return $us->user->dni;
+        }
+    }
     public function index()
     {
         $clientData = Client::with('user')->where(['id' => auth()->user()->id])->get()->first();
         // return $clientData->user;
         $permissions = Permit::where(['client_id' => $clientData->id])->with(['requeriments', 'permit_type', 'species', 'client.user'])->get();
+        // $permissions = Permit::where(['client_id' => $clientData->id])->with(['requeriments', 'permit_type', 'species', 'client.user'])->paginate(2);
         return view('permissions.permissions', compact('permissions', 'clientData'));
     }
     public function getForm($id)
@@ -218,7 +226,7 @@ class PermissionController extends Controller
 
         $permit->requeriments()->sync($requerimentsIdsWithPivot);
         $permit->save();
-
+        Log::info('El solicitante con la cedula de identidad '.$this->returnUser().'a solicitado un nuevo permiso | El permiso se ha solicitado desde la direccion: '. request()->ip());
         return response('Se ha solicitado el permiso, dirijase a la oficina del MINEC para entregar los recaudos.', 200);
     }
 
@@ -313,7 +321,8 @@ class PermissionController extends Controller
         $permit = Permit::find($permit_id);
         $permit->requeriments[$requeriment_id -1]->pivot->file_url = $url;
         $permit->push();
-
+        
+        Log::info('El solicitante con la cedula de identidad '.$this->returnUser().'a cargado un archivo | El archivo se ha cargado desde la direccion: '. request()->ip());
         return $url;
     }
     public function deleteFile($id, Request $request)
@@ -329,6 +338,7 @@ class PermissionController extends Controller
         $permit->requeriments[$requeriment_id -1]->pivot->file_url = null;
         $permit->requeriments[$requeriment_id -1]->pivot->file_errors = null;
         $permit->push();
+        Log::info('El solicitante con la cedula de identidad '.$this->returnUser().'a eliminado un archivo | El archivo se ha eliminado desde la direccion: '. request()->ip());
         return response('Archivo Eliminado', 200);
     }
     public function storeSpecieFile(Request $request)
@@ -386,9 +396,9 @@ class PermissionController extends Controller
             $permit->requeriments[$requeriment_id -1]->pivot->is_valid = $pivot->is_valid;
             $permit->requeriments[$requeriment_id -1]->pivot->file_errors = $pivot->file_errors;
         }
-        
+        Log::info('El usuario con la cedula de identidad '.$this->returnUser().'a verificado el permiso | desde la direccion: '. request()->ip());
         $permit->push();
-        
+
         return response('Estatus del Requerimiento Actualizado.', 200);
     }
     public function checkSpecies(Request $request, $id)
@@ -410,7 +420,7 @@ class PermissionController extends Controller
         }
         
         $permit->push();
-        
+        Log::info('El official con la cedula de identidad '.$this->returnUser().'a verificado el requerimineto  | desde la direccion: '. request()->ip());
         return response('Estatus del Requerimiento Actualizado.', 200);
     }
     public function validPermit(Request $request, $id)
@@ -422,7 +432,7 @@ class PermissionController extends Controller
         $permit->status= 'valid';
         
         $permit->save();
-        
+        Log::info('El official con la cedula de identidad '.$this->returnUser().'a verificado el permiso  | el permiso de a verificado desde la direccion: '.request()->ip());
         return response('Estatus del Requerimiento Actualizado.', 200);
     }
     public function printAprovedPermit($id)

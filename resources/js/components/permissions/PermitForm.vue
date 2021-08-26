@@ -1,5 +1,8 @@
 <template>
   <div>
+    <b-alert v-model="loading" variant="info" class="alertFile d-flex justify-content-between align-items-center">
+      <span>Solicitando Permiso...</span> <b-spinner small label="Spinning"></b-spinner>
+    </b-alert>
     <h2 v-if="permit_type.id === 1">Planilla de Exportación de Fauna Silvestre y/o sus Productos</h2>
     <h2 v-if="permit_type.id === 2">Planilla de Importación de Fauna Silvestre y/o sus Productos</h2>
     <h2 v-if="permit_type.id === 3">Planilla de Re-Exportación de Fauna Silvestre y/o sus Productos</h2>
@@ -115,6 +118,7 @@ export default {
       mobile: null,
       fax: null
     },
+    loading: false,
     permit:{
       country:null,
       transportation_way:null,
@@ -156,12 +160,13 @@ export default {
     },
 
     requestPermit(){
-
+      this.loading = true
       axios
-        .post(`/solicitante/permissions/list/createPermit`, { permit_type_id: this.permit_type[0].id, personals: JSON.stringify(this.personals), permit: JSON.stringify(this.permit), client_id: this.client_data[0].id, species: JSON.stringify(this.selectedSpecies)})
+        .post(`/solicitante/permissions/list/createPermit`, { permit_type_id: this.permit_type.id, personals: JSON.stringify(this.personals), permit: JSON.stringify(this.permit), client_id: this.client_data.id, species: JSON.stringify(this.selectedSpecies)})
         .then(res => {
           this.makeToast(res.data)
-          // setTimeout(() => window.location.assign('/solicitante/permissions'), 1200)
+          this.loading = false
+          setTimeout(() => window.location.assign('/solicitante/permissions'), 1200)
         })
         .catch(err => {
           this.makeToast(err.toString(), 'danger')

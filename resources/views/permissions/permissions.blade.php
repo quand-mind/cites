@@ -3,5 +3,6 @@
     <div id="permissions">
     	<permissions :permissions="{{$permissions}}" type="client"></permissions>
     	{{-- <permissions></permissions> --}}
+        {{-- {{$permissions}} --}}
     </div>
 @endsection

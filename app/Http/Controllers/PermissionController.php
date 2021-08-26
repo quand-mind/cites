@@ -108,7 +108,7 @@ class PermissionController extends Controller
     public function storePermit(Request $request)
     {
         $Date_day = Carbon::now()->format('Y-m-d');
-        $DateDay = Carbon::now()->format('Ymd');
+        $DateDay = Carbon::now()->format('ymd');
 
         $permisos =  Permit::where('created_at', 'like', '%'.$Date_day.'%')->count();
 

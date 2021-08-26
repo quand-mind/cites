@@ -152,6 +152,8 @@ Vue.component("permit-form", require("./components/permissions/PermitForm.vue").
 
 Vue.component("view-permit", require("./components/permissions/ViewPermit.vue").default);
 
+Vue.component("edit-client", require("./components/permissions/EditClient.vue").default);
+
 Vue.component("register", require("./components/auth/Register.vue").default);
 
 Vue.component("aside-solicitantes", require("./components/permissions/AsideSolicitantes.vue").default);

@@ -16,6 +16,7 @@ class CreateInstitutionsTable extends Migration
         Schema::create('institutions', function (Blueprint $table) {
             $table->id();
             $table->string('name', 100);
+            $table->string('rif', 100);
             $table->string('institutional_email', 100);
             $table->foreignId('client_id')->references('id')->on('clients')->onDelete('cascade');
             $table->timestamps();

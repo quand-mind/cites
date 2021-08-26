@@ -46,8 +46,12 @@ Route::post('/loginAdmin', [LoginController::class, 'login_admin']);
 
 
 Route::middleware('auth:api')->group(function () {
+    Route::get('/editUser', 'ClientController@index');
+    Route::post('/editUser', 'ClientController@editClient');
+
     Route::group(['prefix' => 'permissions'], function () {
         Route::get('/', 'PermissionController@index');
+        
     
         // Authorizations Routes
         // Route::get('/authorizations', 'AuthorizationController@index');

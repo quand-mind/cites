@@ -14,10 +14,15 @@ class Institution extends Model
         'client_id'
     ];
 
+    
     public function phones(){
         return $this->belongsToMany(Phone::class,
                                         'institution_phone',
                                         'institution_id',
                                         'phone_id');
+    }
+    public function client()
+    {
+        return $this->belongsTo(Client::class);
     }
 }

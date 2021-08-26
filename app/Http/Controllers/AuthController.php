@@ -90,7 +90,7 @@ class AuthController extends Controller
            
             $institution = new Institution();
             $institution->name = $request->input('institution_name');
-            $institution->name = $request->input('rif');
+            $institution->rif = $request->input('rif');
             $institution->institutional_email = $request->input('institutional_email');
             $institution->client_id = $client->id;
             $institution->save();

@@ -24,7 +24,8 @@ class PermitSeeder extends Seeder
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'client_id' => 1,
-            'permit_type_id' => 1
+            'permit_type_id' => 1,
+            'departament_id' => 1
         ]);
         DB::table('permits')->insert([
             'request_permit_no'      => Carbon::now()->format('ymd')."002",
@@ -34,7 +35,8 @@ class PermitSeeder extends Seeder
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'client_id' => 1,
-            'permit_type_id' => 1
+            'permit_type_id' => 1,
+            'departament_id' => 1
         ]);
         DB::table('permits')->insert([
             'request_permit_no'      => Carbon::now()->format('ymd')."003",
@@ -43,7 +45,8 @@ class PermitSeeder extends Seeder
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'client_id' => 1,
-            'permit_type_id' => 1
+            'permit_type_id' => 1,
+            'departament_id' => 1
         ]);
         DB::table('permits')->insert([
             'request_permit_no'      => Carbon::now()->format('ymd')."004",
@@ -53,7 +56,8 @@ class PermitSeeder extends Seeder
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'client_id' => 4,
-            'permit_type_id' => 1
+            'permit_type_id' => 1,
+            'departament_id' => 1
         ]);
         DB::table('permits')->insert([
             'request_permit_no'      => Carbon::now()->format('ymd')."005",
@@ -62,7 +66,8 @@ class PermitSeeder extends Seeder
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'client_id' => 4,
-            'permit_type_id' => 1
+            'permit_type_id' => 1,
+            'departament_id' => 1
         ]);
         DB::table('permits')->insert([
             'request_permit_no'      => Carbon::now()->format('ymd')."006",
@@ -72,7 +77,8 @@ class PermitSeeder extends Seeder
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'client_id' => 5,
-            'permit_type_id' => 1
+            'permit_type_id' => 1,
+            'departament_id' => 1
         ]);
         DB::table('permits')->insert([
             'request_permit_no'      => Carbon::now()->format('ymd')."007",
@@ -81,7 +87,8 @@ class PermitSeeder extends Seeder
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'client_id' => 5,
-            'permit_type_id' => 1
+            'permit_type_id' => 1,
+            'departament_id' => 1
         ]);
         DB::table('permits')->insert([
             'request_permit_no'      => Carbon::now()->format('ymd')."008",
@@ -91,7 +98,8 @@ class PermitSeeder extends Seeder
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'client_id' => 6,
-            'permit_type_id' => 1
+            'permit_type_id' => 1,
+            'departament_id' => 1
         ]);
         DB::table('permits')->insert([
             'request_permit_no'      => Carbon::now()->format('ymd')."009",
@@ -100,7 +108,8 @@ class PermitSeeder extends Seeder
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'client_id' => 6,
-            'permit_type_id' => 1
+            'permit_type_id' => 1,
+            'departament_id' => 1
         ]);
         DB::table('permits')->insert([
             'request_permit_no'      => Carbon::now()->format('ymd')."010",
@@ -110,7 +119,8 @@ class PermitSeeder extends Seeder
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'client_id' => 7,
-            'permit_type_id' => 1
+            'permit_type_id' => 1,
+            'departament_id' => 1
         ]);
 
         DB::table('permits')->insert([
@@ -120,7 +130,8 @@ class PermitSeeder extends Seeder
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'client_id' => 7,
-            'permit_type_id' => 1
+            'permit_type_id' => 1,
+            'departament_id' => 1
         ]);
         DB::table('permits')->insert([
             'request_permit_no'      => Carbon::now()->format('ymd')."012",
@@ -130,7 +141,8 @@ class PermitSeeder extends Seeder
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'client_id' => 1,
-            'permit_type_id' => 1
+            'permit_type_id' => 1,
+            'departament_id' => 1
         ]);
         DB::table('permits')->insert([
             'request_permit_no'      => Carbon::now()->format('ymd')."013",
@@ -139,7 +151,8 @@ class PermitSeeder extends Seeder
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'client_id' => 8,
-            'permit_type_id' => 1
+            'permit_type_id' => 1,
+            'departament_id' => 1
         ]);
         DB::table('permits')->insert([
             'request_permit_no'      => Carbon::now()->format('ymd')."014",
@@ -149,7 +162,8 @@ class PermitSeeder extends Seeder
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'client_id' => 8,
-            'permit_type_id' => 1
+            'permit_type_id' => 1,
+            'departament_id' => 1
         ]);
         DB::table('permits')->insert([
             'request_permit_no'      => Carbon::now()->format('ymd')."015",
@@ -158,7 +172,8 @@ class PermitSeeder extends Seeder
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'client_id' => 9,
-            'permit_type_id' => 1
+            'permit_type_id' => 1,
+            'departament_id' => 1
         ]);
         DB::table('permits')->insert([
             'request_permit_no'      => Carbon::now()->format('ymd')."016",
@@ -168,7 +183,8 @@ class PermitSeeder extends Seeder
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'client_id' => 9,
-            'permit_type_id' => 1
+            'permit_type_id' => 1,
+            'departament_id' => 1
         ]);
         DB::table('permits')->insert([
             'request_permit_no'      => Carbon::now()->format('ymd')."017",
@@ -177,7 +193,8 @@ class PermitSeeder extends Seeder
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'client_id' => 10,
-            'permit_type_id' => 1
+            'permit_type_id' => 1,
+            'departament_id' => 1
         ]);
         DB::table('permits')->insert([
             'request_permit_no'      => Carbon::now()->format('ymd')."018",
@@ -187,7 +204,8 @@ class PermitSeeder extends Seeder
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'client_id' => 10,
-            'permit_type_id' => 1
+            'permit_type_id' => 1,
+            'departament_id' => 1
         ]);
         DB::table('permits')->insert([
             'request_permit_no'      => Carbon::now()->format('ymd')."019",
@@ -196,7 +214,8 @@ class PermitSeeder extends Seeder
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'client_id' => 11,
-            'permit_type_id' => 1
+            'permit_type_id' => 1,
+            'departament_id' => 1
         ]);
         DB::table('permits')->insert([
             'request_permit_no'      => Carbon::now()->format('ymd')."020",
@@ -206,7 +225,8 @@ class PermitSeeder extends Seeder
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'client_id' => 11,
-            'permit_type_id' => 1
+            'permit_type_id' => 1,
+            'departament_id' => 1
         ]);
         DB::table('permits')->insert([
             'request_permit_no'      => Carbon::now()->format('ymd')."021",
@@ -215,7 +235,8 @@ class PermitSeeder extends Seeder
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'client_id' => 12,
-            'permit_type_id' => 1
+            'permit_type_id' => 1,
+            'departament_id' => 1
         ]);
         DB::table('permits')->insert([
             'request_permit_no'      => Carbon::now()->format('ymd')."022",
@@ -225,7 +246,8 @@ class PermitSeeder extends Seeder
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'client_id' => 12,
-            'permit_type_id' => 1
+            'permit_type_id' => 1,
+            'departament_id' => 1
         ]);
 
     }

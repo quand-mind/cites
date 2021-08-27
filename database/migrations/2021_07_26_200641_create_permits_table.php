@@ -19,7 +19,7 @@ class CreatePermitsTable extends Migration
             $table->string('sistra')->nullable();
             $table->string('valid_until')->nullable(); //es una fecha valido hasta
             $table->text('special_conditions', 500)->nullable();
-            $table->string('purpose', 60);
+            $table->string('purpose', 60);            
             $table->string('status');
             $table->string('observations')->nullable();
             $table->string('transportation_way')->nullable();

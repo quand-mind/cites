@@ -16,6 +16,7 @@ class CreatePermitTypesTable extends Migration
         Schema::create('permit_types', function (Blueprint $table) {
             $table->id();
             $table->string('name', 255);
+            $table->enum('type', ['export', 'import', 'reexport']);
             $table->timestamps();
         });
     }

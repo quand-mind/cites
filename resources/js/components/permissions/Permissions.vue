@@ -86,11 +86,8 @@
             <a :href="`/${requeriment.pivot.file_url}`" target="_blank"><font-awesome-icon :icon="['fa', 'eye']"></font-awesome-icon> Ver Archivo</a>
           </div>
           <div v-else>
-            <div v-if="requeriment.short_name ==='documentos_especies'"></div>
-            <div v-else>
-              <font-awesome-icon :icon="['fa', 'ban']"></font-awesome-icon>
-              No se ha subido el documento
-            </div>
+            <font-awesome-icon :icon="['fa', 'ban']"></font-awesome-icon>
+            No se ha subido el documento
           </div>
         </b-col>
         <b-col sm="12" lg="2" class="">
@@ -99,30 +96,15 @@
               Valido
               <font-awesome-icon :icon="['fa', 'check']"></font-awesome-icon>
             </b-badge>
-            <div v-else-if="requeriment.short_name === 'documentos_especies'">
-              <b-badge v-if="validSpecies" class="p-2" variant="success">
-                Valido
-                <font-awesome-icon :icon="['fa', 'check']"></font-awesome-icon>
-              </b-badge>
-              <b-badge v-else class="p-2" variant="danger">
-                No validado
-                <font-awesome-icon :icon="['fa', 'ban']"></font-awesome-icon>
-              </b-badge>
-            </div>
-            <b-badge v-else-if="!requeriment.pivot.is_valid && !requeriment.pivot.file_errors" class="p-2" variant="danger">
+            <b-badge v-else-if="!requeriment.pivot.is_valid === null" class="p-2" variant="danger">
               No validado
               <font-awesome-icon :icon="['fa', 'clipboard']"></font-awesome-icon>
             </b-badge>
             
-            <b-badge v-else-if="!requeriment.pivot.is_valid && requeriment.pivot.file_errors" class="p-2" variant="danger">
+            <b-badge v-else-if="!requeriment.pivot.is_valid" class="p-2" variant="danger">
               No valido
               <font-awesome-icon :icon="['fa', 'ban']"></font-awesome-icon>
             </b-badge>
-          </div>
-        </b-col>
-        <b-col sm="12" lg="2" class="">
-          <div v-if="!requeriment.pivot.is_valid && requeriment.pivot.file_errors">
-            <span> Errores: {{requeriment.pivot.file_errors}}</span>
           </div>
         </b-col>
       </b-row>

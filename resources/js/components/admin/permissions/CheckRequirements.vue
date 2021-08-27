@@ -82,12 +82,21 @@
                     :id="'checkbox'+ requeriment.id"
                     v-model="requeriment.pivot.is_valid"
                     :value="1"
-                    :unchecked-value="0"
+                    :unchecked-value="null"
+                  >
+                    Válido
+                  </b-form-checkbox>
+                  <b-form-checkbox
+                    :disabled="!requeriment.pivot.file_url"
+                    @change="changeValid(requeriment, permit[0])"
+                    :id="'checkbox'+ requeriment.id"
+                    v-model="requeriment.pivot.is_valid"
+                    :value="0"
+                    :unchecked-value="null"
                   >
                     Válido
                   </b-form-checkbox>
                   <div >
-                    <b-form-input @change="sendErrors(requeriment, permit[0])" class="ml-4" v-if="!requeriment.pivot.is_valid" v-model="requeriment.pivot.file_errors" placeholder="Indique el problema:" ></b-form-input>
                   </div>
                 </div>
               </b-col>
@@ -249,7 +258,6 @@ export default {
       if (requeriment.pivot.is_valid){
         this.showErrors = false
         this.errorId = null
-        requeriment.pivot.file_errors = null
       } else {
         this.showErrors = true
         this.errorId = requeriment.id

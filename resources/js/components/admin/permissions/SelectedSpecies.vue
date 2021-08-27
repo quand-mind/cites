@@ -46,9 +46,6 @@
         >
           Válido
         </b-form-checkbox>
-        <div>
-          <b-form-input @change="sendErrors(specie, index)" class="ml-4" v-if="!specie.pivot.is_valid" v-model="specie.pivot.file_errors" placeholder="Indique el problema:" ></b-form-input>
-        </div>
       </b-col>
     </b-row>
   </div>
@@ -77,7 +74,6 @@ export default {
       if (specie.pivot.is_valid){
         this.showErrors = false
         this.errorId = null
-        specie.pivot.file_errors = null
       } else {
         this.showErrors = true
         this.errorId = specie.id

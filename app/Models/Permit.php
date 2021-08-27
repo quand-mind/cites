@@ -33,7 +33,7 @@ class Permit extends Model
         return $this->belongsToMany(Specie::class,
                                     'permit_specie',
                                     'permit_id',
-                                    'specie_id')->withPivot('file_url', 'origin', 'description', 'is_valid', 'qty', 'file_errors', 'appendix');
+                                    'specie_id')->withPivot('file_url', 'origin', 'description', 'is_valid', 'qty', 'appendix');
     }
     public function client()
     {
@@ -56,7 +56,7 @@ class Permit extends Model
         return $this->belongsToMany(Requeriment::class,
                                     'permit_requeriment',
                                     'permit_id',
-                                    'requeriment_id')->withPivot('file_url', 'is_valid', 'file_errors');
+                                    'requeriment_id')->withPivot('file_url', 'is_valid');
     }
 
     

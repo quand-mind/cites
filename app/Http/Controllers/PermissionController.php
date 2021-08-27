@@ -153,7 +153,7 @@ class PermissionController extends Controller
         $requeriments = $permitType->requeriments;
 
         foreach($requeriments as $requeriment) {
-            $requerimentsIdsWithPivot[$requeriment->id] = ["file_url" => null, "is_valid" => false, "file_errors" => null];
+            $requerimentsIdsWithPivot[$requeriment->id] = ["file_url" => null, "is_valid" => false,];
         }
 
         $searchedSpecies=[];
@@ -172,7 +172,6 @@ class PermissionController extends Controller
                                                         "origin_country" => $specie->origin_country,
                                                         "appendix" => $specie->appendix,
                                                         "file_url" => null,
-                                                        "file_errors" => null,
                                                         "is_valid" => null,
                 ];
             } else {
@@ -213,7 +212,6 @@ class PermissionController extends Controller
                                                         "origin_country" => $specie->origin_country,
                                                         "appendix" => $specie->appendix,
                                                         "file_url" => null,
-                                                        "file_errors" => null,
                                                          "is_valid" => null,
                 ];
             }
@@ -280,7 +278,7 @@ class PermissionController extends Controller
         $findedSpecie = Specie::where('name_common', '=', $specie_name)->get()->first();
         
         if($findedSpecie) {  
-            $speciesIdsWithPivot[$findedSpecie->id] = ["qty" => $specie->qty, "file_url" => $specie->pivot->file_url, "is_valid" => false, 'file_errors' => null];
+            $speciesIdsWithPivot[$findedSpecie->id] = ["qty" => $specie->qty, "file_url" => $specie->pivot->file_url, "is_valid" => false];
             $getPermit->species()->attach($speciesIdsWithPivot);
         }
         else{
@@ -336,7 +334,6 @@ class PermissionController extends Controller
         
         $permit = Permit::find($id);
         $permit->requeriments[$requeriment_id -1]->pivot->file_url = null;
-        $permit->requeriments[$requeriment_id -1]->pivot->file_errors = null;
         $permit->push();
         Log::info('El solicitante con la cedula de identidad '.$this->returnUser().'a eliminado un archivo | El archivo se ha eliminado desde la direccion: '. request()->ip());
         return response('Archivo Eliminado', 200);
@@ -390,11 +387,9 @@ class PermissionController extends Controller
         if ($pivot->is_valid) {
             $pivot->is_valid = 1;
             $permit->requeriments[$requeriment_id -1]->pivot->is_valid = $pivot->is_valid;
-            $permit->requeriments[$requeriment_id -1]->pivot->file_errors = null;
         } else {
             $pivot->is_valid = 0;
             $permit->requeriments[$requeriment_id -1]->pivot->is_valid = $pivot->is_valid;
-            $permit->requeriments[$requeriment_id -1]->pivot->file_errors = $pivot->file_errors;
         }
         Log::info('El usuario con la cedula de identidad '.$this->returnUser().'a verificado el permiso | desde la direccion: '. request()->ip());
         $permit->push();
@@ -411,12 +406,10 @@ class PermissionController extends Controller
         $specie_id = $newSpecie->id;
         if ($pivot->is_valid) {
             $pivot->is_valid = 1;
-            $permit->species[$index]->pivot->file_errors = null;
             $permit->species[$index]->pivot->is_valid = $pivot->is_valid;
         } else {
             $pivot->is_valid = 0;
             $permit->species[$index]->pivot->is_valid = $pivot->is_valid;
-            $permit->species[$index]->pivot->file_errors = $pivot->file_errors;
         }
         
         $permit->push();
@@ -429,6 +422,7 @@ class PermissionController extends Controller
         $date = strtotime("+60 day");
         $permit->valid_until = date('M d, Y', $date);
         $permit->official_id= $request->input('official_id');
+        $permit->sistra= $request->input('sistra');
         $permit->status= 'valid';
         
         $permit->save();

@@ -24,7 +24,8 @@ class Permit extends Model
         'destiny_place',
         'departure_place',
         'departure_date',
-        'created_at'
+        'created_at',
+        'departament_id'
     ];
 
     public function species()
@@ -56,6 +57,10 @@ class Permit extends Model
                                     'permit_requeriment',
                                     'permit_id',
                                     'requeriment_id')->withPivot('file_url', 'is_valid', 'file_errors');
+    }
+    public function departament()
+    {
+        return $this->belongsTo(Departament::class);
     }
     
 }

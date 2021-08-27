@@ -278,7 +278,7 @@ export default {
     },
     validPermit(index){
       axios
-        .post(`/dashboard/permissions/validPermit/`+ this.permit[0].id, {official_id: this.official.id, permit: this.permit[0], index: index})
+        .post(`/dashboard/permissions/validPermit/`+ this.permit[0].id, {official_id: this.official.id, sistra: this.permit[0].sistra})
         .then(res => {
           this.makeToast(res.data)
           setTimeout(() => window.location.assign('/dashboard/permissions/'), 1200)

@@ -3,9 +3,9 @@
     <b-alert v-model="loading" variant="info" class="alertFile d-flex justify-content-between align-items-center">
       <span>Solicitando Permiso...</span> <b-spinner small label="Spinning"></b-spinner>
     </b-alert>
-    <h2 v-if="permit_type.id === 1">Planilla de Exportación de Fauna Silvestre y/o sus Productos</h2>
-    <h2 v-if="permit_type.id === 2">Planilla de Importación de Fauna Silvestre y/o sus Productos</h2>
-    <h2 v-if="permit_type.id === 3">Planilla de Re-Exportación de Fauna Silvestre y/o sus Productos</h2>
+    <h2 v-if="permit_type.type === 'export'">Planilla de Exportación de Fauna Silvestre y/o sus Productos</h2>
+    <h2 v-if="permit_type.type === 'import'">Planilla de Importación de Fauna Silvestre y/o sus Productos</h2>
+    <h2 v-if="permit_type.type === 'reexport'">Planilla de Re-Exportación de Fauna Silvestre y/o sus Productos</h2>
     <div>
       <b-card
         title="Especies"
@@ -39,8 +39,8 @@
       >
         <b-card-text>
           <b-row class="mb-2">
-            <b-col v-if="permit_type.id == 2">País de Procedencia</b-col>
-            <b-col v-if="permit_type.id !== 2">País de Destino</b-col>
+            <b-col v-if="permit_type.type == 'import'">País de Procedencia</b-col>
+            <b-col v-if="permit_type.type !== 'import'">País de Destino</b-col>
             <b-col>Medio de Transporte</b-col>
             <b-col>Puerto o Aeropuerto de Embarque</b-col>
             <b-col>Puerto o Aeropuerto de Desembarque</b-col>
@@ -169,6 +169,7 @@ export default {
           setTimeout(() => window.location.assign('/solicitante/permissions'), 1200)
         })
         .catch(err => {
+          this.loading = false
           this.makeToast(err.toString(), 'danger')
         });
     },

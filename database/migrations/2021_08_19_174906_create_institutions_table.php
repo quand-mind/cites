@@ -20,6 +20,10 @@ class CreateInstitutionsTable extends Migration
             $table->string('institutional_email', 100);
             $table->foreignId('client_id')->references('id')->on('clients')->onDelete('cascade');
             $table->timestamps();
+
+            // RIF
+            $table->string('rif_file_url')->nullable();
+            $table->boolean('is_valid_rif')->nullable();
         });
     }
 

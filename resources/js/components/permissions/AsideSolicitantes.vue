@@ -15,11 +15,11 @@
       ></font-awesome-icon>
     </button>
     <div class="list-group">
-      <a href="/solicitante/permissions/" class="list-group-item list-group-item-action">
+      <a href="/solicitante/permissions/list" class="list-group-item list-group-item-action">
         <font-awesome-icon :icon="['fas', 'clipboard']"></font-awesome-icon>&nbsp;Listado de Permisos
       </a>
-      <a href="/solicitante/permissions/list" class="list-group-item list-group-item-action">
-        <font-awesome-icon :icon="['fas', 'book-open']"></font-awesome-icon>&nbsp;Solicitar Permisos
+      <a href="/solicitante/permissions/" class="list-group-item list-group-item-action">
+        <font-awesome-icon :icon="['fas', 'id-badge']"></font-awesome-icon>&nbsp;Mis Permisos
       </a>
     </div>
   </aside>

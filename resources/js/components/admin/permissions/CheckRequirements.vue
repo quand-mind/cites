@@ -8,7 +8,7 @@
       <b-row class=" mb-2 mt-2">
         <b-col md="6">Permiso N° {{permit[0].request_permit_no}}</b-col>
         <b-col md="6">
-          <b-form-input v-model="permit[0].sistra" ></b-form-input>
+          <b-form-input v-model="permit[0].sistra" placeholder="Número Sistra"></b-form-input>
         </b-col>
         <div></div>
       </b-row>

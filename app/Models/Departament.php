@@ -12,8 +12,8 @@ class Departament extends Model
         'name',
         'acronym'
     ];
-    public function permit()
+    public function permit_types()
     {
-        return $this->hasOne(Permit::class);
+        return $this->hasOne(PermitType::class);
     }
 }

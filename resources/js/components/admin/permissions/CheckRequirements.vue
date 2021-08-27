@@ -5,7 +5,13 @@
       <a class="btn btn-primary mt-4 text-white" href="/permissions">Volver al Inicio</a>
     </div>
     <div>
-      <h1 class="ml-4 mb-4">Permiso N° {{permit[0].request_permit_no}}</h1>
+      <b-row class=" mb-2 mt-2">
+        <b-col md="6">Permiso N° {{permit[0].request_permit_no}}</b-col>
+        <b-col md="6">
+          <b-form-input v-model="permit[0].sistra" ></b-form-input>
+        </b-col>
+        <div></div>
+      </b-row>
       <div class="ml-5 mb-4">
         <hr>
         <b-row class=" mb-2 mt-2">

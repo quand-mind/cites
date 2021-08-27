@@ -25,4 +25,9 @@ class PermitType extends Model
                                     'permit_type_id',
                                     'requeriment_id');
     }
+
+    public function departament()
+    {
+        return $this->belongsTo(Departament::class);
+    }
 }

@@ -58,9 +58,6 @@ class Permit extends Model
                                     'permit_id',
                                     'requeriment_id')->withPivot('file_url', 'is_valid', 'file_errors');
     }
-    public function departament()
-    {
-        return $this->belongsTo(Departament::class);
-    }
+
     
 }

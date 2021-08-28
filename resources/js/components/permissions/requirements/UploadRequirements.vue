@@ -21,10 +21,10 @@
             <b-row class="w-100 d-flex justify-content-between align-items-center flex-row" v-for="(requeriment,index) of permit[0].requeriments" v-bind:key="index">
               <b-col lg="3" class="my-4">{{requeriment.name}}</b-col>
               <b-col lg="3" class="d-flex justify-content-center align-items-center">
-                <div v-if="requeriment.short_name === 'documentos_especies'">
+                <!-- <div v-if="requeriment.short_name === 'documentos_especies'">
                   <font-awesome-icon :icon="['fa', 'clipboard-list']"></font-awesome-icon> Especies Agregadas: {{permit[0].species.length}}
-                </div>
-                <div v-else-if="!requeriment.pivot.file_url">
+                </div> -->
+                <div v-if="!requeriment.pivot.file_url">
                   <font-awesome-icon :icon="['fa', 'ban']"></font-awesome-icon> No hay un archivo subido
                 </div>
                 <div v-else>
@@ -34,16 +34,10 @@
               <b-col lg="3">
                 <div
                   class="d-flex justify-content-center align-items-center"
-                  v-if="requeriment.short_name === 'documentos_especies'"
                 >
-                  <button :disabled="!permit[0].species.length > 0" class="btn text-dark" @click="showSelectedSpecies = true" style="cursor:pointer">
+                  <button v-if="requeriment.short_name === 'documentos_especies'" class="btn text-dark" @click="showSelectedSpecies = true" style="cursor:pointer">
                     <font-awesome-icon :icon="['fa', 'eye']"></font-awesome-icon>
                   </button>
-                </div>
-                <div
-                  class="d-flex justify-content-center align-items-center"
-                  v-else
-                >
                   <label v-if="!requeriment.pivot.file_url" class="btn text-primary" :for="'file'+ requeriment.id" style="cursor:pointer">
                     <font-awesome-icon :icon="['fa', 'upload']"></font-awesome-icon>
                   </label>
@@ -71,9 +65,6 @@
 
     <b-modal v-model="showSelectedSpecies" size="xl" id="species-modal" title="Listado de Especies" hide-footer>
       <SelectedSpecies
-      v-on:uploadSpecieFile="uploadSpecieFile"
-      v-on:deleteSpecieFile="deleteSpecieFile"
-      v-on:deleteSpecie="deleteSpecie"
       v-on:closeSpecieListDialog="closeSpecieListDialog"
       :selectedSpecies="permit[0].species"
       :type="type"/>
@@ -145,11 +136,7 @@ export default {
     isUploadedRequirements(){
       let count = 0 
       for (const requeriment of this.permit[0].requeriments) {
-        if (requeriment.short_name === 'documentos_especies') {
-          let speciesCount = this.checkUploadedSpecies(count)
-          count += speciesCount
-        }
-        else if (requeriment.pivot.file_url){
+        if (requeriment.pivot.file_url){
           count++
         }
       }
@@ -174,36 +161,6 @@ export default {
       if(speciesCount === this.permit[0].species.length){
         return 1
       }
-    },
-    uploadSpecieFile (file, specie, isNew, index) {
-
-      this.closeSpecieListDialog()
-      this.loading = true
-
-      var form = new FormData();
-      form.append("file", file);
-      form.append("specie", JSON.stringify(specie));
-      form.append("permit", JSON.stringify(this.permit[0]));
-      form.append("isNew", JSON.stringify(isNew));
-      form.append("index", JSON.stringify(index));
-      axios
-        .post(`/solicitante/permissions/uploadSpecieFile/`, form, {
-          headers: {
-              'Content-Type': 'multipart/form-data'
-          }
-        })
-        .then(res => {
-  
-          specie.pivot.file_url = res.data
-          this.loading = false
-          this.makeToast('Archivo Guardado')
-          // setTimeout(() => window.location.reload(), 1200)
-        })
-        .catch(err => {
-          this.loading = false
-          this.makeToast(err.toString(), 'danger')
-        });
-        this.closeSpecieListDialog()
     },
     uploadFile (file, requeriment, index) {
       console.log(index)

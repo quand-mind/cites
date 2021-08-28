@@ -22,7 +22,6 @@ class CreatePermitSpecieTable extends Migration
             $table->string('appendix');
             $table->string('origin_country');
             $table->string('file_url')->nullable();
-            $table->boolean('is_valid')->nullable();
             $table->bigInteger('qty');
             $table->timestamps();
         });

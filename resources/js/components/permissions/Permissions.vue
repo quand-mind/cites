@@ -96,7 +96,7 @@
               Valido
               <font-awesome-icon :icon="['fa', 'check']"></font-awesome-icon>
             </b-badge>
-            <b-badge v-else-if="!requeriment.pivot.is_valid === null" class="p-2" variant="danger">
+            <b-badge v-else-if="requeriment.pivot.is_valid === null" class="p-2" variant="danger">
               No validado
               <font-awesome-icon :icon="['fa', 'clipboard']"></font-awesome-icon>
             </b-badge>

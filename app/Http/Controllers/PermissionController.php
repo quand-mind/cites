@@ -77,7 +77,7 @@ class PermissionController extends Controller
             $officialData = Official::with('user')->where('id', '=', auth()->user()->id)->get()->first();
 
             if ($officialData->user_id !== $getPermit->client->user_id) {
-                $permit = Permit::where(['id' => $id])->with(['requeriments', 'permit_type', 'species', 'client.user'])->get();
+                $permit = Permit::where(['id' => $id])->with(['requeriments', 'permit_type', 'species', 'client.user'])->get()->first();
             } else {
                 $permit = null;
             }
@@ -153,7 +153,7 @@ class PermissionController extends Controller
         $requeriments = $permitType->requeriments;
 
         foreach($requeriments as $requeriment) {
-            $requerimentsIdsWithPivot[$requeriment->id] = ["file_url" => null, "is_valid" => false,];
+            $requerimentsIdsWithPivot[$requeriment->id] = ["file_url" => null, "is_valid" => null,];
         }
 
         $searchedSpecies=[];

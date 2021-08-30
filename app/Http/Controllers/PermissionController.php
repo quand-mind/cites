@@ -138,7 +138,8 @@ class PermissionController extends Controller
         $permit->purpose = $getPermit->purpose;
         $permit->transportation_way = $getPermit->transportation_way;
         $permit->consigned_to = $getPermit->consigned_to;
-        $permit->country = $getPermit->country;
+        $permit->country = $getPermit->country->name;
+        $permit->country_code = $getPermit->country->code;
         $permit->landing_port = $getPermit->landing_port;
         $permit->shipment_port = $getPermit->shipment_port;
         $permit->destiny_place = $getPermit->destiny_place;
@@ -146,33 +147,37 @@ class PermissionController extends Controller
         $permit->status = "uploading_requeriments";
         $permit->client_id = $request->input('client_id');
         $permit->save();
-
-        
+                
         $permitType = PermitType::where(['id' =>  $getPermitTypeId])->with(['requeriments'])->get()->first();
 
         $requeriments = $permitType->requeriments;
+        
 
         foreach($requeriments as $requeriment) {
             $requerimentsIdsWithPivot[$requeriment->id] = ["file_url" => null, "is_valid" => null,];
         }
 
+        $permit->requeriments()->sync($requerimentsIdsWithPivot);
+        // return $permit->requeriments;
+
         $searchedSpecies=[];
         $correctNames = [];
         $speciesIdsWithPivot=[];
+        // return $getSpecies[0]->origin_country->name;
 
         foreach($getSpecies as $specie) {
             $name = $specie->name_common;
             $findedSpecie = Specie::where('name_scientific', '=', $name)->get()->first();
             // break;
             if ($findedSpecie) {
+                $country = $specie->origin_country->name;
                 
                 $speciesIdsWithPivot[$findedSpecie  ->id] = [ "qty" => $specie->qty,
                                                         "description" => $specie->description,
                                                         "origin" => $specie->origin,
-                                                        "origin_country" => $specie->origin_country,
+                                                        "origin_country" => $country,
                                                         "appendix" => $specie->appendix,
                                                         "file_url" => null,
-                                                        "is_valid" => null,
                 ];
             } else {
                 $apiSpecie = $this->api_cites($name);
@@ -220,9 +225,7 @@ class PermissionController extends Controller
         // return $searchedSpecies;
         // return $speciesIdsWithPivot;
         $permit->species()->sync($speciesIdsWithPivot);
-
-
-        $permit->requeriments()->sync($requerimentsIdsWithPivot);
+        
         $permit->save();
         Log::info('El solicitante con la cedula de identidad '.$this->returnUser().'a solicitado un nuevo permiso | El permiso se ha solicitado desde la direccion: '. request()->ip());
         return response('Se ha solicitado el permiso, dirijase a la oficina del MINEC para entregar los recaudos.', 200);

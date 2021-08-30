@@ -29,7 +29,7 @@
           <b-form-select :options="origins" :disabled="!newSpecie.name_common" v-model="newSpecie.origin" placeholder="Origen:"></b-form-select>
         </b-col>
         <b-col sm="12" md="4" lg="3" class="input-group mb-3">
-          <b-form-input :disabled="!newSpecie.name_common" v-model="newSpecie.origin_country" placeholder="País de Origen:"></b-form-input>
+          <b-form-select :disabled="!newSpecie.name_common" v-model="newSpecie.origin_country" placeholder="País de Origen:" :options="countries"></b-form-select>
         </b-col>
         <b-col sm="12" md="4" lg="2" class="input-group mb-3">
           <b-form-input type="number" :disabled="!newSpecie.name_common" v-model="newSpecie.qty" placeholder="Cantidad:"></b-form-input>
@@ -113,7 +113,7 @@
 <script>
 import {mapActions, mapGetters} from 'vuex'
 export default {
-  props: ['selectedSpecies', 'showSelectSpecie','type', 'isNew'],
+  props: ['selectedSpecies', 'showSelectSpecie','type', 'isNew', 'countries'],
   data: () =>({
 
     newSpecie: {

@@ -8,7 +8,7 @@
       <b-row class=" mb-2 mt-2">
         <b-col md="6"><h1>Permiso N° {{permit.request_permit_no}}</h1></b-col>
         <b-col md="6">
-          <b-form-input :key="permit.sistra" v-model="permit.sistra" placeholder="Número Sistra" @change="updateValue()"></b-form-input>
+          <b-form-input :key="permit.sistra" v-model="permit.sistra" placeholder="Número Sistra" @change="checkValidRequirements()"></b-form-input>
         </b-col>
         <div></div>
       </b-row>
@@ -175,7 +175,13 @@ export default {
         }
       }
       if(this.permit.requeriments.length === this.count) {
-        this.isValid = true;
+        if(this.permit.sistra) {
+          console.log(this.permit.sistra)
+          this.isValid = true;
+        }
+        else {
+          this.isValid = false;
+        }
         this.$forceUpdate();
         // return count
       }
@@ -219,7 +225,7 @@ export default {
           this.makeToast(err.toString(), 'danger')
         });
     },
-    validPermit(index){
+    validPermit(){
       axios
         .post(`/dashboard/permissions/validPermit/`+ this.permit.id, {official_id: this.official.id, sistra: this.permit.sistra})
         .then(res => {

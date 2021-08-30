@@ -89,7 +89,8 @@ class ApiController extends Controller
         // return $this->api_cites($arraySpecies);
     }
 
-    public function api_country(){
+    public function api_country()
+    {
         $client_country = new Client(); //GuzzleHttp\Client
         $url = "https://restcountries.eu/rest/v2/all";
         //return $url;

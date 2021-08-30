@@ -25,6 +25,7 @@ class CreatePermitsTable extends Migration
             $table->string('transportation_way')->nullable();
             $table->string('consigned_to')->nullable();
             $table->string('country')->nullable();
+            $table->string('country_code')->nullable();
             $table->string('landing_port')->nullable();
             $table->string('shipment_port')->nullable();
             $table->string('destiny_place')->nullable();

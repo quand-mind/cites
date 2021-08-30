@@ -134,7 +134,7 @@ class AuthController extends Controller
     protected function authenticated(Request $request, $user, $token)
     {
         setcookie("jwt_token", $token);
-        return redirect('solicitante/permissions');
+        return redirect('solicitante/permissions/list');
         return response()->json([
             'token' => $token,
         ]);

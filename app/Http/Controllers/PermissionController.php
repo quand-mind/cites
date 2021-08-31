@@ -6,6 +6,7 @@ use Illuminate\Contracts\Support\JsonableInterface;
 use Illuminate\Support\Facades\Log;
 use App\Models\Client;
 use App\Models\Official;
+use App\Models\Formalitie;
 use App\Models\User;
 use GuzzleHttp\Client as ClientSpecie;
 use Illuminate\Http\Request;
@@ -13,6 +14,7 @@ use Faker\Factory as Faker;
 use App\Models\Permit;
 use App\Models\PermitType;
 use App\Models\Requeriment;
+
 use App\Models\Specie;
 use Illuminate\Support\Facades\Storage;
 use Response;
@@ -33,7 +35,8 @@ class PermissionController extends Controller
     {
         $clientData = Client::with('user')->where(['id' => auth()->user()->id])->get()->first();
         // return $clientData->user;
-        $permissions = Permit::where(['client_id' => $clientData->id])->with(['requeriments', 'permit_type', 'species', 'client.user'])->get();
+        $permissions = Formalitie::where(['client_id' => $clientData->id])->with(['permits.requeriments', 'permits.permit_type', 'permits.species', 'client.user'])->get();
+        // $permissions = Permit::where(['client_id' => $clientData->id])->with(['requeriments', 'permit_type', 'species', 'client.user'])->get();
         // $permissions = Permit::where(['client_id' => $clientData->id])->with(['requeriments', 'permit_type', 'species', 'client.user'])->paginate(2);
         return view('permissions.permissions', compact('permissions', 'clientData'));
     }

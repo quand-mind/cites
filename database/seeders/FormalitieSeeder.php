@@ -18,23 +18,29 @@ class FormalitieSeeder extends Seeder
     {
         DB::table('formalities')->insert([
             'request_formality_no' => Carbon::now()->format('ymd')."001",
-            'status' => 'solicitado'
+            'status' => 'solicitado',
+            'client_id' => 1,
+            
         ]);
         DB::table('formalities')->insert([
             'request_formality_no' => Carbon::now()->format('ymd')."002",
-            'status' => 'solicitado'
+            'status' => 'solicitado',
+            'client_id' => 4,
         ]);
         DB::table('formalities')->insert([
             'request_formality_no' => Carbon::now()->format('ymd')."003",
-            'status' => 'solicitado'
+            'status' => 'solicitado',
+            'client_id' => 4,
         ]);
         DB::table('formalities')->insert([
             'request_formality_no' => Carbon::now()->format('ymd')."004",
-            'status' => 'solicitado'
+            'status' => 'solicitado',
+            'client_id' => 5,
         ]);
         DB::table('formalities')->insert([
             'request_formality_no' => Carbon::now()->format('ymd')."005",
-            'status' => 'solicitado'
+            'status' => 'solicitado',
+            'client_id' => 5,
         ]);
     }
 }

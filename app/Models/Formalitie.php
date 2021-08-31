@@ -10,11 +10,25 @@ class Formalitie extends Model
     use HasFactory;
 
     protected $fillable = [
-        'no_sistra', 
+        'sistra', 
         'status', 
+        'request_formality_no', 
+        'special_conditions', 
+        'observations', 
     ];
 
-    public function permits(){
-        return $this->belongsTo(Permit::class);
+    public function permits()
+    {
+        return $this->hasMany(Permit::class);
+    }
+    public function client()
+    {
+        
+        return $this->belongsTo(Client::class);
+    }
+    public function official()
+    {
+        
+        return $this->belongsTo(Official::class);
     }
 }

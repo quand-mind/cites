@@ -23,9 +23,8 @@ class PermitSeeder extends Seeder
             'status'      => "requested",
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            'client_id' => 1,
             'permit_type_id' => 1,
-            'forlmalite_id' => 1
+            'formalitie_id' => 1
         
         ]);
         DB::table('permits')->insert([
@@ -35,9 +34,8 @@ class PermitSeeder extends Seeder
             'status'      => "committed",
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            'client_id' => 1,
             'permit_type_id' => 1,
-            'forlmalite_id' => 1
+            'formalitie_id' => 1
             
         ]);
         DB::table('permits')->insert([
@@ -46,9 +44,8 @@ class PermitSeeder extends Seeder
             'status'      => "requested",
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            'client_id' => 1,
             'permit_type_id' => 1,
-            'forlmalite_id' => 1
+            'formalitie_id' => 1
         ]);
         DB::table('permits')->insert([
             'request_permit_no' => Carbon::now()->format('ymd')."004",
@@ -56,20 +53,18 @@ class PermitSeeder extends Seeder
             'purpose'      => "Exportacion de especies para el Zoológico del Parque Miranda",
             'status'      => "committed",
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            'client_id' => 4,
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),        
             'permit_type_id' => 1,
-            'forlmalite_id' => 2
+            'formalitie_id' => 2
         ]);
         DB::table('permits')->insert([
             'request_permit_no' => Carbon::now()->format('ymd')."005",
             'purpose'      => "Exportacion de especies para el Zoológico El Pinar",
             'status'      => "requested",
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            'client_id' => 4,
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),        
             'permit_type_id' => 1,
-            'forlmalite_id' => 3
+            'formalitie_id' => 3
         ]);
         DB::table('permits')->insert([
             'request_permit_no' => Carbon::now()->format('ymd')."006",
@@ -77,20 +72,18 @@ class PermitSeeder extends Seeder
             'purpose'      => "Exportacion de especies para el Zoológico del Parque Miranda",
             'status'      => "committed",
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            'client_id' => 5,
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),        
             'permit_type_id' => 1,
-            'forlmalite_id' => 4
+            'formalitie_id' => 4
         ]);
         DB::table('permits')->insert([
             'request_permit_no' => Carbon::now()->format('ymd')."007",
             'purpose'      => "Exportacion de especies para el Zoológico El Pinar",
             'status'      => "requested",
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            'client_id' => 5,
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),        
             'permit_type_id' => 1,
-            'forlmalite_id' => 5
+            'formalitie_id' => 5
         ]);
         DB::table('permits')->insert([
             'request_permit_no' => Carbon::now()->format('ymd')."008",
@@ -98,20 +91,18 @@ class PermitSeeder extends Seeder
             'purpose'      => "Exportacion de especies para el Zoológico del Parque Miranda",
             'status'      => "committed",
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            'client_id' => 6,
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),        
             'permit_type_id' => 1,
-            'forlmalite_id' => 2
+            'formalitie_id' => 2
         ]);
         DB::table('permits')->insert([
             'request_permit_no' => Carbon::now()->format('ymd')."009",
             'purpose'      => "Exportacion de especies para el Zoológico El Pinar",
             'status'      => "requested",
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            'client_id' => 6,
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),        
             'permit_type_id' => 1,
-            'forlmalite_id' => 3
+            'formalitie_id' => 3
         ]);
         DB::table('permits')->insert([
             'request_permit_no' => Carbon::now()->format('ymd')."010",
@@ -119,10 +110,9 @@ class PermitSeeder extends Seeder
             'purpose'      => "Exportacion de especies para el Zoológico del Parque Miranda",
             'status'      => "committed",
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            'client_id' => 7,
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),        
             'permit_type_id' => 1,
-            'forlmalite_id' => 4
+            'formalitie_id' => 4
         ]);
 
         DB::table('permits')->insert([
@@ -130,10 +120,9 @@ class PermitSeeder extends Seeder
             'purpose'      => "Exportacion de especies para el Zoológico El Pinar",
             'status'      => "requested",
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            'client_id' => 7,
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),        
             'permit_type_id' => 1,
-            'forlmalite_id' => 5
+            'formalitie_id' => 5
         ]);
         DB::table('permits')->insert([
             'request_permit_no' => Carbon::now()->format('ymd')."012",
@@ -142,19 +131,17 @@ class PermitSeeder extends Seeder
             'status'      => "committed",
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            'client_id' => 1,
             'permit_type_id' => 1,
-            'forlmalite_id' => 2
+            'formalitie_id' => 2
         ]);
         DB::table('permits')->insert([
             'request_permit_no' => Carbon::now()->format('ymd')."013",
             'purpose'      => "Exportacion de especies para el Zoológico El Pinar",
             'status'      => "requested",
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            'client_id' => 8,
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),        
             'permit_type_id' => 1,
-            'forlmalite_id' => 3
+            'formalitie_id' => 3
         ]);
         DB::table('permits')->insert([
             'request_permit_no' => Carbon::now()->format('ymd')."014",
@@ -162,20 +149,18 @@ class PermitSeeder extends Seeder
             'purpose'      => "Exportacion de especies para el Zoológico del Parque Miranda",
             'status'      => "committed",
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            'client_id' => 8,
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),        
             'permit_type_id' => 1,
-            'forlmalite_id' => 4
+            'formalitie_id' => 4
         ]);
         DB::table('permits')->insert([
             'request_permit_no' => Carbon::now()->format('ymd')."015",
             'purpose'      => "Exportacion de especies para el Zoológico El Pinar",
             'status'      => "requested",
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            'client_id' => 9,
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),        
             'permit_type_id' => 1,
-            'forlmalite_id' => 5
+            'formalitie_id' => 5
         ]);
         DB::table('permits')->insert([
             'request_permit_no' => Carbon::now()->format('ymd')."016",
@@ -183,20 +168,18 @@ class PermitSeeder extends Seeder
             'purpose'      => "Exportacion de especies para el Zoológico del Parque Miranda",
             'status'      => "committed",
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            'client_id' => 9,
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),        
             'permit_type_id' => 1,
-            'forlmalite_id' => 2
+            'formalitie_id' => 2
         ]);
         DB::table('permits')->insert([
             'request_permit_no' => Carbon::now()->format('ymd')."017",
             'purpose'      => "Exportacion de especies para el Zoológico El Pinar",
             'status'      => "requested",
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            'client_id' => 10,
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),        
             'permit_type_id' => 1,
-            'forlmalite_id' => 3
+            'formalitie_id' => 3
         ]);
         DB::table('permits')->insert([
             'request_permit_no' => Carbon::now()->format('ymd')."018",
@@ -204,20 +187,18 @@ class PermitSeeder extends Seeder
             'purpose'      => "Exportacion de especies para el Zoológico del Parque Miranda",
             'status'      => "committed",
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            'client_id' => 10,
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),        
             'permit_type_id' => 1,
-            'forlmalite_id' => 4
+            'formalitie_id' => 4
         ]);
         DB::table('permits')->insert([
             'request_permit_no' => Carbon::now()->format('ymd')."019",
             'purpose'      => "Exportacion de especies para el Zoológico El Pinar",
             'status'      => "requested",
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            'client_id' => 11,
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),        
             'permit_type_id' => 1,
-            'forlmalite_id' => 5
+            'formalitie_id' => 5
         ]);
         DB::table('permits')->insert([
             'valid_until'      => date('M d, Y', $date),
@@ -226,9 +207,8 @@ class PermitSeeder extends Seeder
             'status'      => "committed",
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            'client_id' => 11,
             'permit_type_id' => 1,
-            'forlmalite_id' => 1
+            'formalitie_id' => 1
             
         ]);
         DB::table('permits')->insert([
@@ -237,9 +217,8 @@ class PermitSeeder extends Seeder
             'status'      => "requested",
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            'client_id' => 12,
             'permit_type_id' => 1,
-            'forlmalite_id' => 1
+            'formalitie_id' => 1
            
         ]);
         DB::table('permits')->insert([
@@ -249,9 +228,8 @@ class PermitSeeder extends Seeder
             'status'      => "committed",
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            'client_id' => 12,
             'permit_type_id' => 1,
-            'forlmalite_id' => 1
+            'formalitie_id' => 1
             
         ]);
 

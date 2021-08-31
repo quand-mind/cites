@@ -14,7 +14,7 @@ class AddForlmaliteIdToPermitsTable extends Migration
     public function up()
     {
         Schema::table('permits', function (Blueprint $table) {
-            $table->foreignId('forlmalite_id')->references('id')->on('formalities')->onDelete('cascade');
+            $table->foreignId('formalitie_id')->references('id')->on('formalities')->onDelete('cascade');
         });
     }
 

@@ -18,6 +18,10 @@ class CreateFormalitiesTable extends Migration
             $table->bigInteger('sistra')->nullable();
             $table->bigInteger('request_formality_no');
             $table->string('status');
+            $table->text('special_conditions', 500)->nullable();
+            $table->string('observations')->nullable();
+            $table->foreignId('client_id')->references('id')->on('clients')->onDelete('cascade');
+            $table->foreignId('official_id')->nullable()->references('id')->on('officials')->onDelete('cascade');
             $table->timestamps();
         });
     }

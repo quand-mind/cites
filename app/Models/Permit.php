@@ -61,7 +61,7 @@ class Permit extends Model
     }
 
     public function formalites(){
-        return $this->hasMany(Formalities::class);
+        return $this->belongsTo(Formalities::class);
     }
 
     

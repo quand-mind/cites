@@ -15,6 +15,7 @@ class CreatePermitsTable extends Migration
     {
         Schema::create('permits', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('request_permit_no');
             $table->string('sistra')->nullable();
             $table->string('valid_until')->nullable(); //es una fecha valido hasta
             $table->text('special_conditions', 500)->nullable();

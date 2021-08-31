@@ -12,7 +12,7 @@ class Formalitie extends Model
     protected $fillable = [
         'sistra', 
         'status', 
-        'request_formality_no', 
+        'request_formalitie_no', 
         'special_conditions', 
         'observations', 
     ];

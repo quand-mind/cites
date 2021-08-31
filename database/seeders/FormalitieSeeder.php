@@ -17,29 +17,29 @@ class FormalitieSeeder extends Seeder
     public function run()
     {
         DB::table('formalities')->insert([
-            'request_formality_no' => Carbon::now()->format('ymd')."001",
-            'status' => 'solicitado',
+            'request_formalitie_no' => Carbon::now()->format('ymd')."001",
+            'status' => 'requested',
             'client_id' => 1,
             
         ]);
         DB::table('formalities')->insert([
-            'request_formality_no' => Carbon::now()->format('ymd')."002",
-            'status' => 'solicitado',
+            'request_formalitie_no' => Carbon::now()->format('ymd')."002",
+            'status' => 'requested',
             'client_id' => 4,
         ]);
         DB::table('formalities')->insert([
-            'request_formality_no' => Carbon::now()->format('ymd')."003",
-            'status' => 'solicitado',
+            'request_formalitie_no' => Carbon::now()->format('ymd')."003",
+            'status' => 'requested',
             'client_id' => 4,
         ]);
         DB::table('formalities')->insert([
-            'request_formality_no' => Carbon::now()->format('ymd')."004",
-            'status' => 'solicitado',
+            'request_formalitie_no' => Carbon::now()->format('ymd')."004",
+            'status' => 'requested',
             'client_id' => 5,
         ]);
         DB::table('formalities')->insert([
-            'request_formality_no' => Carbon::now()->format('ymd')."005",
-            'status' => 'solicitado',
+            'request_formalitie_no' => Carbon::now()->format('ymd')."005",
+            'status' => 'requested',
             'client_id' => 5,
         ]);
     }

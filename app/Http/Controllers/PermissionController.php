@@ -483,8 +483,29 @@ class PermissionController extends Controller
     }
 
     public function dayMoreTen(){
+
+        $addDay= 10;
+
+        //create variable for  upload file limit date  
+        $dayNow = Carbon::now()->toDateString();
+        //$dayAddTen = Carbon::now()->addDays(10)->toDateString();
+        $days = [];
+        for ($i= 1; $i < 11 ; $i++) { 
+            array_push($days, $i);
+        }
         
-        return $date = Carbon::now()->addDays(14);
-        //return $permitRequested = Permit::get()->where('status', "=", "requested");
+        foreach ($days as $day) {
+            
+        }
+        return $day;
+
+        //calculate date limit omitted weekend
+
+        //$dayRequested = Carbon::parse($dayNow);
+        //$dayContrast = Carbon::parse($dayaddTen);
+        return $dayArra;
+
+        //return $dayAggregates =  $dayContrast->diffInDays($dayRequested);
+
     }
 }

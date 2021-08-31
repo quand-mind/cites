@@ -12,7 +12,7 @@ use JWTGuard;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
-
+use GuzzleHttp\Client as CountriesClient;
 use App\Models\Client;
 use App\Models\Institution;
 use App\Models\Phone;
@@ -34,7 +34,30 @@ class AuthController extends Controller
 
     public function index()
     {
-        return view('auth.registerClient');
+        $countries = $this->api_countries();
+        return view('auth.registerClient', compact('countries'));
+        
+    }
+
+    public function api_countries()
+    {   
+        
+        $client_country = new CountriesClient(); //GuzzleHttp\Client
+        $url = "https://restcountries.eu/rest/v2/all";
+        //return $url;
+        
+        if (env('APP_ENV') === 'local') {
+            $response = $client_country->request('GET', $url, [
+                'verify'  => false,
+      
+            ]);
+        } else {
+            $response = $client_country->request('GET', $url, [
+                'verify'  => true,
+            ]);
+        }
+
+        return $countries = json_decode($response->getBody()->getContents());
     }
 
     protected function storeClient(Request $request){

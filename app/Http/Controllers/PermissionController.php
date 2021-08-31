@@ -163,6 +163,7 @@ class PermissionController extends Controller
         $searchedSpecies=[];
         $correctNames = [];
         $speciesIdsWithPivot=[];
+        $specieAlgo = null;
         // return $getSpecies[0]->origin_country->name;
 
         foreach($getSpecies as $specie) {
@@ -176,13 +177,13 @@ class PermissionController extends Controller
                                                         "description" => $specie->description,
                                                         "origin" => $specie->origin,
                                                         "origin_country" => $country,
-                                                        "appendix" => $specie->appendix,
                                                         "file_url" => null,
                 ];
             } else {
                 $apiSpecie = $this->api_cites($name);
                 $newSpecie = new Specie();
                 $newSpecie->type = $apiSpecie->higher_taxa->kingdom;
+                $newSpecie->appendix = $apiSpecie->cites_listing;       
                 $newSpecie->name_scientific = $apiSpecie->full_name;       
                 if (count($apiSpecie->common_names) > 0) {
 
@@ -209,18 +210,19 @@ class PermissionController extends Controller
                 }
                 $newSpecie->search_id = $apiSpecie->id;
                 $newSpecie->save();
-                array_push($searchedSpecies, $newSpecie);
+                $specieAlgo = $apiSpecie;
+                array_push($searchedSpecies, $apiSpecie);
 
                 $speciesIdsWithPivot[$newSpecie->id] = [ "qty" => $specie->qty,
                                                         "description" => $specie->description,
                                                         "origin" => $specie->origin,
                                                         "origin_country" => $specie->origin_country,
-                                                        "appendix" => $specie->appendix,
                                                         "file_url" => null,
                                                          "is_valid" => null,
                 ];
             }
         }
+        // return $specieAlgo;
         // return $correctNames;
         // return $searchedSpecies;
         // return $speciesIdsWithPivot;
@@ -422,7 +424,7 @@ class PermissionController extends Controller
     public function validPermit(Request $request, $id)
     {
         $permit = Permit::find($id);
-        $date = strtotime("+60 day");
+        $date = strtotime("+180 day");
         $permit->valid_until = date('M d, Y', $date);
         $permit->official_id= $request->input('official_id');
         $permit->sistra= $request->input('sistra');

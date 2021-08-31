@@ -2,9 +2,9 @@
   <div>
     <b-row class="mt-3">
       <b-col lg="3" class="w-100"> Nombre de la Especie:</b-col>
-      <b-col lg="3" class="w-100">Tipo de Especie:</b-col>
+      <b-col lg="3" class="w-100">Descripción:</b-col>
       <b-col lg="2" class="w-100">Cantidad:</b-col>
-      <b-col lg="4" v-if="type === 'client'" class="w-100">Acciones:</b-col>
+      <b-col lg="4" v-if="type === 'client'" class="w-100">Eliminar:</b-col>
     </b-row>
     <b-row class="mt-3 mb-3" v-for="(specie, index) of selectedSpecies" v-bind:key="index">
       <b-col lg="3" class="w-100">{{specie.name_common}}</b-col>

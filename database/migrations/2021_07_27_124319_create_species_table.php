@@ -19,6 +19,7 @@ class CreateSpeciesTable extends Migration
             $table->string('name_scientific', 45);
             $table->string('name_common', 45);
             $table->bigInteger('search_id');
+            $table->string('appendix');
             //$table->bigInteger('qty'); //-> cantidad
             $table->string('type');
             //$table->string('permit_no');

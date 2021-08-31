@@ -51,14 +51,13 @@
       </div>
 
       <div class="form-group row">
-          <label for="nationality" class="col-md-4 col-form-label text-md-right">Nacionalidad</label>
+          <label for="nationality" class="col-md-4 col-form-label text-md-right">Nacionalidad (País)</label>
 
           <div class="col-md-6">
-            <input id="nationality" type="text" class="form-control" name="nationality" v-model="nationality" required autofocus>
-
-              <span v-if="errors" class="invalid-feedback" role="alert">
-                  <strong>{{errors.nationality}}</strong>
-              </span>
+            <select id="nationality" class="form-control" v-model="nationality" name="nationality" required>
+              <option :value="null" disabled selected>Seleccione el País</option>
+              <option v-for="country of countries" :key="country.name" :value="country.name">{{country.name}}</option>
+            </select>
           </div>
       </div>
 
@@ -121,7 +120,7 @@
 
         <div class="col-md-6">
           <select id="role" class="form-control" v-model="role" name="role" required>
-            <option value="" disabled selected>Seleccione</option> 
+            <option :value="null" disabled selected>Seleccione</option> 
             <option value="natural">Personal Natural</option> 
             <option value="juridica">Persona Juridica</option> 
           </select>
@@ -199,7 +198,7 @@
 </template>
 <script>
 export default {
-  props: ['errors'],
+  props: ['errors', 'countries'],
   data: () => ({
     name: null,
     email: null,

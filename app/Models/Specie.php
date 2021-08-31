@@ -14,7 +14,7 @@ class Specie extends Model
         'name_scientific',
         'name_common',
         'search_id',
-        //'qty',
+        'appendix',
         //'unity',
         // 'country_origin',
         //'permit_no',

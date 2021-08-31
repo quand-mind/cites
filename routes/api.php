@@ -39,6 +39,8 @@ Route::get('species', [ApiController::class, 'api_cites']);
 Route::get('countries', [ApiController::class, 'api_country']);
 Route::get('species_filter', [ApiController::class, 'api_cites_filter']);
 
+Route::get('/dayMoreTen', 'PermissionController@dayMoreTen');
+
 /**
  *  login admin
 */

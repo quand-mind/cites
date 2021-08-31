@@ -479,4 +479,10 @@ class PermissionController extends Controller
         $filter  = $request->get('filter');
         return $filterCountry = Permit::where('created_at', 'like', '%'.$filter.'%' )->with('client', 'client.user')->get();
     }
+
+    public function dayMoreTen(){
+        
+        return $date = Carbon::now()->addDays(14);
+        //return $permitRequested = Permit::get()->where('status', "=", "requested");
+    }
 }

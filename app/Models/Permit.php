@@ -60,5 +60,9 @@ class Permit extends Model
                                     'requeriment_id')->withPivot('file_url', 'is_valid');
     }
 
+    public function formalites(){
+        return $this->hasMany(Formalities::class);
+    }
+
     
 }

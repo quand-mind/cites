@@ -15,7 +15,7 @@ class CreateFormalitiesTable extends Migration
     {
         Schema::create('formalities', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('no_sistra');
+            $table->bigInteger('sistra');
             $table->string('status');
             $table->timestamps();
         });

@@ -148,6 +148,7 @@ class PermissionController extends Controller
         $permit->destiny_place = $getPermit->destiny_place;
         $permit->departure_place = $getPermit->departure_place;
         $permit->status = "uploading_requeriments";
+        $permit->collected_time = $this->dayMoreTen();
         $permit->client_id = $request->input('client_id');
         $permit->save();
                 
@@ -487,28 +488,11 @@ class PermissionController extends Controller
 
     public function dayMoreTen(){
 
-        $addDay= 10;
-
         //create variable for  upload file limit date  
-        $dayNow = Carbon::now()->toDateString();
-        //$dayAddTen = Carbon::now()->addDays(10)->toDateString();
-        $days = [];
-        for ($i= 1; $i < 11 ; $i++) { 
-            array_push($days, $i);
+        //$dayNow = Carbon::now();//->toDateString();
+        $dayAddTen = Carbon::now()->addDays(10);
+        if ($dayAddTen->isWeekend()) {
+            return  $dayAddTen->addDays(2)->toDateString();
         }
-        
-        foreach ($days as $day) {
-            
-        }
-        return $day;
-
-        //calculate date limit omitted weekend
-
-        //$dayRequested = Carbon::parse($dayNow);
-        //$dayContrast = Carbon::parse($dayaddTen);
-        return $dayArra;
-
-        //return $dayAggregates =  $dayContrast->diffInDays($dayRequested);
-
     }
 }

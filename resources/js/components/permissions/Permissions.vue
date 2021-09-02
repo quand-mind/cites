@@ -70,7 +70,7 @@
             <div v-if="type === 'admin'">
               <a v-if="permit.status === 'committed' || permit.status === 'valid'" class="btn btn-info" :href="`/dashboard/permissions/viewPermit/${permit.id}`">Imprimir Certificado</a>
               <button class="btn btn-primary" @click="showPermitStatus(permit)">Ver estado del Permiso</button>
-              <a v-if="!(permit.status === 'uploading_requeriments' || permit.status === 'committed' || permit.status === 'valid')" class="btn btn-primary" :href="'/dashboard/permissions/check/'+ permit.id">Realizar Checkeo del Permiso</a>
+              <a v-if="!(permit.status === 'uploading_requeriments' || permit.status === 'committed' || permit.status === 'valid')" class="btn btn-primary" :href="'/dashboard/permissions/check/'+ selectedFormalite.id">Realizar Checkeo del Permiso</a>
             </div>
           </div>
         </div>

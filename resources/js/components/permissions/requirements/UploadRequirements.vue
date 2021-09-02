@@ -7,77 +7,70 @@
       <b-alert v-model="loadingDelete" variant="info" class="alertFile d-flex justify-content-between align-items-center">
         <span>Elimnando Archivo...</span> <b-spinner small label="Spinning"></b-spinner>
       </b-alert>
-      <h1 class="ml-4 mb-4">Permiso N° {{permit[0].request_permit_no}}</h1>
-      <h4 class="ml-4 mb-4">Subida de Requisitos</h4>
-      <h4 class="ml-4 mb-4">Requisitos para: <br> ({{permit[0].permit_type.name}})</h4>
-      <div class="card card-body">
-        <div class="d-flex justify-content-center align-items-center flex-column">
-          <b-row class="w-100 header d-flex justify-content-between align-items-center flex-row">
-            <b-col lg="3" class="d-flex justify-content-center align-items-center" v-for="(column,index) of columns" v-bind:key="index">
-              <b>{{column}}</b>
-            </b-col>
-          </b-row>
-          <div class="w-100 body justify-content-center align-items-center flex-column">
-            <b-row class="w-100 d-flex justify-content-between align-items-center flex-row" v-for="(requeriment,index) of permit[0].requeriments" v-bind:key="index">
-              <b-col lg="3" class="my-4">{{requeriment.name}}</b-col>
-              <b-col lg="3" class="d-flex justify-content-center align-items-center">
-                <div v-if="requeriment.short_name === 'documentos_especies'">
-                  <font-awesome-icon :icon="['fa', 'clipboard-list']"></font-awesome-icon> Especies Agregadas: {{permit[0].species.length}}
-                </div>
-                <div v-else-if="!requeriment.pivot.file_url">
-                  <font-awesome-icon :icon="['fa', 'ban']"></font-awesome-icon> No hay un archivo subido
-                </div>
-                <div v-else>
-                  <a :href="`/${requeriment.pivot.file_url}`" target="_blank"><font-awesome-icon :icon="['fa', 'eye']"></font-awesome-icon> Ver Archivo</a>
-                </div>
-              </b-col>
-              <b-col lg="3">
-                <div
-                  class="d-flex justify-content-center align-items-center"
-                  v-if="requeriment.short_name === 'documentos_especies'"
-                >
-                  <button :disabled="!permit[0].species.length > 0" class="btn text-dark" @click="showSelectedSpecies = true" style="cursor:pointer">
-                    <font-awesome-icon :icon="['fa', 'eye']"></font-awesome-icon>
-                  </button>
-                </div>
-                <div
-                  class="d-flex justify-content-center align-items-center"
-                  v-else
-                >
-                  <label v-if="!requeriment.pivot.file_url" class="btn text-primary" :for="'file'+ requeriment.id" style="cursor:pointer">
-                    <font-awesome-icon :icon="['fa', 'upload']"></font-awesome-icon>
-                  </label>
-                  <b-form-file
-                    @input="uploadFile(file, requeriment, index)"
-                    style="display:none"
-                    :id="'file'+ requeriment.id"
-                    accept=".pdf"
-                    v-model="file"
-                    drop-placeholder="Subir archivo aquí..."
-                    max-size="10240"
-                  ></b-form-file>
-                  <button v-if="requeriment.pivot.file_url" class="ml-3 btn text-danger relative" @click="deleteFile(requeriment)" style="cursor:pointer">
-                    <font-awesome-icon :icon="['fa', 'trash']"></font-awesome-icon>
-                  </button>
-                </div>
+      <h1 class="ml-4 mb-4">Tramite N° {{formalitie.request_formalitie_no}}</h1>
+      <div class="card mb-4" v-for="(permit, index) of formalitie.permits" :key="index">
+        <h2 class="mt-3 ml-4 mb-4">Permiso N° {{permit.request_permit_no}}</h2>
+        <h5 class="ml-4 mb-4">Subida de Requisitos</h5>
+        <h5 class="ml-4 mb-4">Requisitos para: <br> ({{permit.permit_type.name}})</h5>
+        <div class="card m-4 card-body">
+          <div class="d-flex justify-content-center align-items-center flex-column">
+            <b-row class="w-100 header d-flex justify-content-between align-items-center flex-row">
+              <b-col lg="3" class="d-flex justify-content-center align-items-center" v-for="(column,index) of columns" v-bind:key="index">
+                <b>{{column}}</b>
               </b-col>
             </b-row>
+            <div class="w-100 body justify-content-center align-items-center flex-column">
+              <b-row class="w-100 d-flex justify-content-between align-items-center flex-row" v-for="(requeriment,index) of permit.requeriments" v-bind:key="index">
+                <b-col lg="3" class="my-4">{{requeriment.name}}</b-col>
+                <b-col lg="3" class="d-flex justify-content-center align-items-center">
+                  <div v-if="requeriment.short_name === 'documentos_especies'">
+                    <font-awesome-icon :icon="['fa', 'clipboard-list']"></font-awesome-icon> Especies Agregadas: {{permit.species.length}}
+                  </div>
+                  <div v-if="!requeriment.pivot.file_url">
+                    <font-awesome-icon :icon="['fa', 'ban']"></font-awesome-icon> No hay un archivo subido
+                  </div>
+                  <div v-else>
+                    <a :href="`/${requeriment.pivot.file_url}`" target="_blank"><font-awesome-icon :icon="['fa', 'eye']"></font-awesome-icon> Ver Archivo</a>
+                  </div>
+                </b-col>
+                <b-col lg="3">
+                  <div
+                    class="d-flex justify-content-center align-items-center"
+                  >
+                    <button v-if="requeriment.short_name === 'documentos_especies'" class="btn text-dark" @click="showSelectedSpecies = true" style="cursor:pointer">
+                      <font-awesome-icon :icon="['fa', 'eye']"></font-awesome-icon>
+                    </button>
+                    <label v-if="!requeriment.pivot.file_url" class="btn text-primary" :for="'permit'+ permit.id +'file'+ requeriment.id" style="cursor:pointer">
+                      <font-awesome-icon :icon="['fa', 'upload']"></font-awesome-icon>
+                    </label>
+                    <b-form-file
+                      @input="uploadFile(file, requeriment, index)"
+                      style="display:none"
+                      :id="'permit'+ permit.id +'file'+ requeriment.id"
+                      accept=".pdf"
+                      v-model="file"
+                      drop-placeholder="Subir archivo aquí..."
+                      max-size="10240"
+                    ></b-form-file>
+                    <button v-if="requeriment.pivot.file_url" class="ml-3 btn text-danger relative" @click="deleteFile(requeriment)" style="cursor:pointer">
+                      <font-awesome-icon :icon="['fa', 'trash']"></font-awesome-icon>
+                    </button>
+                  </div>
+                </b-col>
+              </b-row>
+            </div>
           </div>
         </div>
-        <button v-if="permit[0].status === 'uploading_requeriments'" :disabled="!isUploadedRequirements" @click="requestPermit()" class="btn btn-primary">Finalizar Subida de Recaudos</button>
+        <b-modal v-model="showSelectedSpecies" size="xl" id="species-modal" title="Listado de Especies" hide-footer>
+          <SelectedSpecies
+          v-on:closeSpecieListDialog="closeSpecieListDialog"
+          :selectedSpecies="permit.species"
+          :type="type"/>
+        </b-modal>
       </div>
+      <button v-if="formalitie.status === 'uploading_requeriments'" :disabled="!isUploadedRequirements" @click="requestPermit()" class="btn btn-primary w-100">Finalizar Subida de Recaudos</button>
 
     </div>
-
-    <b-modal v-model="showSelectedSpecies" size="xl" id="species-modal" title="Listado de Especies" hide-footer>
-      <SelectedSpecies
-      v-on:uploadSpecieFile="uploadSpecieFile"
-      v-on:deleteSpecieFile="deleteSpecieFile"
-      v-on:deleteSpecie="deleteSpecie"
-      v-on:closeSpecieListDialog="closeSpecieListDialog"
-      :selectedSpecies="permit[0].species"
-      :type="type"/>
-    </b-modal>
   </div>
 </template>
 <script>
@@ -85,7 +78,7 @@
 import SelectedSpecies from '../../admin/permissions/SelectedSpecies.vue';
 import AddSpecie from '../AddSpecie.vue';
 export default {
-  props: ['permit','type'],
+  props: ['formalitie','type'],
   components: {
     SelectedSpecies,
     AddSpecie
@@ -96,6 +89,8 @@ export default {
       "Archivo",
       "Acciones"
     ],
+    count: 0,
+    length: 0,
     loading: false,
     loadingDelete: false,
     fileUpload: null,
@@ -143,17 +138,17 @@ export default {
   }),
   computed: {
     isUploadedRequirements(){
-      let count = 0 
-      for (const requeriment of this.permit[0].requeriments) {
-        if (requeriment.short_name === 'documentos_especies') {
-          let speciesCount = this.checkUploadedSpecies(count)
-          count += speciesCount
-        }
-        else if (requeriment.pivot.file_url){
-          count++
+      this.count = 0 
+      this.length = 0
+      for (const permit of this.formalitie.permits) {
+        for (const requeriment of permit.requeriments) {
+          this.length++
+          if (requeriment.pivot.file_url){
+            this.count++
+          }
         }
       }
-      if(this.permit[0].requeriments.length === count) {
+      if(this.length === this.count) {
         return true
         // return count
       }
@@ -164,49 +159,7 @@ export default {
     }
   },
   methods: {
-    checkUploadedSpecies(count){
-      let speciesCount = 0
-      for (const specie of this.permit[0].species) {
-        if (specie.pivot.file_url){
-          speciesCount++
-        }
-      }
-      if(speciesCount === this.permit[0].species.length){
-        return 1
-      }
-    },
-    uploadSpecieFile (file, specie, isNew, index) {
-
-      this.closeSpecieListDialog()
-      this.loading = true
-
-      var form = new FormData();
-      form.append("file", file);
-      form.append("specie", JSON.stringify(specie));
-      form.append("permit", JSON.stringify(this.permit[0]));
-      form.append("isNew", JSON.stringify(isNew));
-      form.append("index", JSON.stringify(index));
-      axios
-        .post(`/solicitante/permissions/uploadSpecieFile/`, form, {
-          headers: {
-              'Content-Type': 'multipart/form-data'
-          }
-        })
-        .then(res => {
-  
-          specie.pivot.file_url = res.data
-          this.loading = false
-          this.makeToast('Archivo Guardado')
-          // setTimeout(() => window.location.reload(), 1200)
-        })
-        .catch(err => {
-          this.loading = false
-          this.makeToast(err.toString(), 'danger')
-        });
-        this.closeSpecieListDialog()
-    },
     uploadFile (file, requeriment, index) {
-      console.log(index)
 
       var form = new FormData()
       form.append("file", file)
@@ -224,7 +177,7 @@ export default {
           this.makeToast('Archivo Guardado')
           requeriment.pivot.file_url = res.data
           this.loading = false
-          // setTimeout(() => window.location.reload(), 1200)
+          this.$forceUpdate();
         })
         .catch(err => {
           this.loading = false
@@ -249,6 +202,27 @@ export default {
     closeSpecieListDialog(){
       this.showSelectedSpecies = false
     },
+    checkUploadedRequirements(){
+      this.count = 0 
+      this.length = 0
+      for (const permit of this.formalitie.permits) {
+        for (const requeriment of permit.requeriments) {
+          this.length++
+          if (requeriment.pivot.file_url){
+            this.count++
+          }
+        }
+      }
+      if(this.length === this.count) {
+        return true
+        // return count
+      }
+      else{
+        // return count
+        return false
+      }
+    }
+  },
     requestPermit(){
       axios
         .post(`/solicitante/permissions/requestPermit/${this.permit[0].id}`)

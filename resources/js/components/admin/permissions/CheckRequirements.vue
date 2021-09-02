@@ -6,44 +6,44 @@
     </div>
     <div>
       <b-row class=" mb-2 mt-2">
-        <b-col md="6">Permiso N° {{permit[0].request_permit_no}}</b-col>
+        <b-col md="6"><h1>Permiso N° {{permit.request_permit_no}}</h1></b-col>
         <b-col md="6">
-          <b-form-input v-model="permit[0].sistra" placeholder="Número Sistra"></b-form-input>
+          <b-form-input :key="permit.sistra" v-model="permit.sistra" placeholder="Número Sistra" @change="checkValidRequirements()"></b-form-input>
         </b-col>
         <div></div>
       </b-row>
       <div class="ml-5 mb-4">
         <hr>
         <b-row class=" mb-2 mt-2">
-          <b-col md="6">Cliente: <span class="ml-2">{{this.permit[0].client.user.name}}</span></b-col>
-          <b-col md="6">Nacionalidad: <span class="ml-2">{{this.permit[0].client.user.nationality}}</span></b-col>
-        </b-row>
+          <b-col md="6">Cliente: <span class="ml-2">{{permit.client.user.name}}</span></b-col>
+          <b-col md="6">Nacionalidad: <span class="ml-2">{{permit.client.user.nationality}}</span></b-col>
+        </b-row>  
         <b-row class=" mb-2 mt-2">
-          <b-col md="6">Email: <span class="ml-2">{{this.permit[0].client.email}}</span></b-col>
-          <b-col md="6">DNI: <span class="ml-2">{{this.permit[0].client.user.dni}}</span></b-col>
+          <b-col md="6">Email: <span class="ml-2">{{permit.client.email}}</span></b-col>
+          <b-col md="6">DNI: <span class="ml-2">{{permit.client.user.dni}}</span></b-col>
         </b-row>
         <hr>
         <b-row class=" mb-2 mt-2">
-          <b-col md="6">Lugar de Envio: <span class="ml-2">{{this.permit[0].destiny_place}}</span></b-col>
-          <b-col md="6">Lugar de Llegada: <span class="ml-2">{{this.permit[0].departure_place}}</span></b-col>
+          <b-col md="6">Lugar de Envio: <span class="ml-2">{{permit.destiny_place}}</span></b-col>
+          <b-col md="6">Lugar de Llegada: <span class="ml-2">{{permit.departure_place}}</span></b-col>
         </b-row>
         <b-row class="mb-2 mt-2">
-          <b-col md="6">Puerto de Salida: <span class="ml-2">{{this.permit[0].shipment_port}}</span></b-col>
-          <b-col md="6">Puerto de Llegada: <span class="ml-2">{{this.permit[0].landing_port}}</span></b-col>
+          <b-col md="6">Puerto de Salida: <span class="ml-2">{{permit.shipment_port}}</span></b-col>
+          <b-col md="6">Puerto de Llegada: <span class="ml-2">{{permit.landing_port}}</span></b-col>
         </b-row>
         <b-row class="mb-2 mt-2">
-          <b-col md="6">Consignado a: <span class="ml-2">{{this.permit[0].consigned_to}}</span></b-col>
-          <b-col md="6">Medio de Transporte: <span class="ml-2">{{this.permit[0].transportation_way}}</span></b-col>
+          <b-col md="6">Consignado a: <span class="ml-2">{{permit.consigned_to}}</span></b-col>
+          <b-col md="6">Medio de Transporte: <span class="ml-2">{{permit.transportation_way}}</span></b-col>
         </b-row>
         <b-row class="mb-2 mt-2">
-          <b-col v-if="permit[0].permit_type_id === 2" md="6">País De Envío: <span class="ml-2">{{this.permit[0].country}}</span></b-col>
-          <b-col v-if="permit[0].permit_type_id !== 2" md="6">País Destino: <span class="ml-2">{{this.permit[0].country}}</span></b-col>
-          <b-col md="3">Propósito: <span class="ml-2">{{this.permit[0].purpose}}</span></b-col>
+          <b-col v-if="permit.permit_type_id === 2" md="6">País De Envío: <span class="ml-2">{{permit.country}}</span></b-col>
+          <b-col v-if="permit.permit_type_id !== 2" md="6">País Destino: <span class="ml-2">{{permit.country}}</span></b-col>
+          <b-col md="3">Propósito: <span class="ml-2">{{permit.purpose}}</span></b-col>
         </b-row>
         <hr>
       </div>
       <h4 class="ml-4 mb-4">Hoja de Checkeo de Requisitos</h4>
-      <h4 class="ml-4 mb-4">Requisitos para: <br> ({{permit[0].permit_type.name}})</h4>
+      <h4 class="ml-4 mb-4">Requisitos para: <br> ({{permit.permit_type.name}})</h4>
       <div class="card card-body">
         <div class="d-flex justify-content-center align-items-center flex-column">
           <b-row class="w-100 header d-flex justify-content-between align-items-center flex-row">
@@ -52,13 +52,10 @@
             </b-col>
           </b-row>
           <div class="w-100 body justify-content-center align-items-center flex-column">
-            <b-row class="w-100 d-flex justify-content-between align-items-center flex-row" v-for="(requeriment,index) of permit[0].requeriments" v-bind:key="index">
+            <b-row class="w-100 d-flex justify-content-between align-items-center flex-row" v-for="(requeriment,index) of permit.requeriments" v-bind:key="index">
               <b-col lg="3" class="my-4">{{requeriment.name}}</b-col>
               <b-col lg="3" class="d-flex justify-content-center align-items-center">
-                <div v-if="requeriment.short_name === 'documentos_especies'">
-                  <font-awesome-icon :icon="['fa', 'clipboard-list']"></font-awesome-icon> Especies Agregadas: {{permit[0].species.length}}
-                </div>
-                <div v-else-if="!requeriment.pivot.file_url">
+                <div v-if="!requeriment.pivot.file_url">
                   <font-awesome-icon :icon="['fa', 'ban']"></font-awesome-icon> No hay un archivo subido
                 </div>
                 <div v-else>
@@ -68,58 +65,46 @@
               
               <b-col lg="3" class="d-flex justify-content-center align-items-center">
                 <div
-                  class="d-flex justify-content-center align-items-center"
+                  class="d-flex justify-content-center align-items-center mr-4"
                   v-if="requeriment.short_name === 'documentos_especies'"
                 >
-                  <button :disabled="!permit[0].species.length > 0" class="btn text-dark" @click="showSelectedSpecies = true" style="cursor:pointer">
+                  <button :disabled="!permit.species.length > 0" class="btn text-dark" @click="showSelectedSpecies = true" style="cursor:pointer">
                     <font-awesome-icon :icon="['fa', 'eye']"></font-awesome-icon>
                   </button>
                 </div>
-                <div class="d-flex justify-content-center align-items-center flex-row" v-else-if="requeriment.short_name !== 'documentos_especies'">
-                  <b-form-checkbox
-                    :disabled="!requeriment.pivot.file_url"
-                    @change="changeValid(requeriment, permit[0])"
-                    :id="'checkbox'+ requeriment.id"
-                    v-model="requeriment.pivot.is_valid"
-                    :value="1"
-                    :unchecked-value="null"
-                  >
-                    Válido
+                <div class="d-flex justify-content-center align-items-center flex-row" >
+                  <b-form-checkbox class="mr-2" v-model="requeriment.pivot.is_valid" :key="requeriment.pivot.is_valid" :value="1" @input="changeValid(requeriment, permit)"
+                    :unchecked-value="0" name="check-button" button button-variant="success" :disabled="Boolean(requeriment.pivot.is_valid)">
+                    <font-awesome-icon :icon="['fa', 'check']"></font-awesome-icon>
                   </b-form-checkbox>
-                  <b-form-checkbox
-                    :disabled="!requeriment.pivot.file_url"
-                    @change="changeValid(requeriment, permit[0])"
-                    :id="'checkbox'+ requeriment.id"
-                    v-model="requeriment.pivot.is_valid"
-                    :value="0"
-                    :unchecked-value="null"
-                  >
-                    Válido
+
+                  <b-form-checkbox v-model="requeriment.pivot.is_valid" :key="!requeriment.pivot.is_valid" :value="0" @input="changeValid(requeriment, permit)"
+                    :unchecked-value="1" name="check-button" button button-variant="danger" :disabled="!requeriment.pivot.is_valid">
+                    <font-awesome-icon :icon="['fa', 'times']"></font-awesome-icon>
                   </b-form-checkbox>
-                  <div >
-                  </div>
+                  
                 </div>
               </b-col>
             </b-row>
-          </div>
+          </div>  
         </div>
-        <button class="btn btn-primary" :disabled="!isValidRequirements" @click="validPermit()">Validar Permiso</button>
+        <button class="btn btn-primary" :key="isValid" :disabled="!isValid" @click="validPermit()">Validar Permiso</button>
       </div>
 
     </div>
     <b-modal v-model="showSelectedSpecies" size="xl" id="species-modal" title="Listado de Especies" hide-footer>
       <SelectedSpecies
-      v-on:uploadSpecieFile="uploadSpecieFile"
-      v-on:validSpecies="validSpecies"
       v-on:deleteFile="deleteFile"
       v-on:closeSpecieListDialog="closeSpecieListDialog"
-      :selectedSpecies="permit[0].species" :showSelectedSpecies="showSelectedSpecies"
+      :selectedSpecies="permit.species" :showSelectedSpecies="showSelectedSpecies"
       :type="type"/>
     </b-modal>
   </div>
 </template>
 <script>
 
+import Vue from 'vue';
+// Vue.forceUpdate();
 import SelectedSpecies from '../permissions/SelectedSpecies.vue';
 export default {
   props: ['permit','type', 'official'],
@@ -132,6 +117,8 @@ export default {
       "Archivo",
       "Validación"
     ],
+    isValid: false,
+    count: 0,
     fileUpload: null,
     options: {
       perPage: 10,
@@ -176,60 +163,32 @@ export default {
 
 
   }),
-  computed: {
-    isValidRequirements(){
-      let count = 0 
-      for (const requeriment of this.permit[0].requeriments) {
-        if (requeriment.short_name === 'documentos_especies') {
-          let speciesCount = this.checkUploadedSpecies(count)
-          count += speciesCount
-        }
-        else if (requeriment.pivot.is_valid){
-          count++
+  methods: {
+    updateValue(){
+        this.$forceUpdate();
+    },
+    checkValidRequirements(){
+      this.count = 0
+      for (const requeriment of this.permit.requeriments) {
+        if (requeriment.pivot.is_valid){
+            this.count++        
         }
       }
-      if(this.permit[0].requeriments.length === count) {
-        return true
+      if(this.permit.requeriments.length === this.count) {
+        if(this.permit.sistra) {
+          console.log(this.permit.sistra)
+          this.isValid = true;
+        }
+        else {
+          this.isValid = false;
+        }
+        this.$forceUpdate();
         // return count
       }
       else{
-        // return count
-        return false
+        this.isValid = false;
+        this.$forceUpdate();
       }
-    }
-  },
-  methods: {
-    checkUploadedSpecies(count){
-      let speciesCount = 0
-      for (const specie of this.permit[0].species) {
-        if (specie.pivot.is_valid){
-          speciesCount++
-        }
-      }
-      if(speciesCount === this.permit[0].species.length){
-        return 1
-      }
-    },
-    uploadSpecieFile (file, specie) {
-
-      var form = new FormData();
-      form.append("file", file);
-      form.append("specie", JSON.stringify(specie));
-      axios
-        .post(`/dashboard/permissions/uploadSpecieFile/`, form, {
-          headers: {
-              'Content-Type': 'multipart/form-data'
-          }
-        })
-        .then(res => {
-          console.log(res.data)
-          specie.pivot.file_url = res.data
-          this.makeToast('Archivo Guardado')
-          setTimeout(() => window.location.reload(), 1200)
-        })
-        .catch(err => {
-          this.makeToast(err.toString(), 'danger')
-        });
     },
     uploadFile (file, requeriment, index) {
 
@@ -254,39 +213,21 @@ export default {
         });
     },
     changeValid(requeriment, permit){
-      requeriment.pivot.is_valid = !requeriment.pivot.is_valid
-      if (requeriment.pivot.is_valid){
-        this.showErrors = false
-        this.errorId = null
-      } else {
-        this.showErrors = true
-        this.errorId = requeriment.id
-      }
+      this.$forceUpdate();
+      this.checkValidRequirements()
       axios
         .post(`/dashboard/permissions/check/`+permit.id, {requeriment: JSON.stringify(requeriment), permit: permit})
         .then(res => {
           this.makeToast(res.data)
-          setTimeout(() => window.location.reload(), 1200)
-        })
-        .catch(err => {
-          this.makeToast(err.toString(), 'danger')
-        });
-    },
-    validSpecies(specie, index){
-      axios
-        .post(`/dashboard/permissions/checkSpecies/`+this.permit[0].id, {specie: JSON.stringify(specie), permit: this.permit[0], index: index})
-        .then(res => {
-          this.makeToast(res.data)
-          this.showSelectedSpecies = false
           // setTimeout(() => window.location.reload(), 1200)
         })
         .catch(err => {
           this.makeToast(err.toString(), 'danger')
         });
     },
-    validPermit(index){
+    validPermit(){
       axios
-        .post(`/dashboard/permissions/validPermit/`+ this.permit[0].id, {official_id: this.official.id, sistra: this.permit[0].sistra})
+        .post(`/dashboard/permissions/validPermit/`+ this.permit.id, {official_id: this.official.id, sistra: this.permit.sistra})
         .then(res => {
           this.makeToast(res.data)
           setTimeout(() => window.location.assign('/dashboard/permissions/'), 1200)
@@ -314,7 +255,7 @@ export default {
     },
     makeToast(msg, variant = "success", delay = 3000, append = false) {
       this.$bvToast.toast(`${msg}`, {
-        title: 'Estatus del Requerimiento Actualizado.',
+        title: 'Validación de Requerimientos',
         autoHideDelay: delay,
         appendToast: append,
         variant
@@ -325,5 +266,8 @@ export default {
       this.selectedSpecies.push(newSpecie)
     },
   },
+  mounted() {
+    this.checkValidRequirements()
+  }
 }
 </script>

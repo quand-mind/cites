@@ -1,37 +1,81 @@
 <template>
   <div>
-    <h1 class="mb-4">Permisos:</h1>
-    <div v-if="permissions.length === 0">
-      <span>No hay permisos solicitados. Solicite sus permisos <a href="/solicitante/permissions/list">Aquí.</a></span>
+    <h1 class="mb-4">Trámites:</h1>
+    <div v-if="formalities.length === 0">
+      <span>No hay tramites solicitados. Solicite sus permisos <a href="/solicitante/permissions/list">Aquí.</a></span>
     </div>
-    <div class="ml-4" v-for="(permit, index) of permissions" v-bind:key="index">
-      <div class="permit-container">
-        <div class="d-flex justify-content-between align-items-center">
-          <h4 class=" mb-3">N° de Permiso: {{permit.request_permit_no}}</h4>
-          <b-badge v-if="permit.status === 'uploading_requeriments'" class="p-2" variant="warning">Requerimientos Por Subir</b-badge>
-          <b-badge v-if="permit.status === 'requested'" class="p-2" variant="info">Por Validar</b-badge>
-          <b-badge v-if="permit.status === 'valid'" class="p-2" variant="success">Validado Correctamente</b-badge>
-          <b-badge v-if="permit.status === 'committed'" class="p-2" variant="success">Entregado</b-badge>
-          <b-badge v-if="permit.status === 'not_valid'" class="p-2" variant="danger">No Valido</b-badge>
-        </div>
-        <div class="d-flex justify-content-between align-items-center">
-          <span>{{permit.permit_type.name}}</span>
-          <div v-if="type === 'client'">
-            <a v-if="permit.status !== 'committed' && permit.status !== 'valid'" class="btn btn-info" :href="`/solicitante/permissions/uploadRequirements/${permit.id}`">Subir Recaudos</a>
-            <button class="btn btn-primary" @click="showPermitStatus(permit)">Ver estado del Permiso</button>
+    <!-- <div class="formalitie-container" v-for="(formalitie, index) of formalities" v-bind:key="index">
+      <h4 class=" mb-3">N° de Trámite: {{formalitie.request_formalitie_no}}</h4> -->
+      <div class="ml-4" v-for="(formalitie, index) of formalities" v-bind:key="index">
+        <div class="formalitie-container">
+          <div class="d-flex justify-content-between align-items-center">
+            <h5 class=" mb-3">N° de Trámite: {{formalitie.request_formalitie_no}}</h5>
+            <b-badge v-if="formalitie.status === 'uploading_requeriments'" class="p-2" variant="warning">Requerimientos Por Subir</b-badge>
+            <b-badge v-if="formalitie.status === 'requested'" class="p-2" variant="info">Por Validar</b-badge>
+            <b-badge v-if="formalitie.status === 'valid'" class="p-2" variant="success">Validado Correctamente</b-badge>
+            <b-badge v-if="formalitie.status === 'committed'" class="p-2" variant="success">Entregado</b-badge>
+            <b-badge v-if="formalitie.status === 'not_valid'" class="p-2" variant="danger">No Valido</b-badge>
           </div>
-          <div v-if="type === 'admin'">
-            <a v-if="permit.status === 'committed' || permit.status === 'valid'" class="btn btn-info" :href="`/dashboard/permissions/viewPermit/${permit.id}`">Imprimir Certificado</a>
-            <button class="btn btn-primary" @click="showPermitStatus(permit)">Ver estado del Permiso</button>
-            <a v-if="!(permit.status === 'uploading_requeriments' || permit.status === 'committed' || permit.status === 'valid')" class="btn btn-primary" :href="'/dashboard/permissions/check/'+ permit.id">Realizar Checkeo de la orden</a>
+          <div class="d-flex justify-content-between align-items-center">
+            <span>N° de Permisos en este trámite: {{formalitie.permits.length}}</span>
+            <div v-if="type === 'client'">
+              <a v-if="formalitie.status !== 'committed' && formalitie.status !== 'valid'" class="btn btn-info" :href="`/solicitante/permissions/uploadRequirements/${formalitie.id}`">Subir Recaudos</a>
+              <button class="btn btn-primary" @click="showFormaliteStatus(formalitie)">Ver estado del Trámite</button>
+            </div>
+            <div v-if="type === 'admin'">
+              <a v-if="formalitie.status === 'committed' || formalitie.status === 'valid'" class="btn btn-info" :href="`/dashboard/permissions/viewPermit/${formalitie.id}`">Imprimir Certificado</a>
+              <button class="btn btn-primary" @click="showFormaliteStatus(formalitie)">Ver estado del Trámite</button>
+              <a v-if="!(formalitie.status === 'uploading_requeriments' || formalitie.status === 'committed' || formalitie.status === 'valid')" class="btn btn-primary" :href="'/dashboard/permissions/check/'+ formalitie.id">Realizar Checkeo del Trámite</a>
+            </div>
           </div>
         </div>
       </div>
-      <b-row>
-        
-      </b-row>
-    </div>
+    <!-- </div> -->
 
+    <b-modal v-if="showFormalite" v-model="showFormalite" size="xl" id="formalite-modal" title="Estado del Permiso" hide-footer> 
+      <div class="ma-5 d-flex justify-content-between align-items-center">
+        <h4 class=" mb-3">N° de Trámite: {{selectedFormalite.request_permit_no}}</h4>
+        <b-badge v-if="selectedFormalite.status === 'requested'" class="p-2" variant="info">Por Validar</b-badge>
+          <b-badge v-if="selectedFormalite.status === 'valid'" class="p-2" variant="success">Validado Correctamente</b-badge>
+          <b-badge v-if="selectedFormalite.status === 'committed'" class="p-2" variant="success">Entregado</b-badge>
+          <b-badge v-if="selectedFormalite.status === 'not_valid'" class="p-2" variant="danger">No Valido</b-badge>
+        <b-badge v-if="selectedFormalite.status === 'uploading_requeriments'" class="p-2" variant="danger">Falta subir requerimientos o pulsar el boton de finalizar proceso.</b-badge>
+      </div>
+      <div class="ml-4 mb-4">
+        <hr>
+        <b-row v-if="type === 'admin'" class=" mb-2 mt-2">
+          <b-col md="6">Cliente: <span class="ml-2">{{selectedFormalite.client.user.name}}</span></b-col>
+          <b-col md="6">Nacionalidad: <span class="ml-2">{{selectedFormalite.client.user.nationality}}</span></b-col>
+        </b-row>
+        <b-row v-if="type === 'admin'" class=" mb-2 mt-2">
+          <b-col md="6">Email: <span class="ml-2">{{selectedFormalite.client.email}}</span></b-col>
+          <b-col md="6">DNI: <span class="ml-2">{{selectedFormalite.client.user.dni}}</span></b-col>
+        </b-row>
+      </div>
+      <div class="ml-4" v-for="(permit, index) of selectedFormalite.permits" v-bind:key="index">
+        <div class="formalitie-container">
+          <div class="d-flex justify-content-between align-items-center">
+            <h5 class=" mb-3">N° de Permiso: {{permit.request_permit_no}}</h5>
+            <b-badge v-if="permit.status === 'uploading_requeriments'" class="p-2" variant="warning">Requerimientos Por Subir</b-badge>
+            <b-badge v-if="permit.status === 'requested'" class="p-2" variant="info">Por Validar</b-badge>
+            <b-badge v-if="permit.status === 'valid'" class="p-2" variant="success">Validado Correctamente</b-badge>
+            <b-badge v-if="permit.status === 'committed'" class="p-2" variant="success">Entregado</b-badge>
+            <b-badge v-if="permit.status === 'not_valid'" class="p-2" variant="danger">No Valido</b-badge>
+          </div>
+          <div class="d-flex justify-content-between align-items-center">
+            <span>{{permit.permit_type.name}}</span>
+            <div v-if="type === 'client'">
+              <button class="btn btn-primary" @click="showPermitStatus(permit)">Ver estado del Permiso</button>
+            </div>
+            <div v-if="type === 'admin'">
+              <a v-if="permit.status === 'committed' || permit.status === 'valid'" class="btn btn-info" :href="`/dashboard/permissions/viewPermit/${permit.id}`">Imprimir Certificado</a>
+              <button class="btn btn-primary" @click="showPermitStatus(permit)">Ver estado del Permiso</button>
+              <a v-if="!(permit.status === 'uploading_requeriments' || permit.status === 'committed' || permit.status === 'valid')" class="btn btn-primary" :href="'/dashboard/permissions/check/'+ selectedFormalite.id">Realizar Checkeo del Permiso</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </b-modal>
     <b-modal v-if="showPermit" v-model="showPermit" size="xl" id="species-modal" title="Estado del Permiso" hide-footer> 
       <div class="ma-5 d-flex justify-content-between align-items-center">
         <h4 class=" mb-3">N° de Permiso: {{selectedPermit.request_permit_no}}</h4>
@@ -43,15 +87,6 @@
       </div>
       <div class="ml-4 mb-4">
         <hr>
-        <b-row v-if="type === 'admin'" class=" mb-2 mt-2">
-          <b-col md="6">Cliente: <span class="ml-2">{{selectedPermit.client.user.name}}</span></b-col>
-          <b-col md="6">Nacionalidad: <span class="ml-2">{{selectedPermit.client.user.nationality}}</span></b-col>
-        </b-row>
-        <b-row v-if="type === 'admin'" class=" mb-2 mt-2">
-          <b-col md="6">Email: <span class="ml-2">{{selectedPermit.client.email}}</span></b-col>
-          <b-col md="6">DNI: <span class="ml-2">{{selectedPermit.client.user.dni}}</span></b-col>
-        </b-row>
-        <hr v-if="type === 'admin'">
         <b-row class=" mb-2 mt-2">
           <b-col md="6">Lugar de Envio: <span class="ml-2">{{selectedPermit.destiny_place}}</span></b-col>
           <b-col md="6">Lugar de Llegada: <span class="ml-2">{{selectedPermit.departure_place}}</span></b-col>
@@ -96,7 +131,7 @@
               Valido
               <font-awesome-icon :icon="['fa', 'check']"></font-awesome-icon>
             </b-badge>
-            <b-badge v-else-if="!requeriment.pivot.is_valid === null" class="p-2" variant="danger">
+            <b-badge v-else-if="requeriment.pivot.is_valid === null" class="p-2" variant="danger">
               No validado
               <font-awesome-icon :icon="['fa', 'clipboard']"></font-awesome-icon>
             </b-badge>
@@ -115,7 +150,7 @@
 <script>
 import {mapActions, mapGetters} from 'vuex'
 export default {
-  props:['permissions', 'type'],
+  props:['formalities', 'type'],
   data: () => ({
 
     columns: [
@@ -124,7 +159,9 @@ export default {
       "Validación"
     ],
     showPermit : false,
-    selectedPermit: {} 
+    showFormalite : false,
+    selectedPermit: {}, 
+    selectedFormalite: {} 
   }),
   computed: {
     validSpecies(){
@@ -149,13 +186,23 @@ export default {
     showPermitStatus(permit){
       this.showPermit = true
       this.selectedPermit = permit
+    },
+    showFormaliteStatus(formalite){
+      this.showFormalite = true
+      this.selectedFormalite = formalite
     }
   },
 }
 </script>
 <style scoped>
-  .permit-container{
+  .formalitie-container{
     border: 1px solid rgb(39, 39, 39);
+    border-radius: 5px;
+    margin-bottom: 20px;
+    padding: 20px;
+  }
+  .permit-container{
+    border: 1px solid rgb(158, 158, 158);
     border-radius: 5px;
     margin-bottom: 20px;
     padding: 20px;

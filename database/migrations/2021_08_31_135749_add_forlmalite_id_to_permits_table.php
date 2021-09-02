@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddClientIdToPermits extends Migration
+class AddForlmaliteIdToPermitsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class AddClientIdToPermits extends Migration
     public function up()
     {
         Schema::table('permits', function (Blueprint $table) {
-            $table->foreignId('client_id')->references('id')->on('clients')->onDelete('cascade');
+            $table->foreignId('formalitie_id')->references('id')->on('formalities')->onDelete('cascade');
         });
     }
 

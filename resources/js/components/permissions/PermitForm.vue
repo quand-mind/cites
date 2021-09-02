@@ -3,6 +3,9 @@
     <b-alert v-model="loading" variant="info" class="alertFile d-flex justify-content-between align-items-center">
       <span>Solicitando Permiso...</span> <b-spinner small label="Spinning"></b-spinner>
     </b-alert>
+    <b-alert v-model="loadingCountries" variant="info" class="alertFile d-flex justify-content-between align-items-center">
+      <span>Obteniendo Países...</span> <b-spinner small label="Spinning"></b-spinner>
+    </b-alert>
     <h2 v-if="permit_type.type === 'export'">Planilla de Exportación de Fauna Silvestre y/o sus Productos</h2>
     <h2 v-if="permit_type.type === 'import'">Planilla de Importación de Fauna Silvestre y/o sus Productos</h2>
     <h2 v-if="permit_type.type === 'reexport'">Planilla de Re-Exportación de Fauna Silvestre y/o sus Productos</h2>
@@ -25,7 +28,7 @@
               </button>
             </b-col>
             <b-col>
-              <button class="ml-4 btn text-primary" @click="showSelectSpecie = true" style="cursor:pointer">
+              <button :disabled="loadingCountries" class="ml-4 btn text-primary" @click="showSelectSpecie = true" style="cursor:pointer">
                 <font-awesome-icon :icon="['fa', 'plus']"></font-awesome-icon>
               </button>
             </b-col>
@@ -47,7 +50,7 @@
           </b-row>
           <b-row>
             <b-col>
-              <b-form-input v-model="permit.country" ></b-form-input>
+              <b-form-select v-model="permit.country" :disabled="loadingCountries" :options='countries' text></b-form-select>
             </b-col>
             <b-col>
               <b-form-input v-model="permit.transportation_way" ></b-form-input>
@@ -88,6 +91,7 @@
       v-on:addSpecie="addSpecieToList"
       :isNew="true"
       v-on:closeAddSpecieDialog="closeAddSpecieDialog"
+      :countries="countries"
       :selectedSpecies="selectedSpecies" :showSelectSpecie="showSelectSpecie"
       :type="type"/>
     </b-modal>
@@ -118,7 +122,10 @@ export default {
       mobile: null,
       fax: null
     },
+    rawCountries: [],
+    countries: [{text:'Selecciona un país', value : null, disabled: true}],
     loading: false,
+    loadingCountries: false,
     permit:{
       country:null,
       transportation_way:null,
@@ -173,6 +180,20 @@ export default {
           this.makeToast(err.toString(), 'danger')
         });
     },
+    getCountries(){
+      this.loadingCountries = true
+      axios
+        .get(`/solicitante/countries`)
+        .then(res => {
+          this.rawCountries = res.data.map( country =>  {return { text: country.name, value: {name: country.name, code: country.cioc}}})
+          this.countries = this.countries.concat(this.rawCountries)
+          this.loadingCountries = false
+        })
+        .catch(err => {
+          this.loadingCountries = false
+          this.makeToast(err.toString(), 'danger')
+        });
+    },
 
     makeToast(msg, variant = "success", delay = 3000, append = false) {
       this.$bvToast.toast(`${msg}`, {
@@ -183,5 +204,8 @@ export default {
       });
     },
   },
+  mounted() {
+    this.getCountries()
+  }
 }
 </script>

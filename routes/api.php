@@ -26,6 +26,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 /**
  *  rutas para el login y logout de los clientes
  */
+// Route::get('/registerClient', [AuthController::class, 'index']);
 Route::post('/registerClient', [AuthController::class, 'storeClient']);
 Route::post('/registerInstitution', [InstitutionController::class, 'storeInstitution']);
 Route::post('/loginPermissions', [AuthController::class, 'login']);
@@ -38,6 +39,8 @@ Route::post('/saveFile', [AuthorizationController::class, 'Nurseries']);
 Route::get('species', [ApiController::class, 'api_cites']);
 Route::get('countries', [ApiController::class, 'api_country']);
 Route::get('species_filter', [ApiController::class, 'api_cites_filter']);
+
+Route::get('/dayMoreTen', 'PermissionController@dayMoreTen');
 
 /**
  *  login admin

@@ -6,6 +6,7 @@ use Illuminate\Contracts\Support\JsonableInterface;
 use Illuminate\Support\Facades\Log;
 use App\Models\Client;
 use App\Models\Official;
+use App\Models\Formalitie;
 use App\Models\User;
 use GuzzleHttp\Client as ClientSpecie;
 use Illuminate\Http\Request;
@@ -13,6 +14,7 @@ use Faker\Factory as Faker;
 use App\Models\Permit;
 use App\Models\PermitType;
 use App\Models\Requeriment;
+
 use App\Models\Specie;
 use Illuminate\Support\Facades\Storage;
 use Response;
@@ -33,9 +35,10 @@ class PermissionController extends Controller
     {
         $clientData = Client::with('user')->where(['id' => auth()->user()->id])->get()->first();
         // return $clientData->user;
-        $permissions = Permit::where(['client_id' => $clientData->id])->with(['requeriments', 'permit_type', 'species', 'client.user'])->get();
+        $formalities = Formalitie::where(['client_id' => $clientData->id])->with(['permits.requeriments', 'permits.permit_type', 'permits.species', 'client.user'])->get();
+        // $permissions = Permit::where(['client_id' => $clientData->id])->with(['requeriments', 'permit_type', 'species', 'client.user'])->get();
         // $permissions = Permit::where(['client_id' => $clientData->id])->with(['requeriments', 'permit_type', 'species', 'client.user'])->paginate(2);
-        return view('permissions.permissions', compact('permissions', 'clientData'));
+        return view('permissions.permissions', compact('formalities', 'clientData'));
     }
     public function getForm($id)
     {   
@@ -46,10 +49,11 @@ class PermissionController extends Controller
     public function showUploadRequeriments($id)
     {
         try {
-            $permit = Permit::where(['id' => $id])->with(['requeriments', 'permit_type', 'species'])->get();
-            if ($permit) {
+            $formalitie = Formalitie::where(['id' => $id])->with(['permits.requeriments', 'permits.permit_type', 'permits.species', 'client.user'])->get()->first();
+            // $permit = Permit::where(['id' => $id])->with(['requeriments', 'permit_type', 'species'])->get();
+            if ($formalitie) {
                 // return $permit;
-                return view('permissions.requirements.upload_requeriments', compact('permit'));
+                return view('permissions.requirements.upload_requeriments', compact('formalitie'));
             }
             else {
                 return view('errors.404');
@@ -77,7 +81,7 @@ class PermissionController extends Controller
             $officialData = Official::with('user')->where('id', '=', auth()->user()->id)->get()->first();
 
             if ($officialData->user_id !== $getPermit->client->user_id) {
-                $permit = Permit::where(['id' => $id])->with(['requeriments', 'permit_type', 'species', 'client.user'])->get();
+                $permit = Permit::where(['id' => $id])->with(['requeriments', 'permit_type', 'species', 'client.user'])->get()->first();
             } else {
                 $permit = null;
             }
@@ -109,121 +113,211 @@ class PermissionController extends Controller
     {
         $Date_day = Carbon::now()->format('Y-m-d');
         $DateDay = Carbon::now()->format('ymd');
+        $getSpecies = json_decode($request->input('species'));
 
-        $permisos =  Permit::where('created_at', 'like', '%'.$Date_day.'%')->count();
+        $index = 0;
+        
+        $count = 0;
 
-        $faker = Faker::create();
-
+        
+        $searchedSpecies= [];
+        $correctNames = [];
+        $speciesIdsWithPivot= [];
+        
         $getPermitTypeId = $request->input('permit_type_id');
         $getPersonals = json_decode($request->input('personals'));
         $getPermit = json_decode($request->input('permit'));
         $getClientId = $request->input('client_id');
-        $getSpecies = json_decode($request->input('species'));
 
-        // return $getSpecies;
-        $permit = new Permit();
+        $specieAlgo = null;
 
-        switch($permisos){
-            case $permisos < 10 :
-                $total_pemisos_dia = $permisos + 1; 
-                $permit->request_permit_no = $DateDay.'00'.$total_pemisos_dia;
+        $permitId= null;
+
+        $formalities =  Formalitie::where('created_at', 'like', '%'.$Date_day.'%')->count();
+
+        $formalitie = new Formalitie();
+
+        switch($formalities){
+            case $formalities < 10 :
+                $total_pemisos_dia = $formalities + 1; 
+                $formalitie->request_formalitie_no = $DateDay.'00'.$total_pemisos_dia;
             break;
-            case $permisos >= 10 :
-                $total_pemisos_dia = $permisos + 1; 
-                $permit->request_permit_no = $DateDay.'0'.$total_pemisos_dia;
+            case $formalities >= 10 :
+                $total_pemisos_dia = $formalities + 1; 
+                $formalitie->request_formalitie_no = $DateDay.'0'.$total_pemisos_dia;
             break;
         }
-
-        $permit->permit_type_id = $getPermitTypeId;
-        $permit->purpose = $getPermit->purpose;
-        $permit->transportation_way = $getPermit->transportation_way;
-        $permit->consigned_to = $getPermit->consigned_to;
-        $permit->country = $getPermit->country;
-        $permit->landing_port = $getPermit->landing_port;
-        $permit->shipment_port = $getPermit->shipment_port;
-        $permit->destiny_place = $getPermit->destiny_place;
-        $permit->departure_place = $getPermit->departure_place;
-        $permit->status = "uploading_requeriments";
-        $permit->client_id = $request->input('client_id');
-        $permit->save();
-
+        $formalitie->status = "uploading_requeriments";
+        $formalitie->client_id = $request->input('client_id');
+        $formalitie->save();
         
-        $permitType = PermitType::where(['id' =>  $getPermitTypeId])->with(['requeriments'])->get()->first();
+        foreach ($getSpecies as $specie) {
+            if ($index % 4 === 0) {
 
-        $requeriments = $permitType->requeriments;
+                $speciesIdsWithPivot = [];
+                // $count++;
 
-        foreach($requeriments as $requeriment) {
-            $requerimentsIdsWithPivot[$requeriment->id] = ["file_url" => null, "is_valid" => false,];
-        }
+                $permisos =  Permit::where('created_at', 'like', '%'.$Date_day.'%')->count();
 
-        $searchedSpecies=[];
-        $correctNames = [];
-        $speciesIdsWithPivot=[];
+                $faker = Faker::create();
 
-        foreach($getSpecies as $specie) {
-            $name = $specie->name_common;
-            $findedSpecie = Specie::where('name_scientific', '=', $name)->get()->first();
-            // break;
-            if ($findedSpecie) {
-                
-                $speciesIdsWithPivot[$findedSpecie  ->id] = [ "qty" => $specie->qty,
-                                                        "description" => $specie->description,
-                                                        "origin" => $specie->origin,
-                                                        "origin_country" => $specie->origin_country,
-                                                        "appendix" => $specie->appendix,
-                                                        "file_url" => null,
-                                                        "is_valid" => null,
-                ];
-            } else {
-                $apiSpecie = $this->api_cites($name);
-                $newSpecie = new Specie();
-                $newSpecie->type = $apiSpecie->higher_taxa->kingdom;
-                $newSpecie->name_scientific = $apiSpecie->full_name;       
-                if (count($apiSpecie->common_names) > 0) {
+                $permit = new Permit();
 
-                    $commonNames = array_filter($apiSpecie->common_names, function ($name) {
-                        {
-                            if ($name->language === 'ES') {
-                                return $name;
-                            } elseif ($name->language === 'EN') {
-                                return $name;
-                            }
-                        }
-                    });
-                    if ($commonNames === []) {
-                        $newSpecie->name_common = $apiSpecie->full_name;
-                    } else {
-                        $name =  array_reverse($commonNames)[0];
-                        array_push($correctNames, $name);
-                        $commonNameCorrect = $correctNames[0];
-                        $newSpecie->name_common = $commonNameCorrect->name;
-                    }
-                    
-                } else {
-                    $newSpecie->name_common = $apiSpecie->full_name;
+                switch($permisos){
+                    case $permisos < 10 :
+                        $total_pemisos_dia = $permisos + 1; 
+                        $permit->request_permit_no = $DateDay.'00'.$total_pemisos_dia;
+                    break;
+                    case $permisos >= 10 :
+                        $total_pemisos_dia = $permisos + 1; 
+                        $permit->request_permit_no = $DateDay.'0'.$total_pemisos_dia;
+                    break;
                 }
-                $newSpecie->search_id = $apiSpecie->id;
-                $newSpecie->save();
-                array_push($searchedSpecies, $newSpecie);
 
-                $speciesIdsWithPivot[$newSpecie->id] = [ "qty" => $specie->qty,
-                                                        "description" => $specie->description,
-                                                        "origin" => $specie->origin,
-                                                        "origin_country" => $specie->origin_country,
-                                                        "appendix" => $specie->appendix,
-                                                        "file_url" => null,
-                                                         "is_valid" => null,
-                ];
+                $permit->permit_type_id = $getPermitTypeId;
+                $permit->purpose = $getPermit->purpose;
+                $permit->transportation_way = $getPermit->transportation_way;
+                $permit->consigned_to = $getPermit->consigned_to;
+                $permit->country = $getPermit->country->name;
+                $permit->country_code = $getPermit->country->code;
+                $permit->landing_port = $getPermit->landing_port;
+                $permit->shipment_port = $getPermit->shipment_port;
+                $permit->destiny_place = $getPermit->destiny_place;
+                $permit->departure_place = $getPermit->departure_place;
+                $permit->formalitie_id = $formalitie->id;
+                $permit->status = "uploading_requeriments";
+                $permit->save();
+
+                $permitId = $permit->id;
+                        
+                $permitType = PermitType::where(['id' =>  $getPermitTypeId])->with(['requeriments'])->get()->first();
+
+                $requeriments = $permitType->requeriments;
+                
+
+                foreach($requeriments as $requeriment) {
+                    $requerimentsIdsWithPivot[$requeriment->id] = ["file_url" => null, "is_valid" => null,];
+                }
+
+                $permit->requeriments()->sync($requerimentsIdsWithPivot);
+
+                $name = $specie->name_common;
+                $findedSpecie = Specie::where('name_scientific', '=', $name)->get()->first();
+                if ($findedSpecie) {
+                    $country = $specie->origin_country->name;
+                    
+                    $speciesIdsWithPivot[$findedSpecie->id] = [ "qty" => $specie->qty,
+                                                            "description" => $specie->description,
+                                                            "origin" => $specie->origin,
+                                                            "origin_country" => $country,
+                                                            "file_url" => null,
+                    ];
+                } else {
+                    $apiSpecie = $this->api_cites($name);
+                    $newSpecie = new Specie();
+                    $newSpecie->type = $apiSpecie->higher_taxa->kingdom;
+                    $newSpecie->appendix = $apiSpecie->cites_listing;       
+                    $newSpecie->name_scientific = $apiSpecie->full_name;       
+                    if (count($apiSpecie->common_names) > 0) {
+
+                        $commonNames = array_filter($apiSpecie->common_names, function ($name) {
+                            {
+                                if ($name->language === 'ES') {
+                                    return $name;
+                                } elseif ($name->language === 'EN') {
+                                    return $name;
+                                }
+                            }
+                        });
+                        if ($commonNames === []) {
+                            $newSpecie->name_common = $apiSpecie->full_name;
+                        } else {
+                            $name =  array_reverse($commonNames)[0];
+                            array_push($correctNames, $name);
+                            $commonNameCorrect = $correctNames[0];
+                            $newSpecie->name_common = $commonNameCorrect->name;
+                        }
+                        
+                    } else {
+                        $newSpecie->name_common = $apiSpecie->full_name;
+                    }
+                    $newSpecie->search_id = $apiSpecie->id;
+                    $newSpecie->save();
+                    // $specieAlgo = $apiSpecie;
+                    array_push($searchedSpecies, $specie);
+
+                    $speciesIdsWithPivot[$newSpecie->id] = [ "qty" => $specie->qty,
+                                                            "description" => $specie->description,
+                                                            "origin" => $specie->origin,
+                                                            "origin_country" => $specie->origin_country->name,
+                                                            "file_url" => null,
+                    ];
+                }
+                $permit->species()->sync($speciesIdsWithPivot);
+        
+                $permit->save();
+                
+            } else {
+                $permit = Permit::find($permitId);
+                $name = $specie->name_common;
+                $findedSpecie = Specie::where('name_scientific', '=', $name)->get()->first();
+                if ($findedSpecie) {
+                    $country = $specie->origin_country->name;
+                    
+                    $speciesIdsWithPivot[$findedSpecie->id] = [ "qty" => $specie->qty,
+                                                            "description" => $specie->description,
+                                                            "origin" => $specie->origin,
+                                                            "origin_country" => $country,
+                                                            "file_url" => null,
+                    ];
+                } else {
+                    $apiSpecie = $this->api_cites($name);
+                    $newSpecie = new Specie();
+                    $newSpecie->type = $apiSpecie->higher_taxa->kingdom;
+                    $newSpecie->appendix = $apiSpecie->cites_listing;       
+                    $newSpecie->name_scientific = $apiSpecie->full_name;       
+                    if (count($apiSpecie->common_names) > 0) {
+
+                        $commonNames = array_filter($apiSpecie->common_names, function ($name) {
+                            {
+                                if ($name->language === 'ES') {
+                                    return $name;
+                                } elseif ($name->language === 'EN') {
+                                    return $name;
+                                }
+                            }
+                        });
+                        if ($commonNames === []) {
+                            $newSpecie->name_common = $apiSpecie->full_name;
+                        } else {
+                            $name =  array_reverse($commonNames)[0];
+                            array_push($correctNames, $name);
+                            $commonNameCorrect = $correctNames[0];
+                            $newSpecie->name_common = $commonNameCorrect->name;
+                        }
+                        
+                    } else {
+                        $newSpecie->name_common = $apiSpecie->full_name;
+                    }
+                    $newSpecie->search_id = $apiSpecie->id;
+                    $newSpecie->save();
+                    $specieAlgo = $apiSpecie;
+                    array_push($searchedSpecies, $apiSpecie);
+
+                    $speciesIdsWithPivot[$newSpecie->id] = [ "qty" => $specie->qty,
+                                                            "description" => $specie->description,
+                                                            "origin" => $specie->origin,
+                                                            "origin_country" => $specie->origin_country->name,
+                                                            "file_url" => null,
+                    ];
+                }
+                $permit->species()->sync($speciesIdsWithPivot);
+        
+                $permit->save();
             }
+            $index++;
         }
-        // return $correctNames;
-        // return $searchedSpecies;
         // return $speciesIdsWithPivot;
-        $permit->species()->sync($speciesIdsWithPivot);
-
-
-        $permit->requeriments()->sync($requerimentsIdsWithPivot);
-        $permit->save();
         Log::info('El solicitante con la cedula de identidad '.$this->returnUser().'a solicitado un nuevo permiso | El permiso se ha solicitado desde la direccion: '. request()->ip());
         return response('Se ha solicitado el permiso, dirijase a la oficina del MINEC para entregar los recaudos.', 200);
     }
@@ -314,6 +408,7 @@ class PermissionController extends Controller
         $requeriment = json_decode($request->input('requeriment'));
         $requeriment_id = $requeriment->id;
         $permit_id = $requeriment->pivot->permit_id;
+        // return $permit_id;
         $nameFile = "permit_".$permit_id."_requeriment_".$requeriment_id."_file_".time().".".$file->guessExtension();
         $url = $request->file('file')->storeAs('files/permissions', $nameFile);
         $permit = Permit::find($permit_id);
@@ -419,7 +514,7 @@ class PermissionController extends Controller
     public function validPermit(Request $request, $id)
     {
         $permit = Permit::find($id);
-        $date = strtotime("+60 day");
+        $date = strtotime("+180 day");
         $permit->valid_until = date('M d, Y', $date);
         $permit->official_id= $request->input('official_id');
         $permit->sistra= $request->input('sistra');
@@ -475,5 +570,15 @@ class PermissionController extends Controller
     public function filterDate(Request $request){
         $filter  = $request->get('filter');
         return $filterCountry = Permit::where('created_at', 'like', '%'.$filter.'%' )->with('client', 'client.user')->get();
+    }
+
+    public function dayMoreTen(){
+
+        //create variable for  upload file limit date  
+        //$dayNow = Carbon::now();//->toDateString();
+        $dayAddTen = Carbon::now()->addDays(10);
+        if ($dayAddTen->isWeekend()) {
+            return  $dayAddTen->addDays(2)->toDateString();
+        }
     }
 }

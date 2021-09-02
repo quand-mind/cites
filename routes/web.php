@@ -3,6 +3,8 @@
 use App\Http\Controllers\SetPasswordController;
 
 use App\Http\Controllers\ApiController;
+
+use App\Http\Controllers\AuthController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -86,9 +88,11 @@ Route::group(['prefix' => 'recursos'], function () {
 //     return view('welcome');
 // });
 
+// Route::get('/register', ['AuthController@index']);
 Auth::routes();
 
-Route::get('/registro_solicitante', 'AuthController@index')->name('registerSolicitante');
+
+Route::get('/register', [AuthController::class, 'index'])->name('register');
 Route::get('/loginPermissions', 'Auth\PermissionsLoginController@showLoginForm')->name('loginPermissions');
 
 Route::middleware('auth:api')->get('/home', 'HomeController@index')->name('home');

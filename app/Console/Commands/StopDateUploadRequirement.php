@@ -47,12 +47,11 @@ class StopDateUploadRequirement extends Command
         Mail::to("jasve504@gamil.com")->send($mail);*/
         $permits = Permit::where("status", "=", "requested")->with(['client'])->get(); 
         foreach ($permits as $permit) {
-            log::info($permit);
-           /*if ($permit->collected_time == Carbon::now()->toDateString()) {
+           if ($permit->collected_time == Carbon::now()->toDateString()) {
                $changeStatusPermit = Permit::find($permit->id);
                $changeStatusPermit->status = "nulled";
                $changeStatusPermit->save();
-            }*/
+            }        
         }
         //Log::info('test task auto run in one minute');
     }

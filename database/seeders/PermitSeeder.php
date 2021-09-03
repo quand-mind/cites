@@ -24,7 +24,8 @@ class PermitSeeder extends Seeder
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'permit_type_id' => 1,
-            'formalitie_id' => 1
+            'formalitie_id' => 1,
+            'collected_time' => Carbon::now()->toDateString()
         
         ]);
         DB::table('permits')->insert([
@@ -35,7 +36,7 @@ class PermitSeeder extends Seeder
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'permit_type_id' => 1,
-            'formalitie_id' => 1
+            'formalitie_id' => 1,
             
         ]);
         DB::table('permits')->insert([
@@ -45,7 +46,8 @@ class PermitSeeder extends Seeder
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'permit_type_id' => 1,
-            'formalitie_id' => 1
+            'formalitie_id' => 1,
+            'collected_time' => Carbon::now()->toDateString()
         ]);
         DB::table('permits')->insert([
             'request_permit_no' => Carbon::now()->format('ymd')."004",

@@ -173,7 +173,7 @@ export default {
         .then(res => {
           this.makeToast(res.data)
           this.loading = false
-          // setTimeout(() => window.location.assign('/solicitante/permissions'), 1200)
+          setTimeout(() => window.location.assign('/solicitante/permissions'), 1200)
         })
         .catch(err => {
           this.loading = false

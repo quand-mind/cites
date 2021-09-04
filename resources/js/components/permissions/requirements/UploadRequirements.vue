@@ -93,6 +93,7 @@ export default {
     length: 0,
     loading: false,
     loadingDelete: false,
+    isUploadedRequirements: false,
     fileUpload: null,
     options: {
       perPage: 10,
@@ -136,28 +137,6 @@ export default {
 
 
   }),
-  computed: {
-    isUploadedRequirements(){
-      this.count = 0 
-      this.length = 0
-      for (const permit of this.formalitie.permits) {
-        for (const requeriment of permit.requeriments) {
-          this.length++
-          if (requeriment.pivot.file_url){
-            this.count++
-          }
-        }
-      }
-      if(this.length === this.count) {
-        return true
-        // return count
-      }
-      else{
-        // return count
-        return false
-      }
-    }
-  },
   methods: {
     uploadFile (file, requeriment, index) {
 
@@ -177,6 +156,7 @@ export default {
           this.makeToast('Archivo Guardado')
           requeriment.pivot.file_url = res.data
           this.loading = false
+          this.checkUploadedRequirements()
           this.$forceUpdate();
         })
         .catch(err => {
@@ -210,22 +190,24 @@ export default {
           this.length++
           if (requeriment.pivot.file_url){
             this.count++
+            this.$forceUpdate();
           }
         }
       }
       if(this.length === this.count) {
-        return true
+        this.isUploadedRequirements = true
+        this.$forceUpdate();
         // return count
       }
       else{
         // return count
-        return false
+        this.isUploadedRequirements = false
+        this.$forceUpdate();
       }
-    }
-  },
+    },
     requestPermit(){
       axios
-        .post(`/solicitante/permissions/requestPermit/${this.permit[0].id}`)
+        .post(`/solicitante/permissions/requestPermit/${this.formalitie.id}`)
         .then(res => {
           this.makeToast(res.data)
           setTimeout(() => window.location.reload(), 1200)
@@ -241,36 +223,9 @@ export default {
         .then(res => {
           requeriment.pivot.file_url = null
           this.makeToast(res.data)
+          this.checkUploadedRequirements()
+          this.$forceUpdate();
           this.loadingDelete = false
-          // setTimeout(() => window.location.reload(), 1200)
-        })
-        .catch(err => {
-          this.loadingDelete = false
-          this.makeToast(err.toString(), 'danger')
-        });
-    },
-    deleteSpecie(specie){
-      console.log(specie)
-      axios
-        .post(`/solicitante/permissions/deleteSpecie`, {specie: JSON.stringify(specie), permit: JSON.stringify(this.permit[0])})
-        .then(res => {
-          this.permit[0].species.splice(specie.id - 1)
-          this.makeToast(res.data)
-          // setTimeout(() => window.location.reload(), 1200)
-        })
-        .catch(err => {
-          this.makeToast(err.toString(), 'danger')
-        });
-    },
-    deleteSpecieFile(specie, index){
-      this.closeSpecieListDialog()
-      this.loadingDelete = true
-      axios
-        .post(`/solicitante/permissions/deleteSpecieFile/${specie.pivot.permit_id}`, {specie: JSON.stringify(specie),index: index})
-        .then(res => {
-          specie.pivot.file_url = null
-          this.loadingDelete = false
-          this.makeToast(res.data)
           // setTimeout(() => window.location.reload(), 1200)
         })
         .catch(err => {
@@ -286,21 +241,10 @@ export default {
         variant
       });
     },
-    submit(){},
-    addSpecieToList(newSpecie){
-      axios
-        .post(`/solicitante/permissions/addSpecie`, {specie: JSON.stringify(newSpecie), permit: JSON.stringify(this.permit[0])})
-        .then(res => {
-          newSpecie.pivot.file_url = null
-          this.makeToast(res.data)
-          // setTimeout(() => window.location.reload(), 1200)
-        })
-        .catch(err => {
-          this.makeToast(err.toString(), 'danger')
-        });
-      this.permit[0].species.push(newSpecie)
-    },
   },
+  mounted() {
+    this.checkUploadedRequirements()
+  }
 }
 </script>
 <style>

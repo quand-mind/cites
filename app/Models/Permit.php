@@ -60,8 +60,9 @@ class Permit extends Model
                                     'requeriment_id')->withPivot('file_url', 'is_valid');
     }
 
-    public function formalites(){
-        return $this->belongsTo(Formalities::class);
+    public function formalitie()
+    {
+        return $this->belongsTo(Formalitie::class);
     }
 
     

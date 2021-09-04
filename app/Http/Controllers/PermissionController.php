@@ -14,12 +14,15 @@ use Faker\Factory as Faker;
 use App\Models\Permit;
 use App\Models\PermitType;
 use App\Models\Requeriment;
+// use PDF;
+use Knp\Snappy\Pdf;
 
 use App\Models\Specie;
 use Illuminate\Support\Facades\Storage;
 use Response;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Support\Facades\App;
 
 class PermissionController extends Controller
 {
@@ -71,40 +74,41 @@ class PermissionController extends Controller
         } else {
             $clientId = -1;
         }
-        $permissions = Permit::with(['requeriments', 'permit_type', 'species', 'client.user'])->whereNotIn('client_id', [$clientId])->get();
-        return view('panel.dashboard.permissions.permissions', compact('permissions'));
+        $formalities = Formalitie::with(['permits.requeriments', 'permits.permit_type', 'permits.species', 'client.user'])->whereNotIn('client_id', [$clientId])->get();
+        // $permissions = Permit::with(['requeriments', 'permit_type', 'species', 'client.user'])->whereNotIn('client_id', [$clientId])->get();
+        return view('panel.dashboard.permissions.permissions', compact('formalities'));
     }
     public function showChecklist($id)
     {
-        try {
-            $getPermit= Permit::find($id);
-            $officialData = Official::with('user')->where('id', '=', auth()->user()->id)->get()->first();
-
-            if ($officialData->user_id !== $getPermit->client->user_id) {
-                $permit = Permit::where(['id' => $id])->with(['requeriments', 'permit_type', 'species', 'client.user'])->get()->first();
-            } else {
-                $permit = null;
-            }
-            if ($permit) {
-                return view('panel.dashboard.permissions.check_requirements', compact('permit', 'officialData'));
-            } else {
-                return view('errors.404');
-            }
-        } catch (Exception $err) {
+        $getFormalitie= Formalitie::find($id);
+        // $getPermit= Permit::find($id);
+        $officialData = Official::with('user')->where('id', '=', auth()->user()->id)->get()->first();
+        
+        // return $getFormalitie->client->user_id;
+        if ($officialData->user_id !== $getFormalitie->client->user_id) {
+            $formalitie = Formalitie::where(['id' => $id])->with(['permits.requeriments', 'permits.permit_type', 'permits.species', 'client.user'])->get()->first();
+        } else {
+            $formalitie = null;
+        }
+        // return $formalitie;
+        if ($formalitie) {
+            return view('panel.dashboard.permissions.check_requirements', compact('formalitie', 'officialData'));
+        } else {
             return view('errors.404');
         }
     }
     public function showAprovedPermit($id)
     {
-        $permit = Permit::where(['id' => $id])->with(['requeriments', 'permit_type', 'client.user', 'official.user', 'species'])->get()->first();
-        // return $permit;
+        $permit = Permit::where(['id' => $id])->with(['requeriments', 'permit_type', 'formalitie.client.user',
+        'formalitie.official.user', 'species'])->get()->first();
         $pdf = \App::make('dompdf.wrapper');
         $pdf->setOptions(['dpi' => 150, 'defaultFont' => 'sans-serif']);
         $image = base64_encode(file_get_contents(public_path('/images/logos/logo-minec.png')));
+        $logo = $image;
         $pdf->loadView('permissions.aproved_permit', [ 'permit' => $permit, 'logo' => $image ]);
         return $pdf->stream();
-
-        // return view('permissions.aproved_permit', compact('permit'));
+        
+        return view('permissions.aproved_permit', compact('permit', 'logo'));
     }
 
     // POST
@@ -355,9 +359,13 @@ class PermissionController extends Controller
 
     public function requestPermit($id)
     {
-        $permit = Permit::find($id);
-        $permit->status = 'requested';
-        $permit->save();
+        $formalitie = Formalitie::find($id);
+        $formalitie->status = 'requested';
+        foreach ($formalitie->permits as $permit) {
+            $permit->status = 'requested';
+            $permit->save();
+        }
+        $formalitie->save();
         return response('Solicitud de Permiso finalizada', 200);
     }
     public function addSpecie(Request $request)
@@ -513,14 +521,21 @@ class PermissionController extends Controller
     }
     public function validPermit(Request $request, $id)
     {
-        $permit = Permit::find($id);
+        $formalitie = Formalitie::find($id);
+        $formalitie->sistra= $request->input('sistra');
+        $formalitie->status= 'valid';
+        $formalitie->official_id= $request->input('official_id');
+        $formalitie->save();
+
         $date = strtotime("+180 day");
-        $permit->valid_until = date('M d, Y', $date);
-        $permit->official_id= $request->input('official_id');
-        $permit->sistra= $request->input('sistra');
-        $permit->status= 'valid';
+        foreach ($formalitie->permits as $permit) {
+            $permit->valid_until = date('M d, Y', $date);
+            $permit->sistra= $request->input('sistra');
+            $permit->status= 'valid';
+            $permit->save();
+        }
+        $formalitie->save();
         
-        $permit->save();
         Log::info('El official con la cedula de identidad '.$this->returnUser().'a verificado el permiso  | el permiso de a verificado desde la direccion: '.request()->ip());
         return response('Estatus del Requerimiento Actualizado.', 200);
     }

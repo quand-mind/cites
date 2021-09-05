@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Contracts\Support\JsonableInterface; 
 use Illuminate\Support\Facades\Log;
-use App\Mail\DateToUploadTheRequirementsWasExceeded;
 use Illuminate\Support\Facades\Mail;
+use App\Mail\ValidFormaliteMail;
 use App\Models\Client;
 use App\Models\Official;
 use App\Models\Formalitie;
@@ -539,6 +539,7 @@ class PermissionController extends Controller
         $formalitie->save();
         
         Log::info('El official con la cedula de identidad '.$this->returnUser().'a verificado el permiso  | el permiso de a verificado desde la direccion: '.request()->ip());
+        Mail::to('jasve504@gmail.com')->send(new ValidFormaliteMail($formalitie));
         return response('Estatus del Requerimiento Actualizado.', 200);
     }
     public function printAprovedPermit($id)

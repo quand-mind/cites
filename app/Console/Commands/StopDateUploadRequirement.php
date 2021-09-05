@@ -58,8 +58,7 @@ class StopDateUploadRequirement extends Command
                 ->where('permits.id', '=', $permit->id )->get();
 
                 foreach ($formalities as $formalitie) {
-                    $mail = new DateToUploadTheRequirementsWasExceeded;
-                    Mail::to($formalitie->email)->send($mail);
+                    Mail::to($formalitie->email)->send(new DateToUploadTheRequirementsWasExceeded($formalitie));
                 }
             }
         }

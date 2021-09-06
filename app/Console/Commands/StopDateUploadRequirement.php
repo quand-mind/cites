@@ -43,7 +43,7 @@ class StopDateUploadRequirement extends Command
      */
     public function handle()
     {
-        $permits = Permit::where("status", "=", "requested")->get(); 
+        $permits = Permit::where("status", "=", "uploading_requeriments")->get(); 
 
         foreach ($permits as $permit) {
             //array_push($array, $permit->id);

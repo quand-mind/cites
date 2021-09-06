@@ -594,12 +594,12 @@ class PermissionController extends Controller
 
         //create variable for  upload file limit date  
         $dayNow = Carbon::now();
-        return $dayAddTen = Carbon::now()->addDays(10);
+        $dayAddTen = Carbon::now()->addDays(10);
 
 
         /**/
         $year = Carbon::now()->format('Y');
-        $workingDays = [$year."-09-04", $year."-09-05", $year."-01-01", $year."-02-11", $year."-02-12", $year."-03-28", $year."-03-29", $year."-04-19", $year."-05-01", $year."-05-25", $year."-06-20", $year."-06-24", $year."-06-29", $year."-07-05", $year."-07-24", $year."-10-12", $year."-12-24", $year."-12-25", $year."-12-31"];
+        $workingDays = [$year."-09-07", $year."-09-08", $year."-01-01", $year."-02-11", $year."-02-12", $year."-03-28", $year."-03-29", $year."-04-19", $year."-05-01", $year."-05-25", $year."-06-20", $year."-06-24", $year."-06-29", $year."-07-05", $year."-07-24", $year."-10-12", $year."-12-24", $year."-12-25", $year."-12-31"];
         foreach ($workingDays as $workingDay) {
 
             if ($this->check_in_range($dayNow, $dayAddTen, $workingDay))
@@ -607,10 +607,10 @@ class PermissionController extends Controller
                $dayAddTen->addDays(1)->toDateString();
             }
         }
-        
         if ($dayAddTen->isWeekend()) {
-            return  $dayAddTen->addDays(2)->toDateString();
+            $dayAddTen->addDays(2);
         }
+        return $dayAddTen->toDateString();
         
     }
 

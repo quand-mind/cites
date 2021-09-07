@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 
 use Illuminate\Support\Facades\Log;
 use App\Models\Permit;
+use App\Models\Formalitie;
 use App\Mail\DateToUploadTheRequirementsWasExceeded;
 use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
@@ -43,7 +44,16 @@ class StopDateUploadRequirement extends Command
      */
     public function handle()
     {
-        $permits = Permit::where("status", "=", "uploading_requeriments")->get(); 
+        $formalities= Formalitie::with('client')->where("status", "=", "uploading_requeriments")->get();
+        foreach ($formalities as $formalitie) {
+            if ($formalitie->collected_time >= Carbon::now()->toDateString()) {
+                $changeStatusFormalitie = Formalitie::find($formalitie->id)->first();
+                $changeStatusFormalitie->status = "nulled";
+                $changeStatusFormalitie->save();
+                Mail::to($formalitie->client->email)->send(new DateToUploadTheRequirementsWasExceeded($changeStatusFormalitie));
+            }
+        }
+        /*$permits = Permit::where("status", "=", "uploading_requeriments")->get(); 
 
         foreach ($permits as $permit) {
             //array_push($array, $permit->id);
@@ -61,7 +71,7 @@ class StopDateUploadRequirement extends Command
                     Mail::to($formalitie->email)->send(new DateToUploadTheRequirementsWasExceeded($formalitie));
                 }
             }
-        }
+        }*/
         Log::info('Se han combrobado la fecha limite para cargar los requerimientos de los permisos');
     }
 }

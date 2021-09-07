@@ -23,19 +23,37 @@
               <b-row class="w-100 d-flex justify-content-between align-items-center flex-row" v-for="(requeriment,index) of permit.requeriments" v-bind:key="index">
                 <b-col lg="3" class="my-4">{{requeriment.name}}</b-col>
                 <b-col lg="3" class="d-flex justify-content-center align-items-center">
-                  <div v-if="requeriment.short_name === 'documentos_especies'">
+                  <div v-if="requeriment.type === 'form'">
+                    <font-awesome-icon :icon="['fa', 'check']"></font-awesome-icon> Completado
+                  </div>
+                  <div v-if="requeriment.type === 'physical'">
+                    Entregar en físico únicamente
+                  </div>
+                  <div class="mr-3" v-if="requeriment.short_name === 'documentos_especies'">
                     <font-awesome-icon :icon="['fa', 'clipboard-list']"></font-awesome-icon> Especies Agregadas: {{permit.species.length}}
                   </div>
-                  <div v-if="!requeriment.pivot.file_url">
-                    <font-awesome-icon :icon="['fa', 'ban']"></font-awesome-icon> No hay un archivo subido
-                  </div>
-                  <div v-else>
-                    <a :href="`/${requeriment.pivot.file_url}`" target="_blank"><font-awesome-icon :icon="['fa', 'eye']"></font-awesome-icon> Ver Archivo</a>
+                  <div v-if="requeriment.type !== 'physical' && requeriment.type !== 'form'">
+                    <div v-if="!requeriment.pivot.file_url">
+                      <font-awesome-icon :icon="['fa', 'ban']"></font-awesome-icon> No hay un archivo subido
+                    </div>
+                    <div v-else>
+                      <a :href="`/${requeriment.pivot.file_url}`" target="_blank"><font-awesome-icon :icon="['fa', 'eye']"></font-awesome-icon> Ver Archivo</a>
+                    </div>
                   </div>
                 </b-col>
                 <b-col lg="3">
                   <div
                     class="d-flex justify-content-center align-items-center"
+                    v-if="requeriment.type === 'personal'"
+                  >
+                    <a v-if="requeriment.pivot.file_url" class="btn text-primary" style="cursor:pointer" href="/solicitante/editUser">
+                      <font-awesome-icon :icon="['fa', 'edit']"></font-awesome-icon>
+                    </a>
+
+                  </div>
+                  <div
+                    class="d-flex justify-content-center align-items-center"
+                    v-else-if="requeriment.type !== 'physical' && requeriment.type !== 'form'"
                   >
                     <button v-if="requeriment.short_name === 'documentos_especies'" class="btn text-dark" @click="showSelectedSpecies = true" style="cursor:pointer">
                       <font-awesome-icon :icon="['fa', 'eye']"></font-awesome-icon>
@@ -56,6 +74,7 @@
                       <font-awesome-icon :icon="['fa', 'trash']"></font-awesome-icon>
                     </button>
                   </div>
+                  
                 </b-col>
               </b-row>
             </div>
@@ -78,7 +97,7 @@
 import SelectedSpecies from '../../admin/permissions/SelectedSpecies.vue';
 import AddSpecie from '../AddSpecie.vue';
 export default {
-  props: ['formalitie','type'],
+  props: ['formalitie','type', 'client_data'],
   components: {
     SelectedSpecies,
     AddSpecie
@@ -188,9 +207,18 @@ export default {
       for (const permit of this.formalitie.permits) {
         for (const requeriment of permit.requeriments) {
           this.length++
-          if (requeriment.pivot.file_url){
+          if(requeriment.type === 'form' || requeriment.type === 'physical'){
             this.count++
             this.$forceUpdate();
+          }
+          else {
+            if (requeriment.pivot.file_url){
+              this.count++
+              this.$forceUpdate();
+            }
+            else {
+              this.$forceUpdate();
+            }
           }
         }
       }
@@ -243,6 +271,17 @@ export default {
     },
   },
   mounted() {
+    
+    if (this.client_data.dni_file_url){
+      for (const permit of this.formalitie.permits) {
+        let index = permit.requeriments.findIndex( requeriment => requeriment.short_name === 'cedula')
+        if (index !== -1){
+          // console.log(index)
+          permit.requeriments[index].pivot.file_url = this.client_data.dni_file_url
+        }
+      }
+      // console.log('Si hay')
+    }
     this.checkUploadedRequirements()
   }
 }

@@ -538,8 +538,12 @@ class PermissionController extends Controller
         }
         $formalitie->save();
         
+        $emailClient = Formalitie::with('client')->where('formalities.id', '=', $id)->get();
+        foreach ($emailClient as $client) {
+            Mail::to($client->client->email)->send(new ValidFormaliteMail($formalitie));
+        }
         Log::info('El official con la cedula de identidad '.$this->returnUser().'a verificado el permiso  | el permiso de a verificado desde la direccion: '.request()->ip());
-        Mail::to('jasve504@gmail.com')->send(new ValidFormaliteMail($formalitie));
+        
         return response('Estatus del Requerimiento Actualizado.', 200);
     }
     public function printAprovedPermit($id)
@@ -631,5 +635,10 @@ class PermissionController extends Controller
         }
     }
     
-
+    public function testTask(){
+        $emailClient = Formalitie::with('client')->where('formalities.id', '=', 4)->get();
+        foreach ($emailClient as $client) {
+         return $client->client->email;
+        }
+    }
 }

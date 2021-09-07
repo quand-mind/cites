@@ -57,13 +57,23 @@
             <div class="w-100 body justify-content-center align-items-center flex-column">
               <b-row class="w-100 d-flex justify-content-between align-items-center flex-row" v-for="(requeriment,index) of permit.requeriments" v-bind:key="index">
                 <b-col lg="3" class="my-4">{{requeriment.name}}</b-col>
-                <b-col lg="3" class="d-flex justify-content-center align-items-center">
+                <b-col v-if="requeriment.type !== 'form' && requeriment.type !== 'physical'" lg="3" class="d-flex justify-content-center align-items-center">
                   <div v-if="!requeriment.pivot.file_url">
                     <font-awesome-icon :icon="['fa', 'ban']"></font-awesome-icon> No hay un archivo subido
                   </div>
                   <div v-else>
                     <a :href="`/${requeriment.pivot.file_url}`" target="_blank"><font-awesome-icon :icon="['fa', 'eye']"></font-awesome-icon> Ver Archivo</a>
                   </div>
+                </b-col>
+                <b-col v-else-if="requeriment.type === 'form'" lg="3" class="d-flex justify-content-center align-items-center">
+                  <div>
+                    <font-awesome-icon :icon="['fa', 'check']"></font-awesome-icon> Completado
+                  </div>                
+                </b-col>
+                <b-col v-else-if="requeriment.type === 'physical'" lg="3" class="d-flex justify-content-center align-items-center">
+                  <div>
+                    Solo físico
+                  </div>                
                 </b-col>
                 
                 <b-col lg="3" class="d-flex justify-content-center align-items-center">

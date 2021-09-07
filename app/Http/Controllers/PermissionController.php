@@ -202,7 +202,19 @@ class PermissionController extends Controller
                 
 
                 foreach($requeriments as $requeriment) {
-                    $requerimentsIdsWithPivot[$requeriment->id] = ["file_url" => null, "is_valid" => null,];
+                    if ($requeriment->type === 'form') {
+                        $requerimentsIdsWithPivot[$requeriment->id] = ["file_url" => null, "is_valid" => true,];
+                    } else if ($requeriment->short_name === 'cedula') {
+                        $client = Client::find($getClientId);
+                        if ($client->dni_file_url) {
+                            $requerimentsIdsWithPivot[$requeriment->id] = ["file_url" => $client->dni_file_url, "is_valid" => true,];
+                        } else {
+                            $requerimentsIdsWithPivot[$requeriment->id] = ["file_url" => null, "is_valid" => false,];
+                        }
+
+                    } else {
+                        $requerimentsIdsWithPivot[$requeriment->id] = ["file_url" => null, "is_valid" => null,];
+                    }
                 }
 
                 $permit->requeriments()->sync($requerimentsIdsWithPivot);

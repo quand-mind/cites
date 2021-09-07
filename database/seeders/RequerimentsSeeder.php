@@ -17,6 +17,7 @@ class RequerimentsSeeder extends Seeder
         DB::table('requeriments')->insert([
             'name'      => 'Planilla de solicitud de Importación o (Re) Exportación de Fauna Silvestre y/o sus productos (disponible en www.minec.gob.ve).',
             'short_name'      => 'planilla_solicitud', //x
+            'type'      => 'form',
         ]);
         
         DB::table('requeriments')->insert([

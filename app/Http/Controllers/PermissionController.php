@@ -6,6 +6,7 @@ use Illuminate\Contracts\Support\JsonableInterface;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ValidFormaliteMail;
+use App\Mail\createFormaliteMail;
 use App\Models\Client;
 use App\Models\Official;
 use App\Models\Formalitie;
@@ -155,6 +156,7 @@ class PermissionController extends Controller
         }
         $formalitie->status = "uploading_requeriments";
         $formalitie->client_id = $request->input('client_id');
+        $formalitie->collected_time = $this->dayMoreTen();
         $formalitie->save();
         
         foreach ($getSpecies as $specie) {
@@ -337,6 +339,7 @@ class PermissionController extends Controller
         }
         // return $speciesIdsWithPivot;
         Log::info('El solicitante con la cedula de identidad '.$this->returnUser().'a solicitado un nuevo permiso | El permiso se ha solicitado desde la direccion: '. request()->ip());
+        Mail::to(auth()->user()->email)->send(new createFormaliteMail($formalitie));
         return response('Se ha solicitado el permiso, dirijase a la oficina del MINEC para entregar los recaudos.', 200);
     }
 

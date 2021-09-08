@@ -55,6 +55,28 @@
               </b-col>
             </b-row>
           </div>
+          <div>
+            <hr>
+            <h5>Archivos</h5>
+            <b-row class="mt-2 mb-2">
+              <b-col>Copia de Cédula</b-col>
+            </b-row>
+            <b-row class="mb-2">
+              <b-col v-if="client.dni_file_url" cols="2">
+                <a :href="`/${client.dni_file_url}`" target="_blank"><font-awesome-icon :icon="['fa', 'eye']"></font-awesome-icon> Ver Archivo</a>
+              </b-col>
+              <b-col cols="4">
+                <b-form-file
+                v-model="dni"
+                placeholder="Archivo pdf de la copia de su cédula"
+                max-size="10240"
+                accept=".pdf"
+                drop-placeholder="Suba el archivo aquí."
+              ></b-form-file>
+                <!-- <b-form-input v-model="client.user.dni_file_url" placeholder="Dirección"></b-form-input> -->
+              </b-col>
+            </b-row>
+          </div>
 
           <div>
             <hr>
@@ -94,9 +116,9 @@
             </b-row>
           </div>
 
-          <button class="btn btn-primary mt-4" @click="editUser()">Actualizar Datos</button>
         </b-card-text>
     </b-card>
+    <button class="btn btn-primary mt-4" @click="editUser()">Actualizar Datos</button>
   </div>
 </template>
 <script>
@@ -105,15 +127,19 @@ export default {
   data: () => ({
     changePassword: false,
     newPassword: null,
+    dni:null
   }),
   methods: {
     editUser () {
       console.log(this.client)
+      var form = new FormData()
+      form.append("file", this.dni)
+      form.append("client", JSON.stringify(this.client));
       axios
-        .post(`/solicitante/editUser`, { client: JSON.stringify(this.client)})
+        .post(`/solicitante/editUser`, form)
         .then(res => {
           this.makeToast(res.data)
-          // setTimeout(() => window.location.reload(), 1200)
+          setTimeout(() => window.location.reload(), 1200)
         })
         .catch(err => {
           this.makeToast(err.toString(), 'danger')

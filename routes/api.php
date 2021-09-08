@@ -73,6 +73,7 @@ Route::middleware('auth:api')->group(function () {
         Route::post('/deleteSpecieFile/{id}', 'PermissionController@deleteSpecieFile');
 
         Route::post('/uploadFile', 'PermissionController@storeFile');
+        Route::post('/uploadPersonalFile', 'PermissionController@savePersonalFile');
         Route::post('/deleteFile/{id}', 'PermissionController@deleteFile');
         
         Route::post('/addSpecie', 'PermissionController@addSpecie');

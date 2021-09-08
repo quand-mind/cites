@@ -6,6 +6,8 @@ use Illuminate\Console\Command;
 
 use Illuminate\Support\Facades\Log;
 use App\Models\Permit;
+use App\Mail\DateToUploadTheRequirementsWasExceeded;
+use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
 
 class StopDateUploadRequirement extends Command
@@ -41,14 +43,25 @@ class StopDateUploadRequirement extends Command
      */
     public function handle()
     {
-        $permits = Permit::where("status", "=", "requested")->get(); 
+        $permits = Permit::where("status", "=", "uploading_requeriments")->get(); 
+
         foreach ($permits as $permit) {
-           if ($permit->collected_time == Carbon::now()->toDateString()) {
-               $changeStatusPermit = Permit::find($permit->id);
-               $changeStatusPermit->status = "nulled";
-               $changeStatusPermit->save();
+            //array_push($array, $permit->id);
+            
+            if ($permit->collected_time >= Carbon::now()->toDateString()) {
+                $changeStatusPermit = Permit::find($permit->id);
+                $changeStatusPermit->status = "nulled";
+                $changeStatusPermit->save();
+
+                $formalities = Permit::join('formalities', 'formalities.id', '=', 'formalitie_id')
+                ->join('clients', 'clients.id', '=', 'client_id' )
+                ->where('permits.id', '=', $permit->id )->get();
+
+                foreach ($formalities as $formalitie) {
+                    Mail::to($formalitie->email)->send(new DateToUploadTheRequirementsWasExceeded($formalitie));
+                }
             }
         }
-        Log::info('test task auto run in one minute');
+        Log::info('Se han combrobado la fecha limite para cargar los requerimientos de los permisos');
     }
 }

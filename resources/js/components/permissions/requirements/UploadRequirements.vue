@@ -23,19 +23,40 @@
               <b-row class="w-100 d-flex justify-content-between align-items-center flex-row" v-for="(requeriment,index) of permit.requeriments" v-bind:key="index">
                 <b-col lg="3" class="my-4">{{requeriment.name}}</b-col>
                 <b-col lg="3" class="d-flex justify-content-center align-items-center">
-                  <div v-if="requeriment.short_name === 'documentos_especies'">
+                  <div v-if="requeriment.type === 'form'">
+                    <font-awesome-icon :icon="['fa', 'check']"></font-awesome-icon> Completado
+                  </div>
+                  <div v-if="requeriment.type === 'physical'">
+                    Entregar en físico únicamente
+                  </div>
+                  <div class="mr-3" v-if="requeriment.short_name === 'documentos_especies'">
                     <font-awesome-icon :icon="['fa', 'clipboard-list']"></font-awesome-icon> Especies Agregadas: {{permit.species.length}}
                   </div>
-                  <div v-if="!requeriment.pivot.file_url">
-                    <font-awesome-icon :icon="['fa', 'ban']"></font-awesome-icon> No hay un archivo subido
-                  </div>
-                  <div v-else>
-                    <a :href="`/${requeriment.pivot.file_url}`" target="_blank"><font-awesome-icon :icon="['fa', 'eye']"></font-awesome-icon> Ver Archivo</a>
+                  <div v-if="requeriment.type !== 'physical' && requeriment.type !== 'form'">
+                    <div v-if="!requeriment.pivot.file_url">
+                      <font-awesome-icon :icon="['fa', 'ban']"></font-awesome-icon> No hay un archivo subido
+                    </div>
+                    <div v-else>
+                      <a :href="`/${requeriment.pivot.file_url}`" target="_blank"><font-awesome-icon :icon="['fa', 'eye']"></font-awesome-icon> Ver Archivo</a>
+                    </div>
                   </div>
                 </b-col>
                 <b-col lg="3">
                   <div
                     class="d-flex justify-content-center align-items-center"
+                    v-if="requeriment.type === 'personal'"
+                  >
+                    <a v-if="requeriment.pivot.file_url" class="btn text-primary" style="cursor:pointer" href="/solicitante/editUser">
+                      <font-awesome-icon :icon="['fa', 'edit']"></font-awesome-icon>
+                    </a>
+                    <a v-if="!requeriment.pivot.file_url" class="btn text-primary" style="cursor:pointer" href="/solicitante/editUser">
+                      <font-awesome-icon :icon="['fa', 'upload']"></font-awesome-icon>
+                    </a>
+
+                  </div>
+                  <div
+                    class="d-flex justify-content-center align-items-center"
+                    v-else-if="requeriment.type !== 'physical' && requeriment.type !== 'form'"
                   >
                     <button v-if="requeriment.short_name === 'documentos_especies'" class="btn text-dark" @click="showSelectedSpecies = true" style="cursor:pointer">
                       <font-awesome-icon :icon="['fa', 'eye']"></font-awesome-icon>
@@ -56,6 +77,7 @@
                       <font-awesome-icon :icon="['fa', 'trash']"></font-awesome-icon>
                     </button>
                   </div>
+                  
                 </b-col>
               </b-row>
             </div>
@@ -78,7 +100,7 @@
 import SelectedSpecies from '../../admin/permissions/SelectedSpecies.vue';
 import AddSpecie from '../AddSpecie.vue';
 export default {
-  props: ['formalitie','type'],
+  props: ['formalitie','type', 'client_data'],
   components: {
     SelectedSpecies,
     AddSpecie
@@ -93,6 +115,7 @@ export default {
     length: 0,
     loading: false,
     loadingDelete: false,
+    isUploadedRequirements: false,
     fileUpload: null,
     options: {
       perPage: 10,
@@ -136,34 +159,39 @@ export default {
 
 
   }),
-  computed: {
-    isUploadedRequirements(){
-      this.count = 0 
-      this.length = 0
-      for (const permit of this.formalitie.permits) {
-        for (const requeriment of permit.requeriments) {
-          this.length++
-          if (requeriment.pivot.file_url){
-            this.count++
-          }
-        }
-      }
-      if(this.length === this.count) {
-        return true
-        // return count
-      }
-      else{
-        // return count
-        return false
-      }
-    }
-  },
   methods: {
+    uploadPersonals(requeriment, index, url){
+      var form = new FormData()
+      form.append("index", index)
+      form.append("requeriment", JSON.stringify(requeriment));
+      form.append("url", JSON.stringify(url));
+      // this.loading = true
+
+      axios
+        .post(`/solicitante/permissions/uploadPersonalFile/`, form, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
+        .then(res => {
+  
+          // this.makeToast('Archivo Guardado')
+          requeriment.pivot.file_url = res.data
+          // this.loading = false
+          this.checkUploadedRequirements()
+          this.$forceUpdate();
+        })
+        .catch(err => {
+          this.loading = false
+          this.makeToast(err.toString(), 'danger')
+        });
+    },
     uploadFile (file, requeriment, index) {
 
       var form = new FormData()
       form.append("file", file)
       form.append("requeriment", JSON.stringify(requeriment));
+      form.append("index", JSON.stringify(index));
       this.loading = true
 
       axios
@@ -177,6 +205,7 @@ export default {
           this.makeToast('Archivo Guardado')
           requeriment.pivot.file_url = res.data
           this.loading = false
+          this.checkUploadedRequirements()
           this.$forceUpdate();
         })
         .catch(err => {
@@ -208,24 +237,35 @@ export default {
       for (const permit of this.formalitie.permits) {
         for (const requeriment of permit.requeriments) {
           this.length++
-          if (requeriment.pivot.file_url){
+          if(requeriment.type === 'form' || requeriment.type === 'physical'){
             this.count++
+            this.$forceUpdate();
+          }
+          else {
+            if (requeriment.pivot.file_url){
+              this.count++
+              this.$forceUpdate();
+            }
+            else {
+              this.$forceUpdate();
+            }
           }
         }
       }
       if(this.length === this.count) {
-        return true
+        this.isUploadedRequirements = true
+        this.$forceUpdate();
         // return count
       }
       else{
         // return count
-        return false
+        this.isUploadedRequirements = false
+        this.$forceUpdate();
       }
-    }
-  },
+    },
     requestPermit(){
       axios
-        .post(`/solicitante/permissions/requestPermit/${this.permit[0].id}`)
+        .post(`/solicitante/permissions/requestPermit/${this.formalitie.id}`)
         .then(res => {
           this.makeToast(res.data)
           setTimeout(() => window.location.reload(), 1200)
@@ -241,36 +281,9 @@ export default {
         .then(res => {
           requeriment.pivot.file_url = null
           this.makeToast(res.data)
+          this.checkUploadedRequirements()
+          this.$forceUpdate();
           this.loadingDelete = false
-          // setTimeout(() => window.location.reload(), 1200)
-        })
-        .catch(err => {
-          this.loadingDelete = false
-          this.makeToast(err.toString(), 'danger')
-        });
-    },
-    deleteSpecie(specie){
-      console.log(specie)
-      axios
-        .post(`/solicitante/permissions/deleteSpecie`, {specie: JSON.stringify(specie), permit: JSON.stringify(this.permit[0])})
-        .then(res => {
-          this.permit[0].species.splice(specie.id - 1)
-          this.makeToast(res.data)
-          // setTimeout(() => window.location.reload(), 1200)
-        })
-        .catch(err => {
-          this.makeToast(err.toString(), 'danger')
-        });
-    },
-    deleteSpecieFile(specie, index){
-      this.closeSpecieListDialog()
-      this.loadingDelete = true
-      axios
-        .post(`/solicitante/permissions/deleteSpecieFile/${specie.pivot.permit_id}`, {specie: JSON.stringify(specie),index: index})
-        .then(res => {
-          specie.pivot.file_url = null
-          this.loadingDelete = false
-          this.makeToast(res.data)
           // setTimeout(() => window.location.reload(), 1200)
         })
         .catch(err => {
@@ -286,21 +299,22 @@ export default {
         variant
       });
     },
-    submit(){},
-    addSpecieToList(newSpecie){
-      axios
-        .post(`/solicitante/permissions/addSpecie`, {specie: JSON.stringify(newSpecie), permit: JSON.stringify(this.permit[0])})
-        .then(res => {
-          newSpecie.pivot.file_url = null
-          this.makeToast(res.data)
-          // setTimeout(() => window.location.reload(), 1200)
-        })
-        .catch(err => {
-          this.makeToast(err.toString(), 'danger')
-        });
-      this.permit[0].species.push(newSpecie)
-    },
   },
+  mounted() {
+    
+    if (this.client_data.dni_file_url){
+      for (const permit of this.formalitie.permits) {
+        let index = permit.requeriments.findIndex( requeriment => requeriment.short_name === 'cedula')
+        if (index !== -1){
+          // console.log(index)
+          this.uploadPersonals(permit.requeriments[index], index, this.client_data.dni_file_url)
+          // permit.requeriments[index].pivot.file_url = this.client_data.dni_file_url
+        }
+      }
+      // console.log('Si hay')
+    }
+    this.checkUploadedRequirements()
+  }
 }
 </script>
 <style>

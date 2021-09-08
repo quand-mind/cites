@@ -21,6 +21,7 @@ class ClientController extends Controller
     public function editClient(Request $request) 
     {
         $client = json_decode($request->input('client'));
+        $file = $request->file('file');
         $oldClient = Client::find($client->id);
         $user = User::find($client->user->id);
         $oldClient->user->name = $client->user->name;
@@ -30,6 +31,11 @@ class ClientController extends Controller
         $oldClient->user->nationality = $client->user->nationality;
         $oldClient->user->address = $client->user->address;
         $oldClient->user->fax = $client->user->fax;
+        if ($file) {
+            $nameFile = "client".$client->id."_dni_".$client->user->dni."_file_".time().".".$file->guessExtension();
+            $url = $request->file('file')->storeAs('files/permissions', $nameFile);
+            $oldClient->dni_file_url = $url;
+        }
         $oldClient->user->save();
         
         foreach ( $client->user->phones as $phone) {

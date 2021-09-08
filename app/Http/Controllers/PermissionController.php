@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Contracts\Support\JsonableInterface; 
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ValidFormaliteMail;
+use App\Mail\createFormaliteMail;
 use App\Models\Client;
 use App\Models\Official;
 use App\Models\Formalitie;
@@ -14,12 +17,15 @@ use Faker\Factory as Faker;
 use App\Models\Permit;
 use App\Models\PermitType;
 use App\Models\Requeriment;
+// use PDF;
+use Knp\Snappy\Pdf;
 
 use App\Models\Specie;
 use Illuminate\Support\Facades\Storage;
 use Response;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Support\Facades\App;
 
 class PermissionController extends Controller
 {
@@ -35,7 +41,7 @@ class PermissionController extends Controller
     {
         $clientData = Client::with('user')->where(['id' => auth()->user()->id])->get()->first();
         // return $clientData->user;
-        $formalities = Formalitie::where(['client_id' => $clientData->id])->with(['permits.requeriments', 'permits.permit_type', 'permits.species', 'client.user'])->get();
+        $formalities = Formalitie::where(['client_id' => $clientData->id])->with(['permits.requeriments', 'permits.permit_type', 'permits.species', 'client.user'])->paginate(2);
         // $permissions = Permit::where(['client_id' => $clientData->id])->with(['requeriments', 'permit_type', 'species', 'client.user'])->get();
         // $permissions = Permit::where(['client_id' => $clientData->id])->with(['requeriments', 'permit_type', 'species', 'client.user'])->paginate(2);
         return view('permissions.permissions', compact('formalities', 'clientData'));
@@ -71,40 +77,42 @@ class PermissionController extends Controller
         } else {
             $clientId = -1;
         }
-        $permissions = Permit::with(['requeriments', 'permit_type', 'species', 'client.user'])->whereNotIn('client_id', [$clientId])->get();
-        return view('panel.dashboard.permissions.permissions', compact('permissions'));
+        $formalities = Formalitie::with(['permits.requeriments', 'permits.permit_type', 'permits.species', 'client.user'])->whereNotIn('client_id', [$clientId])->get();
+        // $permissions = Permit::with(['requeriments', 'permit_type', 'species', 'client.user'])->whereNotIn('client_id', [$clientId])->get();
+        return view('panel.dashboard.permissions.permissions', compact('formalities'));
     }
     public function showChecklist($id)
     {
-        try {
-            $getPermit= Permit::find($id);
-            $officialData = Official::with('user')->where('id', '=', auth()->user()->id)->get()->first();
-
-            if ($officialData->user_id !== $getPermit->client->user_id) {
-                $permit = Permit::where(['id' => $id])->with(['requeriments', 'permit_type', 'species', 'client.user'])->get()->first();
-            } else {
-                $permit = null;
-            }
-            if ($permit) {
-                return view('panel.dashboard.permissions.check_requirements', compact('permit', 'officialData'));
-            } else {
-                return view('errors.404');
-            }
-        } catch (Exception $err) {
+        $getFormalitie= Formalitie::find($id);
+        // $getPermit= Permit::find($id);
+        $officialData = Official::with('user')->where('id', '=', auth()->user()->id)->get()->first();
+        
+        // return $getFormalitie->client->user_id;
+        if ($officialData->user_id !== $getFormalitie->client->user_id) {
+            $formalitie = Formalitie::where(['id' => $id])->with(['permits.requeriments', 'permits.permit_type', 'permits.species', 'client.user'])->get()->first();
+        } else {
+            $formalitie = null;
+        }
+        // return $formalitie;
+        if ($formalitie) {
+            return view('panel.dashboard.permissions.check_requirements', compact('formalitie', 'officialData'));
+        } else {
             return view('errors.404');
         }
     }
     public function showAprovedPermit($id)
     {
-        $permit = Permit::where(['id' => $id])->with(['requeriments', 'permit_type', 'client.user', 'official.user', 'species'])->get()->first();
+        $permit = Permit::where(['id' => $id])->with(['requeriments', 'permit_type', 'formalitie.client.user',
+        'formalitie.official.user', 'species'])->get()->first();
         // return $permit;
         $pdf = \App::make('dompdf.wrapper');
         $pdf->setOptions(['dpi' => 150, 'defaultFont' => 'sans-serif']);
         $image = base64_encode(file_get_contents(public_path('/images/logos/logo-minec.png')));
+        $logo = $image;
         $pdf->loadView('permissions.aproved_permit', [ 'permit' => $permit, 'logo' => $image ]);
         return $pdf->stream();
-
-        // return view('permissions.aproved_permit', compact('permit'));
+        
+        return view('permissions.aproved_permit', compact('permit', 'logo'));
     }
 
     // POST
@@ -149,6 +157,7 @@ class PermissionController extends Controller
         }
         $formalitie->status = "uploading_requeriments";
         $formalitie->client_id = $request->input('client_id');
+        $formalitie->collected_time = $this->dayMoreTen();
         $formalitie->save();
         
         foreach ($getSpecies as $specie) {
@@ -196,7 +205,19 @@ class PermissionController extends Controller
                 
 
                 foreach($requeriments as $requeriment) {
-                    $requerimentsIdsWithPivot[$requeriment->id] = ["file_url" => null, "is_valid" => null,];
+                    if ($requeriment->type === 'form') {
+                        $requerimentsIdsWithPivot[$requeriment->id] = ["file_url" => null, "is_valid" => true,];
+                    } else if ($requeriment->short_name === 'cedula') {
+                        $client = Client::find($getClientId);
+                        if ($client->dni_file_url) {
+                            $requerimentsIdsWithPivot[$requeriment->id] = ["file_url" => $client->dni_file_url, "is_valid" => true,];
+                        } else {
+                            $requerimentsIdsWithPivot[$requeriment->id] = ["file_url" => null, "is_valid" => false,];
+                        }
+
+                    } else {
+                        $requerimentsIdsWithPivot[$requeriment->id] = ["file_url" => null, "is_valid" => null,];
+                    }
                 }
 
                 $permit->requeriments()->sync($requerimentsIdsWithPivot);
@@ -319,6 +340,7 @@ class PermissionController extends Controller
         }
         // return $speciesIdsWithPivot;
         Log::info('El solicitante con la cedula de identidad '.$this->returnUser().'a solicitado un nuevo permiso | El permiso se ha solicitado desde la direccion: '. request()->ip());
+        Mail::to(auth()->user()->email)->send(new createFormaliteMail($formalitie));
         return response('Se ha solicitado el permiso, dirijase a la oficina del MINEC para entregar los recaudos.', 200);
     }
 
@@ -355,9 +377,13 @@ class PermissionController extends Controller
 
     public function requestPermit($id)
     {
-        $permit = Permit::find($id);
-        $permit->status = 'requested';
-        $permit->save();
+        $formalitie = Formalitie::find($id);
+        $formalitie->status = 'requested';
+        foreach ($formalitie->permits as $permit) {
+            $permit->status = 'requested';
+            $permit->save();
+        }
+        $formalitie->save();
         return response('Solicitud de Permiso finalizada', 200);
     }
     public function addSpecie(Request $request)
@@ -402,17 +428,29 @@ class PermissionController extends Controller
         
         return response('Especie Eliminada', 200);
     }
+    public function savePersonalFile(Request $request)
+    {
+        $requeriment = json_decode($request->input('requeriment'));
+        $index = json_decode($request->input('index'));
+        $url = json_decode($request->input('url'));
+        $permit_id = $requeriment->pivot->permit_id;
+        $permit = Permit::find($permit_id);
+        $permit->requeriments[$index]->pivot->file_url = $url;
+        $permit->push();
+        return $url;
+    }
     public function storeFile(Request $request)
     {
         $file = $request->file('file');
         $requeriment = json_decode($request->input('requeriment'));
+        $index = json_decode($request->input('index'));
         $requeriment_id = $requeriment->id;
         $permit_id = $requeriment->pivot->permit_id;
         // return $permit_id;
         $nameFile = "permit_".$permit_id."_requeriment_".$requeriment_id."_file_".time().".".$file->guessExtension();
         $url = $request->file('file')->storeAs('files/permissions', $nameFile);
         $permit = Permit::find($permit_id);
-        $permit->requeriments[$requeriment_id -1]->pivot->file_url = $url;
+        $permit->requeriments[$index]->pivot->file_url = $url;
         $permit->push();
         
         Log::info('El solicitante con la cedula de identidad '.$this->returnUser().'a cargado un archivo | El archivo se ha cargado desde la direccion: '. request()->ip());
@@ -477,14 +515,15 @@ class PermissionController extends Controller
     {
         $permit = Permit::find($id);
         $newRequeriment = json_decode($request->input('requeriment'));
+        $index = json_decode($request->input('index'));
         $pivot = $newRequeriment->pivot;
         $requeriment_id = $newRequeriment->id;
         if ($pivot->is_valid) {
             $pivot->is_valid = 1;
-            $permit->requeriments[$requeriment_id -1]->pivot->is_valid = $pivot->is_valid;
+            $permit->requeriments[$index]->pivot->is_valid = $pivot->is_valid;
         } else {
             $pivot->is_valid = 0;
-            $permit->requeriments[$requeriment_id -1]->pivot->is_valid = $pivot->is_valid;
+            $permit->requeriments[$index]->pivot->is_valid = $pivot->is_valid;
         }
         Log::info('El usuario con la cedula de identidad '.$this->returnUser().'a verificado el permiso | desde la direccion: '. request()->ip());
         $permit->push();
@@ -513,15 +552,27 @@ class PermissionController extends Controller
     }
     public function validPermit(Request $request, $id)
     {
-        $permit = Permit::find($id);
+        $formalitie = Formalitie::find($id);
+        $formalitie->sistra= $request->input('sistra');
+        $formalitie->status= 'valid';
+        $formalitie->official_id= $request->input('official_id');
+        $formalitie->save();
+
         $date = strtotime("+180 day");
-        $permit->valid_until = date('M d, Y', $date);
-        $permit->official_id= $request->input('official_id');
-        $permit->sistra= $request->input('sistra');
-        $permit->status= 'valid';
+        foreach ($formalitie->permits as $permit) {
+            $permit->valid_until = date('M d, Y', $date);
+            $permit->sistra= $request->input('sistra');
+            $permit->status= 'valid';
+            $permit->save();
+        }
+        $formalitie->save();
         
-        $permit->save();
+        $emailClient = Formalitie::with('client')->where('formalities.id', '=', $id)->get();
+        // foreach ($emailClient as $client) {
+        //     Mail::to($client->client->email)->send(new ValidFormaliteMail($formalitie));
+        // }
         Log::info('El official con la cedula de identidad '.$this->returnUser().'a verificado el permiso  | el permiso de a verificado desde la direccion: '.request()->ip());
+        
         return response('Estatus del Requerimiento Actualizado.', 200);
     }
     public function printAprovedPermit($id)
@@ -575,10 +626,48 @@ class PermissionController extends Controller
     public function dayMoreTen(){
 
         //create variable for  upload file limit date  
-        //$dayNow = Carbon::now();//->toDateString();
+        $dayNow = Carbon::now();
         $dayAddTen = Carbon::now()->addDays(10);
+
+
+        /**/
+        $year = Carbon::now()->format('Y');
+        $workingDays = [$year."-09-07", $year."-09-08", $year."-01-01", $year."-02-11", $year."-02-12", $year."-03-28", $year."-03-29", $year."-04-19", $year."-05-01", $year."-05-25", $year."-06-20", $year."-06-24", $year."-06-29", $year."-07-05", $year."-07-24", $year."-10-12", $year."-12-24", $year."-12-25", $year."-12-31"];
+        foreach ($workingDays as $workingDay) {
+
+            if ($this->check_in_range($dayNow, $dayAddTen, $workingDay))
+            {
+               $dayAddTen->addDays(1)->toDateString();
+            }
+        }
         if ($dayAddTen->isWeekend()) {
-            return  $dayAddTen->addDays(2)->toDateString();
+            $dayAddTen->addDays(2);
+        }
+        return $dayAddTen->toDateString();
+        
+    }
+
+    public function check_in_range($dayNow, $dayAddTen, $workingDay){
+
+        $dayNow = strtotime($dayNow);
+        $dayAddTen = strtotime($dayAddTen);
+        $workingDay = strtotime($workingDay);
+
+        if(($workingDay >= $dayNow) && ($workingDay <= $dayAddTen)) {
+   
+            return true;
+   
+        } else {
+   
+            return false;
+   
+        }
+    }
+    
+    public function testTask(){
+        $emailClient = Formalitie::with('client')->where('formalities.id', '=', 4)->get();
+        foreach ($emailClient as $client) {
+         return $client->client->email;
         }
     }
 }

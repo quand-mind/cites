@@ -181,12 +181,11 @@ class AuthController extends Controller
     {
         Log::info('El solicitante con el dni '.$this->returnUser().' a salido del sistema desde la siguente direccion: '. request()->ip());
         $this->guard()->logout();
-
         return redirect('/');
     }
 
     public function returnUser(){
-        $user = Client::with('user')->where('user_id', '=', auth()->user()->id)->get();
+        $user = Client::with('user')->where('user_id', '=', $this->guard()->user()->id)->get();
         foreach ($user as  $us) {
             return $us->user->dni;
         }

@@ -147,7 +147,7 @@
     <div class="d-flex w-100 justify-content-center align-items-center">
       <b-btn @click="prevPage()" class="mr-2" :disabled='formalities.current_page === 1'> <font-awesome-icon :icon="['fa', 'chevron-left']"></font-awesome-icon> </b-btn>
       Pagina {{formalities.current_page}} de {{formalities.last_page}}
-      <b-btn @click="nextPage()" class="ml-2" :disabled='formalities.current_page === formalities.last_page'> <font-awesome-icon :icon="['fa', 'chevron-right']"></font-awesome-icon> </b-btn>
+      <b-btn @click="nextPage()" class="ml-2" :disabled='formalities.current_page >= formalities.last_page'> <font-awesome-icon :icon="['fa', 'chevron-right']"></font-awesome-icon> </b-btn>
     </div>
       
   </div>

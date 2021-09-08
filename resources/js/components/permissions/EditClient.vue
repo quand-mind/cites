@@ -116,9 +116,9 @@
             </b-row>
           </div>
 
-          <button class="btn btn-primary mt-4" @click="editUser()">Actualizar Datos</button>
         </b-card-text>
     </b-card>
+    <button class="btn btn-primary mt-4" @click="editUser()">Actualizar Datos</button>
   </div>
 </template>
 <script>
@@ -139,7 +139,7 @@ export default {
         .post(`/solicitante/editUser`, form)
         .then(res => {
           this.makeToast(res.data)
-          // setTimeout(() => window.location.reload(), 1200)
+          setTimeout(() => window.location.reload(), 1200)
         })
         .catch(err => {
           this.makeToast(err.toString(), 'danger')

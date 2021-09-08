@@ -1,12 +1,12 @@
 <template>
   <div>
     <h1 class="mb-4">Trámites:</h1>
-    <div v-if="formalities.length === 0">
+    <div v-if="formalities.data.length === 0">
       <span>No hay tramites solicitados. Solicite sus permisos <a href="/solicitante/permissions/list">Aquí.</a></span>
     </div>
     <!-- <div class="formalitie-container" v-for="(formalitie, index) of formalities" v-bind:key="index">
       <h4 class=" mb-3">N° de Trámite: {{formalitie.request_formalitie_no}}</h4> -->
-      <div class="ml-4" v-for="(formalitie, index) of formalities" v-bind:key="index">
+      <div class="ml-4" v-for="(formalitie, index) of formalities.data" v-bind:key="index">
         <div class="formalitie-container">
           <div class="d-flex justify-content-between align-items-center">
             <h5 class=" mb-3">N° de Trámite: {{formalitie.request_formalitie_no}}</h5>
@@ -23,7 +23,6 @@
               <button class="btn btn-primary" @click="showFormaliteStatus(formalitie)">Ver estado del Trámite</button>
             </div>
             <div v-if="type === 'admin'">
-              <a v-if="formalitie.status === 'committed' || formalitie.status === 'valid'" class="btn btn-info" :href="`/dashboard/permissions/viewPermit/${formalitie.id}`">Imprimir Certificado</a>
               <button class="btn btn-primary" @click="showFormaliteStatus(formalitie)">Ver estado del Trámite</button>
               <a v-if="!(formalitie.status === 'uploading_requeriments' || formalitie.status === 'committed' || formalitie.status === 'valid')" class="btn btn-primary" :href="'/dashboard/permissions/check/'+ formalitie.id">Realizar Checkeo del Trámite</a>
             </div>
@@ -67,10 +66,10 @@
             <div v-if="type === 'client'">
               <button class="btn btn-primary" @click="showPermitStatus(permit)">Ver estado del Permiso</button>
             </div>
-            <div v-if="type === 'admin'">
-              <a v-if="permit.status === 'committed' || permit.status === 'valid'" class="btn btn-info" :href="`/dashboard/permissions/viewPermit/${permit.id}`">Imprimir Certificado</a>
+            <div class="d-flex flex-column justify-content-between align-items-end" v-if="type === 'admin'">
               <button class="btn btn-primary" @click="showPermitStatus(permit)">Ver estado del Permiso</button>
-              <a v-if="!(permit.status === 'uploading_requeriments' || permit.status === 'committed' || permit.status === 'valid')" class="btn btn-primary" :href="'/dashboard/permissions/check/'+ selectedFormalite.id">Realizar Checkeo del Permiso</a>
+              <a v-if="permit.status === 'committed' || permit.status === 'valid'" class="btn btn-info mt-2" :href="`/dashboard/permissions/viewPermit/${permit.id}`">Imprimir Certificado</a>
+              <a v-if="!(permit.status === 'uploading_requeriments' || permit.status === 'committed' || permit.status === 'valid')" class="btn btn-primary mt-2" :href="'/dashboard/permissions/check/'+ selectedFormalite.id">Realizar Checkeo del Permiso</a>
             </div>
           </div>
         </div>
@@ -144,6 +143,12 @@
         </b-col>
       </b-row>
     </b-modal>
+
+    <div class="d-flex w-100 justify-content-center align-items-center">
+      <b-btn @click="prevPage()" class="mr-2" :disabled='formalities.current_page === 1'> <font-awesome-icon :icon="['fa', 'chevron-left']"></font-awesome-icon> </b-btn>
+      Pagina {{formalities.current_page}} de {{formalities.last_page}}
+      <b-btn @click="nextPage()" class="ml-2" :disabled='formalities.current_page === formalities.last_page'> <font-awesome-icon :icon="['fa', 'chevron-right']"></font-awesome-icon> </b-btn>
+    </div>
       
   </div>
 </template>
@@ -190,6 +195,12 @@ export default {
     showFormaliteStatus(formalite){
       this.showFormalite = true
       this.selectedFormalite = formalite
+    },
+    prevPage(){
+      window.location.assign(this.formalities.prev_page_url)
+    },
+    nextPage(){
+      window.location.assign(this.formalities.next_page_url)
     }
   },
 }

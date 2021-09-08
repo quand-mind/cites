@@ -40,7 +40,7 @@ class PermissionController extends Controller
     {
         $clientData = Client::with('user')->where(['id' => auth()->user()->id])->get()->first();
         // return $clientData->user;
-        $formalities = Formalitie::where(['client_id' => $clientData->id])->with(['permits.requeriments', 'permits.permit_type', 'permits.species', 'client.user'])->get();
+        $formalities = Formalitie::where(['client_id' => $clientData->id])->with(['permits.requeriments', 'permits.permit_type', 'permits.species', 'client.user'])->paginate(2);
         // $permissions = Permit::where(['client_id' => $clientData->id])->with(['requeriments', 'permit_type', 'species', 'client.user'])->get();
         // $permissions = Permit::where(['client_id' => $clientData->id])->with(['requeriments', 'permit_type', 'species', 'client.user'])->paginate(2);
         return view('permissions.permissions', compact('formalities', 'clientData'));
@@ -103,6 +103,7 @@ class PermissionController extends Controller
     {
         $permit = Permit::where(['id' => $id])->with(['requeriments', 'permit_type', 'formalitie.client.user',
         'formalitie.official.user', 'species'])->get()->first();
+        // return $permit;
         $pdf = \App::make('dompdf.wrapper');
         $pdf->setOptions(['dpi' => 150, 'defaultFont' => 'sans-serif']);
         $image = base64_encode(file_get_contents(public_path('/images/logos/logo-minec.png')));
@@ -424,17 +425,29 @@ class PermissionController extends Controller
         
         return response('Especie Eliminada', 200);
     }
+    public function savePersonalFile(Request $request)
+    {
+        $requeriment = json_decode($request->input('requeriment'));
+        $index = json_decode($request->input('index'));
+        $url = json_decode($request->input('url'));
+        $permit_id = $requeriment->pivot->permit_id;
+        $permit = Permit::find($permit_id);
+        $permit->requeriments[$index]->pivot->file_url = $url;
+        $permit->push();
+        return $url;
+    }
     public function storeFile(Request $request)
     {
         $file = $request->file('file');
         $requeriment = json_decode($request->input('requeriment'));
+        $index = json_decode($request->input('index'));
         $requeriment_id = $requeriment->id;
         $permit_id = $requeriment->pivot->permit_id;
         // return $permit_id;
         $nameFile = "permit_".$permit_id."_requeriment_".$requeriment_id."_file_".time().".".$file->guessExtension();
         $url = $request->file('file')->storeAs('files/permissions', $nameFile);
         $permit = Permit::find($permit_id);
-        $permit->requeriments[$requeriment_id -1]->pivot->file_url = $url;
+        $permit->requeriments[$index]->pivot->file_url = $url;
         $permit->push();
         
         Log::info('El solicitante con la cedula de identidad '.$this->returnUser().'a cargado un archivo | El archivo se ha cargado desde la direccion: '. request()->ip());
@@ -499,14 +512,15 @@ class PermissionController extends Controller
     {
         $permit = Permit::find($id);
         $newRequeriment = json_decode($request->input('requeriment'));
+        $index = json_decode($request->input('index'));
         $pivot = $newRequeriment->pivot;
         $requeriment_id = $newRequeriment->id;
         if ($pivot->is_valid) {
             $pivot->is_valid = 1;
-            $permit->requeriments[$requeriment_id -1]->pivot->is_valid = $pivot->is_valid;
+            $permit->requeriments[$index]->pivot->is_valid = $pivot->is_valid;
         } else {
             $pivot->is_valid = 0;
-            $permit->requeriments[$requeriment_id -1]->pivot->is_valid = $pivot->is_valid;
+            $permit->requeriments[$index]->pivot->is_valid = $pivot->is_valid;
         }
         Log::info('El usuario con la cedula de identidad '.$this->returnUser().'a verificado el permiso | desde la direccion: '. request()->ip());
         $permit->push();
@@ -551,9 +565,9 @@ class PermissionController extends Controller
         $formalitie->save();
         
         $emailClient = Formalitie::with('client')->where('formalities.id', '=', $id)->get();
-        foreach ($emailClient as $client) {
-            Mail::to($client->client->email)->send(new ValidFormaliteMail($formalitie));
-        }
+        // foreach ($emailClient as $client) {
+        //     Mail::to($client->client->email)->send(new ValidFormaliteMail($formalitie));
+        // }
         Log::info('El official con la cedula de identidad '.$this->returnUser().'a verificado el permiso  | el permiso de a verificado desde la direccion: '.request()->ip());
         
         return response('Estatus del Requerimiento Actualizado.', 200);

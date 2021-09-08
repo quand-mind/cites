@@ -86,12 +86,12 @@
                     </button>
                   </div>
                   <div class="d-flex justify-content-center align-items-center flex-row" >
-                    <b-form-checkbox class="mr-2" v-model="requeriment.pivot.is_valid" :key="requeriment.pivot.is_valid" :value="1" @input="changeValid(requeriment, permit)"
+                    <b-form-checkbox class="mr-2" v-model="requeriment.pivot.is_valid" :key="requeriment.pivot.is_valid" :value="1" @input="changeValid(requeriment, permit, index)"
                       :unchecked-value="0" name="check-button" button button-variant="success" :disabled="Boolean(requeriment.pivot.is_valid)">
                       <font-awesome-icon :icon="['fa', 'check']"></font-awesome-icon>
                     </b-form-checkbox>
 
-                    <b-form-checkbox v-model="requeriment.pivot.is_valid" :key="!requeriment.pivot.is_valid" :value="0" @input="changeValid(requeriment, permit)"
+                    <b-form-checkbox v-model="requeriment.pivot.is_valid" :key="!requeriment.pivot.is_valid" :value="0" @input="changeValid(requeriment, permit, index)"
                       :unchecked-value="1" name="check-button" button button-variant="danger" :disabled="!requeriment.pivot.is_valid">
                       <font-awesome-icon :icon="['fa', 'times']"></font-awesome-icon>
                     </b-form-checkbox>
@@ -232,11 +232,11 @@ export default {
           this.makeToast(err.toString(), 'danger')
         });
     },
-    changeValid(requeriment, permit){
+    changeValid(requeriment, permit, index){
       this.$forceUpdate();
       this.checkValidRequirements()
       axios
-        .post(`/dashboard/permissions/check/`+permit.id, {requeriment: JSON.stringify(requeriment), permit: permit})
+        .post(`/dashboard/permissions/check/`+permit.id, {requeriment: JSON.stringify(requeriment), permit: permit, index: index})
         .then(res => {
           this.makeToast(res.data)
           // setTimeout(() => window.location.reload(), 1200)

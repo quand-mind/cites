@@ -57,13 +57,23 @@
             <div class="w-100 body justify-content-center align-items-center flex-column">
               <b-row class="w-100 d-flex justify-content-between align-items-center flex-row" v-for="(requeriment,index) of permit.requeriments" v-bind:key="index">
                 <b-col lg="3" class="my-4">{{requeriment.name}}</b-col>
-                <b-col lg="3" class="d-flex justify-content-center align-items-center">
+                <b-col v-if="requeriment.type !== 'form' && requeriment.type !== 'physical'" lg="3" class="d-flex justify-content-center align-items-center">
                   <div v-if="!requeriment.pivot.file_url">
                     <font-awesome-icon :icon="['fa', 'ban']"></font-awesome-icon> No hay un archivo subido
                   </div>
                   <div v-else>
                     <a :href="`/${requeriment.pivot.file_url}`" target="_blank"><font-awesome-icon :icon="['fa', 'eye']"></font-awesome-icon> Ver Archivo</a>
                   </div>
+                </b-col>
+                <b-col v-else-if="requeriment.type === 'form'" lg="3" class="d-flex justify-content-center align-items-center">
+                  <div>
+                    <font-awesome-icon :icon="['fa', 'check']"></font-awesome-icon> Completado
+                  </div>                
+                </b-col>
+                <b-col v-else-if="requeriment.type === 'physical'" lg="3" class="d-flex justify-content-center align-items-center">
+                  <div>
+                    Solo físico
+                  </div>                
                 </b-col>
                 
                 <b-col lg="3" class="d-flex justify-content-center align-items-center">
@@ -76,12 +86,12 @@
                     </button>
                   </div>
                   <div class="d-flex justify-content-center align-items-center flex-row" >
-                    <b-form-checkbox class="mr-2" v-model="requeriment.pivot.is_valid" :key="requeriment.pivot.is_valid" :value="1" @input="changeValid(requeriment, permit)"
+                    <b-form-checkbox class="mr-2" v-model="requeriment.pivot.is_valid" :key="requeriment.pivot.is_valid" :value="1" @input="changeValid(requeriment, permit, index)"
                       :unchecked-value="0" name="check-button" button button-variant="success" :disabled="Boolean(requeriment.pivot.is_valid)">
                       <font-awesome-icon :icon="['fa', 'check']"></font-awesome-icon>
                     </b-form-checkbox>
 
-                    <b-form-checkbox v-model="requeriment.pivot.is_valid" :key="!requeriment.pivot.is_valid" :value="0" @input="changeValid(requeriment, permit)"
+                    <b-form-checkbox v-model="requeriment.pivot.is_valid" :key="!requeriment.pivot.is_valid" :value="0" @input="changeValid(requeriment, permit, index)"
                       :unchecked-value="1" name="check-button" button button-variant="danger" :disabled="!requeriment.pivot.is_valid">
                       <font-awesome-icon :icon="['fa', 'times']"></font-awesome-icon>
                     </b-form-checkbox>
@@ -222,11 +232,11 @@ export default {
           this.makeToast(err.toString(), 'danger')
         });
     },
-    changeValid(requeriment, permit){
+    changeValid(requeriment, permit, index){
       this.$forceUpdate();
       this.checkValidRequirements()
       axios
-        .post(`/dashboard/permissions/check/`+permit.id, {requeriment: JSON.stringify(requeriment), permit: permit})
+        .post(`/dashboard/permissions/check/`+permit.id, {requeriment: JSON.stringify(requeriment), permit: permit, index: index})
         .then(res => {
           this.makeToast(res.data)
           // setTimeout(() => window.location.reload(), 1200)

@@ -84,7 +84,10 @@
           <h6 class="absolute" style="width: 100%;margin-top: 0px; top: 0;">Condiciones Especiales</h6>
         </div>
         <div style="position: absolute; padding:5px; top:98; border:1px solid; height: 200px; left:269; width:50%; display:inline;">
-          <h6 class="absolute" style="width: 100%;margin-top: 0px; top: 0;">Nombre, dirección, sello/timbre nacional y país de la Autoridad Administrativa</h6>
+          <h6 class="absolute" style="width: 100%; margin-top: 0px; top: 0;">Nombre, dirección, sello/timbre nacional y país de la Autoridad Administrativa</h6>
+          <h6 class="absolute" style="width: 100%; margin-top: 0px; left:30; top: 37;">República Bolivariana de Venezuela</h6>
+          <span class="absolute" style="width: 30%; margin-top: 0px; left:30; top: 47 ; font-size: 16px; ">Ministerio del Ambiente y de los Recursos Naturales Renovables</span>
+          <h6 class="absolute" style="width: 100%; margin-top: 0px; left:30; top: 80; font-size: 16px;">Centro Simón Bolívar, Torre Sur, Caracas, 1010</h6>
         </div>
         <div style="position: absolute; padding:5px; top:170; border:1px solid; height: 50px; left:0; width:24%; display:inline;">
           <h6 class="absolute" style="width: 100%;margin-top: 0px; top: 0;">Fin de la Transacción</h6>
@@ -108,7 +111,7 @@
           $count =0;
         @endphp
 
-        @foreach($permit->species as $specie)
+        {{-- @foreach($permit->permit->species[]s as $permit->species[]) --}}
           
           @php
             $count++;
@@ -130,13 +133,13 @@
           </div>
 
           <div style="position: absolute; padding:5px; top: {{200+(29*$count)}}; border:1px solid; height: 50px; left:16; width:47%; display:inline;">
-            <span class="absolute" style="width: 40%;margin-top: 0px; top: 12; font-size: 8;">{{$specie->name_scientific}}</span>
-            <span class="absolute" style="width: 40%;margin-top: 0px; top: 0; font-size: 8;">{{$specie->name_common}}</span>
-            <span class="absolute" style="width: 50%;margin-top: 2px; top: 0; left:140; font-size: 8;">{{$specie->pivot->description}}</span>
+            <span class="absolute" style="width: 40%;margin-top: 0px; top: 12; font-size: 8;">{{$permit->species[0]->name_scientific}}</span>
+            <span class="absolute" style="width: 40%;margin-top: 0px; top: 0; font-size: 8;">{{$permit->species[0]->name_common}}</span>
+            <span class="absolute" style="width: 50%;margin-top: 2px; top: 0; left:140; font-size: 8;">{{$permit->species[0]->pivot->description}}</span>
           </div>
           <div style="position: absolute; padding:5px; top: {{200+(29*$count)}}; border:1px solid; height: 50px; left:269; width:50%; display:inline;">
-            <span class="absolute" style=" border-right: 1px solid; width: 30%; padding-top:2px; margin-top: 0px; height:56px; top: 0; left:4;font-size: 8;">{{$specie->appendix}}, {{$specie->pivot->origin}}</span>
-            <span class="absolute" style=" border-right: 1px solid; width: 33%; padding-top:2px; margin-top: 0px; height:56px; top: 0; left:88; font-size: 8;">{{$specie->pivot->qty}}</span>
+            <span class="absolute" style=" border-right: 1px solid; width: 30%; padding-top:2px; margin-top: 0px; height:56px; top: 0; left:4;font-size: 8;">{{$permit->species[0]->appendix}}, {{$permit->species[0]->pivot->origin}}</span>
+            <span class="absolute" style=" border-right: 1px solid; width: 33%; padding-top:2px; margin-top: 0px; height:56px; top: 0; left:88; font-size: 8;">{{$permit->species[0]->pivot->qty}}</span>
             <span class="absolute" style="  width: 34%; padding-top:2px; margin-top: 0px; height:56px; top: 0; left:178; font-size: 8;"></span>
           </div>
 
@@ -146,7 +149,238 @@
 
           <div style="position: absolute; padding:5px; top: {{200+(29*$count)}}; border:1px solid; height: 50px; left:16; width:98%; display:inline;">
             <h6 class="absolute" style="border-right:1px solid; width: 10%; height:60px; margin-top: -5px; top: 0; font-size: 14px;">País de Origen:</h6>
-            <span class="absolute" style="width: 20%; height:60px; margin-top: 20px; top: 0; font-size: 12px; left:4">{{$specie->pivot->origin_country}}</span>
+            <span class="absolute" style="width: 20%; height:60px; margin-top: 20px; top: 0; font-size: 12px; left:4">{{$permit->species[0]->pivot->origin_country}}</span>
+
+            <h6 class="absolute" style="border-right:1px solid; width: 10%; height:60px; margin-top: 0px; top: 0; left:57; font-size: 14px;">Permiso N°:</h6>
+            <span class="absolute" style="width: 20%; height:60px; margin-top: 20px; top: 0; font-size: 12px; left:57"></span>
+
+            <h6 class="absolute" style="border-right:1px solid; width: 10%; height:60px; margin-top: 0px; top: 0; left:112; font-size: 14px;"> Fecha:</h6>
+            <span class="absolute" style="width: 20%; height:60px; margin-top: 20px; top: 0; font-size: 12px; left:112"></span>
+
+            <h6 class="absolute" style="border-right:1px solid; width: 20%; height:60px; margin-top: 0px; top: 0; left:168; font-size: 14px;"> País de la última reexportación:</h6>
+            <span class="absolute" style="width: 20%; height:60px; margin-top: 20px; top: 0; font-size: 12px; left:168"></span>
+            
+            <h6 class="absolute" style="border-right:1px solid; width: 12%; height:60px; margin-top: 0px; top: 0; left:277; font-size: 14px;"> N° Certificado:</h6>
+            <span class="absolute" style="width: 20%; height:60px; margin-top: 20px; top: 0; font-size: 12px; left:277"></span>
+            
+            <h6 class="absolute" style="border-right:1px solid; width: 12%; height:60px; margin-top: 0px; top: 0; left:344; font-size: 14px;"> Fecha:</h6>
+            <span class="absolute" style="width: 20%; height:60px; margin-top: 20px; top: 0; font-size: 12px; left:344"></span>
+                      
+            <h6 class="absolute" style="border-right:1px solid; width: 21%; height:60px; margin-top: 0px; top: 0; left:413; font-size: 14px;"> N° de la operación o fecha de adquisición:</h6>
+            <span class="absolute" style="width: 20%; height:60px; margin-top: 38px; top: 0; font-size: 12px; left:413"></span>
+          </div>
+          
+          @php
+            $count++;
+          @endphp
+
+          <div style="position: absolute; padding:5px; top: {{200+(29*$count)}}; border:1px solid; height: 110px; left:0; width:2%; display:inline;">
+            @if($count == 1)
+              <h6 class="absolute" style="width: 40%;margin-top: 0px; top: 20;">A</h6>
+            @endif
+            @if($count == 3)
+              <h6 class="absolute" style="width: 40%;margin-top: 0px; top: 20;">B</h6>
+            @endif
+            @if($count == 5)
+              <h6 class="absolute" style="width: 40%;margin-top: 0px; top: 20;">C</h6>
+            @endif
+            @if($count == 7)
+              <h6 class="absolute" style="width: 40%;margin-top: 0px; top: 20;">D</h6>
+            @endif
+          </div>
+
+          <div style="position: absolute; padding:5px; top: {{200+(29*$count)}}; border:1px solid; height: 50px; left:16; width:47%; display:inline;">
+            @if (count($permit->species) > 1)
+              <span class="absolute" style="width: 40%;margin-top: 0px; top: 12; font-size: 8;">{{$permit->species[1]->name_scientific}}</span>
+            @endif
+            @if (count($permit->species) > 1)
+              <span class="absolute" style="width: 40%;margin-top: 0px; top: 0; font-size: 8;">{{$permit->species[1]->name_common}}</span>
+            @else
+              <hr style="margin-top:25px;">
+            @endif
+            @if (count($permit->species) > 1)
+              <span class="absolute" style="width: 50%;margin-top: 2px; top: 0; left:140; font-size: 8;">{{$permit->species[1]->pivot->description}}</span>
+            @endif
+          </div>
+          <div style="position: absolute; padding:5px; top: {{200+(29*$count)}}; border:1px solid; height: 50px; left:269; width:50%; display:inline;">
+            @if (count($permit->species) > 1)
+              <span class="absolute" style=" border-right: 1px solid; width: 30%; padding-top:2px; margin-top: 0px; height:56px; top: 0; left:4;font-size: 8;">{{$permit->species[1]->appendix}}, {{$permit->species[1]->pivot->origin}}</span>
+            @endif
+            @if (count($permit->species) > 1)
+              <span class="absolute" style=" border-right: 1px solid; width: 33%; padding-top:2px; margin-top: 0px; height:56px; top: 0; left:88; font-size: 8;">{{$permit->species[1]->pivot->qty}}</span>
+            @else
+              <hr style="margin-top:25px;">
+            @endif
+            @if (count($permit->species) > 1)
+              <span class="absolute" style="  width: 34%; padding-top:2px; margin-top: 0px; height:56px; top: 0; left:178; font-size: 8;"></span>
+            @endif
+          </div>
+
+          @php
+            $count++;
+          @endphp
+
+          <div style="position: absolute; padding:5px; top: {{200+(29*$count)}}; border:1px solid; height: 50px; left:16; width:98%; display:inline;">
+            <h6 class="absolute" style="border-right:1px solid; width: 10%; height:60px; margin-top: -5px; top: 0; font-size: 14px;">País de Origen:</h6>
+            @if (count($permit->species) > 1) 
+              <span class="absolute" style="width: 20%; height:60px; margin-top: 20px; top: 0; font-size: 12px; left:4">{{$permit->species[1]->pivot->origin_country}}</span>
+            @else
+              <hr style="margin-top:38px;">
+            @endif
+
+            <h6 class="absolute" style="border-right:1px solid; width: 10%; height:60px; margin-top: 0px; top: 0; left:57; font-size: 14px;">Permiso N°:</h6>
+            <span class="absolute" style="width: 20%; height:60px; margin-top: 20px; top: 0; font-size: 12px; left:57"></span>
+
+            <h6 class="absolute" style="border-right:1px solid; width: 10%; height:60px; margin-top: 0px; top: 0; left:112; font-size: 14px;"> Fecha:</h6>
+            <span class="absolute" style="width: 20%; height:60px; margin-top: 20px; top: 0; font-size: 12px; left:112"></span>
+
+            <h6 class="absolute" style="border-right:1px solid; width: 20%; height:60px; margin-top: 0px; top: 0; left:168; font-size: 14px;"> País de la última reexportación:</h6>
+            <span class="absolute" style="width: 20%; height:60px; margin-top: 20px; top: 0; font-size: 12px; left:168"></span>
+            
+            <h6 class="absolute" style="border-right:1px solid; width: 12%; height:60px; margin-top: 0px; top: 0; left:277; font-size: 14px;"> N° Certificado:</h6>
+            <span class="absolute" style="width: 20%; height:60px; margin-top: 20px; top: 0; font-size: 12px; left:277"></span>
+            
+            <h6 class="absolute" style="border-right:1px solid; width: 12%; height:60px; margin-top: 0px; top: 0; left:344; font-size: 14px;"> Fecha:</h6>
+            <span class="absolute" style="width: 20%; height:60px; margin-top: 20px; top: 0; font-size: 12px; left:344"></span>
+                      
+            <h6 class="absolute" style="border-right:1px solid; width: 21%; height:60px; margin-top: 0px; top: 0; left:413; font-size: 14px;"> N° de la operación o fecha de adquisición:</h6>
+            <span class="absolute" style="width: 20%; height:60px; margin-top: 38px; top: 0; font-size: 12px; left:413"></span>
+          </div>
+          
+          @php
+            $count++;
+          @endphp
+
+          <div style="position: absolute; padding:5px; top: {{200+(29*$count)}}; border:1px solid; height: 110px; left:0; width:2%; display:inline;">
+            @if($count == 1)
+              <h6 class="absolute" style="width: 40%;margin-top: 0px; top: 20;">A</h6>
+            @endif
+            @if($count == 3)
+              <h6 class="absolute" style="width: 40%;margin-top: 0px; top: 20;">B</h6>
+            @endif
+            @if($count == 5)
+              <h6 class="absolute" style="width: 40%;margin-top: 0px; top: 20;">C</h6>
+            @endif
+            @if($count == 7)
+              <h6 class="absolute" style="width: 40%;margin-top: 0px; top: 20;">D</h6>
+            @endif
+          </div>
+
+          <div style="position: absolute; padding:5px; top: {{200+(29*$count)}}; border:1px solid; height: 50px; left:16; width:47%; display:inline;">
+            @if (count($permit->species) > 2)
+              <span class="absolute" style="width: 40%;margin-top: 0px; top: 12; font-size: 8;">{{$permit->species[2]->name_scientific}}</span>
+            @endif
+            @if (count($permit->species) > 2)
+              <span class="absolute" style="width: 40%;margin-top: 0px; top: 0; font-size: 8;">{{$permit->species[2]->name_common}}</span>
+            @else
+              <hr style="margin-top:25px;">
+            @endif
+            @if (count($permit->species) > 2)
+              <span class="absolute" style="width: 50%;margin-top: 2px; top: 0; left:140; font-size: 8;">{{$permit->species[2]->pivot->description}}</span>
+            @endif
+          </div>
+          <div style="position: absolute; padding:5px; top: {{200+(29*$count)}}; border:1px solid; height: 50px; left:269; width:50%; display:inline;">
+            @if (count($permit->species) > 2)
+              <span class="absolute" style=" border-right: 1px solid; width: 30%; padding-top:2px; margin-top: 0px; height:56px; top: 0; left:4;font-size: 8;">{{$permit->species[2]->appendix}}, {{$permit->species[2]->pivot->origin}}</span>
+            @endif
+            @if (count($permit->species) > 2)
+              <span class="absolute" style=" border-right: 1px solid; width: 33%; padding-top:2px; margin-top: 0px; height:56px; top: 0; left:88; font-size: 8;">{{$permit->species[2]->pivot->qty}}</span>
+            @else
+              <hr style="margin-top:25px;">
+            @endif
+            @if (count($permit->species) > 2)  
+              <span class="absolute" style="  width: 34%; padding-top:2px; margin-top: 0px; height:56px; top: 0; left:178; font-size: 8;"></span>
+            @endif  
+          </div>
+
+          @php
+            $count++;
+          @endphp
+
+          <div style="position: absolute; padding:5px; top: {{200+(29*$count)}}; border:1px solid; height: 50px; left:16; width:98%; display:inline;">
+            <h6 class="absolute" style="border-right:1px solid; width: 10%; height:60px; margin-top: -5px; top: 0; font-size: 14px;">País de Origen:</h6>
+            @if (count($permit->species) > 2)
+              <span class="absolute" style="width: 20%; height:60px; margin-top: 20px; top: 0; font-size: 12px; left:4">{{$permit->species[2]->pivot->origin_country}}</span>
+            @else
+              <hr style="margin-top:38px;">
+            @endif
+
+            <h6 class="absolute" style="border-right:1px solid; width: 10%; height:60px; margin-top: 0px; top: 0; left:57; font-size: 14px;">Permiso N°:</h6>
+            <span class="absolute" style="width: 20%; height:60px; margin-top: 20px; top: 0; font-size: 12px; left:57"></span>
+
+            <h6 class="absolute" style="border-right:1px solid; width: 10%; height:60px; margin-top: 0px; top: 0; left:112; font-size: 14px;"> Fecha:</h6>
+            <span class="absolute" style="width: 20%; height:60px; margin-top: 20px; top: 0; font-size: 12px; left:112"></span>
+
+            <h6 class="absolute" style="border-right:1px solid; width: 20%; height:60px; margin-top: 0px; top: 0; left:168; font-size: 14px;"> País de la última reexportación:</h6>
+            <span class="absolute" style="width: 20%; height:60px; margin-top: 20px; top: 0; font-size: 12px; left:168"></span>
+            
+            <h6 class="absolute" style="border-right:1px solid; width: 12%; height:60px; margin-top: 0px; top: 0; left:277; font-size: 14px;"> N° Certificado:</h6>
+            <span class="absolute" style="width: 20%; height:60px; margin-top: 20px; top: 0; font-size: 12px; left:277"></span>
+            
+            <h6 class="absolute" style="border-right:1px solid; width: 12%; height:60px; margin-top: 0px; top: 0; left:344; font-size: 14px;"> Fecha:</h6>
+            <span class="absolute" style="width: 20%; height:60px; margin-top: 20px; top: 0; font-size: 12px; left:344"></span>
+                      
+            <h6 class="absolute" style="border-right:1px solid; width: 21%; height:60px; margin-top: 0px; top: 0; left:413; font-size: 14px;"> N° de la operación o fecha de adquisición:</h6>
+            <span class="absolute" style="width: 20%; height:60px; margin-top: 38px; top: 0; font-size: 12px; left:413"></span>
+          </div>
+          
+          @php
+            $count++;
+          @endphp
+
+          <div style="position: absolute; padding:5px; top: {{200+(29*$count)}}; border:1px solid; height: 110px; left:0; width:2%; display:inline;">
+            @if($count == 1)
+              <h6 class="absolute" style="width: 40%;margin-top: 0px; top: 20;">A</h6>
+            @endif
+            @if($count == 3)
+              <h6 class="absolute" style="width: 40%;margin-top: 0px; top: 20;">B</h6>
+            @endif
+            @if($count == 5)
+              <h6 class="absolute" style="width: 40%;margin-top: 0px; top: 20;">C</h6>
+            @endif
+            @if($count == 7)
+              <h6 class="absolute" style="width: 40%;margin-top: 0px; top: 20;">D</h6>
+            @endif
+          </div>
+
+          <div style="position: absolute; padding:5px; top: {{200+(29*$count)}}; border:1px solid; height: 50px; left:16; width:47%; display:inline;">
+            @if (count($permit->species) > 3)
+              <span class="absolute" style="width: 40%;margin-top: 0px; top: 12; font-size: 8;">{{$permit->species[3]->name_scientific}}</span>
+            @endif
+            @if (count($permit->species) > 3)
+              <span class="absolute" style="width: 40%;margin-top: 0px; top: 0; font-size: 8;">{{$permit->species[3]->name_common}}</span>
+            @else
+              <hr style="margin-top:25px;">
+            @endif
+            @if (count($permit->species) > 3)
+              <span class="absolute" style="width: 50%;margin-top: 2px; top: 0; left:140; font-size: 8;">{{$permit->species[3]->pivot->description}}</span>
+            @endif
+          </div>
+          <div style="position: absolute; padding:5px; top: {{200+(29*$count)}}; border:1px solid; height: 50px; left:269; width:50%; display:inline;">
+            @if (count($permit->species) > 3)
+              <span class="absolute" style=" border-right: 1px solid; width: 30%; padding-top:2px; margin-top: 0px; height:56px; top: 0; left:4;font-size: 8;">{{$permit->species[3]->appendix}}, {{$permit->species[3]->pivot->origin}}</span>
+            @endif
+            @if (count($permit->species) > 3)
+              <span class="absolute" style=" border-right: 1px solid; width: 33%; padding-top:2px; margin-top: 0px; height:56px; top: 0; left:88; font-size: 8;">{{$permit->species[3]->pivot->qty}}</span>
+            @else
+              <hr style="margin-top:25px;">
+            @endif
+            @if (count($permit->species) > 3)
+              <span class="absolute" style="  width: 34%; padding-top:2px; margin-top: 0px; height:56px; top: 0; left:178; font-size: 8;"></span>
+            @endif
+          </div>
+
+          @php
+            $count++;
+          @endphp
+
+          <div style="position: absolute; padding:5px; top: {{200+(29*$count)}}; border:1px solid; height: 50px; left:16; width:98%; display:inline;">
+            <h6 class="absolute" style="border-right:1px solid; width: 10%; height:60px; margin-top: -5px; top: 0; font-size: 14px;">País de Origen:</h6>
+            @if (count($permit->species) > 3)
+              <span class="absolute" style="width: 20%; height:60px; margin-top: 20px; top: 0; font-size: 12px; left:4">{{$permit->species[3]->pivot->origin_country}}</span>
+            @else
+              <hr style="margin-top:38px;">
+            @endif
 
             <h6 class="absolute" style="border-right:1px solid; width: 10%; height:60px; margin-top: 0px; top: 0; left:57; font-size: 14px;">Permiso N°:</h6>
             <span class="absolute" style="width: 20%; height:60px; margin-top: 20px; top: 0; font-size: 12px; left:57"></span>
@@ -167,7 +401,7 @@
             <span class="absolute" style="width: 20%; height:60px; margin-top: 38px; top: 0; font-size: 12px; left:413"></span>
           </div>
 
-        @endforeach
+        {{-- @endforeach --}}
         
         @php
           $count++;
@@ -176,7 +410,7 @@
 
         <div style="position: absolute; padding:5px; top: {{$final}}; border:1px solid; height: 50px; left:0; width:101%; display:inline;">
           <h6 class="absolute" style=" solid; width: 100%; height:60px; margin-top: -5px; top: 0; font-size: 14px;">* País en el que los especímenes fueron recolectados en la naturaleza, criados en cautividad o reproducidos artificialmente (en caso de exportación).</h6>
-          <h6 class="absolute" style=" solid; width: 100%; height:60px; margin-top: -5px; top: 9; font-size: 14px;">** Solamente para los especímenes de especies incluidas en el Apéndice I criados en cautividad o reproducidos artificialmente con fines comerciales.</h6>
+          <h6 class="absolute" style=" solid; width: 100%; height:60px; margin-top: -5px; top: 9; font-size: 14px;">** Solamente para los especímenes de epeciess incluidas en el Apéndice I criados en cautividad o reproducidos artificialmente con fines comerciales.</h6>
           <h6 class="absolute" style=" solid; width: 100%; height:60px; margin-top: -5px; top: 18; font-size: 14px;">*** Para las espécies preconvención.</h6>
         </div>
 

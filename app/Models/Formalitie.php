@@ -14,8 +14,9 @@ class Formalitie extends Model
         'status', 
         'request_formalitie_no', 
         'special_conditions', 
-        'observations', 
-        'collected_time'
+        'observations',
+        'official_id',
+        'client_id',
     ];
 
     public function permits()

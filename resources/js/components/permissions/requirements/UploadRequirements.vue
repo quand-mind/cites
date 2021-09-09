@@ -49,6 +49,9 @@
                     <a v-if="requeriment.pivot.file_url" class="btn text-primary" style="cursor:pointer" href="/solicitante/editUser">
                       <font-awesome-icon :icon="['fa', 'edit']"></font-awesome-icon>
                     </a>
+                    <a v-if="!requeriment.pivot.file_url" class="btn text-primary" style="cursor:pointer" href="/solicitante/editUser">
+                      <font-awesome-icon :icon="['fa', 'upload']"></font-awesome-icon>
+                    </a>
 
                   </div>
                   <div
@@ -157,11 +160,38 @@ export default {
 
   }),
   methods: {
+    uploadPersonals(requeriment, index, url){
+      var form = new FormData()
+      form.append("index", index)
+      form.append("requeriment", JSON.stringify(requeriment));
+      form.append("url", JSON.stringify(url));
+      // this.loading = true
+
+      axios
+        .post(`/solicitante/permissions/uploadPersonalFile/`, form, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
+        .then(res => {
+  
+          // this.makeToast('Archivo Guardado')
+          requeriment.pivot.file_url = res.data
+          // this.loading = false
+          this.checkUploadedRequirements()
+          this.$forceUpdate();
+        })
+        .catch(err => {
+          this.loading = false
+          this.makeToast(err.toString(), 'danger')
+        });
+    },
     uploadFile (file, requeriment, index) {
 
       var form = new FormData()
       form.append("file", file)
       form.append("requeriment", JSON.stringify(requeriment));
+      form.append("index", JSON.stringify(index));
       this.loading = true
 
       axios
@@ -277,7 +307,8 @@ export default {
         let index = permit.requeriments.findIndex( requeriment => requeriment.short_name === 'cedula')
         if (index !== -1){
           // console.log(index)
-          permit.requeriments[index].pivot.file_url = this.client_data.dni_file_url
+          this.uploadPersonals(permit.requeriments[index], index, this.client_data.dni_file_url)
+          // permit.requeriments[index].pivot.file_url = this.client_data.dni_file_url
         }
       }
       // console.log('Si hay')

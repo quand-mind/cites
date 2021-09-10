@@ -211,6 +211,7 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         Route::post('/permissions/checkSpecies/{id}', 'PermissionController@checkSpecies');
         
         Route::post('/permissions/validPermit/{id}', 'PermissionController@validPermit');
+        Route::post('/permissions/sendErrors/{id}', 'PermissionController@sendErrors');
         Route::get('/permissions/viewPermit/{id}', 'PermissionController@showAprovedPermit');
     });
 });

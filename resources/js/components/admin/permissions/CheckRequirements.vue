@@ -109,8 +109,22 @@
           :selectedSpecies="permit.species" :showSelectedSpecies="showSelectedSpecies"
           :type="type"/>
         </b-modal>
+        <b-modal v-model="showObservations" size="xl" id="species-modal" title="Confirmar Errores en el Permiso" hide-footer>
+          <span >Coloque la razón/es de los problemas del permiso</span>
+          <b-form-textarea
+          class="mt-3"
+          v-model="formalitie.observations"
+          placeholder="Errores:"
+          rows="3"
+          @change="updateValue()"
+          :key="formalitie.observations"
+          max-rows="6"
+        ></b-form-textarea>
+        <button class="mt-4 w-100 btn btn-danger" :key="!isValid" :disabled="!formalitie.observations" @click="sendErrors()">Enviar Errores</button>
+        </b-modal>
       </div>
         <button class="mt-4 w-100 btn btn-primary" :key="isValid" :disabled="!isValid" @click="validPermit()">Validar Trámite</button>
+        <button class="mt-4 w-100 btn btn-danger" :key="!isValid" :disabled="isValid" @click="showObservations = true">Problemas con los Recaudos</button>
     </div>
   </div>
 </template>
@@ -146,6 +160,7 @@ export default {
 
     errorId: null,
     showErrors: false,
+    showObservations: false,
     showSelectSpecie: false,
     showSelectedSpecies: false,
 
@@ -257,12 +272,12 @@ export default {
           this.makeToast(err.toString(), 'danger')
         });
     },
-    sendErrors(requeriment, permit){
+    sendErrors(){
       axios
-        .post(`/dashboard/permissions/check/`+permit.id, {requeriment: JSON.stringify(requeriment), permit: permit})
+        .post(`/dashboard/permissions/sendErrors/`+ this.formalitie.id, {official_id: this.official.id, observations: this.formalitie.observations})
         .then(res => {
           this.makeToast(res.data)
-          setTimeout(() => window.location.reload(), 1200)
+          // setTimeout(() => window.location.reload(), 1200)
         })
         .catch(err => {
           this.makeToast(err.toString(), 'danger')

@@ -79,7 +79,7 @@ class PermissionController extends Controller
         } else {
             $clientId = -1;
         }
-        $formalities = Formalitie::with(['permits.requeriments', 'permits.permit_type', 'permits.species', 'client.user'])->whereNotIn('client_id', [$clientId])->get();
+        $formalities = Formalitie::with(['permits.requeriments', 'permits.permit_type', 'permits.species', 'client.user'])->whereNotIn('client_id', [$clientId])->paginate(2);
         // $permissions = Permit::with(['requeriments', 'permit_type', 'species', 'client.user'])->whereNotIn('client_id', [$clientId])->get();
         return view('panel.dashboard.permissions.permissions', compact('formalities'));
     }
@@ -570,12 +570,30 @@ class PermissionController extends Controller
         $formalitie->save();
         
         $emailClient = Formalitie::with('client')->where('formalities.id', '=', $id)->get();
-        // foreach ($emailClient as $client) {
-        //     Mail::to($client->client->email)->send(new ValidFormaliteMail($formalitie));
-        // }
+        foreach ($emailClient as $client) {
+            Mail::to($client->client->email)->send(new ValidFormaliteMail($formalitie));
+        }
         Log::info('El official con la cedula de identidad '.$this->returnUser().'a verificado el permiso  | el permiso de a verificado desde la direccion: '.request()->ip());
         
         return response('Estatus del Requerimiento Actualizado.', 200);
+    }
+    public function sendErrors(Request $request, $id)
+    {
+        $formalitie = Formalitie::find($id);
+        $formalitie->status= 'uploading_requeriments';
+        $formalitie->official_id= $request->input('official_id');
+        $formalitie->observations= $request->input('observations');
+        $formalitie->save();
+
+        $date = strtotime("+180 day");
+        foreach ($formalitie->permits as $permit) {
+            // $permit->valid_until = date('M d, Y', $date);
+            $permit->status= 'uploading_requeriments';
+            $formalitie->collected_time = $this->dayMoreFive();
+            $permit->save();
+        }
+        $formalitie->save();
+        return response('Se ha enviado un correo con los problemas y se ha actualizado el estado', 200);
     }
     public function printAprovedPermit($id)
     {
@@ -630,6 +648,29 @@ class PermissionController extends Controller
         //create variable for  upload file limit date  
         $dayNow = Carbon::now();
         $dayAddTen = Carbon::now()->addDays(10);
+
+
+        /**/
+        $year = Carbon::now()->format('Y');
+        $workingDays = [$year."-09-07", $year."-09-08", $year."-01-01", $year."-02-11", $year."-02-12", $year."-03-28", $year."-03-29", $year."-04-19", $year."-05-01", $year."-05-25", $year."-06-20", $year."-06-24", $year."-06-29", $year."-07-05", $year."-07-24", $year."-10-12", $year."-12-24", $year."-12-25", $year."-12-31"];
+        foreach ($workingDays as $workingDay) {
+
+            if ($this->check_in_range($dayNow, $dayAddTen, $workingDay))
+            {
+               $dayAddTen->addDays(1)->toDateString();
+            }
+        }
+        if ($dayAddTen->isWeekend()) {
+            $dayAddTen->addDays(2);
+        }
+        return $dayAddTen->toDateString();
+        
+    }
+    public function dayMoreFive(){
+
+        //create variable for  upload file limit date  
+        $dayNow = Carbon::now();
+        $dayAddTen = Carbon::now()->addDays(5);
 
 
         /**/

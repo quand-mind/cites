@@ -17,6 +17,7 @@ class CreatePermitTypesTable extends Migration
             $table->id();
             $table->string('name', 255);
             $table->enum('type', ['export', 'import', 'reexport']);
+            $table->string('status', 255);
             $table->timestamps();
         });
     }

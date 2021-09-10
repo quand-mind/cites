@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ValidFormaliteMail;
 use App\Mail\createFormaliteMail;
+use App\Mail\sendErrorsMail;
 use App\Models\Client;
 use App\Models\Official;
 use App\Models\Formalitie;
@@ -593,6 +594,10 @@ class PermissionController extends Controller
             $permit->save();
         }
         $formalitie->save();
+        $emailClient = Formalitie::with('client')->where('formalities.id', '=', $id)->get();
+        foreach ($emailClient as $client) {
+            Mail::to($client->client->email)->send(new sendErrorsMail($formalitie));
+        }
         return response('Se ha enviado un correo con los problemas y se ha actualizado el estado', 200);
     }
     public function printAprovedPermit($id)

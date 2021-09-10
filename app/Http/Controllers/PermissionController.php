@@ -55,11 +55,13 @@ class PermissionController extends Controller
     public function showUploadRequeriments($id)
     {
         try {
+            $clientData = Client::with('user')->where(['id' => auth()->user()->id])->get()->first();
+            // return $clientData;
             $formalitie = Formalitie::where(['id' => $id])->with(['permits.requeriments', 'permits.permit_type', 'permits.species', 'client.user'])->get()->first();
             // $permit = Permit::where(['id' => $id])->with(['requeriments', 'permit_type', 'species'])->get();
             if ($formalitie) {
                 // return $permit;
-                return view('permissions.requirements.upload_requeriments', compact('formalitie'));
+                return view('permissions.requirements.upload_requeriments', compact('formalitie', 'clientData'));
             }
             else {
                 return view('errors.404');

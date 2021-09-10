@@ -11,11 +11,11 @@
     <div>
         <div style="display:block; width:500px; border: 1px solid black; margin:auto;">
             <div style="display:flex; justify-content:center">
-                <img src="/images/logos/logo-minec.png" alt="MINEC" width="80px">
+                <img src="http://www.minec.gob.ve/wp-content/uploads/2018/08/MINEC-LOGO.png" alt="MINEC" width="80px">
             </div>
             <div style="position: relative; #top: -50%">
                 <h1>Se superó la fecha para cargar los requisitos</h1>
-                <p>Usted ha superado la fecha limite para cargar los requerimientos del permiso nro <strong>{{ $formalitie->request_permit_no }}</strong></p>
+                <p>Usted ha superado la fecha limite para cargar los requerimientos del permiso nro <strong>{{ $formalitie->status }}</strong></p>
                 <p>Att: MNEC</p>
                 <br/>
             </div>

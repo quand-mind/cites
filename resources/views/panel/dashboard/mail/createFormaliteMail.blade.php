@@ -11,8 +11,7 @@
     <div>
         <div style="display:block; width:500px; margin:auto;">
             <div style="display:flex; justify-content:center">
-                <div width="80px" style="background:url(../images/logos/logo-minec.png);"></div>
-                <!--img src="/images/logos/logo-minec.png" alt="MINEC" width="80px"-->
+                <img src="/images/logos/logo-minec.png" alt="MINEC" width="80px">
             </div>
             <div style="position: relative; #top: -50%">
                 <h1>Solicitud de tramite</h1>

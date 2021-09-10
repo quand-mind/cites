@@ -6,7 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use App\Models\Permit;
+use App\Models\Formalitie;
 
 class DateToUploadTheRequirementsWasExceeded extends Mailable
 {
@@ -18,7 +18,7 @@ class DateToUploadTheRequirementsWasExceeded extends Mailable
      *
      * @return void
      */
-    public function __construct(Permit $formalitie)
+    public function __construct(Formalitie $formalitie)
     {
         $this->$formalitie = $formalitie;
     }

@@ -16,6 +16,7 @@ class Formalitie extends Model
         'special_conditions', 
         'collected_time',
         'observations',
+        'collected_time',
         'official_id',
         'client_id',
     ];

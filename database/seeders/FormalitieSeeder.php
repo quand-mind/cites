@@ -20,12 +20,14 @@ class FormalitieSeeder extends Seeder
             'request_formalitie_no' => Carbon::now()->format('ymd')."001",
             'status' => 'uploading_requeriments',
             'client_id' => 1,
+            'collected_time' => Carbon::now()->toDateString()
             
         ]);
         DB::table('formalities')->insert([
             'request_formalitie_no' => Carbon::now()->format('ymd')."002",
             'status' => 'uploading_requeriments',
             'client_id' => 4,
+            'collected_time' => Carbon::now()->toDateString()
         ]);
         DB::table('formalities')->insert([
             'request_formalitie_no' => Carbon::now()->format('ymd')."003",

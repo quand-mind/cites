@@ -20,6 +20,7 @@ class Permit extends Model
         'consigned_to',
         'country',
         'country_code',
+        'collected_time',
         'landing_port',
         'shipment_port',
         'destiny_place',

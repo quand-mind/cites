@@ -14,6 +14,7 @@ class Formalitie extends Model
         'status', 
         'request_formalitie_no', 
         'special_conditions', 
+        'collected_time',
         'observations',
         'official_id',
         'client_id',

@@ -9,10 +9,10 @@
 </head>
 <body>
     <div class="container justify-conten">
-        <div class="row mx-lg-n5 d-flex justify-content-center py-3 border bg-light">
+        <div class="row mx-lg-n5 d-flex justify-content-center py-3 bg-light">
             <div class="col-12 d-flex justify-content-center">
                 <div clas="col-12">
-                    <img src="/images/logos/logo-minec.png" alt="MINEC" width="80px">
+                    <img src="http://www.minec.gob.ve/wp-content/uploads/2018/08/MINEC-LOGO.png" alt="MINEC" width="80px">
                 </div>
             </div>
             <div class="col-6">

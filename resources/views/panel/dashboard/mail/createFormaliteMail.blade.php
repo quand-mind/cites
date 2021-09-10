@@ -11,7 +11,7 @@
     <div>
         <div style="display:block; width:500px; margin:auto;">
             <div style="display:flex; justify-content:center">
-                <img src="/images/logos/logo-minec.png" alt="MINEC" width="80px">
+                <img src="http://www.minec.gob.ve/wp-content/uploads/2018/08/MINEC-LOGO.png" alt="MINEC" width="80px">
             </div>
             <div style="position: relative; #top: -50%">
                 <h1>Solicitud de tramite</h1>

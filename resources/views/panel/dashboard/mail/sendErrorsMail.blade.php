@@ -11,7 +11,7 @@
     <div>
         <div style="display:block; width:500px; margin:auto;">
             <div style="display:flex; justify-content:center">
-                <img src="/images/logos/logo-minec.png" alt="MINEC" width="80px">
+                <img src="http://www.minec.gob.ve/wp-content/uploads/2018/08/MINEC-LOGO.png" alt="MINEC" width="80px">
             </div>
             <div style="position: relative; #top: -50%">
                 <h1>Observaciones </h1>
@@ -22,7 +22,7 @@
                 <br/>
             </div>
             <div style="display:flex; justify-content:center">
-                <div width="80px" style="background:url(../images/logos/logo-minexterior.png);"></div>
+                <img src="http://www.minec.gob.ve/wp-content/uploads/2018/08/MINEC-LOGO.png" alt="MINEC" width="80px">  
             </div>
         </div>
     </div>

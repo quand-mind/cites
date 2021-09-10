@@ -47,31 +47,15 @@ class StopDateUploadRequirement extends Command
         $formalities= Formalitie::with('client')->where("status", "=", "uploading_requeriments")->get();
         foreach ($formalities as $formalitie) {
             if ($formalitie->collected_time >= Carbon::now()->toDateString()) {
-                $changeStatusFormalitie = Formalitie::find($formalitie->id)->first();
-                $changeStatusFormalitie->status = "nulled";
-                $changeStatusFormalitie->save();
-                Mail::to($formalitie->client->email)->send(new DateToUploadTheRequirementsWasExceeded($changeStatusFormalitie));
+                $formalitie = Formalitie::find($formalitie->id)->first();
+                $formalitie->status = "nulled";
+                $formalitie->save();
+                
+                Mail::to('jasve504@gmail.com')->send(new DateToUploadTheRequirementsWasExceeded($formalitie));
+                //$formalitie->client->email
+                Log::info('Se han combrobado la fecha limite para cargar los requerimientos de los permisos');
             }
         }
-        /*$permits = Permit::where("status", "=", "uploading_requeriments")->get(); 
-
-        foreach ($permits as $permit) {
-            //array_push($array, $permit->id);
-            
-            if ($permit->collected_time >= Carbon::now()->toDateString()) {
-                $changeStatusPermit = Permit::find($permit->id);
-                $changeStatusPermit->status = "nulled";
-                $changeStatusPermit->save();
-
-                $formalities = Permit::join('formalities', 'formalities.id', '=', 'formalitie_id')
-                ->join('clients', 'clients.id', '=', 'client_id' )
-                ->where('permits.id', '=', $permit->id )->get();
-
-                foreach ($formalities as $formalitie) {
-                    Mail::to($formalitie->email)->send(new DateToUploadTheRequirementsWasExceeded($formalitie));
-                }
-            }
-        }*/
-        Log::info('Se han combrobado la fecha limite para cargar los requerimientos de los permisos');
+       
     }
 }

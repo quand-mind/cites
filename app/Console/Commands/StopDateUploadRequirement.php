@@ -53,9 +53,8 @@ class StopDateUploadRequirement extends Command
                 
                 Mail::to('jasve504@gmail.com')->send(new DateToUploadTheRequirementsWasExceeded($formalitie));
                 //$formalitie->client->email
-                Log::info('Se han combrobado la fecha limite para cargar los requerimientos de los permisos');
             }
         }
-       
+        Log::info('Se han combrobado la fecha limite para cargar los requerimientos de los permisos');
     }
 }

@@ -46,10 +46,10 @@
                     class="d-flex justify-content-center align-items-center"
                     v-if="requeriment.type === 'personal'"
                   >
-                    <a v-if="requeriment.pivot.file_url && formalitie.status === 'upload_requeriments'" class="btn text-primary" style="cursor:pointer" href="/solicitante/editUser">
+                    <a v-if="requeriment.pivot.file_url && formalitie.status === 'uploading_requeriments'" class="btn text-primary" style="cursor:pointer" href="/solicitante/editUser">
                       <font-awesome-icon :icon="['fa', 'edit']"></font-awesome-icon>
                     </a>
-                    <a v-if="!requeriment.pivot.file_url && formalitie.status === 'upload_requeriments'" class="btn text-primary" style="cursor:pointer" href="/solicitante/editUser">
+                    <a v-if="!requeriment.pivot.file_url && formalitie.status === 'uploading_requeriments'" class="btn text-primary" style="cursor:pointer" href="/solicitante/editUser">
                       <font-awesome-icon :icon="['fa', 'upload']"></font-awesome-icon>
                     </a>
 
@@ -61,7 +61,7 @@
                     <button v-if="requeriment.short_name === 'documentos_especies'" class="btn text-dark" @click="showSelectedSpecies = true" style="cursor:pointer">
                       <font-awesome-icon :icon="['fa', 'eye']"></font-awesome-icon>
                     </button>
-                    <label v-if="!requeriment.pivot.file_url && formalitie.status === 'upload_requeriments'" class="btn text-primary" :for="'permit'+ permit.id +'file'+ requeriment.id" style="cursor:pointer">
+                    <label v-if="!requeriment.pivot.file_url && formalitie.status === 'uploading_requeriments'" class="btn text-primary" :for="'permit'+ permit.id +'file'+ requeriment.id" style="cursor:pointer">
                       <font-awesome-icon :icon="['fa', 'upload']"></font-awesome-icon>
                     </label>
                     <b-form-file
@@ -73,7 +73,7 @@
                       drop-placeholder="Subir archivo aquí..."
                       max-size="10240"
                     ></b-form-file>
-                    <button v-if="requeriment.pivot.file_url && formalitie.status === 'upload_requeriments'" class="ml-3 btn text-danger relative" @click="deleteFile(requeriment)" style="cursor:pointer">
+                    <button v-if="requeriment.pivot.file_url && formalitie.status === 'uploading_requeriments'" class="ml-3 btn text-danger relative" @click="deleteFile(requeriment)" style="cursor:pointer">
                       <font-awesome-icon :icon="['fa', 'trash']"></font-awesome-icon>
                     </button>
                   </div>

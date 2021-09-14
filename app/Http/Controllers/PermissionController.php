@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ValidFormaliteMail;
 use App\Mail\createFormaliteMail;
+use App\Mail\DateToUploadTheRequirementsWasExceeded;
 use App\Mail\sendErrorsMail;
 use App\Models\Client;
 use App\Models\Official;
@@ -713,9 +714,17 @@ class PermissionController extends Controller
     }
     
     public function testTask(){
-        $emailClient = Formalitie::with('client')->where('formalities.id', '=', 4)->get();
-        foreach ($emailClient as $client) {
-         return $client->client->email;
-        }
+        $formalities= Formalitie::with('client')->where("status", "=", "uploading_requeriments")->get();
+        //foreach ($formalities as $formalitie) {
+            if ($formalities->collected_time >= Carbon::now()->toDateString()) {
+                $formalitie = Formalitie::find(1);
+                $formalitie->status = "nulled";
+                $formalitie->save();
+                
+                Mail::to('jasve504@gmail.com')->send(new DateToUploadTheRequirementsWasExceeded($formalitie));
+                //$formalitie->client->email
+                Log::info('Se han combrobado la fecha limite para cargar los requerimientos de los permisos');
+            }
+        //}
     }
 }

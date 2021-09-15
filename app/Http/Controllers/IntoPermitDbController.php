@@ -13,7 +13,7 @@ class IntoPermitDbController extends Controller
 {
     public function readFileXlsx(Request $request){
         
-        $collectionPermits = Excel::toArray(new PermitTypeImport, 'permissions_files\CITES_MINEC_Tramites_vs_requisitos_consolidados_y_detallados.xlsx');
+        $collectionPermits = Excel::toArray(new PermitTypeImport, '..\permissions_files\CITES_MINEC_Tramites_vs_requisitos_consolidados_y_detallados.xlsx');
         //save permit
         $array=[];
         foreach ($collectionPermits as $collectionPermit[2]) {
@@ -64,5 +64,9 @@ class IntoPermitDbController extends Controller
             
         }*/
     
+    }
+
+    public function showPermit(){
+        return PermitType::get();
     }
 }

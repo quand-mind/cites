@@ -66,7 +66,16 @@ class IntoPermitDbController extends Controller
     
     }
 
-    public function showPermit(){
+    public function showPermitTypes(){
         return PermitType::get();
+    }
+
+    public function editPermitType(Request $request, $id){
+        $permit = PermitType::find($id);
+        $permit->name = $request->input('name');
+        $permit->Type = $request->input('Type');
+        $permit->status = $request->input('status');
+        $permit->save();
+
     }
 }

@@ -282,3 +282,6 @@ Route::get('/{slug?}', 'PageController@show');
 
 // Frontend pages controller
 Route::get('/{slug}/{subpage}', 'PageController@showSubPage');
+
+//crud Permit and Requeriment
+

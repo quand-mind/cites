@@ -11,6 +11,8 @@ class Requeriment extends Model
     
     protected $fillable = [
         'name',
+        'short_name',
+        'type'
     ];
 
     public function permits()

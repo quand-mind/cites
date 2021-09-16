@@ -13,7 +13,7 @@ class IntoPermitDbController extends Controller
 {
     public function readFileXlsx(Request $request){
         
-        $collectionPermits = Excel::toArray(new PermitTypeImport, '..\permissions_files\CITES_MINEC_Tramites_vs_requisitos_consolidados_y_detallados.xlsx');
+        $collectionPermits = Excel::toArray(new PermitTypeImport, 'permissions_files\CITES_MINEC_Tramites_vs_requisitos_consolidados_y_detallados.xlsx');
         //save permit
         $array=[];
         foreach ($collectionPermits as $collectionPermit[2]) {
@@ -30,39 +30,39 @@ class IntoPermitDbController extends Controller
                 $permitType->save();
             }//return $permit[3];
         }
-        /*$requerimentArray=[];
-        /*foreach($collectionPermits as $collectionPermit){
+        $requerimentArray=[];
+        foreach($collectionPermits as $collectionPermit){
             for ($j=3; $j <= 54 ; $j++) { 
                 array_push($requerimentArray, $collectionPermit[$j]);
             }
-        }*/
+        }
     
-        /*foreach ($requerimentArray as $requeriment) {
+        foreach ($requerimentArray as $requeriment) {
             for ($i=3; $i < 51 ; $i++) { 
                 //return $requeriment[$i];
-                //r$consulta = Requeriment::where('name', '=', $requeriment[$i])->get();
+                $consulta = Requeriment::where('name', '=', $requeriment[$i])->get();
                 //return count($consulta);
-                //if (count($consulta) == 0) {
+                if (count($consulta) == 0 && $requeriment[$i] !== NULL) {
                     
-                    $requeriment = new Requeriment();
+                    /*$requeriment = new Requeriment();
                     
                     
                     $requeriment->name =$requeriment[$i];
                     $requeriment->short_name = 'sda';
                     $requeriment->type = 'physical';
-                    $requeriment->save();
+                    $requeriment->save();*/
                     //return "no se encontro una coincidencia";
 
-                    /*Requeriment::create([
+                    Requeriment::create([
                         'name' =>$requeriment[$i],
                         'type' => 'physical'
                     ]);
+                }
                 
             }
-            
-           
-            
-        }*/
+        }
+
+        return "finish Upload data of file .XLSx";
     
     }
 
@@ -76,6 +76,13 @@ class IntoPermitDbController extends Controller
         $permit->Type = $request->input('Type');
         $permit->status = $request->input('status');
         $permit->save();
+    }
 
+    public function addRequerimentToPermitType(Request $request, $id){
+        $permitType = PermitType::find($id)->get();
+        $requeriment= $request->input('riquierement_id');
+        $permitType->requeriments()->sync($requeriment);
+        $permitType->save();
+        
     }
 }

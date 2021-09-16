@@ -15,7 +15,7 @@ class CreateRequerimentsTable extends Migration
     {
         Schema::create('requeriments', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 255);
+            $table->text('name');
             $table->string('short_name', 50)->nullable();
             $table->enum('type', ['physical', 'web', 'personal', 'form']);
             $table->timestamps();

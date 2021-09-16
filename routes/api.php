@@ -42,8 +42,14 @@ Route::get('species_filter', [ApiController::class, 'api_cites_filter']);
 
 Route::get('/dayMoreTen', 'PermissionController@dayMoreTen');
 Route::get('/testTask', 'IntoPermitDbController@readFileXlsx');
-Route::get('/getPermitType', 'IntoPermitDbController@showPermit');
-Route::get('/editPermitType', 'IntoPermitDbController@editPermitType');
+Route::get('/getPermitType', 'IntoPermitDbController@showPermitTypes');
+Route::post('/editPermitType/{id}', 'IntoPermitDbController@editPermitType');
+Route::post('/addRequerimentToPermitType/{id}', 'IntoPermitDbController@addRequerimentToPermitType');
+
+//route requeriment
+
+Route::get('/getRequeriment', 'IntoRequerimentDbController@getRequeriment');
+Route::post('/editRequerimen/{id}', 'IntoRequerimentDbController@editRequerimen');
 
 /**
  *  login admin

@@ -71,18 +71,22 @@ class IntoPermitDbController extends Controller
     }
 
     public function editPermitType(Request $request, $id){
+        
         $permit = PermitType::find($id);
         $permit->name = $request->input('name');
         $permit->Type = $request->input('Type');
         $permit->status = $request->input('status');
         $permit->save();
+
+        $requeriments = $request->only('requeriments');
+        $requeriments = json_decode(json_encode($requeriments['requeriments']));
+
+        $requerimentsIds = array_map(function ($requeriment){
+            return $requeriment->id;
+        }, $requeriments);
+
+
+        $permit->requeriments()->sync($requerimentsIds);
     }
 
-    public function addRequerimentToPermitType(Request $request, $id){
-        $permitType = PermitType::find($id)->get();
-        $requeriment= $request->input('riquierement_id');
-        $permitType->requeriments()->sync($requeriment);
-        $permitType->save();
-        
-    }
 }

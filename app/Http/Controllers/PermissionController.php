@@ -162,6 +162,7 @@ class PermissionController extends Controller
         $formalitie->status = "uploading_requeriments";
         $formalitie->client_id = $request->input('client_id');
         $formalitie->collected_time = $this->dayMoreTen();
+        // return $formalitie;
         $formalitie->save();
         
         foreach ($getSpecies as $specie) {
@@ -223,8 +224,9 @@ class PermissionController extends Controller
                         $requerimentsIdsWithPivot[$requeriment->id] = ["file_url" => null, "is_valid" => null,];
                     }
                 }
-
+                
                 $permit->requeriments()->sync($requerimentsIdsWithPivot);
+                // break;
 
                 $name = $specie->name_common;
                 $findedSpecie = Specie::where('name_scientific', '=', $name)->get()->first();
@@ -249,7 +251,7 @@ class PermissionController extends Controller
                             {
                                 if ($name->language === 'ES') {
                                     return $name;
-                                } elseif ($name->language === 'EN') {
+                                } else if ($name->language === 'EN') {
                                     return $name;
                                 }
                             }
@@ -307,7 +309,7 @@ class PermissionController extends Controller
                             {
                                 if ($name->language === 'ES') {
                                     return $name;
-                                } elseif ($name->language === 'EN') {
+                                } else if ($name->language === 'EN') {
                                     return $name;
                                 }
                             }
@@ -342,6 +344,7 @@ class PermissionController extends Controller
             }
             $index++;
         }
+        // return $formalitie->permits[0]->requeriments;
         // return $speciesIdsWithPivot;
         Log::info('El solicitante con la cedula de identidad '.$this->returnUser().'a solicitado un nuevo permiso | El permiso se ha solicitado desde la direccion: '. request()->ip());
         Mail::to(auth()->user()->email)->send(new createFormaliteMail($formalitie));

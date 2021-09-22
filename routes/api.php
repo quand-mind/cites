@@ -75,9 +75,6 @@ Route::middleware('auth:api')->group(function () {
         Route::post('/uploadFile', 'PermissionController@storeFile');
         Route::post('/uploadPersonalFile', 'PermissionController@savePersonalFile');
         Route::post('/deleteFile/{id}', 'PermissionController@deleteFile');
-        
-        Route::post('/addSpecie', 'PermissionController@addSpecie');
-        Route::post('/deleteSpecie', 'PermissionController@deleteSpecie');
 
         Route::get('/viewPermit/{id}', 'PermissionController@showAprovedPermit');
         Route::post('/printPermit/{id}', 'PermissionController@printAprovedPermit');

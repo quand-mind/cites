@@ -11,6 +11,8 @@ class PermitType extends Model
 
     protected $fillable = [
         'name',
+        'type',
+        'status'
     ];
 
     public function permits()

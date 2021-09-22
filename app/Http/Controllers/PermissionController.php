@@ -116,6 +116,13 @@ class PermissionController extends Controller
         }
     }
 
+    public function showPermitInfo($id) 
+    {
+        $permit = Permit::find($id);
+        if ($permit->)
+        return view('permissions.permitInfo', compact('permit'));
+    }
+
     public function showAprovedPermit($id)
     {
         $permit = Permit::where(['id' => $id])->with(['requeriments', 'permit_type', 'formalitie.client.user',
@@ -123,8 +130,8 @@ class PermissionController extends Controller
         // return $permit;
         $pdf = \App::make('dompdf.wrapper');
         $pdf->setOptions(['dpi' => 150, 'defaultFont' => 'sans-serif']);
-        $image = base64_encode(file_get_contents(public_path('/images/logos/logo-minec.png')));
-        $logo = $image;
+        // $image = base64_encode(file_get_contents(public_path('/images/logos/logo-minec.png')));
+        // $logo = $image;
         $pdf->loadView('permissions.aproved_permit', [ 'permit' => $permit, 'logo' => $image ]);
         return $pdf->stream();
         

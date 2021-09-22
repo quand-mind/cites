@@ -152,6 +152,8 @@ Vue.component("permissions", require("./components/permissions/Permissions.vue")
 
 Vue.component("permissions-list", require("./components/permissions/PermissionsList.vue").default);
 
+Vue.component("permit-info", require("./components/permissions/PermitInfo.vue").default);
+
 Vue.component("permit-form", require("./components/permissions/PermitForm.vue").default);
 
 Vue.component("view-permit", require("./components/permissions/ViewPermit.vue").default);

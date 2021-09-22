@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\ValidFormaliteMail;
 use App\Mail\createFormaliteMail;
 use App\Mail\DateToUploadTheRequirementsWasExceeded;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use App\Mail\sendErrorsMail;
 use App\Models\Client;
 use App\Models\Official;
@@ -130,9 +131,11 @@ class PermissionController extends Controller
         // return $permit;
         $pdf = \App::make('dompdf.wrapper');
         $pdf->setOptions(['dpi' => 150, 'defaultFont' => 'sans-serif']);
-        // $image = base64_encode(file_get_contents(public_path('/images/logos/logo-minec.png')));
-        // $logo = $image;
-        $pdf->loadView('permissions.aproved_permit', [ 'permit' => $permit, 'logo' => $image ]);
+        $image = base64_encode(file_get_contents(public_path('/images/logos/logo-minec.png')));
+        $logo = $image;
+        $host = $_SERVER["HTTP_HOST"];
+        $codeQr = QrCode::generate($host.'\solicitante/DataCodeQr/'.$id);
+        $pdf->loadView('permissions.aproved_permit', [ 'permit' => $permit, 'logo' => $image, 'codeQr' => $codeQr]);
         return $pdf->stream();
         
         return view('permissions.aproved_permit', compact('permit', 'logo'));
@@ -712,19 +715,12 @@ class PermissionController extends Controller
    
         }
     }
-    
-    public function testTask(){
-        $formalities= Formalitie::with('client')->where("status", "=", "uploading_requeriments")->get();
-        //foreach ($formalities as $formalitie) {
-            if ($formalities->collected_time >= Carbon::now()->toDateString()) {
-                $formalitie = Formalitie::find(1);
-                $formalitie->status = "nulled";
-                $formalitie->save();
-                
-                Mail::to('jasve504@gmail.com')->send(new DateToUploadTheRequirementsWasExceeded($formalitie));
-                //$formalitie->client->email
-                Log::info('Se han combrobado la fecha limite para cargar los requerimientos de los permisos');
-            }
-        //}
+
+    public function getDataQr($id){
+        return Permit::find($id)->whith('formalitie.client')->get();
     }
 }
+
+
+
+

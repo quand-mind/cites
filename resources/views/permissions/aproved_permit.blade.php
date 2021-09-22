@@ -443,7 +443,7 @@
         </div>
 
         <h4 class="absolute" style="width:50%; height:60px; margin-top: 0px; top: {{$final + 220}}; left:340;">Permiso/Certificado N°: {{$permit->request_permit_no}}</h4>
-        
+        <div>{{ $codeQr }}</div>
       </div>
     </div>
 </body>

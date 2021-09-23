@@ -45,8 +45,9 @@ Route::get('/testTask', 'IntoPermitDbController@readFileXlsx');
 Route::get('/getPermitType', 'IntoPermitDbController@showPermitTypes');
 Route::post('/editPermitType/{id}', 'IntoPermitDbController@editPermitType');
 Route::post('/addRequerimentToPermitType/{id}', 'IntoPermitDbController@addRequerimentToPermitType');
-Route::get('/generateQr', 'IntoPermitDbController@gerate_qr');
 Route::get('/DataCodeQr/{$id}', 'PermissionController@showPermitInfo');
+// Route::get('/generateQr/{id}', 'PermissionController@getDataQr');
+
 //route requeriment
 
 Route::get('/getRequeriment', 'IntoRequerimentDbController@getRequeriment');

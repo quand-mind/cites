@@ -37,10 +37,20 @@ Route::post('/tets', [AuthorizationController::class, 'createPermits'])->name('t
 Route::post('/saveFile', [AuthorizationController::class, 'Nurseries']);
 
 Route::get('species', [ApiController::class, 'api_cites']);
-Route::get('countries', [ApiController::class, 'api_country']);
+Route::get('countries', [ApiController::class, 'json_country']);
 Route::get('species_filter', [ApiController::class, 'api_cites_filter']);
 
 Route::get('/dayMoreTen', 'PermissionController@dayMoreTen');
+Route::get('/testTask', 'IntoPermitDbController@readFileXlsx');
+Route::get('/getPermitType', 'IntoPermitDbController@showPermitTypes');
+Route::post('/editPermitType/{id}', 'IntoPermitDbController@editPermitType');
+Route::post('/addRequerimentToPermitType/{id}', 'IntoPermitDbController@addRequerimentToPermitType');
+Route::get('/generateQr', 'IntoPermitDbController@gerate_qr');
+Route::get('/DataCodeQr/{$id}', 'PermissionController@showPermitInfo');
+//route requeriment
+
+Route::get('/getRequeriment', 'IntoRequerimentDbController@getRequeriment');
+Route::post('/editRequerimen/{id}', 'IntoRequerimentDbController@editRequerimen');
 
 /**
  *  login admin
@@ -75,9 +85,6 @@ Route::middleware('auth:api')->group(function () {
         Route::post('/uploadFile', 'PermissionController@storeFile');
         Route::post('/uploadPersonalFile', 'PermissionController@savePersonalFile');
         Route::post('/deleteFile/{id}', 'PermissionController@deleteFile');
-        
-        Route::post('/addSpecie', 'PermissionController@addSpecie');
-        Route::post('/deleteSpecie', 'PermissionController@deleteSpecie');
 
         Route::get('/viewPermit/{id}', 'PermissionController@showAprovedPermit');
         Route::post('/printPermit/{id}', 'PermissionController@printAprovedPermit');

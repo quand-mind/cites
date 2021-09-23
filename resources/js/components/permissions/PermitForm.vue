@@ -185,7 +185,7 @@ export default {
       axios
         .get(`/solicitante/countries`)
         .then(res => {
-          this.rawCountries = res.data.map( country =>  {return { text: country.name, value: {name: country.name, code: country.cioc}}})
+          this.rawCountries = res.data.map( country =>  {return { text: country.label, value: {name: country.label, code: country.value}}})
           this.countries = this.countries.concat(this.rawCountries)
           this.loadingCountries = false
         })

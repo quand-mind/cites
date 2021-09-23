@@ -15,7 +15,7 @@
             </div>
                 <div style="position: relative; #top: -50%">
                     <h1>Se superó la fecha para cargar los requisitos</h1>
-                    <p>Usted ha superado la fecha limite para cargar los requerimientos</p>
+                    <p>Usted ha superado la fecha limite para cargar los requerimientos {{$formalitie->id}}</p>
                     <p>Att: MNEC</p>
                 </div>
             <div style="display:flex; justify-content:center">

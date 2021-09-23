@@ -215,6 +215,7 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         Route::get('/permissions/viewPermit/{id}', 'PermissionController@showAprovedPermit');
     });
 });
+Route::get('/dataQr/{id}', 'PermissionController@getDataQr');
 
 // Question client routes
 Route::get('/questions', 'QuestionController@getFAQs');
@@ -285,5 +286,5 @@ Route::get('/{slug}/{subpage}', 'PageController@showSubPage');
 
 //crud Permit and Requeriment
 
-Route::get('/DataCodeQr', 'PermissionController@getDataQr');
+
 

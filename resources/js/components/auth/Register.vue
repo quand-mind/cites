@@ -56,7 +56,7 @@
           <div class="col-md-6">
             <select id="nationality" class="form-control" v-model="nationality" name="nationality" required>
               <option :value="null" disabled selected>Seleccione el País</option>
-              <option v-for="country of countries" :key="country.name" :value="country.name">{{country.name}}</option>
+              <option v-for="country of countries" :key="country.name" :value="country.name">{{country.label}}</option>
             </select>
           </div>
       </div>

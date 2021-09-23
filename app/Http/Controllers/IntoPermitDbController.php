@@ -32,7 +32,7 @@ class IntoPermitDbController extends Controller
         }
         $requerimentArray=[];
         foreach($collectionPermits as $collectionPermit){
-            for ($j=3; $j <= 54 ; $j++) { 
+            for ($j=4; $j <= 54 ; $j++) { 
                 array_push($requerimentArray, $collectionPermit[$j]);
             }
         }

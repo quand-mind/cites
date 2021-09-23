@@ -88,6 +88,7 @@ import VueScrollTo  from 'vue-scrollto'
 
 Vue.use(VueScrollTo)
 
+
 Vue.component("home-dashboard", require("./components/admin/HomeDashboard.vue").default);
 
 Vue.component("aside-admin", require("./components/admin/AsideAdmin.vue").default);

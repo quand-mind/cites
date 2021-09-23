@@ -119,9 +119,15 @@ class PermissionController extends Controller
 
     public function showPermitInfo($id) 
     {
-        $permit = Permit::find($id);
-        if ($permit->)
-        return view('permissions.permitInfo', compact('permit'));
+        // return $id;
+        $permit = Permit::where(['id' => $id])->with(['requeriments', 'permit_type', 'formalitie.client.user',
+        'formalitie.official.user', 'species'])->get()->first();
+        // return $permit;
+        if ($permit->status === 'committed' || $permit->status === 'valid') {
+            return view('permissions.permitInfo', compact('permit'));
+        } else {
+            return view('errors.404');
+        }
     }
 
     public function showAprovedPermit($id)
@@ -717,7 +723,7 @@ class PermissionController extends Controller
     }
 
     public function getDataQr($id){
-        return Permit::find($id)->whith('formalitie.client')->get();
+        return Permit::find($id)->with('formalitie.client')->get();
     }
 }
 

@@ -28,7 +28,6 @@
 
     <div id="app">
       <div style="width:100%">
-
         <div style="position: absolute; top:0; left:0; width:45%; display:inline;">
           <img src="data:image/png;base64,{{ $logo }}" style="margin-right: 10px; display:inline; width: 10%;"/>
           <h6 class="absolute" style="width: 100%;margin-top: 0px; top: 0;">CONVENCION SOBRE EL COMERCIO INTERNACIONAL DE ESPECIES AMENAZADAS DE FAUNA Y FLORA SILVESTRES</h6>
@@ -441,9 +440,9 @@
           <h6 class="absolute" style="text-align:center; border-top:1px solid; width:15%; height:60px; margin-top: -5px; top:72; font-size: 14px; left:330;">Firma</h6>
           <h6 class="absolute" style="text-align:center; border-top:1px solid; width:15%; height:60px; margin-top: -5px; top:72; font-size: 14px; left:430;">Sello y cargo oficiales</h6>
         </div>
-
+        <img src="data:image/png;base64,{{ $codeQr }}"  style="margin-right: 10px; margin-top: 790px; display:inline; width: 10%;"/>  
         <h4 class="absolute" style="width:50%; height:60px; margin-top: 0px; top: {{$final + 220}}; left:340;">Permiso/Certificado N°: {{$permit->request_permit_no}}</h4>
-        <div>{{ $codeQr }}</div>
+        
       </div>
     </div>
 </body>

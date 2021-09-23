@@ -13,7 +13,7 @@
 
     <div id="app">
         @include('permissions.includes.permit-nav')
-        <main class="dashboard-panel py-4 px-5">
+        <main style="position: relative;" class="dashboard-panel py-4 px-5">
             @yield('content')
         </main>
     </div>

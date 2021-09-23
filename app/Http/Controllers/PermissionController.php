@@ -115,12 +115,16 @@ class PermissionController extends Controller
         $image = base64_encode(file_get_contents(public_path('/images/logos/logo-minec.png')));
         $logo = $image;
         $host = $_SERVER["HTTP_HOST"];
-        $GcodeQr = QrCode::generate($host.'/solicitante/DataCodeQr/'.$id, '../public/qrcodes/'.$permit->request_permit_no.'.svg');
+        $GcodeQr = QrCode::generate($host.'/solicitante/generateQr/'.$permit->request_permit_no, '../public/qrcodes/'.$permit->request_permit_no.'.svg');
         $codeQr = base64_encode(file_get_contents(public_path('../public/qrcodes/'.$permit->request_permit_no.'.svg')));
         $pdf->loadView('permissions.aproved_permit', [ 'permit' => $permit, 'logo' => $image, 'codeQr' => $codeQr]);
         return $pdf->stream();
         
         return view('permissions.aproved_permit', compact('permit', 'logo', 'codeQr'));
+    }
+    public function getDataQr($id){
+        return Permit::where("request_permit_no", '=', $id)->with('formalitie.client')->first();
+        return "hi";
     }
 
     // POST
@@ -720,9 +724,6 @@ class PermissionController extends Controller
         }
     }
 
-    public function getDataQr($id){
-        return Permit::find($id)->whith('formalitie.client')->get();
-    }
 }
 
 

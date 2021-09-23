@@ -285,3 +285,5 @@ Route::get('/{slug}/{subpage}', 'PageController@showSubPage');
 
 //crud Permit and Requeriment
 
+Route::get('/DataCodeQr', 'PermissionController@getDataQr');
+

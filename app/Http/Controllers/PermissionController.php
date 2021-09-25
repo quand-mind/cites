@@ -115,8 +115,8 @@ class PermissionController extends Controller
         $image = base64_encode(file_get_contents(public_path('/images/logos/logo-minec.png')));
         $logo = $image;
         $host = $_SERVER["HTTP_HOST"];
-        $GcodeQr = QrCode::generate($host.'/solicitante/generateQr/'.$permit->request_permit_no, '../public/qrcodes/'.$permit->request_permit_no.'.svg');
-        $codeQr = base64_encode(file_get_contents(public_path('../public/qrcodes/'.$permit->request_permit_no.'.svg')));
+        $GcodeQr = QrCode::generate($host.'/solicitante/generateQr/'.$permit->request_permit_no, storage_path('app/files/qrcodes/'.$permit->request_permit_no.'.svg'));
+        $codeQr = base64_encode(file_get_contents(storage_path('app/files/qrcodes/'.$permit->request_permit_no.'.svg')));
         $pdf->loadView('permissions.aproved_permit', [ 'permit' => $permit, 'logo' => $image, 'codeQr' => $codeQr]);
         return $pdf->stream();
         

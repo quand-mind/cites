@@ -20,66 +20,128 @@
               </b-col>
             </b-row>
             <div class="w-100 body justify-content-center align-items-center flex-column">
-              <b-row class="w-100 d-flex justify-content-between align-items-center flex-row" v-for="(requeriment,index) of permit.requeriments" v-bind:key="index">
-                <b-col lg="3" class="my-4">{{requeriment.name}}</b-col>
-                <b-col lg="3" class="d-flex justify-content-center align-items-center">
-                  <div v-if="requeriment.type === 'form'">
-                    <font-awesome-icon :icon="['fa', 'check']"></font-awesome-icon> Completado
-                  </div>
-                  <div v-if="requeriment.type === 'physical'">
-                    Entregar en físico únicamente
-                  </div>
-                  <div class="mr-3" v-if="requeriment.short_name === 'documentos_especies'">
-                    <font-awesome-icon :icon="['fa', 'clipboard-list']"></font-awesome-icon> Especies Agregadas: {{permit.species.length}}
-                  </div>
-                  <div v-if="requeriment.type !== 'physical' && requeriment.type !== 'form'">
-                    <div v-if="!requeriment.pivot.file_url">
-                      <font-awesome-icon :icon="['fa', 'ban']"></font-awesome-icon> No hay un archivo subido
+              <b-row class="w-100" v-for="(requeriment,index) of permit.requeriments" v-bind:key="index">
+                <b-row v-if="requeriment.pivot.is_valid === 0 && formalitie.observations" class="w-100 d-flex justify-content-between align-items-center flex-row bg-danger text-white">
+                  <b-col lg="3" class="my-4">{{requeriment.name}}</b-col>
+                  <b-col lg="3" class="d-flex justify-content-center align-items-center">
+                    <div v-if="requeriment.type === 'form'">
+                      <font-awesome-icon :icon="['fa', 'check']"></font-awesome-icon> Completado
                     </div>
-                    <div v-else>
-                      <a :href="`/${requeriment.pivot.file_url}`" target="_blank"><font-awesome-icon :icon="['fa', 'eye']"></font-awesome-icon> Ver Archivo</a>
+                    <div v-if="requeriment.type === 'physical'">
+                      Entregar en físico únicamente
                     </div>
-                  </div>
-                </b-col>
-                <b-col lg="3">
-                  <div
-                    class="d-flex justify-content-center align-items-center"
-                    v-if="requeriment.type === 'personal'"
-                  >
-                    <a v-if="requeriment.pivot.file_url && formalitie.status === 'uploading_requeriments'" class="btn text-primary" style="cursor:pointer" href="/solicitante/editUser">
-                      <font-awesome-icon :icon="['fa', 'edit']"></font-awesome-icon>
-                    </a>
-                    <a v-if="!requeriment.pivot.file_url && formalitie.status === 'uploading_requeriments'" class="btn text-primary" style="cursor:pointer" href="/solicitante/editUser">
-                      <font-awesome-icon :icon="['fa', 'upload']"></font-awesome-icon>
-                    </a>
+                    <div class="mr-3" v-if="requeriment.short_name === 'documentos_especies'">
+                      <font-awesome-icon :icon="['fa', 'clipboard-list']"></font-awesome-icon> Especies Agregadas: {{permit.species.length}}
+                    </div>
+                    <div v-if="requeriment.type !== 'physical' && requeriment.type !== 'form'">
+                      <div v-if="!requeriment.pivot.file_url">
+                        <font-awesome-icon :icon="['fa', 'ban']"></font-awesome-icon> No hay un archivo subido
+                      </div>
+                      <div v-else>
+                        <a class="text-white" :href="`/${requeriment.pivot.file_url}`" target="_blank"><font-awesome-icon :icon="['fa', 'eye']"></font-awesome-icon> Ver Archivo</a>
+                      </div>
+                    </div>
+                  </b-col>
+                  <b-col lg="3">
+                    <div
+                      class="d-flex justify-content-center align-items-center"
+                      v-if="requeriment.type === 'personal'"
+                    >
+                      <a  v-if="requeriment.pivot.file_url && formalitie.status === 'uploading_requeriments'" class="btn text-white" style="cursor:pointer" href="/solicitante/editUser">
+                        <font-awesome-icon :icon="['fa', 'edit']"></font-awesome-icon>
+                      </a>
+                      <a  v-if="!requeriment.pivot.file_url && formalitie.status === 'uploading_requeriments'" class="btn text-white" style="cursor:pointer" href="/solicitante/editUser">
+                        <font-awesome-icon :icon="['fa', 'upload']"></font-awesome-icon>
+                      </a>
 
-                  </div>
-                  <div
-                    class="d-flex justify-content-center align-items-center"
-                    v-else-if="requeriment.type !== 'physical' && requeriment.type !== 'form'"
-                  >
-                    <button v-if="requeriment.short_name === 'documentos_especies'" class="btn text-dark" @click="showSelectedSpecies = true" style="cursor:pointer">
-                      <font-awesome-icon :icon="['fa', 'eye']"></font-awesome-icon>
-                    </button>
-                    <label v-if="!requeriment.pivot.file_url && formalitie.status === 'uploading_requeriments'" class="btn text-primary" :for="'permit'+ permit.id +'file'+ requeriment.id" style="cursor:pointer">
-                      <font-awesome-icon :icon="['fa', 'upload']"></font-awesome-icon>
-                    </label>
-                    <b-form-file
-                      @input="uploadFile(file, requeriment, index)"
-                      style="display:none"
-                      :id="'permit'+ permit.id +'file'+ requeriment.id"
-                      accept=".pdf"
-                      v-model="file"
-                      drop-placeholder="Subir archivo aquí..."
-                      max-size="10240"
-                    ></b-form-file>
-                    <button v-if="requeriment.pivot.file_url && formalitie.status === 'uploading_requeriments'" class="ml-3 btn text-danger relative" @click="deleteFile(requeriment)" style="cursor:pointer">
-                      <font-awesome-icon :icon="['fa', 'trash']"></font-awesome-icon>
-                    </button>
-                  </div>
-                  
-                </b-col>
-              </b-row>
+                    </div>
+                    <div
+                      class="d-flex justify-content-center align-items-center"
+                      v-else-if="requeriment.type !== 'physical' && requeriment.type !== 'form'"
+                    >
+                      <button v-if="requeriment.short_name === 'documentos_especies'" class="btn text-dark" @click="showSelectedSpecies = true" style="cursor:pointer">
+                        <font-awesome-icon :icon="['fa', 'eye']"></font-awesome-icon>
+                      </button>
+                      <label v-if="!requeriment.pivot.file_url && formalitie.status === 'uploading_requeriments'" class="btn text-primary" :for="'permit'+ permit.id +'file'+ requeriment.id" style="cursor:pointer">
+                        <font-awesome-icon :icon="['fa', 'upload']"></font-awesome-icon>
+                      </label>
+                      <b-form-file
+                        @input="uploadFile(file, requeriment, index)"
+                        style="display:none"
+                        :id="'permit'+ permit.id +'file'+ requeriment.id"
+                        accept=".pdf"
+                        v-model="file"
+                        drop-placeholder="Subir archivo aquí..."
+                        max-size="10240"
+                      ></b-form-file>
+                      <button v-if="requeriment.pivot.file_url && formalitie.status === 'uploading_requeriments'" class="ml-3 btn text-white relative" @click="deleteFile(requeriment)" style="cursor:pointer">
+                        <font-awesome-icon :icon="['fa', 'trash']"></font-awesome-icon>
+                      </button>
+                    </div>
+                    
+                  </b-col>
+                </b-row>
+                <b-row v-else class="w-100 d-flex justify-content-between align-items-center flex-row">
+                  <b-col lg="3" class="my-4">{{requeriment.name}}</b-col>
+                  <b-col lg="3" class="d-flex justify-content-center align-items-center">
+                    <div v-if="requeriment.type === 'form'">
+                      <font-awesome-icon :icon="['fa', 'check']"></font-awesome-icon> Completado
+                    </div>
+                    <div v-if="requeriment.type === 'physical'">
+                      Entregar en físico únicamente
+                    </div>
+                    <div class="mr-3" v-if="requeriment.short_name === 'documentos_especies'">
+                      <font-awesome-icon :icon="['fa', 'clipboard-list']"></font-awesome-icon> Especies Agregadas: {{permit.species.length}}
+                    </div>
+                    <div v-if="requeriment.type !== 'physical' && requeriment.type !== 'form'">
+                      <div v-if="!requeriment.pivot.file_url">
+                        <font-awesome-icon :icon="['fa', 'ban']"></font-awesome-icon> No hay un archivo subido
+                      </div>
+                      <div v-else>
+                        <a :href="`/${requeriment.pivot.file_url}`" target="_blank"><font-awesome-icon :icon="['fa', 'eye']"></font-awesome-icon> Ver Archivo</a>
+                      </div>
+                    </div>
+                  </b-col>
+                  <b-col lg="3">
+                    <div
+                      class="d-flex justify-content-center align-items-center"
+                      v-if="requeriment.type === 'personal'"
+                    >
+                      <a v-if="requeriment.pivot.file_url && formalitie.status === 'uploading_requeriments'" class="btn text-primary" style="cursor:pointer" href="/solicitante/editUser">
+                        <font-awesome-icon :icon="['fa', 'edit']"></font-awesome-icon>
+                      </a>
+                      <a v-if="!requeriment.pivot.file_url && formalitie.status === 'uploading_requeriments'" class="btn text-primary" style="cursor:pointer" href="/solicitante/editUser">
+                        <font-awesome-icon :icon="['fa', 'upload']"></font-awesome-icon>
+                      </a>
+
+                    </div>
+                    <div
+                      class="d-flex justify-content-center align-items-center"
+                      v-else-if="requeriment.type !== 'physical' && requeriment.type !== 'form'"
+                    >
+                      <button v-if="requeriment.short_name === 'documentos_especies'" class="btn text-dark" @click="showSelectedSpecies = true" style="cursor:pointer">
+                        <font-awesome-icon :icon="['fa', 'eye']"></font-awesome-icon>
+                      </button>
+                      <label v-if="!requeriment.pivot.file_url && formalitie.status === 'uploading_requeriments'" class="btn text-primary" :for="'permit'+ permit.id +'file'+ requeriment.id" style="cursor:pointer">
+                        <font-awesome-icon :icon="['fa', 'upload']"></font-awesome-icon>
+                      </label>
+                      <b-form-file
+                        @input="uploadFile(file, requeriment, index)"
+                        style="display:none"
+                        :id="'permit'+ permit.id +'file'+ requeriment.id"
+                        accept=".pdf"
+                        v-model="file"
+                        drop-placeholder="Subir archivo aquí..."
+                        max-size="10240"
+                      ></b-form-file>
+                      <button v-if="requeriment.pivot.file_url && formalitie.status === 'uploading_requeriments'" class="ml-3 btn text-danger relative" @click="deleteFile(requeriment)" style="cursor:pointer">
+                        <font-awesome-icon :icon="['fa', 'trash']"></font-awesome-icon>
+                      </button>
+                    </div>
+                    
+                  </b-col>
+                </b-row>
+            </b-row>
             </div>
           </div>
         </div>
@@ -305,13 +367,10 @@ export default {
     if (this.client_data.dni_file_url){
       for (const permit of this.formalitie.permits) {
         let index = permit.requeriments.findIndex( requeriment => requeriment.short_name === 'cedula')
-        if (index !== -1){
-          // console.log(index)
+        if (index !== -1) {
           this.uploadPersonals(permit.requeriments[index], index, this.client_data.dni_file_url)
-          // permit.requeriments[index].pivot.file_url = this.client_data.dni_file_url
         }
       }
-      // console.log('Si hay')
     }
     this.checkUploadedRequirements()
   }

@@ -46,7 +46,7 @@ class PermissionController extends Controller
     {
         $clientData = Client::with('user')->where(['id' => auth()->user()->id])->get()->first();
         // return $clientData->user;
-        $formalities = Formalitie::where(['client_id' => $clientData->id])->with(['permits.requeriments', 'permits.permit_type', 'permits.species', 'client.user'])->paginate(2);
+        $formalities = Formalitie::where(['client_id' => $clientData->id])->with(['permits.requeriments', 'permits.permit_type', 'permits.species', 'client.user'])->paginate(5);
         // $permissions = Permit::where(['client_id' => $clientData->id])->with(['requeriments', 'permit_type', 'species', 'client.user'])->get();
         // $permissions = Permit::where(['client_id' => $clientData->id])->with(['requeriments', 'permit_type', 'species', 'client.user'])->paginate(2);
         return view('permissions.permissions', compact('formalities', 'clientData'));
@@ -92,7 +92,7 @@ class PermissionController extends Controller
         } else {
             $clientId = -1;
         }
-        $formalities = Formalitie::with(['permits.requeriments', 'permits.permit_type', 'permits.species', 'client.user'])->whereNotIn('client_id', [$clientId])->paginate(2);
+        $formalities = Formalitie::with(['permits.requeriments', 'permits.permit_type', 'permits.species', 'client.user'])->whereNotIn('client_id', [$clientId])->paginate(5);
         // $permissions = Permit::with(['requeriments', 'permit_type', 'species', 'client.user'])->whereNotIn('client_id', [$clientId])->get();
         return view('panel.dashboard.permissions.permissions', compact('formalities'));
     }
@@ -422,6 +422,14 @@ class PermissionController extends Controller
         foreach ($formalitie->permits as $permit) {
             $permit->status = 'requested';
             $permit->save();
+            foreach ($permit->requeriments as $requeriment) {
+                if ($requeriment->pivot->is_valid === null) {
+                    $permit->requeriments()->updateExistingPivot($requeriment, array('is_valid' => 0, 'file_url' => $requeriment->file_url), false);
+                    // $requeriment->pivot->is_valid = 0;
+                    $requeriment->save();
+                }
+            }
+            // $permit->requeriments->save();
         }
         $formalitie->save();
         return response('Solicitud de Permiso finalizada', 200);

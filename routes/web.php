@@ -95,6 +95,8 @@ Auth::routes();
 Route::get('/register', [AuthController::class, 'index'])->name('register');
 Route::get('/loginPermissions', 'Auth\PermissionsLoginController@showLoginForm')->name('loginPermissions');
 
+Route::get('permitInfo/{id}', 'PermissionController@showPermitInfo')->name('showPermitInfo');
+
 Route::middleware('auth:api')->get('/home', 'HomeController@index')->name('home');
 
 
@@ -203,6 +205,16 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         Route::get('/permissions', 'PermissionController@getList');
 
         Route::get('/permissions/check/{id}', 'PermissionController@showChecklist');
+
+        Route::get('/permissions/requerimentsView', 'RequerimentController@index');
+        Route::get('/permissions/permitsView', 'PermissionController@showPermitsView');
+
+        Route::get('/permissions/getDepartaments', 'DepartamentController@index');
+        Route::get('/permissions/getRequeriments', 'RequerimentController@getRequeriments');
+        
+        Route::post('/permissions/addRequeriment', 'RequerimentController@addRequeriment');
+        Route::post('/permissions/editRequeriment/{id}', 'RequerimentController@editRequeriment');
+        Route::post('/permissions/deleteRequeriment/{id}', 'RequerimentController@deleteRequeriment');
 
         Route::post('/permissions/uploadSpecieFile', 'PermissionController@storeSpecieFile');
         Route::post('/permissions/uploadFile', 'PermissionController@storeFile');

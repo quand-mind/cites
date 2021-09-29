@@ -29,17 +29,19 @@ use Response;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\App;
+use SebastianBergmann\CodeUnit\FunctionUnit;
 
 class PermissionController extends Controller
 {
+    // GET functions
 
-    // GET
     public function returnUser(){
         $user = Client::with('user')->where('user_id', '=', auth()->user()->id)->get();
         foreach ($user as  $us) {
             return $us->user->dni;
         }
     }
+
     public function index()
     {
         $clientData = Client::with('user')->where(['id' => auth()->user()->id])->get()->first();
@@ -49,12 +51,14 @@ class PermissionController extends Controller
         // $permissions = Permit::where(['client_id' => $clientData->id])->with(['requeriments', 'permit_type', 'species', 'client.user'])->paginate(2);
         return view('permissions.permissions', compact('formalities', 'clientData'));
     }
+
     public function getForm($id)
     {   
         $clientData = Client::with('user')->where('id', '=', auth()->user()->id)->get()->first();
         $permitType = PermitType::with(['requeriments'])->where('id', '=', $id)->get()->first();
         return view('permissions.permit_form', compact(['permitType', 'clientData']));
     }
+
     public function showUploadRequeriments($id)
     {
         try {
@@ -74,6 +78,12 @@ class PermissionController extends Controller
         }
     }
 
+    public function showPermitsView()
+    {
+        $permit_types = PermitType::with(['departament', 'requeriments'])->paginate(10);
+        return view('panel.dashboard.permissions.permits_view', compact('permit_types'));
+    }
+
     public function getList()
     {
         $clientData = Client::with('user')->where('id', '=', auth()->user()->id)->get()->first();
@@ -86,6 +96,7 @@ class PermissionController extends Controller
         // $permissions = Permit::with(['requeriments', 'permit_type', 'species', 'client.user'])->whereNotIn('client_id', [$clientId])->get();
         return view('panel.dashboard.permissions.permissions', compact('formalities'));
     }
+
     public function showChecklist($id)
     {
         $getFormalitie= Formalitie::find($id);
@@ -105,6 +116,20 @@ class PermissionController extends Controller
             return view('errors.404');
         }
     }
+
+    public function showPermitInfo($id) 
+    {
+        // return $id;
+        $permit = Permit::where(['request_permit_no' => $id])->with(['requeriments', 'permit_type', 'formalitie.client.user',
+        'formalitie.official.user', 'species'])->get()->first();
+        // return $permit;
+        if ($permit->status === 'committed' || $permit->status === 'valid') {
+            return view('permissions.permitInfo', compact('permit'));
+        } else {
+            return view('errors.404');
+        }
+    }
+
     public function showAprovedPermit($id)
     {
         $permit = Permit::where(['id' => $id])->with(['requeriments', 'permit_type', 'formalitie.client.user',
@@ -127,7 +152,7 @@ class PermissionController extends Controller
         return "hi";
     }
 
-    // POST
+    // POST functions
 
     public function storePermit(Request $request)
     {
@@ -401,48 +426,7 @@ class PermissionController extends Controller
         $formalitie->save();
         return response('Solicitud de Permiso finalizada', 200);
     }
-    public function addSpecie(Request $request)
-    {
-        $specie = json_decode($request->input('specie'));
-        $permit = json_decode($request->input('permit'));
-        // return $specie;
-        $specie_name = $specie->name_common;
-        $permit_id = $permit->id;
-        $getPermit = Permit::where(['id' => $permit_id])->get()->first();
-        
-        $findedSpecie = Specie::where('name_common', '=', $specie_name)->get()->first();
-        
-        if($findedSpecie) {  
-            $speciesIdsWithPivot[$findedSpecie->id] = ["qty" => $specie->qty, "file_url" => $specie->pivot->file_url, "is_valid" => false];
-            $getPermit->species()->attach($speciesIdsWithPivot);
-        }
-        else{
-            $newSpecie = new Specie();
-            $newSpecie->type = $specie->kingdom;
-            $newSpecie->name_scientific = $specie->name_common;
-            $newSpecie->name_common = $specie->name_common;
-            // $newSpecie->search_id = $specie->search_id;
-            $newSpecie->search_id = 1;
-            $newSpecie->save();
-            $speciesIdsWithPivot[$newSpecie->id] = ["qty" => $specie->qty, "file_url" => $specie->pivot->file_url, "is_valid" => false];
-            $getPermit->species()->attach($speciesIdsWithPivot);
-        }
-        return response('Especie Añadida', 200);
-    }
-    public function deleteSpecie(Request $request)
-    {
-        $specie = json_decode($request->input('specie'));
-        $permit = json_decode($request->input('permit'));
-        // return $specie;
-        $permit_id = $permit->id;
-        $getPermit = Permit::where(['id' => $permit_id])->get()->first();
-        
-        // $findedSpecie = Specie::where('name_common', '=', $specie_name)->get()->first();
-        
-        $getPermit->species()->detach($specie->id);
-        
-        return response('Especie Eliminada', 200);
-    }
+
     public function savePersonalFile(Request $request)
     {
         $requeriment = json_decode($request->input('requeriment'));
@@ -454,6 +438,7 @@ class PermissionController extends Controller
         $permit->push();
         return $url;
     }
+
     public function storeFile(Request $request)
     {
         $file = $request->file('file');
@@ -471,6 +456,7 @@ class PermissionController extends Controller
         Log::info('El solicitante con la cedula de identidad '.$this->returnUser().'a cargado un archivo | El archivo se ha cargado desde la direccion: '. request()->ip());
         return $url;
     }
+
     public function deleteFile($id, Request $request)
     {
         
@@ -486,6 +472,7 @@ class PermissionController extends Controller
         Log::info('El solicitante con la cedula de identidad '.$this->returnUser().'a eliminado un archivo | El archivo se ha eliminado desde la direccion: '. request()->ip());
         return response('Archivo Eliminado', 200);
     }
+
     public function storeSpecieFile(Request $request)
     {
         $file = $request->file('file');
@@ -505,6 +492,7 @@ class PermissionController extends Controller
 
         return $url;
     }
+
     public function deleteSpecieFile($id, Request $request)
     {
         
@@ -519,13 +507,15 @@ class PermissionController extends Controller
         $permit->push();
         return response('Archivo Eliminado', 200);
     }
+
     public function showFile($name)
     {
         return Response::make(Storage::get('files/permissions/'. $name), 200, [
             'Content-Type' => 'application/pdf',
             'Content-Disposition' => 'inline; filename="'.$name.'"'
         ]);
-    }    
+    }  
+
     public function checkPermit(Request $request, $id)
     {
         $permit = Permit::find($id);
@@ -545,6 +535,7 @@ class PermissionController extends Controller
 
         return response('Estatus del Requerimiento Actualizado.', 200);
     }
+
     public function checkSpecies(Request $request, $id)
     {
         $permit = Permit::find($id);
@@ -565,6 +556,7 @@ class PermissionController extends Controller
         Log::info('El official con la cedula de identidad '.$this->returnUser().'a verificado el requerimineto  | desde la direccion: '. request()->ip());
         return response('Estatus del Requerimiento Actualizado.', 200);
     }
+
     public function validPermit(Request $request, $id)
     {
         $formalitie = Formalitie::find($id);
@@ -590,6 +582,7 @@ class PermissionController extends Controller
         
         return response('Estatus del Requerimiento Actualizado.', 200);
     }
+
     public function sendErrors(Request $request, $id)
     {
         $formalitie = Formalitie::find($id);
@@ -612,13 +605,16 @@ class PermissionController extends Controller
         }
         return response('Se ha enviado un correo con los problemas y se ha actualizado el estado', 200);
     }
+
     public function printAprovedPermit($id)
     {
-        
         return response('Permiso Impreso.', 200);
     }
 
-    public function filterApplicant(Request $request){
+    // Utils
+
+    public function filterApplicant(Request $request)
+    {
         $filter  = $request->get('filter');
 
         switch($filter){
@@ -633,7 +629,8 @@ class PermissionController extends Controller
         }  
     }
 
-    public function filterOfficial(Request $request){
+    public function filterOfficial(Request $request)
+    {
         $filter  = $request->get('filter');
 
         switch($filter){
@@ -649,18 +646,21 @@ class PermissionController extends Controller
         }  
     }
 
-    public function filterCountry(Request $request){
+    public function filterCountry(Request $request)
+    {
         //$filter  = $request->get('filter');
         $filterCountry = Permit::with('client', 'client.user')->get();
         return $filterCountry;
     }
 
-    public function filterDate(Request $request){
+    public function filterDate(Request $request)
+    {
         $filter  = $request->get('filter');
         return $filterCountry = Permit::where('created_at', 'like', '%'.$filter.'%' )->with('client', 'client.user')->get();
     }
 
-    public function dayMoreTen(){
+    public function dayMoreTen()
+    {
 
         //create variable for  upload file limit date  
         $dayNow = Carbon::now();
@@ -683,7 +683,9 @@ class PermissionController extends Controller
         return $dayAddTen->toDateString();
         
     }
-    public function dayMoreFive(){
+
+    public function dayMoreFive()
+    {
 
         //create variable for  upload file limit date  
         $dayNow = Carbon::now();
@@ -707,7 +709,8 @@ class PermissionController extends Controller
         
     }
 
-    public function check_in_range($dayNow, $dayAddTen, $workingDay){
+    public function check_in_range($dayNow, $dayAddTen, $workingDay)
+    {
 
         $dayNow = strtotime($dayNow);
         $dayAddTen = strtotime($dayAddTen);

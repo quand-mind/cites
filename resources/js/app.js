@@ -88,6 +88,7 @@ import VueScrollTo  from 'vue-scrollto'
 
 Vue.use(VueScrollTo)
 
+
 Vue.component("home-dashboard", require("./components/admin/HomeDashboard.vue").default);
 
 Vue.component("aside-admin", require("./components/admin/AsideAdmin.vue").default);
@@ -124,6 +125,10 @@ Vue.component("aside-manager", require("./components/admin/AsideManager.vue").de
 
 Vue.component("check-requirements", require("./components/admin/permissions/CheckRequirements.vue").default);
 
+Vue.component("requeriments-view", require("./components/admin/permissions/RequerimentsView.vue").default);
+
+Vue.component("permits-view", require("./components/admin/permissions/PermitsView.vue").default);
+
 Vue.component("page-template", require("./views/PageTemplate.vue").default);
 
 Vue.component("faqs", require("./views/Faqs.vue").default);
@@ -147,6 +152,8 @@ Vue.component("authorizations-list", require("./components/permissions/Authoriza
 Vue.component("permissions", require("./components/permissions/Permissions.vue").default);
 
 Vue.component("permissions-list", require("./components/permissions/PermissionsList.vue").default);
+
+Vue.component("permit-info", require("./components/permissions/PermitInfo.vue").default);
 
 Vue.component("permit-form", require("./components/permissions/PermitForm.vue").default);
 

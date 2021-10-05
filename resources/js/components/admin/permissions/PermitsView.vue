@@ -2,7 +2,7 @@
   <div>
     <h1>Permisos</h1>
 
-    <h4 class="mt-5">Listado de Requerimientos</h4>
+    <h4 class="mt-5">Listado de Permisos</h4>
 
     <div class="mt-3 mb-4 d-flex align-items-center justify-content-start">
       <b-button @click="showAddPermit = true" variant="primary">Añadir Nuevo Tipo de Permiso +</b-button>

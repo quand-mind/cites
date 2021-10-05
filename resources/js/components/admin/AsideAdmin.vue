@@ -57,6 +57,12 @@
       <a v-if="!iswriter" href="/dashboard/permissions/" class="list-group-item list-group-item-action">
         <font-awesome-icon :icon="['fas', 'clipboard-check']"></font-awesome-icon>&nbsp;Solicitud de Permisos
       </a>
+      <a v-if="!iswriter" href="/dashboard/permissions/requerimentsView" class="list-group-item list-group-item-action">
+        <font-awesome-icon :icon="['fas', 'list-ol']"></font-awesome-icon>&nbsp;Requerimientos
+      </a>
+      <a v-if="!iswriter" href="/dashboard/permissions/permitsView" class="list-group-item list-group-item-action">
+        <font-awesome-icon :icon="['fas', 'sticky-note']"></font-awesome-icon>&nbsp;Permisos
+      </a>
     </div>
   </aside>
 </template>

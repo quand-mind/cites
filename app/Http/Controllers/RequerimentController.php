@@ -40,6 +40,6 @@ class RequerimentController extends Controller
     public function deleteRequeriment($id)
     {
         Requeriment::destroy($id);
-        return response('Todo Piola', 200);
+        return response('Requerimiento Eliminado', 200);
     }
 }

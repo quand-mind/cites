@@ -119,6 +119,7 @@
         </b-card-text>
     </b-card>
     <button class="btn btn-primary mt-4" @click="editUser()">Actualizar Datos</button>
+    <button class="btn btn-primary mt-4" @click="backToPermisions()">Regresar a Permisos</button>
   </div>
 </template>
 <script>

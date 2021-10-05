@@ -31,7 +31,7 @@
         "@fortawesome/free-regular-svg-icons": "^5.13.1",
         "@fortawesome/free-solid-svg-icons": "^5.13.1",
         "@fortawesome/vue-fontawesome": "^0.1.10",
-        "bootstrap-vue": "^2.15.0",
+        "bootstrap-vue": "^2.21.2",
         "moment": "^2.27.0",
         "portal-vue": "^2.1.6",
         "vue-bootstrap-typeahead": "^0.2.6",

@@ -11,7 +11,8 @@ use App\Models\Requeriment;
 
 class IntoPermitDbController extends Controller
 {
-    public function readFileXlsx(Request $request){
+    public function readFileXlsx(Request $request)
+    {
         
         $collectionPermits = Excel::toArray(new PermitTypeImport, 'permissions_files\CITES_MINEC_Tramites_vs_requisitos_consolidados_y_detallados.xlsx');
         //save permit
@@ -66,27 +67,63 @@ class IntoPermitDbController extends Controller
     
     }
 
-    public function showPermitTypes(){
+    public function showPermitTypes()
+    {
         return PermitType::get();
     }
 
-    public function editPermitType(Request $request, $id){
-        
-        $permit = PermitType::find($id);
-        $permit->name = $request->input('name');
-        $permit->Type = $request->input('Type');
-        $permit->status = $request->input('status');
+    public function addPermitType(Request $request)
+    {
+        $newPermit = json_decode($request->input('permit'));
+        $permit = new PermitType;
+        $permit->name = $newPermit->name;
+        $permit->status = $newPermit->status;
+        $permit->departament_id = $newPermit->departament_id;
+        $permit->type = $newPermit->type;
         $permit->save();
 
         $requeriments = $request->only('requeriments');
-        $requeriments = json_decode(json_encode($requeriments['requeriments']));
+        $requeriments = json_decode($requeriments['requeriments']);
 
-        $requerimentsIds = array_map(function ($requeriment){
+        $requerimentsIds = array_map(function ($requeriment) {
             return $requeriment->id;
-        }, $requeriments);
+        }, $requeriments );
 
 
         $permit->requeriments()->sync($requerimentsIds);
+
+        return response('Nuevo Permiso Guardado', 200);
+    }
+
+    public function editPermitType(Request $request, $id)
+    {
+        
+        $permit = PermitType::find($id);
+        $newPermit = json_decode($request->input('permit'));
+        $permit->name = $newPermit->name;
+        $permit->type = $newPermit->type;
+        $permit->departament_id = $newPermit->departament_id;
+        $permit->status = $newPermit->status;
+        $permit->save();
+
+        // return $permit;
+
+        $requeriments = $request->only('requeriments');
+        $requeriments = json_decode($requeriments['requeriments']);
+
+        $requerimentsIds = array_map(function ($requeriment) {
+            return $requeriment->id;
+        }, $requeriments );
+
+
+        $permit->requeriments()->sync($requerimentsIds);
+        return response('Permiso Actualizado', 200);
+    }
+
+    public function deletePermitType($id)
+    {
+        PermitType::destroy($id);
+        return response('Permiso Eliminado', 200);
     }
 
 }

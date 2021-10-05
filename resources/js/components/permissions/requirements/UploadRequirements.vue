@@ -351,8 +351,14 @@ export default {
         .catch(err => {
           this.loadingDelete = false
           this.makeToast(err.toString(), 'danger')
-        });
+        }
+        );
     },
+        
+    redirectToEdit(){
+      
+    },
+
     makeToast(msg, variant = "success", delay = 3000, append = false) {
       this.$bvToast.toast(`${msg}`, {
         title: 'Requerimientos',

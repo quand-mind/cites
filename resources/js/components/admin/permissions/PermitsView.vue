@@ -91,22 +91,23 @@ export default {
       this.showDeletePermit = true
     },
     closeAddPermitDialog(){
-      this.selectedPermit = null
       this.showAddPermit = false
+      this.selectedPermit = null
     },
     closeDeletePermitDialog(){
       this.selectedPermit = null
       this.showDeletePermit = false
     },
     closeEditPermitDialog(){
-      this.selectedPermit = null
       this.showEditPermit = false
+      this.selectedPermit = null
     },
 
     addPermit(permit){
       this.closeAddPermitDialog()
+      console.log(permit)
       axios
-        .post(`/dashboard/permissions/addPermit/`, {permit: JSON.stringify(permit)})
+        .post(`/dashboard/permissions/addPermit/`, {permit: JSON.stringify(permit), requeriments: JSON.stringify(permit.requeriments)})
         .then(res => {
           this.makeToast(res.data)
           setTimeout(() => window.location.reload(), 1200)
@@ -117,8 +118,9 @@ export default {
     },
     editPermit(permit){
       this.closeEditPermitDialog()
+      console.log(permit)
       axios
-        .post(`/dashboard/permissions/editPermit/`+ permit.id, {permit: JSON.stringify(permit)})
+        .post(`/dashboard/permissions/editPermit/`+ permit.id, {permit: JSON.stringify(permit), requeriments: JSON.stringify(permit.requeriments)})
         .then(res => {
           this.makeToast(res.data)
           setTimeout(() => window.location.reload(), 1200)

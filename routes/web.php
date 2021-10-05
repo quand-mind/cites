@@ -212,6 +212,10 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         Route::get('/permissions/getDepartaments', 'DepartamentController@index');
         Route::get('/permissions/getRequeriments', 'RequerimentController@getRequeriments');
         
+        Route::post('/permissions/addPermit', 'IntoPermitDbController@addPermitType');
+        Route::post('/permissions/editPermit/{id}', 'IntoPermitDbController@editPermitType');
+        Route::post('/permissions/deletePermit/{id}', 'IntoPermitDbController@deletePermitType');
+        
         Route::post('/permissions/addRequeriment', 'RequerimentController@addRequeriment');
         Route::post('/permissions/editRequeriment/{id}', 'RequerimentController@editRequeriment');
         Route::post('/permissions/deleteRequeriment/{id}', 'RequerimentController@deleteRequeriment');

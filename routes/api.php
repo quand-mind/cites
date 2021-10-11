@@ -99,3 +99,5 @@ Route::get('filterApplicant', [PermissionController::class, 'filterApplicant']);
 Route::get('filterOfficial', [PermissionController::class, 'filterOfficial']);
 Route::get('filterCountry', [PermissionController::class, 'filterCountry']);
 Route::get('filterDate', [PermissionController::class, 'filterDate']);
+
+Route::get('/TestExportExcel', 'StatisticsController@TestExportExcel');

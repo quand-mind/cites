@@ -3,23 +3,62 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-//use Maatwebsite\Excel\Facades\Excel;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\FormalitiesExport;
+use GuzzleHttp\Client;
 use App\Models\Formalitie;
 use App\Models\Permit;
+use App\Models\PermitType;
+use App\Http\Controllers\ApiController;
 
 class StatisticsController extends Controller
 {
     public function TestExportExcel(){
        //$permitStatus = Permit::get();
-        $status =["requested", "committed", ];
+        $labels =["requested", "committed", "valid" ];
 
-        $statusCount = [];
-        foreach ($status  as $statu) {
-            $statusCount[] = Permit::where( 'status', '=', $statu)->count();
-            
+        $data = [];
+        foreach ($labels  as $label) {
+            $data[] = Permit::where( 'status', '=', $label)->count();
         }
-        return view('species')->with('status',json_encode($status))->with('statusCount',json_encode($statusCount,JSON_NUMERIC_CHECK));
+        return view('species')->with('labels',json_encode($labels))->with('data',json_encode($data,JSON_NUMERIC_CHECK));
         //return Excel::download(new FormalitiesExport, 'test.xlsx');
     }
+
+    public function chartForcountry(){
+        $apiController = new ApiController();
+        $countries =  $apiController->json_country();
+        $arrayCountries = [];
+        foreach ($countries as $countrie) {
+            $arrayCountries[] = $countrie->label;
+        }
+        //return $arrayCountries;
+        $labels=[];
+        $data= [];
+        foreach ($arrayCountries as $arrayCountry) {
+            $verifyCountry = Permit::where('country', '=', $arrayCountry)->get();
+            if (count($verifyCountry)) {
+                foreach ($verifyCountry as $verifyCountrys) {
+                    $labels[]= $verifyCountrys->country;
+                    $data[] = Permit::where( 'country', '=', $verifyCountrys->country)->count();
+                }
+            }
+        }
+        return view('species')->with('labels',json_encode($labels))->with('data',json_encode($data,JSON_NUMERIC_CHECK));
+    }
+
+    public function chartForpermitType(){
+        $permitTypes = Permit::join('permit_types', 'permit_types.id', '=', 'permit_type_id')->get();
+        $labels=[];
+        $data= [];
+        foreach ($permitTypes as $permitType) {
+            $verifypermitType = Permit::join('permit_types', 'permit_types.id', '=', 'permit_type_id')->where('name', '=', $permitType->name)->get();
+            if (count($verifypermitType)) {
+                $labels[]= $permitType->name;
+            }
+
+        }
+        return $labels;
+    }
+    
 }

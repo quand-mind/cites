@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Models\Formalitie;
+use App\Models\Permit;
 use Maatwebsite\Excel\Concerns\FromCollection;
 
 class FormalitiesExport implements FromCollection
@@ -12,6 +13,6 @@ class FormalitiesExport implements FromCollection
     */
     public function collection()
     {
-        return Formalitie::all();
+        
     }
 }

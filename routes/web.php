@@ -229,6 +229,10 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         Route::post('/permissions/validPermit/{id}', 'PermissionController@validPermit');
         Route::post('/permissions/sendErrors/{id}', 'PermissionController@sendErrors');
         Route::get('/permissions/viewPermit/{id}', 'PermissionController@showAprovedPermit');
+        
+        Route::get('/permissions/permitTypeStatistics', 'StatisticsController@showPermitTypeStatistics');
+        // Route::post('/permissions/sendErrors/{id}', 'StatisticsController@sendErrors');
+        // Route::get('/permissions/viewPermit/{id}', 'StatisticsController@showAprovedPermit');
     });
 });
 Route::get('/dataQr/{id}', 'PermissionController@getDataQr');

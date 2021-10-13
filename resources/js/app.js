@@ -129,6 +129,9 @@ Vue.component("requeriments-view", require("./components/admin/permissions/Reque
 
 Vue.component("permits-view", require("./components/admin/permissions/PermitsView.vue").default);
 
+
+Vue.component("graphic", require("./components/admin/permissions/graphics/Graphic.vue").default);
+
 Vue.component("page-template", require("./views/PageTemplate.vue").default);
 
 Vue.component("faqs", require("./views/Faqs.vue").default);

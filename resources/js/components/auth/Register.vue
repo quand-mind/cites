@@ -6,7 +6,7 @@
           <label for="name" class="col-md-4 col-form-label text-md-right">Nombre*</label>
 
           <div class="col-md-6">
-            <input id="name" type="text" class="form-control" name="name" v-model="name" required autofocus>
+            <input placeholder="Alejandro Pérez" id="name" type="text" class="form-control" name="name" v-model="name" required autofocus>
 
               <span v-if="errors" class="invalid-feedback" role="alert">
                   <strong>{{errors.name}}</strong>
@@ -18,7 +18,7 @@
           <label for="email" class="col-md-4 col-form-label text-md-right">Correo Electrónico*</label>
 
           <div class="col-md-6">
-            <input id="email" type="email" class="form-control" name="email" v-model="email" required autofocus>
+            <input placeholder="ejemplo@mail.com" id="email" type="email" class="form-control" name="email" v-model="email" required autofocus>
 
               <span v-if="errors" class="invalid-feedback" role="alert">
                   <strong>{{errors.email}}</strong>
@@ -30,7 +30,7 @@
           <label for="username" class="col-md-4 col-form-label text-md-right">Nombre de Usuario*</label>
 
           <div class="col-md-6">
-            <input id="username" type="text" class="form-control" name="username" v-model="username" required autofocus>
+            <input placeholder="alejandro22" id="username" type="text" class="form-control" name="username" v-model="username" required autofocus>
 
               <span v-if="errors" class="invalid-feedback" role="alert">
                   <strong>{{errors.username}}</strong>
@@ -42,7 +42,7 @@
           <label for="dni" class="col-md-4 col-form-label text-md-right">Cédula*</label>
 
           <div class="col-md-6">
-            <input id="dni" type="text" class="form-control" name="dni" v-model="dni" required autofocus>
+            <input placeholder="V-XXXXXXXX" id="dni" type="text" class="form-control" name="dni" v-model="dni" required autofocus>
 
               <span v-if="errors" class="invalid-feedback" role="alert">
                   <strong>{{errors.dni}}</strong>
@@ -65,7 +65,7 @@
           <label for="address" class="col-md-4 col-form-label text-md-right">Dirección*</label>
 
           <div class="col-md-6">
-            <textarea id="address" class="form-control" name="address" style="height:80px;" cols="10" rows="10" v-model="address" required autofocus></textarea>
+            <textarea id="address" placeholder="Av. Sucre, Agua Salud" class="form-control" name="address" style="height:80px;" cols="10" rows="10" v-model="address" required autofocus></textarea>
 
               <span v-if="errors" class="invalid-feedback" role="alert">
                   <strong>{{errors.address}}</strong>
@@ -97,7 +97,7 @@
           <label for="phone1" class="col-md-4 col-form-label text-md-right">Telefono 1*</label>
 
           <div class="col-md-6">
-            <input id="phone1" type="tel" class="form-control" name="phone1" v-model="phone1" required autofocus>
+            <input placeholder="04XXXXXXXXX" id="phone1" type="tel" class="form-control" name="phone1" v-model="phone1" required autofocus>
           </div>
           <span v-if="errors" class="invalid-feedback" role="alert">
               <strong>{{errors.phone1}}</strong>
@@ -108,7 +108,7 @@
           <label for="phone2" class="col-md-4 col-form-label text-md-right">Telefono 2</label>
 
           <div class="col-md-6">
-            <input id="phone2" type="tel" class="form-control" name="phone2" v-model="phone2" autofocus>
+            <input placeholder="04XXXXXXXXX" id="phone2" type="tel" class="form-control" name="phone2" v-model="phone2" autofocus>
           </div>
           <span v-if="errors" class="invalid-feedback" role="alert">
               <strong>{{errors.phone2}}</strong>
@@ -139,7 +139,7 @@
           <label for="institution_name" class="col-md-4 col-form-label text-md-right">Nombre de la Empresa*</label>
 
           <div class="col-md-6">
-            <input id="institution_name" type="text" class="form-control" name="institution_name" v-model="institution_name" required autofocus>
+            <input placeholder="Empresa Cualquiera" id="institution_name" type="text" class="form-control" name="institution_name" v-model="institution_name" required autofocus>
 
               <span v-if="errors" class="invalid-feedback" role="alert">
                 <strong>{{errors.institution_name}}</strong>
@@ -151,7 +151,7 @@
           <label for="institutional_email" class="col-md-4 col-form-label text-md-right">Correo de la Empresa*</label>
 
           <div class="col-md-6">
-            <input id="institutional_email" type="text" class="form-control" name="institutional_email" v-model="institutional_email" required autofocus>
+            <input placeholder="ejemplo@enterprise.mail.com" id="institutional_email" type="text" class="form-control" name="institutional_email" v-model="institutional_email" required autofocus>
 
               <span v-if="errors" class="invalid-feedback" role="alert">
                 <strong>{{errors.institutional_email}}</strong>
@@ -163,7 +163,7 @@
           <label for="rif" class="col-md-4 col-form-label text-md-right">RIF de la Empresa*</label>
 
           <div class="col-md-6">
-            <input id="rif" type="text" class="form-control" name="rif" v-model="rif" required autofocus>
+            <input placeholder="J-XXXXXXXX" id="rif" type="text" class="form-control" name="rif" v-model="rif" required autofocus>
 
               <span v-if="errors" class="invalid-feedback" role="alert">
                 <strong>{{errors.rif}}</strong>
@@ -175,7 +175,7 @@
           <label for="phone_institution" class="col-md-4 col-form-label text-md-right">Número de la Empresa*</label>
 
           <div class="col-md-6">
-            <input id="phone_institution" type="text" class="form-control" name="phone_institution" v-model="phone_institution" required autofocus>
+            <input placeholder="04XXXXXXXXX" id="phone_institution" type="text" class="form-control" name="phone_institution" v-model="phone_institution" required autofocus>
 
               <span v-if="errors" class="invalid-feedback" role="alert">
                 <strong>{{errors.phone_institution}}</strong>
@@ -195,7 +195,7 @@
 
       <div class="form-group row mb-0">
         <div class="col-md-6 offset-md-4">
-          <button type="submit" class="btn btn-primary">
+          <button type="submit" :disabled="!isValidForm" class="btn btn-primary">
             Registrarse
           </button>
         </div>
@@ -223,6 +223,33 @@ export default {
     rif: null,
     institutional_email: null,
     phone_institution: null,
-  })
+  }),
+  computed:{
+    isValidForm(){
+      const name = Boolean(this.name)
+      const email = Boolean(this.email)
+      const username = Boolean(this.username)
+      const dni = Boolean(this.dni)
+      const nationality = Boolean(this.nationality)
+      const address = Boolean(this.address)
+      const password = Boolean(this.password)
+      const password_confirm = Boolean(this.password_confirm)
+      const phone1 = Boolean(this.phone1)
+      const phone2 = Boolean(this.phone2)
+      const role = Boolean(this.role)
+      const institution_name = Boolean(this.institution_name)
+      const rif = Boolean(this.rif)
+      const institutional_email = Boolean(this.institutional_email)
+      const phone_institution = Boolean(this.phone_institution)
+
+      if (this.role === 'juridica') {
+        return name && email && username && dni && nationality && address && password && password_confirm && phone1 && phone2 && role && institution_name && rif && institutional_email && phone_institution
+      }
+      else {
+        return name && email && username && dni && nationality && address && password && password_confirm && phone1 && phone2 && role
+      }
+      
+    }
+  }
 }
 </script>

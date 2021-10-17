@@ -29,8 +29,9 @@ class StatisticsController extends Controller
         foreach ($labels as $label) {
             $data[] = Permit::where( 'status', '=', $label)->count();
         }
-        return view('species')->with('labels',json_encode($labels))->with('data',json_encode($data,JSON_NUMERIC_CHECK));
-        //return Excel::download(new FormalitiesExport, 'test.xlsx');
+        //return view('excelTest', compact('labels', 'data'));
+        //return view('species')->with('labels',json_encode($labels))->with('data',json_encode($data,JSON_NUMERIC_CHECK));
+        return Excel::download(new FormalitiesExport, 'test.xlsx');
     }
 
     public function chartForcountry(){

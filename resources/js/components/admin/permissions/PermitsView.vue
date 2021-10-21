@@ -110,7 +110,7 @@ export default {
         .post(`/dashboard/permissions/addPermit/`, {permit: JSON.stringify(permit), requeriments: JSON.stringify(permit.requeriments)})
         .then(res => {
           this.makeToast(res.data)
-          setTimeout(() => window.location.reload(), 1200)
+          setTimeout(() => window.location.reload(), 2000)
         })
         .catch(err => {
           this.makeToast(err.toString(), 'danger')
@@ -123,7 +123,7 @@ export default {
         .post(`/dashboard/permissions/editPermit/`+ permit.id, {permit: JSON.stringify(permit), requeriments: JSON.stringify(permit.requeriments)})
         .then(res => {
           this.makeToast(res.data)
-          setTimeout(() => window.location.reload(), 1200)
+          setTimeout(() => window.location.reload(), 2000)
         })
         .catch(err => {
           this.makeToast(err.toString(), 'danger')
@@ -135,7 +135,7 @@ export default {
         .post(`/dashboard/permissions/deletePermit/`+ permit.id)
         .then(res => {
           this.makeToast(res.data)
-          setTimeout(() => window.location.reload(), 1200)
+          setTimeout(() => window.location.reload(), 2000)
         })
         .catch(err => {
           this.makeToast(err.toString(), 'danger')

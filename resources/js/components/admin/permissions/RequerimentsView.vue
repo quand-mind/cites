@@ -93,7 +93,7 @@ export default {
         .post(`/dashboard/permissions/addRequeriment/`, {requeriment: JSON.stringify(requeriment)})
         .then(res => {
           this.makeToast(res.data)
-          setTimeout(() => window.location.reload(), 1200)
+          setTimeout(() => window.location.reload(), 2000)
         })
         .catch(err => {
           this.makeToast(err.toString(), 'danger')
@@ -105,7 +105,7 @@ export default {
         .post(`/dashboard/permissions/editRequeriment/`+ requeriment.id, {requeriment: JSON.stringify(requeriment)})
         .then(res => {
           this.makeToast(res.data)
-          setTimeout(() => window.location.reload(), 1200)
+          setTimeout(() => window.location.reload(), 2000)
         })
         .catch(err => {
           this.makeToast(err.toString(), 'danger')
@@ -117,7 +117,7 @@ export default {
         .post(`/dashboard/permissions/deleteRequeriment/`+ requeriment.id)
         .then(res => {
           this.makeToast(res.data)
-          setTimeout(() => window.location.reload(), 1200)
+          setTimeout(() => window.location.reload(), 2000)
         })
         .catch(err => {
           this.makeToast(err.toString(), 'danger')

@@ -270,7 +270,12 @@ export default {
           setTimeout(() => window.location.assign('/loginPermissions'), 1200)
         })
         .catch(err => {
-          this.makeToast('Ha ocurrido un error', 'danger')
+          if (typeof(err.response.data) === 'object') {
+            this.makeToast(err.response.data.message, 'danger')
+          }
+          else {
+            this.makeToast(err.response.data, 'danger')
+          }
         });
     },
     makeToast(msg, variant = "success", delay = 3000, append = false) {

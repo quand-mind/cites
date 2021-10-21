@@ -419,13 +419,18 @@ class PermissionController extends Controller
     {
         $formalitie = Formalitie::find($id);
         $formalitie->status = 'requested';
+        $fileUrls = [];
         foreach ($formalitie->permits as $permit) {
             $permit->status = 'requested';
             $permit->save();
             foreach ($permit->requeriments as $requeriment) {
                 if ($requeriment->pivot->is_valid === null) {
-                    $permit->requeriments()->updateExistingPivot($requeriment, array('is_valid' => 0, 'file_url' => $requeriment->file_url), false);
+                    $permit->requeriments()->updateExistingPivot($requeriment, array('is_valid' => 0, 'file_url' => $requeriment->pivot->file_url), false);
+                    // array_push($fileUrls, $requeriment->pivot)
                     // $requeriment->pivot->is_valid = 0;
+                    $requeriment->save();
+                } else {
+                    $permit->requeriments()->updateExistingPivot($requeriment, array('is_valid' => 0, 'file_url' => $requeriment->pivot->file_url), false);
                     $requeriment->save();
                 }
             }

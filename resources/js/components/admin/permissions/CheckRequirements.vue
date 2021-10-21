@@ -241,7 +241,7 @@ export default {
           console.log(res.data)
           this.makeToast('Archivo Guardado')
           requeriment.pivot.file_url = res.data
-          setTimeout(() => window.location.reload(), 1200)
+          setTimeout(() => window.location.reload(), 2000)
         })
         .catch(err => {
           this.makeToast(err.toString(), 'danger')
@@ -266,7 +266,7 @@ export default {
         .post(`/dashboard/permissions/validPermit/`+ this.formalitie.id, {official_id: this.official.id, sistra: this.formalitie.sistra})
         .then(res => {
           this.makeToast(res.data)
-          setTimeout(() => window.location.assign('/dashboard/permissions/'), 1200)
+          setTimeout(() => window.location.assign('/dashboard/permissions/'), 2000)
         })
         .catch(err => {
           this.makeToast(err.toString(), 'danger')
@@ -277,7 +277,7 @@ export default {
         .post(`/dashboard/permissions/sendErrors/`+ this.formalitie.id, {official_id: this.official.id, observations: this.formalitie.observations})
         .then(res => {
           this.makeToast(res.data)
-          setTimeout(() => window.location.assign('/dashboard/permissions/'), 1200)
+          setTimeout(() => window.location.assign('/dashboard/permissions/'), 2000)
         })
         .catch(err => {
           this.makeToast(err.toString(), 'danger')

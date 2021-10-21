@@ -31,6 +31,6 @@ export default {
 
 <style scoped>
 	.h1 {
-		color: #69c816;
+		color: #2769aa;
 	}
 </style>

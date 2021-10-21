@@ -129,8 +129,11 @@ Vue.component("requeriments-view", require("./components/admin/permissions/Reque
 
 Vue.component("permits-view", require("./components/admin/permissions/PermitsView.vue").default);
 
-
 Vue.component("graphic", require("./components/admin/permissions/graphics/Graphic.vue").default);
+
+Vue.component("bar", require("./components/admin/permissions/graphics/Bar.vue").default);
+
+Vue.component("doughnut", require("./components/admin/permissions/graphics/Doughnut.vue").default);
 
 Vue.component("page-template", require("./views/PageTemplate.vue").default);
 

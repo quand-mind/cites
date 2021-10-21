@@ -71,7 +71,8 @@ export default {
   }
 
   &:hover {
-    background: #213950;
+    background: #2769aa;
+    // background: #213950;
     transition: all 0.5s ease;
     overflow: visible;
 

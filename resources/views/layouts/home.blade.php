@@ -37,7 +37,7 @@
           width: 90%;
         }
         .azul{
-         background-color: #2769aa;
+         background-color: #1c3a57;
         }
         .verde{
           background-color: #69c816;

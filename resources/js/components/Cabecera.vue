@@ -16,7 +16,7 @@ Descripción:
     <slide class="slide"></slide>
     <b-navbar class="nav">
       <a class="brand d-flex align-items-center" href="/">
-        <img src="/images/logos/logo-ogm.png" class="figure" />
+        <img src="/images/logos/logo-cites.png" class="figure" />
       </a>
 
       <b-navbar-nav class=" w-20 d-flex align-items-center ml-auto">

@@ -169,7 +169,7 @@ export default {
   },
   data: () => ({
     columns: [
-      "Requerimiento",
+      "Recaudo",
       "Archivo",
       "Acciones"
     ],
@@ -361,7 +361,7 @@ export default {
 
     makeToast(msg, variant = "success", delay = 3000, append = false) {
       this.$bvToast.toast(`${msg}`, {
-        title: 'Requerimientos',
+        title: 'Recaudoss',
         autoHideDelay: delay,
         appendToast: append,
         variant

@@ -546,7 +546,7 @@ class PermissionController extends Controller
         Log::info('El usuario con la cedula de identidad '.$this->returnUser().'a verificado el permiso | desde la direccion: '. request()->ip());
         $permit->push();
 
-        return response('Estatus del Requerimiento Actualizado.', 200);
+        return response('Estatus del Recaudo Actualizado.', 200);
     }
 
     public function checkSpecies(Request $request, $id)
@@ -567,7 +567,7 @@ class PermissionController extends Controller
         
         $permit->push();
         Log::info('El official con la cedula de identidad '.$this->returnUser().'a verificado el requerimineto  | desde la direccion: '. request()->ip());
-        return response('Estatus del Requerimiento Actualizado.', 200);
+        return response('Estatus del Recaudo Actualizado.', 200);
     }
 
     public function validPermit(Request $request, $id)
@@ -593,7 +593,7 @@ class PermissionController extends Controller
         }
         Log::info('El official con la cedula de identidad '.$this->returnUser().'a verificado el permiso  | el permiso de a verificado desde la direccion: '.request()->ip());
         
-        return response('Estatus del Requerimiento Actualizado.', 200);
+        return response('Estatus del Recaudo Actualizado.', 200);
     }
 
     public function sendErrors(Request $request, $id)

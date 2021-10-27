@@ -188,7 +188,7 @@
       <div class="form-group row mt-5">
           <div class="col-md-6">
               <span>
-                Requerimientos Obligatorios (*)
+                Recaudos Obligatorios (*)
               </span>
           </div>
         </div>

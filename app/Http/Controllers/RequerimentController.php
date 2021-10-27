@@ -25,7 +25,7 @@ class RequerimentController extends Controller
         $requeriment->short_name = $newRequeriment->short_name;
         $requeriment->type = $newRequeriment->type;
         $requeriment->save();
-        return response('Nuevo Requerimiento Guardado', 200);
+        return response('Nuevo Recaduo Guardado', 200);
     }
     public function editRequeriment(Request $request, $id)
     {
@@ -35,11 +35,11 @@ class RequerimentController extends Controller
         $requeriment->short_name = $newRequeriment->short_name;
         $requeriment->type = $newRequeriment->type;
         $requeriment->save();
-        return response('Requerimiento Actualizado', 200);
+        return response('Recaduo Actualizado', 200);
     }
     public function deleteRequeriment($id)
     {
         Requeriment::destroy($id);
-        return response('Requerimiento Eliminado', 200);
+        return response('Recaduo Eliminado', 200);
     }
 }

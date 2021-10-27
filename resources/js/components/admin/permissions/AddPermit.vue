@@ -47,11 +47,11 @@
     <b-card>
       <b-card-text>
         <b-row class="mt-4 mb-2">
-          <b-col cols="4">Requerimientos:</b-col>
+          <b-col cols="4">Recaudos:</b-col>
         </b-row>
         <b-row class="mt-4 mb-2">
-          <b-col cols="6">Añadir Requerimiento</b-col>
-          <b-col cols="6">Listado de Requerimientos</b-col>
+          <b-col cols="6">Añadir Recaudo</b-col>
+          <b-col cols="6">Listado de Recaudos</b-col>
         </b-row>
         <b-row>
           <b-col cols="4">
@@ -64,7 +64,7 @@
           </b-col>
           <b-col cols="6">
             <div v-if="permit.requeriments.length > 0">
-              <b-button v-b-toggle.requeriments-list class="m-1 w-100">Ver Requerimientos</b-button>
+              <b-button v-b-toggle.requeriments-list class="m-1 w-100">Ver Recaudos</b-button>
               <b-collapse  id="requeriments-list">
                 <div v-for="(requeriment, index) of permit.requeriments" :key="index">
                   <b-card>
@@ -140,7 +140,7 @@ export default {
       let count = 0
       for ( const [index, requerimentToEvaluate] of this.permit.requeriments.entries()) {
         for (const [indice, requeriment] of this.requeriments.entries()) {
-          // console.log('Requerimiento: '+ requeriment.short_name + ',  Requerimiento a Comparar: '+ requerimentToEvaluate.short_name);
+          // console.log('Recaudo: '+ requeriment.short_name + ',  Recaudo a Comparar: '+ requerimentToEvaluate.short_name);
           if (requeriment.short_name === requerimentToEvaluate.short_name){
             // console.log("Resultado de array: "+this.requeriments[indice].short_name + ". Array: "+indice)
             this.requeriments.splice(indice,1)

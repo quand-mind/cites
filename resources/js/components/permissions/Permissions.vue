@@ -10,7 +10,7 @@
         <div class="formalitie-container">
           <div class="d-flex justify-content-between align-items-center">
             <h5 class=" mb-3">N° de Trámite: {{formalitie.request_formalitie_no}}</h5>
-            <b-badge v-if="formalitie.status === 'uploading_requeriments'" class="p-2" variant="warning">Requerimientos Por Subir</b-badge>
+            <b-badge v-if="formalitie.status === 'uploading_requeriments'" class="p-2" variant="warning">Recaudos Por Subir</b-badge>
             <b-badge v-if="formalitie.status === 'requested'" class="p-2" variant="info">Por Validar</b-badge>
             <b-badge v-if="formalitie.status === 'valid'" class="p-2" variant="success">Validado Correctamente</b-badge>
             <b-badge v-if="formalitie.status === 'committed'" class="p-2" variant="success">Entregado</b-badge>
@@ -38,7 +38,7 @@
           <b-badge v-if="selectedFormalite.status === 'valid'" class="p-2" variant="success">Validado Correctamente</b-badge>
           <b-badge v-if="selectedFormalite.status === 'committed'" class="p-2" variant="success">Entregado</b-badge>
           <b-badge v-if="selectedFormalite.status === 'not_valid'" class="p-2" variant="danger">No Valido</b-badge>
-        <b-badge v-if="selectedFormalite.status === 'uploading_requeriments'" class="p-2" variant="danger">Falta subir requerimientos o pulsar el boton de finalizar proceso.</b-badge>
+        <b-badge v-if="selectedFormalite.status === 'uploading_requeriments'" class="p-2" variant="danger">Falta subir Recaudos o pulsar el boton de finalizar proceso.</b-badge>
       </div>
       <div class="ml-4 mb-4">
         <hr>
@@ -55,7 +55,7 @@
         <div class="formalitie-container">
           <div class="d-flex justify-content-between align-items-center">
             <h5 class=" mb-3">N° de Permiso: {{permit.request_permit_no}}</h5>
-            <b-badge v-if="permit.status === 'uploading_requeriments'" class="p-2" variant="warning">Requerimientos Por Subir</b-badge>
+            <b-badge v-if="permit.status === 'uploading_requeriments'" class="p-2" variant="warning">Recaudos Por Subir</b-badge>
             <b-badge v-if="permit.status === 'requested'" class="p-2" variant="info">Por Validar</b-badge>
             <b-badge v-if="permit.status === 'valid'" class="p-2" variant="success">Validado Correctamente</b-badge>
             <b-badge v-if="permit.status === 'committed'" class="p-2" variant="success">Entregado</b-badge>
@@ -82,7 +82,7 @@
           <b-badge v-if="selectedPermit.status === 'valid'" class="p-2" variant="success">Validado Correctamente</b-badge>
           <b-badge v-if="selectedPermit.status === 'committed'" class="p-2" variant="success">Entregado</b-badge>
           <b-badge v-if="selectedPermit.status === 'not_valid'" class="p-2" variant="danger">No Valido</b-badge>
-        <b-badge v-if="selectedPermit.status === 'uploading_requeriments'" class="p-2" variant="danger">Falta subir requerimientos o pulsar el boton de finalizar proceso.</b-badge>
+        <b-badge v-if="selectedPermit.status === 'uploading_requeriments'" class="p-2" variant="danger">Falta subir Recaudos o pulsar el boton de finalizar proceso.</b-badge>
       </div>
       <div class="ml-4 mb-4">
         <hr>
@@ -167,7 +167,7 @@ export default {
   data: () => ({
 
     columns: [
-      "Requerimiento",
+      "Recaudo",
       "Archivo",
       "Validación"
     ],

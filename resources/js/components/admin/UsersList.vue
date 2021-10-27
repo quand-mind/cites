@@ -24,7 +24,7 @@
         slot="foto"
         class="profile-img"
         slot-scope="props"
-        :src="props.row.photo || '/images/default-user.png'"
+        :src="props.row.user.photo || '/images/default-user.png'"
         alt="user photo"  
       ></b-img>
 
@@ -34,13 +34,13 @@
         slot-scope="props"
         name="check-button"
         class="check-active"
-        :checked="props.row.is_active"
+        :checked="props.row.user.is_active"
         switch
         @change="handleCheckBoxChange(props.row)"
       ></b-form-checkbox>
 
       <!-- name slot -->
-      <span slot="nombre" slot-scope="props">{{props.row.name}}</span>
+      <span slot="nombre" slot-scope="props">{{props.row.user.name}}</span>
 
       <!-- username slot -->
       <span slot="usuario" slot-scope="props">{{props.row.username}}</span>
@@ -102,6 +102,10 @@
             ></b-form-input>
           </b-form-group>
 
+          <b-form-group label="Cédula:" label-for="input-2">
+            <b-form-input v-model="editForm.dni" required placeholder="V-20785684"></b-form-input>
+          </b-form-group>
+
           <b-form-group id="input-group-1" label="Correo:" label-for="input-1">
             <b-form-input
               id="input-1"
@@ -110,6 +114,24 @@
               required
               placeholder="Introduce el correo"
             ></b-form-input>
+          </b-form-group>
+
+          <b-form-group label="Ciudad de Residencia:" label-for="input-1">
+            <b-form-input
+              v-model="editForm.domicile"
+              required
+              placeholder="Caracas"
+            ></b-form-input>
+          </b-form-group>
+
+          <b-form-group label="Dirección:" label-for="input-1">
+            <b-form-textarea
+              v-model="editForm.address"
+              required
+              rows="3"
+              max-rows="6"
+              placeholder="Av. Universidad, Caracas, Venezuela."
+            ></b-form-textarea>
           </b-form-group>
 
           <b-form-group id="input-group-3" label="Rol:" label-for="input-3">
@@ -161,6 +183,10 @@
             <b-form-input v-model="createForm.username" required placeholder="marcos_20"></b-form-input>
           </b-form-group>
 
+          <b-form-group label="Cédula:" label-for="input-2">
+            <b-form-input v-model="createForm.dni" required placeholder="V-20785684"></b-form-input>
+          </b-form-group>
+
           <b-form-group label="Correo:" label-for="input-1">
             <b-form-input
               v-model="createForm.email"
@@ -168,6 +194,24 @@
               required
               placeholder="Introduce correo"
             ></b-form-input>
+          </b-form-group>
+
+          <b-form-group label="Ciudad de Residencia:" label-for="input-1">
+            <b-form-input
+              v-model="createForm.domicile"
+              required
+              placeholder="Caracas"
+            ></b-form-input>
+          </b-form-group>
+
+          <b-form-group label="Dirección:" label-for="input-1">
+            <b-form-textarea
+              v-model="createForm.address"
+              required
+              rows="3"
+              max-rows="6"
+              placeholder="Av. Universidad, Caracas, Venezuela."
+            ></b-form-textarea>
           </b-form-group>
 
           <b-form-group label="Contraseña:" label-for="input-2" style="display: none">
@@ -223,7 +267,7 @@ export default {
       "foto",
       "acciones"
     ],
-    roles: ["writer", "admin", "perosna_juridica", "persona_natural"],
+    roles: ["writer", "admin", "persona_juridica", "persona_natural"],
     tableData: [],
     options: {
       perPage: 10,
@@ -234,6 +278,10 @@ export default {
     createForm: {
       name: "",
       username: "",
+      address: "",
+      dni: "",
+      nationality: "Venezolano",
+      domicile: "",
       email: "",
       role: "",
       is_active: true,
@@ -260,12 +308,16 @@ export default {
     },
     showEditModal() {
       this.editForm = {
-        name: this.selectedUser.name,
+        name: this.selectedUser.user.name,
         username: this.selectedUser.username,
+        address:this.selectedUser.user.address,
+        dni: this.selectedUser.user.dni,
+        nationality: this.selectedUser.user.nationality,
+        domicile: this.selectedUser.user.domicile,
         email: this.selectedUser.email,
         role: this.selectedUser.role,
-        photo: this.selectedUser.photo,
-        is_active: Boolean(this.selectedUser.is_active)
+        photo: this.selectedUser.user.photo,
+        is_active: Boolean(this.selectedUser.user.is_active)
       };
       this.$refs["edit-modal"].show();
     },
@@ -284,11 +336,11 @@ export default {
     handleCheckBoxChange(row) {
       let _this = this;
       let uIdx = _this.tableData.findIndex(user => row.id === user.id);
-      _this.tableData[uIdx].is_active = !_this.tableData[uIdx].is_active;
+      _this.tableData[uIdx].user.is_active = !_this.tableData[uIdx].user.is_active;
 
       axios
-        .post(`/dashboard/users/changeActiveState/${row.id}`, {
-          is_active: _this.tableData[uIdx].is_active
+        .post(`/dashboard/users/changeActiveState/${row.user.id}`, {
+          is_active: _this.tableData[uIdx].user.is_active
         })
         .then(res => {
           if (res.status === 200) {
@@ -322,7 +374,7 @@ export default {
           if (res.status === 200) {
             _this.makeToast(res.data);
             _this.hideEditModal();
-            setTimeout(() => window.location.reload(), 3000);
+            // setTimeout(() => window.location.reload(), 3000);
           }
         })
         .catch(err => {
@@ -337,6 +389,10 @@ export default {
         name: "",
         username: "",
         email: "",
+        address: "",
+        nationality: "Venezolano",
+        dni: "",
+        domicile: "",
         role: "",
         is_active: true,
         password_confirmation: "",
@@ -363,7 +419,7 @@ export default {
         else form.append(key, _this.createForm[key]);
       });
 
-      _this.newPhoto && form.append("photo", _this.newPhoto);
+      _this.newPhoto && form.append("photo", _this.newPhoto); 
 
       axios
         .post(`/dashboard/users/create`, form, {
@@ -417,7 +473,7 @@ export default {
   },
   mounted() {
     this.tableData = this.users.map(user => {
-      user.is_active = user.is_active === 1;
+      user.user.is_active = user.user.is_active === 1;
       return user;
     });
   }

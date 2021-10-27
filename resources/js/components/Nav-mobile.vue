@@ -13,9 +13,9 @@ Descripción:
  <template>
  
   <div class="fixed-top d-block d-xl-none d-lg-none" id="all" style=" z-index: 800 !important; ">
-    <b-navbar class="nav" toggleable="lg" type="dark">
+    <b-navbar class="nav" toggleable="lg" type="light">
       <b-navbar-brand href="/">
-        <img src="/images/logos/logo-ogm.png" class="figure" />
+        <img src="/images/logos/logo-cites.png" class="figure" />
       </b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
@@ -45,18 +45,6 @@ Descripción:
           </div>
           <div>
             <b-nav-item class=" imgk w-100 d-flex align-items-center justify-content-around text-center flex-wrap">
-              <a href="#" onclick="return false">
-                <img src="/images/logos/logo-minec.png" />
-              </a>
-              <a href="#" onclick="return false">
-                <img src="/images/logos/logo-gef.png" />
-              </a>
-              <a href="#" onclick="return false">
-                <img src="/images/logos/logo-pnud.png" />
-              </a>
-              <a href="#" onclick="return false">
-                <img src="/images/logos/logo-unep.png" />
-              </a>
             </b-nav-item>
           </div>
         </b-navbar-nav>

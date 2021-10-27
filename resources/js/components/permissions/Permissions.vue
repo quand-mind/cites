@@ -225,4 +225,15 @@ export default {
     margin-bottom: 20px;
     padding: 20px;
   }
+  
+
+  .clase1 {
+    padding: 10px;
+  }
+
+  .clase1 {
+    padding: 20px !important;
+  }
+
+  
 </style>

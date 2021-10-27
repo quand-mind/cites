@@ -19,7 +19,7 @@
           <div class="d-flex justify-content-between align-items-center">
             <span>N° de Permisos en este trámite: {{formalitie.permits.length}}</span>
             <div v-if="type === 'client'">
-              <a v-if="formalitie.status !== 'committed' && formalitie.status !== 'valid'" class="btn btn-info" :href="`/solicitante/permissions/uploadRequirements/${formalitie.id}`">Subir Recaudos</a>
+              <a v-if="formalitie.status !== 'committed' || formalitie.status !== 'valid'" class="btn btn-info" :href="`/solicitante/permissions/uploadRequirements/${formalitie.id}`">Subir Recaudos</a>
               <button class="btn btn-primary" @click="showFormaliteStatus(formalitie)">Ver estado del Trámite</button>
             </div>
             <div v-if="type === 'admin'">
@@ -138,14 +138,13 @@
               Valido
               <font-awesome-icon :icon="['fa', 'check']"></font-awesome-icon>
             </b-badge>
-            <b-badge v-else-if="requeriment.pivot.is_valid === null" class="p-2" variant="danger">
-              No validado
-              <font-awesome-icon :icon="['fa', 'clipboard']"></font-awesome-icon>
-            </b-badge>
-            
-            <b-badge v-else-if="!requeriment.pivot.is_valid" class="p-2" variant="danger">
+            <b-badge v-else-if="!requeriment.pivot.is_valid && selectedPermit.observations" class="p-2" variant="danger">
               No valido
               <font-awesome-icon :icon="['fa', 'ban']"></font-awesome-icon>
+            </b-badge>
+            <b-badge v-else class="p-2" variant="warning">
+              Por Validar
+              <font-awesome-icon :icon="['fa', 'clipboard']"></font-awesome-icon>
             </b-badge>
           </div>
         </b-col>

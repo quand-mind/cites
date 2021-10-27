@@ -76,13 +76,13 @@
               <b-form-input v-if="permit_type.type !== 'import'"  placeholder="Exportación de especies para Zoocriadero" v-model="permit.purpose" ></b-form-input>
             </b-col>
             <b-col>
-              <b-form-input placeholder="" v-model="permit.consigned_to" ></b-form-input>
+              <b-form-input placeholder="Pedro Pérez" v-model="permit.consigned_to" ></b-form-input>
             </b-col>
             <b-col>
-              <b-form-input placeholder="" v-model="permit.departure_place" ></b-form-input>
+              <b-form-input placeholder="Zoológico el Pinar" v-model="permit.departure_place" ></b-form-input>
             </b-col>
             <b-col>
-              <b-form-input placeholder="" v-model="permit.destiny_place" ></b-form-input>
+              <b-form-input placeholder="Zoo Aquarium de Madrid" v-model="permit.destiny_place" ></b-form-input>
             </b-col>
           </b-row>
         </b-card-text>

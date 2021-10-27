@@ -116,7 +116,15 @@
       <b-row class="my-3" v-for="(requeriment, index) of selectedPermit.requeriments" v-bind:key="index">
         <b-col sm="12" lg="6">{{requeriment.name}}</b-col>
         <b-col sm="12" lg="2">
-          <div v-if="requeriment.pivot.file_url">
+          <div v-if="requeriment.type === 'form'">
+            <font-awesome-icon :icon="['fa', 'check']"></font-awesome-icon>
+            Planilla Completada
+          </div>
+          <div v-else-if="requeriment.type === 'physical'">
+            <font-awesome-icon :icon="['fa', 'check']"></font-awesome-icon>
+            Solo entrega en Físico
+          </div>
+          <div v-else-if="requeriment.pivot.file_url">
             <a :href="`/${requeriment.pivot.file_url}`" target="_blank"><font-awesome-icon :icon="['fa', 'eye']"></font-awesome-icon> Ver Archivo</a>
           </div>
           <div v-else>

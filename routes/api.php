@@ -68,7 +68,7 @@ Route::middleware('auth:api')->group(function () {
         
     
         // Authorizations Routes
-        // Route::get('/authorizations', 'AuthorizationController@index');
+        // Route::get('/authorizations', 'AuthorizationController@index');  
     
         // Permissions Routes
         Route::get('/list', 'PermitTypeController@index');

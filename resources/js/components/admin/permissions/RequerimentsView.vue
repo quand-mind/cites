@@ -1,11 +1,11 @@
 <template>
   <div>
-    <h1>Requerimientos:</h1>
+    <h1>Recaudos:</h1>
     <div class="mt-3 mb-4 d-flex align-items-center justify-content-start">
-      <b-button @click="showAddRequeriment = true" variant="primary">Añadir Nuevo Requerimiento +</b-button>
+      <b-button @click="showAddRequeriment = true" variant="primary">Añadir Nuevo Recaudo +</b-button>
     </div>
 
-    <h4 class="mt-5">Listado de Requerimientos</h4>
+    <h4 class="mt-5">Listado de Recaudos</h4>
      <b-card
       class="mb-2"
     >
@@ -25,20 +25,20 @@
       </b-card-text>
     </b-card>
 
-    <b-modal v-model="showAddRequeriment" size="xl" id="add-requeriment-modal" title="Agregar un Nuevo Requerimiento" hide-footer>
+    <b-modal v-model="showAddRequeriment" size="xl" id="add-requeriment-modal" title="Agregar un Nuevo Recaudo" hide-footer>
       <AddRequeriment
       v-on:addRequeriment="addRequeriment"
       v-on:closeAddRequerimentDialog="closeAddRequerimentDialog"/>
     </b-modal>
-    <b-modal v-model="showEditRequeriment" size="xl" id="edit-requeriment-modal" title="Editar Requerimiento" hide-footer>
+    <b-modal v-model="showEditRequeriment" size="xl" id="edit-requeriment-modal" title="Editar Recaudo" hide-footer>
       <EditRequeriment
       :requeriment="selectedRequeriment"
       v-on:editRequeriment="editRequeriment"
       v-on:closeEditRequerimentDialog="closeEditRequerimentDialog"/>
     </b-modal>
-    <b-modal v-model="showDeleteRequeriment" size="xl" id="delete-requeriment-modal" title="Eliminar Requerimiento" hide-footer>
+    <b-modal v-model="showDeleteRequeriment" size="xl" id="delete-requeriment-modal" title="Eliminar Recaudo" hide-footer>
       <div>
-        <h6>¿Estás seguro que deseas eliminar este requerimiento? Los permisos que tengan este requerimiento serán modificados.</h6>
+        <h6>¿Estás seguro que deseas eliminar este recaudo? Los permisos que tengan este recaudo serán modificados.</h6>
         <b-button variant="danger" class="mt-3" @click="deleteRequeriment(selectedRequeriment)">Confirmar</b-button>
       </div>
     </b-modal>
@@ -93,7 +93,7 @@ export default {
         .post(`/dashboard/permissions/addRequeriment/`, {requeriment: JSON.stringify(requeriment)})
         .then(res => {
           this.makeToast(res.data)
-          setTimeout(() => window.location.reload(), 1200)
+          setTimeout(() => window.location.reload(), 2000)
         })
         .catch(err => {
           this.makeToast(err.toString(), 'danger')
@@ -105,7 +105,7 @@ export default {
         .post(`/dashboard/permissions/editRequeriment/`+ requeriment.id, {requeriment: JSON.stringify(requeriment)})
         .then(res => {
           this.makeToast(res.data)
-          setTimeout(() => window.location.reload(), 1200)
+          setTimeout(() => window.location.reload(), 2000)
         })
         .catch(err => {
           this.makeToast(err.toString(), 'danger')
@@ -117,7 +117,7 @@ export default {
         .post(`/dashboard/permissions/deleteRequeriment/`+ requeriment.id)
         .then(res => {
           this.makeToast(res.data)
-          setTimeout(() => window.location.reload(), 1200)
+          setTimeout(() => window.location.reload(), 2000)
         })
         .catch(err => {
           this.makeToast(err.toString(), 'danger')
@@ -125,7 +125,7 @@ export default {
     },
     makeToast(msg, variant = "success", delay = 3000, append = false) {
       this.$bvToast.toast(`${msg}`, {
-        title: 'Requerimientos',
+        title: 'Recaudos',
         autoHideDelay: delay,
         appendToast: append,
         variant

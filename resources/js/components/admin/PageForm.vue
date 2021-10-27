@@ -76,7 +76,7 @@
               </b-form-checkbox>
             </b-form-group>
             <b-form-group label="" label-for="input-3">
-              <b-form-checkbox v-model="pageData.is_onMenu" :checked="pageData.is_onMenu" name="check-button" switch @change="pageData.is_onMenu = Number(!pageData.is_onMenu)">
+              <b-form-checkbox v-model="pageData.is_onMenu" :checked="pageData.is_onMenu" name="check-button" switch>
                 Agregar al menú principal
               </b-form-checkbox>
             </b-form-group>

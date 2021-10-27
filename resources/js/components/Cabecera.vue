@@ -16,21 +16,12 @@ Descripción:
     <slide class="slide"></slide>
     <b-navbar class="nav">
       <a class="brand d-flex align-items-center" href="/">
-        <img src="/images/logos/logo-ogm.png" class="figure" />
+        <img src="/images/logos/logo-cites.png" class="figure" />
       </a>
 
       <b-navbar-nav class=" w-20 d-flex align-items-center ml-auto">
         <a href="#" onclick="return false">
           <img src="/images/logos/logo-minec.png" />
-        </a>
-        <a href="#" onclick="return false">
-          <img src="/images/logos/logo-gef.png" />
-        </a>
-        <a href="#" onclick="return false">
-          <img src="/images/logos/logo-pnud.png" />
-        </a>
-        <a href="#" onclick="return false">
-          <img src="/images/logos/logo-unep.png" />
         </a>
         <a href="#" onclick="return false">
           <img src="/images/logos/bandera.png" />

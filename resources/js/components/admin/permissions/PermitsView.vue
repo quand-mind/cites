@@ -2,7 +2,7 @@
   <div>
     <h1>Permisos</h1>
 
-    <h4 class="mt-5">Listado de Requerimientos</h4>
+    <h4 class="mt-5">Listado de Permisos</h4>
 
     <div class="mt-3 mb-4 d-flex align-items-center justify-content-start">
       <b-button @click="showAddPermit = true" variant="primary">Añadir Nuevo Tipo de Permiso +</b-button>
@@ -91,25 +91,26 @@ export default {
       this.showDeletePermit = true
     },
     closeAddPermitDialog(){
-      this.selectedPermit = null
       this.showAddPermit = false
+      this.selectedPermit = null
     },
     closeDeletePermitDialog(){
       this.selectedPermit = null
       this.showDeletePermit = false
     },
     closeEditPermitDialog(){
-      this.selectedPermit = null
       this.showEditPermit = false
+      this.selectedPermit = null
     },
 
     addPermit(permit){
       this.closeAddPermitDialog()
+      console.log(permit)
       axios
-        .post(`/dashboard/permissions/addPermit/`, {permit: JSON.stringify(permit)})
+        .post(`/dashboard/permissions/addPermit/`, {permit: JSON.stringify(permit), requeriments: JSON.stringify(permit.requeriments)})
         .then(res => {
           this.makeToast(res.data)
-          setTimeout(() => window.location.reload(), 1200)
+          setTimeout(() => window.location.reload(), 2000)
         })
         .catch(err => {
           this.makeToast(err.toString(), 'danger')
@@ -117,11 +118,12 @@ export default {
     },
     editPermit(permit){
       this.closeEditPermitDialog()
+      console.log(permit)
       axios
-        .post(`/dashboard/permissions/editPermit/`+ permit.id, {permit: JSON.stringify(permit)})
+        .post(`/dashboard/permissions/editPermit/`+ permit.id, {permit: JSON.stringify(permit), requeriments: JSON.stringify(permit.requeriments)})
         .then(res => {
           this.makeToast(res.data)
-          setTimeout(() => window.location.reload(), 1200)
+          setTimeout(() => window.location.reload(), 2000)
         })
         .catch(err => {
           this.makeToast(err.toString(), 'danger')
@@ -133,7 +135,7 @@ export default {
         .post(`/dashboard/permissions/deletePermit/`+ permit.id)
         .then(res => {
           this.makeToast(res.data)
-          setTimeout(() => window.location.reload(), 1200)
+          setTimeout(() => window.location.reload(), 2000)
         })
         .catch(err => {
           this.makeToast(err.toString(), 'danger')

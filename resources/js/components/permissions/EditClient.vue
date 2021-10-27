@@ -119,6 +119,7 @@
         </b-card-text>
     </b-card>
     <button class="btn btn-primary mt-4" @click="editUser()">Actualizar Datos</button>
+    <button class="btn btn-primary mt-4" @click="backToPermisions()">Regresar a Permisos</button>
   </div>
 </template>
 <script>
@@ -139,7 +140,7 @@ export default {
         .post(`/solicitante/editUser`, form)
         .then(res => {
           this.makeToast(res.data)
-          setTimeout(() => window.location.reload(), 1200)
+          setTimeout(() => window.location.reload(), 2000)
         })
         .catch(err => {
           this.makeToast(err.toString(), 'danger')

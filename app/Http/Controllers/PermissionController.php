@@ -46,7 +46,7 @@ class PermissionController extends Controller
     {
         $clientData = Client::with('user')->where(['id' => auth()->user()->id])->get()->first();
         // return $clientData->user;
-        $formalities = Formalitie::where(['client_id' => $clientData->id])->with(['permits.requeriments', 'permits.permit_type', 'permits.species', 'client.user'])->paginate(2);
+        $formalities = Formalitie::where(['client_id' => $clientData->id])->with(['permits.requeriments', 'permits.permit_type', 'permits.species', 'client.user'])->orderBy('created_at','DESC')->paginate(5);
         // $permissions = Permit::where(['client_id' => $clientData->id])->with(['requeriments', 'permit_type', 'species', 'client.user'])->get();
         // $permissions = Permit::where(['client_id' => $clientData->id])->with(['requeriments', 'permit_type', 'species', 'client.user'])->paginate(2);
         return view('permissions.permissions', compact('formalities', 'clientData'));
@@ -92,7 +92,7 @@ class PermissionController extends Controller
         } else {
             $clientId = -1;
         }
-        $formalities = Formalitie::with(['permits.requeriments', 'permits.permit_type', 'permits.species', 'client.user'])->whereNotIn('client_id', [$clientId])->paginate(2);
+        $formalities = Formalitie::with(['permits.requeriments', 'permits.permit_type', 'permits.species', 'client.user'])->whereNotIn('client_id', [$clientId])->paginate(5);
         // $permissions = Permit::with(['requeriments', 'permit_type', 'species', 'client.user'])->whereNotIn('client_id', [$clientId])->get();
         return view('panel.dashboard.permissions.permissions', compact('formalities'));
     }
@@ -140,7 +140,7 @@ class PermissionController extends Controller
         $image = base64_encode(file_get_contents(public_path('/images/logos/logo-minec.png')));
         $logo = $image;
         $host = $_SERVER["HTTP_HOST"];
-        $GcodeQr = QrCode::generate($host.'/solicitante/generateQr/'.$permit->request_permit_no, storage_path('app/files/qrcodes/'.$permit->request_permit_no.'.svg'));
+        $GcodeQr = QrCode::generate($host.'/permitInfo/'.$permit->request_permit_no, storage_path('app/files/qrcodes/'.$permit->request_permit_no.'.svg'));
         $codeQr = base64_encode(file_get_contents(storage_path('app/files/qrcodes/'.$permit->request_permit_no.'.svg')));
         $pdf->loadView('permissions.aproved_permit', [ 'permit' => $permit, 'logo' => $image, 'codeQr' => $codeQr]);
         return $pdf->stream();
@@ -419,9 +419,22 @@ class PermissionController extends Controller
     {
         $formalitie = Formalitie::find($id);
         $formalitie->status = 'requested';
+        $fileUrls = [];
         foreach ($formalitie->permits as $permit) {
             $permit->status = 'requested';
             $permit->save();
+            foreach ($permit->requeriments as $requeriment) {
+                if ($requeriment->pivot->is_valid === null) {
+                    $permit->requeriments()->updateExistingPivot($requeriment, array('is_valid' => 0, 'file_url' => $requeriment->pivot->file_url), false);
+                    // array_push($fileUrls, $requeriment->pivot)
+                    // $requeriment->pivot->is_valid = 0;
+                    $requeriment->save();
+                } else {
+                    $permit->requeriments()->updateExistingPivot($requeriment, array('is_valid' => 0, 'file_url' => $requeriment->pivot->file_url), false);
+                    $requeriment->save();
+                }
+            }
+            // $permit->requeriments->save();
         }
         $formalitie->save();
         return response('Solicitud de Permiso finalizada', 200);
@@ -533,7 +546,7 @@ class PermissionController extends Controller
         Log::info('El usuario con la cedula de identidad '.$this->returnUser().'a verificado el permiso | desde la direccion: '. request()->ip());
         $permit->push();
 
-        return response('Estatus del Requerimiento Actualizado.', 200);
+        return response('Estatus del Recaudo Actualizado.', 200);
     }
 
     public function checkSpecies(Request $request, $id)
@@ -554,7 +567,7 @@ class PermissionController extends Controller
         
         $permit->push();
         Log::info('El official con la cedula de identidad '.$this->returnUser().'a verificado el requerimineto  | desde la direccion: '. request()->ip());
-        return response('Estatus del Requerimiento Actualizado.', 200);
+        return response('Estatus del Recaudo Actualizado.', 200);
     }
 
     public function validPermit(Request $request, $id)
@@ -580,7 +593,7 @@ class PermissionController extends Controller
         }
         Log::info('El official con la cedula de identidad '.$this->returnUser().'a verificado el permiso  | el permiso de a verificado desde la direccion: '.request()->ip());
         
-        return response('Estatus del Requerimiento Actualizado.', 200);
+        return response('Estatus del Recaudo Actualizado.', 200);
     }
 
     public function sendErrors(Request $request, $id)

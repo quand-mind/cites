@@ -11,11 +11,11 @@ Descripción:
  -->
 
 <template>
-  <b-nav class="d-none d-xl-flex d-lg-flex main-nav verde">
+  <b-nav class="d-none d-xl-flex d-lg-flex main-nav azul">
     <b-nav-item class="nav-item" v-for="(link, index) in links" :key="link.slug + index" :href="'/' + link.slug">
       {{link.title}}
 
-      <b-nav class="sub-nav verde" v-if="link.get_subpages">
+      <b-nav class="sub-nav azul" v-if="link.get_subpages">
         <b-nav-item v-for="sublink in link.get_subpages" :key="sublink.slug" :href="`/${link.slug}/${sublink.slug}`">
           {{sublink.title}}
         </b-nav-item>
@@ -71,7 +71,8 @@ export default {
   }
 
   &:hover {
-    background: #008d15;
+    background: #2769aa;
+    // background: #213950;
     transition: all 0.5s ease;
     overflow: visible;
 

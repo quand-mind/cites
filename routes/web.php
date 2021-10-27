@@ -212,6 +212,10 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         Route::get('/permissions/getDepartaments', 'DepartamentController@index');
         Route::get('/permissions/getRequeriments', 'RequerimentController@getRequeriments');
         
+        Route::post('/permissions/addPermit', 'IntoPermitDbController@addPermitType');
+        Route::post('/permissions/editPermit/{id}', 'IntoPermitDbController@editPermitType');
+        Route::post('/permissions/deletePermit/{id}', 'IntoPermitDbController@deletePermitType');
+        
         Route::post('/permissions/addRequeriment', 'RequerimentController@addRequeriment');
         Route::post('/permissions/editRequeriment/{id}', 'RequerimentController@editRequeriment');
         Route::post('/permissions/deleteRequeriment/{id}', 'RequerimentController@deleteRequeriment');
@@ -225,6 +229,9 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         Route::post('/permissions/validPermit/{id}', 'PermissionController@validPermit');
         Route::post('/permissions/sendErrors/{id}', 'PermissionController@sendErrors');
         Route::get('/permissions/viewPermit/{id}', 'PermissionController@showAprovedPermit');
+        
+        Route::get('/permissions/permitTypeStatistics', 'StatisticsController@showPermitTypeStatistics');
+        Route::get('/permissions/speciesStatistics', 'StatisticsController@showSpeciesStatistics');
     });
 });
 Route::get('/dataQr/{id}', 'PermissionController@getDataQr');

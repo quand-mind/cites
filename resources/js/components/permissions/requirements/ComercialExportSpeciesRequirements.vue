@@ -51,7 +51,7 @@
                 <font-awesome-icon :icon="['fa', 'trash']"></font-awesome-icon>
               </a>
             </div>
-            <span slot="requerimiento" slot-scope="props">{{props.row.name}}</span>
+            <span slot="recaudo" slot-scope="props">{{props.row.name}}</span>
             <span slot="archivo" v-if="(props.row.id === 3 && is_valid_dni === true) ||
               (props.row.id === 4 && is_valid_rif === true) ||
               (props.row.id === 5 && is_valid_comerce_species_license === true) ||
@@ -123,7 +123,7 @@
 export default {
   data: () => ({
     columns: [
-      "requerimiento",
+      "recaudo",
       "archivo",
       "acciones"
     ],

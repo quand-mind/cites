@@ -53,13 +53,15 @@
               <b-form-select v-model="permit.country" :disabled="loadingCountries" :options='countries' text></b-form-select>
             </b-col>
             <b-col>
-              <b-form-input v-model="permit.transportation_way" ></b-form-input>
+              <b-form-input placeholder="Barco" v-model="permit.transportation_way" ></b-form-input>
             </b-col>
             <b-col>
-              <b-form-input v-model="permit.shipment_port" ></b-form-input>
+              <b-form-input v-if="permit_type.type == 'import'" placeholder="Aeropuerto de Madrid-Barajas Adolfo Suárez" v-model="permit.shipment_port" ></b-form-input>
+              <b-form-input v-if="permit_type.type !== 'import'" placeholder="Aeropuerto Internacional de Maiquetía" v-model="permit.shipment_port" ></b-form-input>
             </b-col>
             <b-col>
-              <b-form-input v-model="permit.landing_port" ></b-form-input>
+              <b-form-input v-if="permit_type.type == 'import'" placeholder="Aeropuerto Internacional de Maiquetía" v-model="permit.landing_port" ></b-form-input>
+              <b-form-input v-if="permit_type.type !== 'import'" placeholder="Aeropuerto de Madrid-Barajas Adolfo Suárez" v-model="permit.landing_port" ></b-form-input>
             </b-col>
           </b-row>
           <b-row class="my-2">
@@ -70,16 +72,17 @@
           </b-row>
           <b-row>
             <b-col>
-              <b-form-input v-model="permit.purpose" ></b-form-input>
+              <b-form-input v-if="permit_type.type == 'import'"  placeholder="Importación de especies para Zoocriadero" v-model="permit.purpose" ></b-form-input>
+              <b-form-input v-if="permit_type.type !== 'import'"  placeholder="Exportación de especies para Zoocriadero" v-model="permit.purpose" ></b-form-input>
             </b-col>
             <b-col>
-              <b-form-input v-model="permit.consigned_to" ></b-form-input>
+              <b-form-input placeholder="Pedro Pérez" v-model="permit.consigned_to" ></b-form-input>
             </b-col>
             <b-col>
-              <b-form-input v-model="permit.departure_place" ></b-form-input>
+              <b-form-input placeholder="Zoológico el Pinar" v-model="permit.departure_place" ></b-form-input>
             </b-col>
             <b-col>
-              <b-form-input v-model="permit.destiny_place" ></b-form-input>
+              <b-form-input placeholder="Zoo Aquarium de Madrid" v-model="permit.destiny_place" ></b-form-input>
             </b-col>
           </b-row>
         </b-card-text>
@@ -173,7 +176,7 @@ export default {
         .then(res => {
           this.makeToast(res.data)
           this.loading = false
-          setTimeout(() => window.location.assign('/solicitante/permissions'), 1200)
+          setTimeout(() => window.location.assign('/solicitante/permissions'), 2000)
         })
         .catch(err => {
           this.loading = false

@@ -16,6 +16,7 @@ class Official extends Authenticatable
         'username',
         'email',
         'role',
+        'is_active',
         'user_id',
         'password',
         'remember_token'

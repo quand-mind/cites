@@ -13,9 +13,9 @@ Descripción:
  <template>
  
   <div class="fixed-top d-block d-xl-none d-lg-none" id="all" style=" z-index: 800 !important; ">
-    <b-navbar class="nav" toggleable="lg" type="dark">
+    <b-navbar class="nav" toggleable="lg">
       <b-navbar-brand href="/">
-        <img src="/images/logos/logo-ogm.png" class="figure" />
+        <img src="/images/logos/logo-cites-minimized.png" class="figure" />
       </b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
@@ -45,18 +45,6 @@ Descripción:
           </div>
           <div>
             <b-nav-item class=" imgk w-100 d-flex align-items-center justify-content-around text-center flex-wrap">
-              <a href="#" onclick="return false">
-                <img src="/images/logos/logo-minec.png" />
-              </a>
-              <a href="#" onclick="return false">
-                <img src="/images/logos/logo-gef.png" />
-              </a>
-              <a href="#" onclick="return false">
-                <img src="/images/logos/logo-pnud.png" />
-              </a>
-              <a href="#" onclick="return false">
-                <img src="/images/logos/logo-unep.png" />
-              </a>
             </b-nav-item>
           </div>
         </b-navbar-nav>
@@ -108,9 +96,11 @@ export default {
 <style lang="scss" scoped>
 
 .subnav .nav-item{
-  background: #576574;
+  background: #a0a6ac;
   padding: 5px 0px;
 }
+
+
 .nav-link{
   padding: 0px !important;
 }
@@ -124,10 +114,10 @@ a:hover,
 li,
 a {
   text-decoration: none;
-  color: #fff !important;
+  color: #000 !important;
 }
 .nav-item{
-  background-color: #2c3e50;
+  background-color: #fff;
   height: fit-content;
 }
 .imgk .nav-link{
@@ -137,7 +127,7 @@ a {
   flex-wrap: wrap;
 }
 .nav{
-  background-color: #2c3e50;
+  background:#fff;
 }
 #menu-div{
   background-color: white;

@@ -18,7 +18,7 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('nationality');
-            $table->bigInteger('dni')->unique();
+            $table->string('dni')->unique();
             $table->string('domicile')->nullable();
             $table->string('address')->nullable();
             $table->string('fax')->nullable();

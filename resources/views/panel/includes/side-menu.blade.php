@@ -1,4 +1,4 @@
 
 <div id="asideAdmin">
-    <aside-admin :user="{{auth()->user()}}" {{auth()->user()->isWriter() ? ':iswriter="true"' : ''}}></aside-admin>
+    <aside-admin :user="{{auth()->user()}}" :iswriter="false"></aside-admin>
 </div>

@@ -338,57 +338,152 @@ class AuthController extends Controller
             'fax' => 'required',
         ]);*/
         
-        $usersData= new User;
-        $usersData->name = $request->input('name');
-        $usersData->dni = $request->input('dni');
-        $usersData->nationality = $request->input('nationality');
-        $usersData->domicile = $request->input('domicile');
-        $usersData->address = $request->input('address');
-        //$usersData->fax = $request->input('fax')
-        $usersData->save();
+        $data = json_decode($request->input('data'));
+        // return $data;
+        if ($data->password === $data->password_confirm) {
 
-        $role = $request->input('role');
-         
-        $client = new Client();
-        $client->username = $request->input('username');
-        $client->email = $request->input('email');
-        $client->role = $role;
-        $client->password = Hash::make($request->input('password'));
-        $client->user_id = $usersData->id;
-        $client->save();
+            $findedUser = User::where('dni', $data->dni)->get()->first();
+            if ($findedUser) {
 
-        $phone1 = $request->input('phone1');
-        $newPhone1 = new Phone();
-        $newPhone1->number = $phone1;
-        $newPhone1->save();
-
-        $phone2 = $request->input('phone2');
-        $newPhone2 = new Phone();
-        $newPhone2->number = $phone2;
-        $newPhone2->save();
-        
-        $usersData->phones()->sync([$newPhone1->id, $newPhone2->id]);
-        
-        if ($role === 'juridica' ) {
-           
-            $institution = new Institution();
-            $institution->name = $request->input('institution_name');
-            $institution->rif = $request->input('rif');
-            $institution->institutional_email = $request->input('institutional_email');
-            $institution->client_id = $client->id;
-            $institution->save();
-        
+                $findedClient = Client::where('user_id', $findedUser->id)->get()->first();
+                if (!$findedClient) {
+                    $findedClientWithEmail = Client::where('email', $data->email);
+                    if (!$findedClientWithEmail) {
+                        $usersData= new User;
+                        $usersData->name = $data->name;
+                        $usersData->dni = $data->dni;
+                        $usersData->nationality = $data->nationality;
+                        // $usersData->domicile = $data->domicile;
+                        $usersData->address = $data->address;
+                        //$usersData->fax = $request->input('fax')
+                        $usersData->save();
             
-            $phoneInstitution = $request->input('phone_institution');
-            $newPhoneInstitution = new Phone();
-            $newPhoneInstitution->number = $phoneInstitution;
-            $newPhoneInstitution->save();
-
-            $institution->phones()->attach($newPhoneInstitution->id);
+                        $role = $data->role;
+                        
+                        $client = new Client();
+                        $client->username = $data->username;
+                        $client->email = $data->email;
+                        $client->role = $role;
+                        $client->password = Hash::make($data->password);
+                        $client->user_id = $usersData->id;
+                        $client->save();
+            
+                        $phonesIds = [];
+            
+                        $phone1 = $data->phone1;
+                        $newPhone1 = new Phone();
+                        $newPhone1->number = $phone1;
+                        $newPhone1->save();
+                        array_push($phonesIds, $newPhone1->id);
+            
+            
+                        $phone2 = $data->phone2;
+                        // return $phone2;
+                        if ($phone2) {
+                            $newPhone2 = new Phone();
+                            $newPhone2->number = $phone2;
+                            $newPhone2->save();
+                            array_push($phonesIds, $newPhone2->id);
+                        }
+                        
+                        $usersData->phones()->sync($phonesIds);
+                        // return $usersData->phones;
+                        
+                        if ($role === 'juridica' ) {
+                        
+                            $institution = new Institution();
+                            $institution->name = $data->institution_name;
+                            $institution->rif = $data->rif;
+                            $institution->institutional_email =  $data->institutional_email;
+                            $institution->client_id = $client->id;
+                            $institution->save();
+                        
+                            
+                            $phoneInstitution = $data->phone_institution;
+                            $newPhoneInstitution = new Phone();
+                            $newPhoneInstitution->number = $phoneInstitution;
+                            $newPhoneInstitution->save();
+            
+                            $institution->phones()->attach($newPhoneInstitution->id);
+                        }
+            
+                        Log::info('Se a registrado un nuevo solicitante con el DNI: '.$request->input('dni').'| Se a registrado en el sistema desde la direccion: '. request()->ip());
+                        return response('Usuario Creado Exitósamente', 200);
+                    }
+                    else {
+                        return response('El correo ya se encuentra registrado en el sistema', 500);
+                    }
+                } else {
+                    return response('La cédula ingresada ya está registrada en el sistema como cliente', 500);
+                }
+            } else {
+                $usersData= new User;
+                    $usersData->name = $data->name;
+                    $usersData->dni = $data->dni;
+                    $usersData->nationality = $data->nationality;
+                    // $usersData->domicile = $data->domicile;
+                    $usersData->address = $data->address;
+                    //$usersData->fax = $request->input('fax')
+                    $usersData->save();
+        
+                    $role = $data->role;
+                    
+                    $client = new Client();
+                    $client->username = $data->username;
+                    $client->email = $data->email;
+                    $client->role = $role;
+                    $client->password = Hash::make($data->password);
+                    $client->user_id = $usersData->id;
+                    $client->save();
+        
+                    $phonesIds = [];
+        
+                    $phone1 = $data->phone1;
+                    $newPhone1 = new Phone();
+                    $newPhone1->number = $phone1;
+                    $newPhone1->save();
+                    array_push($phonesIds, $newPhone1->id);
+        
+        
+                    $phone2 = $data->phone2;
+                    // return $phone2;
+                    if ($phone2) {
+                        $newPhone2 = new Phone();
+                        $newPhone2->number = $phone2;
+                        $newPhone2->save();
+                        array_push($phonesIds, $newPhone2->id);
+                    }
+                    
+                    $usersData->phones()->sync($phonesIds);
+                    // return $usersData->phones;
+                    
+                    if ($role === 'juridica' ) {
+                    
+                        $institution = new Institution();
+                        $institution->name = $data->institution_name;
+                        $institution->rif = $data->rif;
+                        $institution->institutional_email =  $data->institutional_email;
+                        $institution->client_id = $client->id;
+                        $institution->save();
+                    
+                        
+                        $phoneInstitution = $data->phone_institution;
+                        $newPhoneInstitution = new Phone();
+                        $newPhoneInstitution->number = $phoneInstitution;
+                        $newPhoneInstitution->save();
+        
+                        $institution->phones()->attach($newPhoneInstitution->id);
+                    }
+        
+                    Log::info('Se a registrado un nuevo solicitante con el DNI: '.$request->input('dni').'| Se a registrado en el sistema desde la direccion: '. request()->ip());
+                    return response('Usuario Creado Exitósamente', 200);
+            }
+            
+        } else {
+            return response('Las contraseñas no coinciden', 500);
         }
+        
 
-        Log::info('Se a registrado un nuevo solicitante con el DNI: '.$request->input('dni').'| Se a registrado en el sistema desde la direccion: '. request()->ip());
-        return $this->login($request);
        
     }           
 

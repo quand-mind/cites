@@ -10,7 +10,7 @@
         <div class="formalitie-container">
           <div class="d-flex justify-content-between align-items-center">
             <h5 class=" mb-3">N° de Trámite: {{formalitie.request_formalitie_no}}</h5>
-            <b-badge v-if="formalitie.status === 'uploading_requeriments'" class="p-2" variant="warning">Requerimientos Por Subir</b-badge>
+            <b-badge v-if="formalitie.status === 'uploading_requeriments'" class="p-2" variant="warning">Recaudos Por Subir</b-badge>
             <b-badge v-if="formalitie.status === 'requested'" class="p-2" variant="info">Por Validar</b-badge>
             <b-badge v-if="formalitie.status === 'valid'" class="p-2" variant="success">Validado Correctamente</b-badge>
             <b-badge v-if="formalitie.status === 'committed'" class="p-2" variant="success">Entregado</b-badge>
@@ -19,7 +19,7 @@
           <div class="d-flex justify-content-between align-items-center">
             <span>N° de Permisos en este trámite: {{formalitie.permits.length}}</span>
             <div v-if="type === 'client'">
-              <a v-if="formalitie.status !== 'committed' && formalitie.status !== 'valid'" class="btn btn-info" :href="`/solicitante/permissions/uploadRequirements/${formalitie.id}`">Subir Recaudos</a>
+              <a v-if="formalitie.status !== 'committed' || formalitie.status !== 'valid'" class="btn btn-info" :href="`/solicitante/permissions/uploadRequirements/${formalitie.id}`">Subir Recaudos</a>
               <button class="btn btn-primary" @click="showFormaliteStatus(formalitie)">Ver estado del Trámite</button>
             </div>
             <div v-if="type === 'admin'">
@@ -38,7 +38,7 @@
           <b-badge v-if="selectedFormalite.status === 'valid'" class="p-2" variant="success">Validado Correctamente</b-badge>
           <b-badge v-if="selectedFormalite.status === 'committed'" class="p-2" variant="success">Entregado</b-badge>
           <b-badge v-if="selectedFormalite.status === 'not_valid'" class="p-2" variant="danger">No Valido</b-badge>
-        <b-badge v-if="selectedFormalite.status === 'uploading_requeriments'" class="p-2" variant="danger">Falta subir requerimientos o pulsar el boton de finalizar proceso.</b-badge>
+        <b-badge v-if="selectedFormalite.status === 'uploading_requeriments'" class="p-2" variant="danger">Falta subir Recaudos o pulsar el boton de finalizar proceso.</b-badge>
       </div>
       <div class="ml-4 mb-4">
         <hr>
@@ -55,7 +55,7 @@
         <div class="formalitie-container">
           <div class="d-flex justify-content-between align-items-center">
             <h5 class=" mb-3">N° de Permiso: {{permit.request_permit_no}}</h5>
-            <b-badge v-if="permit.status === 'uploading_requeriments'" class="p-2" variant="warning">Requerimientos Por Subir</b-badge>
+            <b-badge v-if="permit.status === 'uploading_requeriments'" class="p-2" variant="warning">Recaudos Por Subir</b-badge>
             <b-badge v-if="permit.status === 'requested'" class="p-2" variant="info">Por Validar</b-badge>
             <b-badge v-if="permit.status === 'valid'" class="p-2" variant="success">Validado Correctamente</b-badge>
             <b-badge v-if="permit.status === 'committed'" class="p-2" variant="success">Entregado</b-badge>
@@ -82,7 +82,7 @@
           <b-badge v-if="selectedPermit.status === 'valid'" class="p-2" variant="success">Validado Correctamente</b-badge>
           <b-badge v-if="selectedPermit.status === 'committed'" class="p-2" variant="success">Entregado</b-badge>
           <b-badge v-if="selectedPermit.status === 'not_valid'" class="p-2" variant="danger">No Valido</b-badge>
-        <b-badge v-if="selectedPermit.status === 'uploading_requeriments'" class="p-2" variant="danger">Falta subir requerimientos o pulsar el boton de finalizar proceso.</b-badge>
+        <b-badge v-if="selectedPermit.status === 'uploading_requeriments'" class="p-2" variant="danger">Falta subir Recaudos o pulsar el boton de finalizar proceso.</b-badge>
       </div>
       <div class="ml-4 mb-4">
         <hr>
@@ -116,7 +116,15 @@
       <b-row class="my-3" v-for="(requeriment, index) of selectedPermit.requeriments" v-bind:key="index">
         <b-col sm="12" lg="6">{{requeriment.name}}</b-col>
         <b-col sm="12" lg="2">
-          <div v-if="requeriment.pivot.file_url">
+          <div v-if="requeriment.type === 'form'">
+            <font-awesome-icon :icon="['fa', 'check']"></font-awesome-icon>
+            Planilla Completada
+          </div>
+          <div v-else-if="requeriment.type === 'physical'">
+            <font-awesome-icon :icon="['fa', 'check']"></font-awesome-icon>
+            Solo entrega en Físico
+          </div>
+          <div v-else-if="requeriment.pivot.file_url">
             <a :href="`/${requeriment.pivot.file_url}`" target="_blank"><font-awesome-icon :icon="['fa', 'eye']"></font-awesome-icon> Ver Archivo</a>
           </div>
           <div v-else>
@@ -130,14 +138,13 @@
               Valido
               <font-awesome-icon :icon="['fa', 'check']"></font-awesome-icon>
             </b-badge>
-            <b-badge v-else-if="requeriment.pivot.is_valid === null" class="p-2" variant="danger">
-              No validado
-              <font-awesome-icon :icon="['fa', 'clipboard']"></font-awesome-icon>
-            </b-badge>
-            
-            <b-badge v-else-if="!requeriment.pivot.is_valid" class="p-2" variant="danger">
+            <b-badge v-else-if="!requeriment.pivot.is_valid && selectedPermit.observations" class="p-2" variant="danger">
               No valido
               <font-awesome-icon :icon="['fa', 'ban']"></font-awesome-icon>
+            </b-badge>
+            <b-badge v-else class="p-2" variant="warning">
+              Por Validar
+              <font-awesome-icon :icon="['fa', 'clipboard']"></font-awesome-icon>
             </b-badge>
           </div>
         </b-col>
@@ -159,7 +166,7 @@ export default {
   data: () => ({
 
     columns: [
-      "Requerimiento",
+      "Recaudo",
       "Archivo",
       "Validación"
     ],
@@ -218,4 +225,15 @@ export default {
     margin-bottom: 20px;
     padding: 20px;
   }
+  
+
+  .clase1 {
+    padding: 10px;
+  }
+
+  .clase1 {
+    padding: 20px !important;
+  }
+
+  
 </style>

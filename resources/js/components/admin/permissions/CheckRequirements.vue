@@ -16,12 +16,9 @@
       <h4 class="ml-4 mb-4">Hoja de Checkeo de Requisitos</h4>
       <div class="card" v-for="(permit, index) of formalitie.permits" :key="index">
         <h3 class="ml-4 mt-3">Permiso N° {{permit.request_permit_no}}</h3>
-        <div class="ml-5 mb-4">
+        <div class="ml-5 mr-5 mb-4">
           <hr>
           <b-row>
-            <b-col>
-              <b-form-input :key="permit.sistra" v-model="permit.sistra" placeholder="Número Sistra" @change="checkValidRequirements()"></b-form-input>
-            </b-col>
             <b-col>
               <b-form-input :key="permit.stamp_number" v-model="permit.stamp_number" placeholder="Número De Timbre Fiscal" @change="checkValidRequirements()"></b-form-input>
             </b-col>
@@ -215,13 +212,17 @@ export default {
             this.$forceUpdate();
           }
         }
+        this.length++
+        if (permit.stamp_number){
+          this.count++
+          this.$forceUpdate();
+        }
       }
-      if(this.length === this.count) {
+      if (this.length === this.count) {
         if (this.formalitie.sistra) {
           this.isValid = true
           this.$forceUpdate();
-        }
-        else {
+        } else {
           this.isValid = false
           this.$forceUpdate();
         }

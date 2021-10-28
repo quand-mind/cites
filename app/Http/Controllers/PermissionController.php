@@ -581,18 +581,19 @@ class PermissionController extends Controller
     public function validPermit(Request $request, $id)
     {
         $formalitie = Formalitie::find($id);
-        // $formalitie->sistra= $request->input('sistra');
+        $formalitie->sistra= $request->input('sistra');
         $formalitie->status= 'valid';
         $formalitie->official_id= $request->input('official_id');
-        // $formalitie->save();
+        $formalitie->save();
         $index= 0;
-        $permits = json_decode($request->input('sistra'));
+        $permits = json_decode($request->input('permits'));
         return $permits;
 
         $date = strtotime("+180 day");
         foreach ($formalitie->permits as $permit) {
             $permit->valid_until = date('M d, Y', $date);
-            // $permit->sistra= $request->input('sistra');
+            $permit->sistra= $request->input('sistra');
+            $permit->stamp_number= $permits[$index]->stamp_number;
             $permit->status= 'valid';
             $permit->save();
         }

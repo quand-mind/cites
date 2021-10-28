@@ -185,11 +185,15 @@ class PermissionController extends Controller
         switch($formalities){
             case $formalities < 10 :
                 $total_pemisos_dia = $formalities + 1; 
-                $formalitie->request_formalitie_no = $DateDay.'00'.$total_pemisos_dia;
+                $formalitie->request_formalitie_no = 'VE-'.$DateDay.'00'.$total_pemisos_dia;
             break;
             case $formalities >= 10 :
                 $total_pemisos_dia = $formalities + 1; 
-                $formalitie->request_formalitie_no = $DateDay.'0'.$total_pemisos_dia;
+                $formalitie->request_formalitie_no = 'VE-'.$DateDay.'0'.$total_pemisos_dia;
+            break;
+            case $permisos >= 100 :
+                $total_pemisos_dia = $formalities + 1; 
+                $formalitie->request_permit_no = 'VE-'.$DateDay.''.$total_pemisos_dia;
             break;
         }
         $formalitie->status = "uploading_requeriments";
@@ -213,11 +217,15 @@ class PermissionController extends Controller
                 switch($permisos){
                     case $permisos < 10 :
                         $total_pemisos_dia = $permisos + 1; 
-                        $permit->request_permit_no = $DateDay.'00'.$total_pemisos_dia;
+                        $permit->request_permit_no ='VE-'.$DateDay.'00'.$total_pemisos_dia;
                     break;
                     case $permisos >= 10 :
                         $total_pemisos_dia = $permisos + 1; 
-                        $permit->request_permit_no = $DateDay.'0'.$total_pemisos_dia;
+                        $permit->request_permit_no = 'VE-'.$DateDay.'0'.$total_pemisos_dia;
+                    break;
+                    case $permisos >= 100 :
+                        $total_pemisos_dia = $permisos + 1; 
+                        $permit->request_permit_no = 'VE-'.$DateDay.''.$total_pemisos_dia;
                     break;
                 }
 
@@ -573,15 +581,18 @@ class PermissionController extends Controller
     public function validPermit(Request $request, $id)
     {
         $formalitie = Formalitie::find($id);
-        $formalitie->sistra= $request->input('sistra');
+        // $formalitie->sistra= $request->input('sistra');
         $formalitie->status= 'valid';
         $formalitie->official_id= $request->input('official_id');
-        $formalitie->save();
+        // $formalitie->save();
+        $index= 0;
+        $permits = json_decode($request->input('sistra'));
+        return $permits;
 
         $date = strtotime("+180 day");
         foreach ($formalitie->permits as $permit) {
             $permit->valid_until = date('M d, Y', $date);
-            $permit->sistra= $request->input('sistra');
+            // $permit->sistra= $request->input('sistra');
             $permit->status= 'valid';
             $permit->save();
         }

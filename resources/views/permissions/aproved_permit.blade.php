@@ -52,7 +52,7 @@
         </div>
         <div style="position: absolute; padding:5px; top:39; border:1px solid; height: 70px; left:269; width:50%; display:inline;">
           <h6 class="absolute" style="width: 20%; margin-top: 0px; top: 0;">Exportador</h6>
-          @if ($permit->permit_type->type =="import")
+          @if ($permit->permit_type->type =="import") 
             <span class="absolute" style="width: 20%;margin-top: 0px; left:50; top: 3 ; font-size: 16px; ">{{$permit->consigned_to}}</span>
           @endif
           @if ($permit->permit_type->type =="export" || $permit->permit_type->type =="reexport")
@@ -63,19 +63,19 @@
         <div style="position: absolute; padding:5px; top:78; border:1px solid; height: 30px; left:0; width:50%; display:inline;">
           <h6 class="absolute" style="width: 100%;margin-top: 0px; top: 0;">País de Importación</h6>
           @if ($permit->permit_type->type =="import")
-            <span class="absolute" style="width: 20%;margin-top: 0px; left:80; top: 3 ; font-size: 16px; ">{{$permit->country}}, {{$permit->country_code}}</span>
+            <span class="absolute" style="width: 20%;margin-top: 0px; left:80; top: 3 ; font-size: 16px; ">Venezuela, VE</span>
           @endif
           @if ($permit->permit_type->type =="export" || $permit->permit_type->type =="reexport")
-            <span class="absolute" style="width: 20%;margin-top: 0px; left:80; top: 3 ; font-size: 16px; ">Venezuela, VE</span>
+            <span class="absolute" style="width: 20%;margin-top: 0px; left:80; top: 3 ; font-size: 16px; ">{{$permit->country}}, {{$permit->country_code}}</span>
           @endif
         </div>
         <div style="position: absolute; padding:5px; top:78;  border:1px solid; height: 30px; left:269; width:50%; display:inline;">
           <h6 class="absolute" style="width: 100%;margin-top: 0px; top: 0;">País de Exportación</h6>
           @if ($permit->permit_type->type =="import")
-            <span class="absolute" style="width: 20%;margin-top: 0px; left:80; top: 3 ; font-size: 16px; ">Venezuela, VE</span>
+            <span class="absolute" style="width: 20%;margin-top: 0px; left:80; top: 3 ; font-size: 16px; ">{{$permit->country}}, {{$permit->country_code}}</span>
           @endif
           @if ($permit->permit_type->type =="export" || $permit->permit_type->type =="reexport")
-            <span class="absolute" style="width: 20%;margin-top: 0px; left:80; top: 3 ; font-size: 16px; ">{{$permit->country}}, {{$permit->country_code}}</span>
+            <span class="absolute" style="width: 20%;margin-top: 0px; left:80; top: 3 ; font-size: 16px; ">Venezuela, VE</span>
           @endif
         </div>
 
@@ -414,7 +414,7 @@
         </div>
 
         <div style="position: absolute; padding:5px; top: {{$final + 29}}; border:1px solid; height: 170px; left:0; width:101%; display:inline;">
-          <h6 class="absolute" style=" solid; width: 100%; height:60px; margin-top: 0px; top: 0; font-size: 14px;"> Permiso expedido por: {{$permit->formalitie->official->user->name}} ({{$permit->formalitie->official->user->dni}})</h6>
+          <h6 class="absolute" style=" solid; width: 100%; height:60px; margin-top: 0px; top: 0; font-size: 14px;"> Permiso expedido por: {{$permit->formalitie->official->user->name}} (V-{{$permit->formalitie->official->user->dni}})</h6>
           <h6 class="absolute" style="text-align:center; border-top:1px solid; width: 15%; height:60px; margin-top: -5px; top:72; font-size: 14px; left:30;">Lugar</h6>
           <h6 class="absolute" style="text-align:center; border-top:1px solid; width: 15%; height:60px; margin-top: -5px; top:72; font-size: 14px; left:150;">Fecha</h6>
           <h6 class="absolute" style="text-align:center; border-top:1px solid; width: 45%; height:60px; margin-top: -5px; top:72; font-size: 14px; left:270;">Estampilla de seguridad</h6>

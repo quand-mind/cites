@@ -26,7 +26,7 @@ class AddRevenueStampsFieldToPermitsTable extends Migration
     public function down()
     {
         Schema::table('permits', function (Blueprint $table) {
-            //
+            $table->dropColumn('stamp_number');
         });
     }
 }

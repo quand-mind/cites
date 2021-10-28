@@ -160,7 +160,7 @@ class UserController extends Controller
             'address' => 'string',
             'is_active' => 'boolean',
             'photo' =>  'nullable|mimes:jpeg,jpg,png|image|max:2048',
-            'role' => 'in:admin,writer,perosna_juridica,persona_natural'
+            'role' => 'in:admin,writer,funcionario'
         ])) {
 
             if ($request->hasFile('photo')) {

@@ -59,8 +59,8 @@
           <h6 class="mb-0 text-uppercase">CITES</h6>
         </template>
         <b-button-group>
-            <b-button href="/dashboard/surveys" variant="primary" class="mx-2" size="sm"><font-awesome-icon :icon="['fas', 'clipboard-check']"></font-awesome-icon><br> Solicitud de Permisos</b-button>
-            <b-button href="/dashboard/surveys" variant="info" class="mx-2" size="sm"><font-awesome-icon :icon="['fas', 'chart-pie']"></font-awesome-icon><br> Gráficas de CITES</b-button>
+            <b-button href="/dashboard/permissions/" variant="primary" class="mx-2" size="sm"><font-awesome-icon :icon="['fas', 'clipboard-check']"></font-awesome-icon><br> Solicitud de Permisos</b-button>
+            <b-button href="#" variant="info" class="mx-2" size="sm"><font-awesome-icon :icon="['fas', 'chart-pie']"></font-awesome-icon><br> Gráficas de CITES</b-button>
           </b-button-group>
       </b-card>
     </b-card-group>
@@ -70,17 +70,17 @@
           <h6 class="mb-0 text-uppercase">Configuracion de Permisos CITES</h6>
         </template>
         <b-button-group>
-            <b-button href="/dashboard/questions" variant="primary" class="mx-2" size="sm"><font-awesome-icon :icon="['fas', 'plus']"></font-awesome-icon><br> Crear nuevo Permiso</b-button>
-            <b-button href="/dashboard/questions" variant="info" class="mx-2" size="sm"><font-awesome-icon :icon="['fas', 'cog']"></font-awesome-icon><br> Administrar Permisos</b-button>
+            <b-button href="/dashboard/permissions/permitsView" variant="primary" class="mx-2" size="sm"><font-awesome-icon :icon="['fas', 'plus']"></font-awesome-icon><br> Crear nuevo Permiso</b-button>
+            <b-button href="/dashboard/permissions/permitsView" variant="info" class="mx-2" size="sm"><font-awesome-icon :icon="['fas', 'cog']"></font-awesome-icon><br> Administrar Permisos</b-button>
           </b-button-group>
       </b-card>
-      <b-card class="m-3" v-if="user.role !== 'funcionario'" header-tag="header">
+      <b-card class="m-3" v-if="user.role !== 'writer'" header-tag="header">
         <template v-slot:header>
           <h6 class="mb-0 text-uppercase">Configuracion de Recaudos CITES</h6>
         </template>
         <b-button-group>
-            <b-button href="/dashboard/surveys" variant="primary" class="mx-2" size="sm"><font-awesome-icon :icon="['fas', 'plus']"></font-awesome-icon><br> Crear nuevo Requerimiento</b-button>
-            <b-button href="/dashboard/surveys" variant="info" class="mx-2" size="sm"><font-awesome-icon :icon="['fas', 'cog']"></font-awesome-icon><br> Administrar Requerimentos</b-button>
+            <b-button href="/dashboard/permissions/requerimentsView" variant="primary" class="mx-2" size="sm"><font-awesome-icon :icon="['fas', 'plus']"></font-awesome-icon><br> Crear nuevo Requerimiento</b-button>
+            <b-button href="/dashboard/permissions/requerimentsView" variant="info" class="mx-2" size="sm"><font-awesome-icon :icon="['fas', 'cog']"></font-awesome-icon><br> Administrar Requerimentos</b-button>
           </b-button-group>
       </b-card>
     </b-card-group>

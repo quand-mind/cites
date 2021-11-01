@@ -48,11 +48,11 @@ class UserController extends Controller
             'name' => 'required|string',
             'address' => 'required|string',
             'domicile' => 'required|string',
-            'dni' => 'required|string|unique:users',
+            'dni' => 'required|string|',
             'email' => 'required|unique:officials|email',
             'is_active' => 'required|boolean',
             'photo' =>  'nullable|sometimes|mimes:jpeg,jpg,png|image|max:1024',
-            'role' => 'required|in:admin,writer,perosna_juridica,persona_natural',
+            'role' => 'required|in:admin,writer,funcionario',
             'password' => 'required|confirmed'
         ])) {
             if ($request->hasFile('photo')) {
@@ -69,15 +69,45 @@ class UserController extends Controller
             }
 
             try {
-                $user = User::create($valuesUser);
+                $findedUserWithDni = User::where(['dni' => $request->dni])->get()->first();
+                if (!$findedUserWithDni) {
+                    $user = User::create($valuesUser);
 
-                $official = new Official;
-                $official->username = $request->username;
-                $official->email = $request->email;
-                $official->role = $request->role;
-                $official->user_id = $user->id;
-                $official->password = \bcrypt($request->password);
-                $official->save();
+                    $official = new Official;
+                    $official->username = $request->username;
+                    $official->email = $request->email;
+                    $official->role = $request->role;
+                    $official->user_id = $user->id;
+                    $official->password = \bcrypt($request->password);
+                    $official->save();
+                } else {
+
+                    $findedOfficialWithId = Official::where(['user_id' => $findedUserWithDni->id])->get()->first();
+                    // return $findedUserWithDni;
+    
+                    if (!$findedOfficialWithId) {
+                        $official = new Official;
+                        $official->username = $request->username;
+                        $official->email = $request->email;
+                        $official->role = $request->role;
+                        $official->user_id = $findedUserWithDni->id;
+                        $official->password = \bcrypt($request->password);
+                        $official->save();
+                    } else {
+                        return response('Este usuario ya se encuentra registrado en el sistema administrador', 500);
+    
+                    }
+                }
+
+                // $user = User::create($valuesUser);
+
+                // $official = new Official;
+                // $official->username = $request->username;
+                // $official->email = $request->email;
+                // $official->role = $request->role;
+                // $official->user_id = $user->id;
+                // $official->password = \bcrypt($request->password);
+                // $official->save();
 
                 
                 return response('Usuario creado', 200);
@@ -130,7 +160,7 @@ class UserController extends Controller
             'address' => 'string',
             'is_active' => 'boolean',
             'photo' =>  'nullable|mimes:jpeg,jpg,png|image|max:2048',
-            'role' => 'in:admin,writer,perosna_juridica,persona_natural'
+            'role' => 'in:admin,writer,funcionario'
         ])) {
 
             if ($request->hasFile('photo')) {
@@ -195,7 +225,7 @@ class UserController extends Controller
     public function destroy($id)
     {
         try {
-            User::find($id)->delete();
+            Official::find($id)->delete();
             return response('Usuario eliminado', 200);
         } catch (Exception $err) {
             return response($err->getMessage(), 500);

@@ -59,7 +59,7 @@
         <span class="text-danger">Eliminando usuario {{selectedUser.username}}</span>
       </template>
       <div v-if="selectedUser" class="d-block text-center">
-        <h3>¿Estas seguro de que deseas eliminar a {{selectedUser.name}}?</h3>
+        <h3>¿Estas seguro de que deseas eliminar a {{selectedUser.user.name}}?</h3>
         <i>Todos los post y páginas creadas por este usuario serán eliminadas</i>
 
         <b-button class="mt-3" block variant="danger" @click="submitDeleteUser">Confirmar</b-button>
@@ -214,9 +214,9 @@
             ></b-form-textarea>
           </b-form-group>
 
-          <b-form-group label="Contraseña:" label-for="input-2" style="display: none">
+          <b-form-group label="Contraseña:" label-for="input-2">
             <b-form-input
-              style="display: none"
+              
               v-model="createForm.password"
               required
               type="password"
@@ -224,9 +224,9 @@
             ></b-form-input>
           </b-form-group>
 
-          <b-form-group label="Repita la contraseña:" label-for="input-2" style="display: none">
+          <b-form-group label="Repita la contraseña:" label-for="input-2">
             <b-form-input
-              style="display: none"
+              
               v-model="createForm.password_confirmation"
               required
               type="password"
@@ -285,8 +285,8 @@ export default {
       email: "",
       role: "",
       is_active: true,
-      password: "0000",
-      password_confirmation: "0000"
+      password: "",
+      password_confirmation: ""
     },
     formPhoto: null,
     newPhoto: null
@@ -374,7 +374,7 @@ export default {
           if (res.status === 200) {
             _this.makeToast(res.data);
             _this.hideEditModal();
-            // setTimeout(() => window.location.reload(), 3000);
+            setTimeout(() => window.location.reload(), 3000);
           }
         })
         .catch(err => {

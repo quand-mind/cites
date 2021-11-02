@@ -39,26 +39,7 @@ class AuthController extends Controller
         
     }
 
-    // public function api_countries()
-    // {   
-        
-    //     $client_country = new CountriesClient(); //GuzzleHttp\Client
-    //     $url = "https://restcountries.eu/rest/v2/all";
-    //     //return $url;
-        
-    //     if (env('APP_ENV') === 'local') {
-    //         $response = $client_country->request('GET', $url, [
-    //             'verify'  => false,
-      
-    //         ]);
-    //     } else {
-    //         $response = $client_country->request('GET', $url, [
-    //             'verify'  => true,
-    //         ]);
-    //     }
 
-    //     return $countries = json_decode($response->getBody()->getContents());
-    // }
 
     public function json_country(){
         $countriesList ='[
@@ -546,6 +527,19 @@ class AuthController extends Controller
         }
     }
 
+    public function sendEmailResetPassword(Request $request ){
+        $getEmailUser = $request->input('email');
+
+        $emailClient=Client::where("email", "=", $getEmailUser)->get();
+
+        
+        foreach ($emailClient as $value) {
+            $credentials = ["email"=>$value->email];
+        }
+        //return $credentials;
+        $token = $this->guard()->attempt($credentials);
+        return $token;
+    }
     /**
      * Refresh a token.
      *
@@ -582,4 +576,10 @@ class AuthController extends Controller
         return Auth::guard('api');
     }
 
+    public function viewRestortPassword(){
+        return view('auth.resetPasswordClient');
+    }
+
+    
+    // 
 }

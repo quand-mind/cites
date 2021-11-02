@@ -32,9 +32,16 @@ Route::post('/registerInstitution', [InstitutionController::class, 'storeInstitu
 Route::post('/loginPermissions', [AuthController::class, 'login']);
 Route::get('/users', [AuthController::class, 'user']);
 Route::get('/logout', [AuthController::class, 'logout'])->middleware('jwt.verify');
-
+ 
 Route::post('/tets', [AuthorizationController::class, 'createPermits'])->name('test');
 Route::post('/saveFile', [AuthorizationController::class, 'Nurseries']);
+
+/**
+ * reset password 
+ */
+
+Route::get('/resetPassword', [AuthController::class, 'viewRestortPassword']);
+Route::post('/sendEmailResetPassword', [AuthController::class, 'sendEmailResetPassword']);
 
 Route::get('species', [ApiController::class, 'api_cites']);
 Route::get('countries', [ApiController::class, 'json_country']);

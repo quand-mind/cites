@@ -2,32 +2,51 @@
 
 namespace App\Exports;
 
-use App\Models\Formalitie;
 use App\Models\Permit;
+use App\Models\PermitType;
+use App\Models\Specie;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Faker\Factory as Faker;
 
 class FormalitiesExport implements FromView
 {
     
     public function view(): View
     {
-        $permitStatus = Permit::get();
-        $prelabels = [];
-        foreach ($permitStatus as $permitStatu) {
-            $prelabels[]= $permitStatu->status;
-        }
-        $secondlabels = array_unique($prelabels);
+        // $permitStatus = Permit::get();
+        // $prelabels = [];
+        // foreach ($permitStatus as $permitStatu) {
+        //     $prelabels[]= $permitStatu->status;
+        // }
+        // $secondlabels = array_unique($prelabels);
         
+        // $labels = [];
+        // $data = [];
+        // foreach ($secondlabels  as $secondlabel) {
+        //     $labels[]=$secondlabel;
+        // }
+        // foreach ($labels as $label) {
+        //     $data[] = Permit::where( 'status', '=', $label)->count();
+        // }
+        $permitTypes = PermitType::all();
+        $label = 'Gráfica de los Tipos de Permiso';
+        $title = 'Estadisticas por Tipo de Permiso';
+        $values = [];
+        $backgrounds = [];
         $labels = [];
-        $data = [];
-        foreach ($secondlabels  as $secondlabel) {
-            $labels[]=$secondlabel;
-        }
-        foreach ($labels as $label) {
-            $data[] = Permit::where( 'status', '=', $label)->count();
-        }
-        return view('excelTest', ['labels' => $labels, 'data' => $data]);
+        foreach ($permitTypes as $permitType) {
+            $faker = Faker::create();
+            $permitOptionsHexaColor = $faker->hexcolor();
+            $permitOptionsId = $permitType->id;
+            $permitOptionsName = $permitType->name;
+            $permits = Permit::where("permit_type_id", '=', $permitOptionsId)->get();
+            $permitOptionsCount = count($permits);
+            array_push($values, ($permitOptionsCount));
+            array_push($backgrounds, ($permitOptionsHexaColor));
+            array_push($labels, ($permitOptionsName));
+        } 
+        return view('excelTest', ['labels' => $labels, 'data' => $values]);
     }
 }    

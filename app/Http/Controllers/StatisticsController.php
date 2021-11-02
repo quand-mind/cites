@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Permit;
 use App\Models\PermitType;
 use App\Models\Specie;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\FormalitiesExport;
 use Illuminate\Http\Request;
 use Faker\Factory as Faker;
+
 
 class StatisticsController extends Controller
 {
@@ -92,6 +95,9 @@ class StatisticsController extends Controller
         } 
         // return $species[0];
         return view('panel.dashboard.permissions.bar', compact('values', 'backgrounds', 'labels', 'label', 'title'));
+    }
+    public function TestExportExcel(){
+        return Excel::download(new FormalitiesExport, 'test.xlsx');
     }
 }
     

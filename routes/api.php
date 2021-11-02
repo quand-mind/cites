@@ -103,3 +103,5 @@ Route::get('filterDate', [PermissionController::class, 'filterDate']);
 Route::get('/TestExportExcel', 'StatisticsController@TestExportExcel');
 Route::get('/chartForcountry', 'StatisticsController@chartForcountry');
 Route::get('/chartForpermitType', 'StatisticsController@chartForpermitType');
+
+Route::get("/testtoken", [ApiController::class, 'sendTokenApiExternal'] );

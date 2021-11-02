@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
-
+use JWTAuth;
+use Tymon\JWTAuth\Exceptions\JWTException;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 
 class ApiController extends Controller
 {
@@ -88,26 +90,6 @@ class ApiController extends Controller
         return view('species', compact('arraySpecies'));
         // return $this->api_cites($arraySpecies);
     }
-
-    // public function api_country()
-    // {
-    //     $client_country = new Client(); //GuzzleHttp\Client
-    //     $url = "https://restcountries.eu/rest/v2/all";
-    //     //return $url;
-        
-    //     if (env('APP_ENV') === 'local') {
-    //         $response = $client_country->request('GET', $url, [
-    //             'verify'  => false,
-      
-    //         ]);
-    //     } else {
-    //         $response = $client_country->request('GET', $url, [
-    //             'verify'  => true,
-    //         ]);
-    //     }
-
-    //     return $countries = json_decode($response->getBody()->getContents());
-    // }
 
     public function json_country(){
         $countriesList ='[
@@ -367,6 +349,18 @@ class ApiController extends Controller
             { "value": "ZW", "label": "Zimbabue" }  
         ]';
         return json_decode($countriesList);
+    }
+
+    public function sendTokenApiExternal(){
+        
+        $credentials = ["jasve504@gmail.com"];
+        if ($token = $this->attempt($credentials)) {
+            return $token;
+        }
+    }
+    public function guard()
+    {
+        return Auth::guard('api');
     }
 }
 

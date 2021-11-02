@@ -60,7 +60,7 @@
         </template>
         <b-button-group>
             <b-button href="/dashboard/permissions/" variant="primary" class="mx-2" size="sm"><font-awesome-icon :icon="['fas', 'clipboard-check']"></font-awesome-icon><br> Solicitud de Permisos</b-button>
-            <b-button href="#" variant="info" class="mx-2" size="sm"><font-awesome-icon :icon="['fas', 'chart-pie']"></font-awesome-icon><br> Gráficas de CITES</b-button>
+            <b-button href="/dashboard/permissions/graphics" variant="info" class="mx-2" size="sm"><font-awesome-icon :icon="['fas', 'chart-pie']"></font-awesome-icon><br> Gráficas de CITES</b-button>
           </b-button-group>
       </b-card>
     </b-card-group>

@@ -135,8 +135,7 @@
 </template>
 <script>
 
-import Vue from 'vue';
-// Vue.forceUpdate();
+import timeout from '../../../setTimeout.js'
 import SelectedSpecies from '../permissions/SelectedSpecies.vue';
 export default {
   props: ['formalitie','type', 'official'],
@@ -144,6 +143,7 @@ export default {
     SelectedSpecies
   },
   data: () => ({
+    timeout: timeout,
     columns: [
       "Recaudo",
       "Archivo",
@@ -250,7 +250,7 @@ export default {
           console.log(res.data)
           this.makeToast('Archivo Guardado')
           requeriment.pivot.file_url = res.data
-          setTimeout(() => window.location.reload(), 2000)
+          setTimeout(() => window.location.reload(), timeout)
         })
         .catch(err => {
           this.makeToast(err.toString(), 'danger')
@@ -263,7 +263,6 @@ export default {
         .post(`/dashboard/permissions/check/`+permit.id, {requeriment: JSON.stringify(requeriment), permit: permit, index: index})
         .then(res => {
           this.makeToast(res.data)
-          // setTimeout(() => window.location.reload(), 1200)
         })
         .catch(err => {
           this.makeToast(err.toString(), 'danger')
@@ -272,10 +271,10 @@ export default {
     validPermit(){
       console.log(this.formalitie.sistra)
       axios
-        .post(`/dashboard/permissions/validPermit/`+ this.formalitie.id, {official_id: this.official.id, permits: JSON.stringify(this.formalitie.permits)})
+        .post(`/dashboard/permissions/validPermit/`+ this.formalitie.id, {official_id: this.official.id, sistra: this.formalitie.sistra, permits: JSON.stringify(this.formalitie.permits)})
         .then(res => {
           this.makeToast(res.data)
-          setTimeout(() => window.location.assign('/dashboard/permissions/'), 2000)
+          setTimeout(() => window.location.assign('/dashboard/permissions/'), timeout)
         })
         .catch(err => {
           this.makeToast(err.toString(), 'danger')
@@ -286,7 +285,7 @@ export default {
         .post(`/dashboard/permissions/sendErrors/`+ this.formalitie.id, {official_id: this.official.id, observations: this.formalitie.observations})
         .then(res => {
           this.makeToast(res.data)
-          setTimeout(() => window.location.assign('/dashboard/permissions/'), 2000)
+          setTimeout(() => window.location.assign('/dashboard/permissions/'), timeout)
         })
         .catch(err => {
           this.makeToast(err.toString(), 'danger')
@@ -298,7 +297,7 @@ export default {
     deleteFile(file){
       console.log(file)
     },
-    makeToast(msg, variant = "success", delay = 3000, append = false) {
+    makeToast(msg, variant = "success", delay = timeout, append = false) {
       this.$bvToast.toast(`${msg}`, {
         title: 'Validación de Recaudos',
         autoHideDelay: delay,

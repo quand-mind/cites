@@ -254,10 +254,12 @@
 
 <script>
 import axios from "axios";
+import timeout from '../../setTimeout.js'
 
 export default {
   props: ["users"],
   data: () => ({
+    timeout: timeout,
     columns: [
       "usuario",
       "nombre",
@@ -374,7 +376,7 @@ export default {
           if (res.status === 200) {
             _this.makeToast(res.data);
             _this.hideEditModal();
-            setTimeout(() => window.location.reload(), 3000);
+            setTimeout(() => window.location.reload(), timeout);
           }
         })
         .catch(err => {
@@ -400,7 +402,7 @@ export default {
       };
     },
 
-    makeToast(msg, variant = "success", delay = 3000, append = false) {
+    makeToast(msg, variant = "success", delay = timeout, append = false) {
       this.$bvToast.toast(`${msg}`, {
         title: "Evento de actualización de usuario",
         autoHideDelay: delay,
@@ -437,7 +439,7 @@ export default {
               }
             })
             .then(res => {
-              setTimeout(() => window.location.reload(), 300);
+              setTimeout(() => window.location.reload(), timeout);
             })
           }
         })
@@ -454,7 +456,7 @@ export default {
           if (res.status === 200) {
             _this.makeToast(res.data);
             _this.hideDeleteModal();
-            setTimeout(() => window.location.reload(), 300);
+            setTimeout(() => window.location.reload(), timeout);
           }
         })
         .catch(err => {

@@ -63,7 +63,7 @@
       <a v-if="this.user.role !== 'writer'" href="/dashboard/permissions/permitsView" class="list-group-item list-group-item-action">
         <font-awesome-icon :icon="['fas', 'sticky-note']"></font-awesome-icon>&nbsp;Permisos
       </a>
-      <a v-if="this.user.role !== 'writer'" href="#" class="list-group-item list-group-item-action">
+      <a v-if="this.user.role !== 'writer'" href="/dashboard/permissions/graphics" class="list-group-item list-group-item-action">
         <font-awesome-icon :icon="['fas', 'chart-pie']"></font-awesome-icon>&nbsp;Gráficas
       </a>
     </div>

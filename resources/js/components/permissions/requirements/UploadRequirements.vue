@@ -158,6 +158,7 @@
   </div>
 </template>
 <script>
+import timeout from '../../../setTimeout';
 
 import SelectedSpecies from '../../admin/permissions/SelectedSpecies.vue';
 import AddSpecie from '../AddSpecie.vue';
@@ -168,6 +169,7 @@ export default {
     AddSpecie
   },
   data: () => ({
+    timeout: timeout,
     columns: [
       "Recaudo",
       "Archivo",
@@ -281,7 +283,6 @@ export default {
         .post(`/dashboard/permissions/check/`+permit.id, {requeriment: requeriment, permit: permit})
         .then(res => {
           this.makeToast(res.data)
-          // setTimeout(() => window.location.reload(), 2000)
         })
         .catch(err => {
           this.makeToast(err.toString(), 'danger')
@@ -330,7 +331,7 @@ export default {
         .post(`/solicitante/permissions/requestPermit/${this.formalitie.id}`)
         .then(res => {
           this.makeToast(res.data)
-          setTimeout(() => window.location.reload(), 2000)
+          setTimeout(() => window.location.reload(), timeout)
         })
         .catch(err => {
           this.makeToast(err.toString(), 'danger')
@@ -346,7 +347,6 @@ export default {
           this.checkUploadedRequirements()
           this.$forceUpdate();
           this.loadingDelete = false
-          // setTimeout(() => window.location.reload(), 2000)
         })
         .catch(err => {
           this.loadingDelete = false
@@ -359,7 +359,7 @@ export default {
       
     },
 
-    makeToast(msg, variant = "success", delay = 3000, append = false) {
+    makeToast(msg, variant = "success", delay = timeout, append = false) {
       this.$bvToast.toast(`${msg}`, {
         title: 'Recaudoss',
         autoHideDelay: delay,

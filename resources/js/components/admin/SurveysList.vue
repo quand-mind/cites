@@ -137,10 +137,12 @@
 <script>
 import axios from "axios";
 import moment from "moment";
+import timeout from '../../setTimeout.js'
 
 export default {
   props: ["surveys"],
   data: () => ({
+    timeout: timeout,
     tableSettings: {
       data: [],
       columns: [
@@ -213,7 +215,7 @@ export default {
           if (res.status === 200) {
             _this.makeToast(res.data);
             _this.hideEditSurveyModal();
-            setTimeout(() => window.location.reload(), 3000);
+            setTimeout(() => window.location.reload(), timeout);
           }
         })
         .catch(err => {
@@ -236,7 +238,7 @@ export default {
           if (res.status === 200) {
             _this.makeToast(res.data);
             _this.hideDeleteModal();
-            setTimeout(() => window.location.reload(), 300);
+            setTimeout(() => window.location.reload(), timeout);
           }
         })
         .catch(err => {
@@ -250,7 +252,7 @@ export default {
           }
         });
     },
-    makeToast(msg, variant = "success", delay = 3000, append = false) {
+    makeToast(msg, variant = "success", delay = timeout, append = false) {
       this.$bvToast.toast(`${msg}`, {
         title: "Evento de actualización de usuario",
         autoHideDelay: delay,

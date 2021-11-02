@@ -112,6 +112,7 @@ import SelectedSpeciesList from '../permissions/SelectedSpeciesList.vue';
 import AddSpecie from '../permissions/AddSpecie.vue';
 
 import {mapActions, mapGetters} from 'vuex'
+import timeout from '../../setTimeout';
 
 export default {
   props:['permit_type', 'client_data', 'type'],
@@ -120,6 +121,7 @@ export default {
     AddSpecie
   },
   data: () => ({
+    timeout: timeout,
     personals: {
       phone: null,
       mobile: null,
@@ -176,7 +178,7 @@ export default {
         .then(res => {
           this.makeToast(res.data)
           this.loading = false
-          setTimeout(() => window.location.assign('/solicitante/permissions'), 2000)
+          setTimeout(() => window.location.assign('/solicitante/permissions'), timeout)
         })
         .catch(err => {
           this.loading = false
@@ -198,7 +200,7 @@ export default {
         });
     },
 
-    makeToast(msg, variant = "success", delay = 3000, append = false) {
+    makeToast(msg, variant = "success", delay = timeout, append = false) {
       this.$bvToast.toast(`${msg}`, {
         title: 'Planilla',
         autoHideDelay: delay,

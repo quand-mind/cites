@@ -1,30 +1,33 @@
+<template>
+  <b-card>
+    <vc-donut
+      background="white"
+      :size="500" unit="px" :thickness="40"
+      has-legend legend-placement="left"
+      :sections="data" :total="total"
+      :start-angle="0" :auto-adjust-text-size="true"
+      @section-click="handleSectionClick">
+      <h1>{{subtitle}}</h1>
+
+    </vc-donut>
+  </b-card>
+</template>
 <script>
-import { Doughnut } from 'vue-chartjs'
 
 export default {
-  extends: Doughnut,
-  props:['values','labels', 'backgrounds', 'label'],
+  props:['subtitle', 'label', 'data', 'total'],
   data: (vm) => ({
-    data : {
-        labels: vm.labels,
-        datasets: [{
-            label: vm.label,
-            data: vm.values,
-            backgroundColor: vm.backgrounds,
-            borderColor: vm.backgrounds,
-            borderWidth: 1
-        }]
-    },
-    options: {
-      responsive: true, 
-      maintainAspectRatio: false, 
-      animation: {
-        animateRotate: false
-      }
-    }
   }),
-  mounted () {
-    this.renderChart(this.data, this.options)
+  methods: {
+    handleSectionClick(section, event) {
+      console.log(`${section.label} clicked.`);
+    }
   }
 }
 </script>
+
+<style>
+  .cdc-legend {
+    margin-right: 50px !important; 
+  }
+</style>

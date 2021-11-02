@@ -46,6 +46,7 @@
 </template>
 
 <script>
+import timeout from '../../../setTimeout';
 import AddPermit from '../permissions/AddPermit.vue';
 import EditPermit from '../permissions/EditPermit.vue';
 export default {
@@ -55,6 +56,7 @@ export default {
     EditPermit,
   },
   data: () => ({
+    timeout: timeout,
     showAddPermit: false,
     showEditPermit: false,
     showDeletePermit: false,
@@ -110,7 +112,7 @@ export default {
         .post(`/dashboard/permissions/addPermit/`, {permit: JSON.stringify(permit), requeriments: JSON.stringify(permit.requeriments)})
         .then(res => {
           this.makeToast(res.data)
-          setTimeout(() => window.location.reload(), 2000)
+          setTimeout(() => window.location.reload(), timeout)
         })
         .catch(err => {
           this.makeToast(err.toString(), 'danger')
@@ -123,7 +125,7 @@ export default {
         .post(`/dashboard/permissions/editPermit/`+ permit.id, {permit: JSON.stringify(permit), requeriments: JSON.stringify(permit.requeriments)})
         .then(res => {
           this.makeToast(res.data)
-          setTimeout(() => window.location.reload(), 2000)
+          setTimeout(() => window.location.reload(), timeout)
         })
         .catch(err => {
           this.makeToast(err.toString(), 'danger')
@@ -135,7 +137,7 @@ export default {
         .post(`/dashboard/permissions/deletePermit/`+ permit.id)
         .then(res => {
           this.makeToast(res.data)
-          setTimeout(() => window.location.reload(), 2000)
+          setTimeout(() => window.location.reload(), timeout)
         })
         .catch(err => {
           this.makeToast(err.toString(), 'danger')
@@ -149,7 +151,7 @@ export default {
       window.location.assign(this.Permits.next_page_url)
     },
 
-    makeToast(msg, variant = "success", delay = 3000, append = false) {
+    makeToast(msg, variant = "success", delay = timeout, append = false) {
       this.$bvToast.toast(`${msg}`, {
         title: 'Permmisos',
         autoHideDelay: delay,

@@ -10,6 +10,11 @@ use Faker\Factory as Faker;
 
 class StatisticsController extends Controller
 {
+    public function index()
+    {
+        return view('panel.dashboard.permissions.graphics');
+    }
+
     public function showPermitTypeStatistics()
     {
         $permitTypes = PermitType::all();
@@ -17,20 +22,26 @@ class StatisticsController extends Controller
         $title = 'Estadisticas por Tipo de Permiso';
         $values = [];
         $backgrounds = [];
+        $data = [];
+        $total = 0;
         $labels = [];
         foreach ($permitTypes as $permitType) {
             $faker = Faker::create();
             $permitOptionsHexaColor = $faker->hexcolor();
+            $permitOptionsColor = $faker->safeColorName();
             $permitOptionsId = $permitType->id;
             $permitOptionsName = $permitType->name;
             $permits = Permit::where("permit_type_id", '=', $permitOptionsId)->get();
+            $subtitle= "Tipos de Permiso";
             $permitOptionsCount = count($permits);
+            $total = $total + $permitOptionsCount;
+            array_push($data, (['value' => $permitOptionsCount, 'color' => $permitOptionsHexaColor, 'label' => $permitOptionsName.' ('.$permitOptionsCount.')']));
             array_push($values, ($permitOptionsCount));
             array_push($backgrounds, ($permitOptionsHexaColor));
             array_push($labels, ($permitOptionsName));
         } 
         // return $data;
-        return view('panel.dashboard.permissions.doughnut', compact('values', 'backgrounds', 'labels', 'label', 'title'));
+        return view('panel.dashboard.permissions.doughnut', compact('subtitle', 'label', 'title', 'data', 'total'));
     }
 
     public function showSpeciesStatistics()

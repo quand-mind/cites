@@ -88,6 +88,13 @@ import VueScrollTo  from 'vue-scrollto'
 
 Vue.use(VueScrollTo)
 
+// vue chart-doughnut
+
+import Donut from 'vue-css-donut-chart';
+import 'vue-css-donut-chart/dist/vcdonut.css';
+
+Vue.use(Donut);
+
 
 Vue.component("home-dashboard", require("./components/admin/HomeDashboard.vue").default);
 
@@ -128,6 +135,8 @@ Vue.component("check-requirements", require("./components/admin/permissions/Chec
 Vue.component("requeriments-view", require("./components/admin/permissions/RequerimentsView.vue").default);
 
 Vue.component("permits-view", require("./components/admin/permissions/PermitsView.vue").default);
+
+Vue.component("graphics-dashboard", require("./components/admin/permissions/graphics/GraphicsDashboard.vue").default);
 
 Vue.component("graphic", require("./components/admin/permissions/graphics/Graphic.vue").default);
 

@@ -230,8 +230,10 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         Route::post('/permissions/sendErrors/{id}', 'PermissionController@sendErrors');
         Route::get('/permissions/viewPermit/{id}', 'PermissionController@showAprovedPermit');
         
-        Route::get('/permissions/permitTypeStatistics', 'StatisticsController@showPermitTypeStatistics');
-        Route::get('/permissions/speciesStatistics', 'StatisticsController@showSpeciesStatistics');
+        Route::get('/permissions/graphics', 'StatisticsController@index');
+        Route::get('/permissions/graphics/permitTypeStatistics', 'StatisticsController@showPermitTypeStatistics');
+        Route::get('/permissions/graphics/speciesStatistics', 'StatisticsController@showSpeciesStatistics');
+        Route::get('/permissions/graphics/historyPermitsStatistics', 'StatisticsController@showSpeciesStatistics');
     });
 });
 Route::get('/dataQr/{id}', 'PermissionController@getDataQr');

@@ -44,6 +44,37 @@ class StatisticsController extends Controller
         return view('panel.dashboard.permissions.doughnut', compact('subtitle', 'label', 'title', 'data', 'total'));
     }
 
+    public function showPermitForDateStatistics()
+    {
+        $permitTypes = PermitType::all();
+        $title = 'Cantidad de Permisos por las fechas indicadas';
+        $values = [];
+        $backgrounds = [];
+        $borders = [];
+        $data = [];
+        $total = 0;
+        $labels = [];
+        $faker = Faker::create();
+        $permitOptionsHexaColor = $faker->hexcolor();
+        foreach ($permitTypes as $permitType) {
+            $label = 'Gráfica de Permisos por fecha';
+            $permitOptionsColor = $faker->safeColorName();
+            $permitOptionsId = $permitType->id;
+            $permitOptionsName = $permitType->name;
+            $permits = Permit::where("permit_type_id", '=', $permitOptionsId)->get();
+            $subtitle= "Tipos de Permiso";
+            $permitOptionsCount = count($permits);
+            $total = $total + $permitOptionsCount;
+            array_push($data, (['value' => $permitOptionsCount, 'color' => $permitOptionsHexaColor, 'label' => $permitOptionsName.' ('.$permitOptionsCount.')']));
+            array_push($values, ($permitOptionsCount));
+            array_push($borders, ($permitOptionsHexaColor));
+            array_push($backgrounds, ($permitOptionsHexaColor));
+            array_push($labels, ($permitOptionsName));
+        } 
+        // return $data;
+        return view('panel.dashboard.permissions.line_chart', compact('values', 'backgrounds', 'labels', 'label', 'title', 'borders'));
+    }
+
     public function showSpeciesStatistics()
     {
         $species = Specie::all();
@@ -51,6 +82,7 @@ class StatisticsController extends Controller
         $title = 'Estadísticas por Especie';
         $values = [];
         $backgrounds = [];
+        $borders = [];
         $labels = [];
         foreach ($species as $specie) {
             $faker = Faker::create();

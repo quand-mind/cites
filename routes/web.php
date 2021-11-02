@@ -94,11 +94,13 @@ Auth::routes();
 
 Route::get('/register', [AuthController::class, 'index'])->name('register');
 Route::get('/loginPermissions', 'Auth\PermissionsLoginController@showLoginForm')->name('loginPermissions');
+Route::get('/reset', 'Auth\ResetPasswordController@sendClientResetEmail')->name('emailToReset');
+Route::get('/recoveryPassword', 'Auth\ResetPasswordController@recoveryClientPassword')->name('recoveryPassword');
+Route::post('/password/reset', 'Auth\ResetPasswordController@resetClientPassword')->name('resetPassword');
 
 Route::get('permitInfo/{id}', 'PermissionController@showPermitInfo')->name('showPermitInfo');
 
 Route::middleware('auth:api')->get('/home', 'HomeController@index')->name('home');
-
 
 Route::middleware(['auth', 'panel.auth'])->group(function () {
     Route::group(['prefix' => 'dashboard'], function () {
@@ -233,7 +235,7 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         Route::get('/permissions/graphics', 'StatisticsController@index');
         Route::get('/permissions/graphics/permitTypeStatistics', 'StatisticsController@showPermitTypeStatistics');
         Route::get('/permissions/graphics/speciesStatistics', 'StatisticsController@showSpeciesStatistics');
-        Route::get('/permissions/graphics/historyPermitsStatistics', 'StatisticsController@showSpeciesStatistics');
+        Route::get('/permissions/graphics/permitsDateStatistics', 'StatisticsController@showPermitForDateStatistics');
     });
 });
 Route::get('/dataQr/{id}', 'PermissionController@getDataQr');

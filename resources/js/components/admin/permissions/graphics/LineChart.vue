@@ -1,18 +1,19 @@
 <script>
-import { LineChart } from 'vue-chartjs'
-
+import { Line, mixins } from 'vue-chartjs'
+const { reactiveProp } = mixins
 export default {
-  extends: LineChart,
-  props:['values','labels', 'backgrounds', 'label'],
+  extends: Line,
+  mixins: [reactiveProp],
+  props:['values','labels', 'backgrounds', 'label', 'borders'],
   data: (vm) => ({
     data : {
         labels: vm.labels,
         datasets: [{
             label: vm.label,
             data: vm.values,
+            borderColor: vm.borders,
             backgroundColor: vm.backgrounds,
-            borderColor: vm.backgrounds,
-            borderWidth: 1
+            borderWidth: 3
         }]
     },
     options: {

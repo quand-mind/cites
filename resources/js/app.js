@@ -144,6 +144,8 @@ Vue.component("bar", require("./components/admin/permissions/graphics/Bar.vue").
 
 Vue.component("doughnut", require("./components/admin/permissions/graphics/Doughnut.vue").default);
 
+Vue.component("line-chart", require("./components/admin/permissions/graphics/LineChart.vue").default);
+
 Vue.component("page-template", require("./views/PageTemplate.vue").default);
 
 Vue.component("faqs", require("./views/Faqs.vue").default);

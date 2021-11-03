@@ -16,11 +16,18 @@ export default {
         }]
     },
     options: {
-        scales: {
-            y: {
-                beginAtZero: true
-            }
+      // responsive: true,
+      maintainAspectRatio: true,
+      scales: {
+        y: {
+          min: 1,
+          max: 100,
+          ticks: {
+            // forces step size to be 50 units
+            stepSize: 10
+          }
         }
+      }
     }
   }),
   mounted () {
@@ -28,3 +35,14 @@ export default {
   }
 }
 </script>
+<style>
+  #bar > div {
+    display:flex;
+    justify-content:center;
+    align-items:center;
+  }
+  #bar-chart {
+    width: 70vw !important;
+    height: auto !important;
+  }
+</style>

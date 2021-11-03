@@ -18,8 +18,8 @@ class StatisticsController extends Controller
     public function showPermitTypeStatistics()
     {
         $permitTypes = PermitType::all();
-        $label = 'Gráfica de los Tipos de Permiso';
         $title = 'Estadisticas por Tipo de Permiso';
+        $label = 'Tipos de Permiso';
         $values = [];
         $backgrounds = [];
         $data = [];

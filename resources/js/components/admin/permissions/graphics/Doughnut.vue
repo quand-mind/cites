@@ -2,7 +2,7 @@
   <b-card>
     <vc-donut
       background="white"
-      :size="500" unit="px" :thickness="40"
+      :size="400" unit="px" :thickness="30"
       has-legend legend-placement="left"
       :sections="data" :total="total"
       :start-angle="0" :auto-adjust-text-size="true"

@@ -168,7 +168,7 @@ export default {
         })
     },
     onResetEdit() {},
-    makeToast(msg, variant = "success", delay = timeout0, append = false) {
+    makeToast(msg, variant = "success", delay = timeout, append = false) {
       // Create a new toast
       this.$bvToast.toast(`${msg}`, {
         title: "Actualización de la palabra",

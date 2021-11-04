@@ -39,7 +39,7 @@ class GlosaryController extends Controller
     {
         if ($request->validate([
             'word' => 'required|max:100',
-            'description' => 'required|max:300'
+            'description' => 'required|max:800'
         ])) {
             $glosary = new Glosary($request->all());
             $glosary->save();

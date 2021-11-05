@@ -134,18 +134,23 @@ class PermissionController extends Controller
     {
         $permit = Permit::where(['id' => $id])->with(['requeriments', 'permit_type', 'formalitie.client.user',
         'formalitie.official.user', 'species'])->get()->first();
-        // return $permit;
-        $pdf = \App::make('dompdf.wrapper');
-        $pdf->setOptions(['dpi' => 150, 'defaultFont' => 'sans-serif']);
-        $image = base64_encode(file_get_contents(public_path('/images/logos/logo-minec.png')));
-        $logo = $image;
-        $host = $_SERVER["HTTP_HOST"];
-        $GcodeQr = QrCode::generate($host.'/permitInfo/'.$permit->request_permit_no, storage_path('app/files/qrcodes/'.$permit->request_permit_no.'.svg'));
-        $codeQr = base64_encode(file_get_contents(storage_path('app/files/qrcodes/'.$permit->request_permit_no.'.svg')));
-        $pdf->loadView('permissions.aproved_permit', [ 'permit' => $permit, 'logo' => $image, 'codeQr' => $codeQr]);
-        return $pdf->stream();
+        if ( $permit->status === 'valid' ) {
+            $permit->status = 'printed';
+            $permit->save();
+            // return $permit->status; 
+            $pdf = \App::make('dompdf.wrapper');
+            $pdf->setOptions(['dpi' => 150, 'defaultFont' => 'sans-serif']);
+            $image = base64_encode(file_get_contents(public_path('/images/logos/logo-minec.png')));
+            $logo = $image;
+            $host = $_SERVER["HTTP_HOST"];
+            $GcodeQr = QrCode::generate($host.'/permitInfo/'.$permit->request_permit_no, storage_path('app/files/qrcodes/'.$permit->request_permit_no.'.svg'));
+            $codeQr = base64_encode(file_get_contents(storage_path('app/files/qrcodes/'.$permit->request_permit_no.'.svg')));
+            $pdf->loadView('permissions.aproved_permit', [ 'permit' => $permit, 'logo' => $image, 'codeQr' => $codeQr]);
+            return $pdf->stream();
+        } else {
+            return view('errors.404');
+        }
         
-        return view('permissions.aproved_permit', compact('permit', 'logo', 'codeQr'));
     }
     public function getDataQr($id){
         return Permit::where("request_permit_no", '=', $id)->with('formalitie.client')->first();
@@ -426,7 +431,9 @@ class PermissionController extends Controller
     public function requestPermit($id)
     {
         $formalitie = Formalitie::find($id);
+        return $formalitie;
         $formalitie->status = 'requested';
+        $formalitie->save();
         $fileUrls = [];
         foreach ($formalitie->permits as $permit) {
             $permit->status = 'requested';
@@ -434,6 +441,7 @@ class PermissionController extends Controller
             foreach ($permit->requeriments as $requeriment) {
                 if ($requeriment->pivot->is_valid === null) {
                     $permit->requeriments()->updateExistingPivot($requeriment, array('is_valid' => 0, 'file_url' => $requeriment->pivot->file_url), false);
+                    $permit->status;
                     // array_push($fileUrls, $requeriment->pivot)
                     // $requeriment->pivot->is_valid = 0;
                     $requeriment->save();
@@ -586,8 +594,8 @@ class PermissionController extends Controller
         $formalitie->official_id= $request->input('official_id');
         $formalitie->save();
         $index= 0;
-        $permits = json_decode($request->input('permits'));
-        return $permits;
+        $data = [];
+        $permits = json_decode($request->input('permits'));;
 
         $date = strtotime("+180 day");
         foreach ($formalitie->permits as $permit) {
@@ -595,6 +603,7 @@ class PermissionController extends Controller
             $permit->sistra= $request->input('sistra');
             $permit->stamp_number= $permits[$index]->stamp_number;
             $permit->status= 'valid';
+            array_push($data, $permit);
             $permit->save();
         }
         $formalitie->save();
@@ -618,7 +627,6 @@ class PermissionController extends Controller
 
         $date = strtotime("+180 day");
         foreach ($formalitie->permits as $permit) {
-            // $permit->valid_until = date('M d, Y', $date);
             $permit->status= 'uploading_requeriments';
             $formalitie->collected_time = $this->dayMoreFive();
             $permit->save();

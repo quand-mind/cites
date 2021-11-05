@@ -24,7 +24,7 @@
             </div>
             <div v-if="type === 'admin'">
               <button class="btn btn-primary" @click="showFormaliteStatus(formalitie)">Ver estado del Trámite</button>
-              <a v-if="!(formalitie.status === 'uploading_requeriments' || formalitie.status === 'committed' || formalitie.status === 'valid')" class="btn btn-primary" :href="'/dashboard/permissions/check/'+ formalitie.id">Realizar Checkeo del Trámite</a>
+              <a v-if="!(formalitie.status === 'uploading_requeriments' || formalitie.status === 'committed' || formalitie.status === 'valid' || formalitie.status === 'printed')" class="btn btn-primary" :href="'/dashboard/permissions/check/'+ formalitie.id">Realizar Validación del Trámite</a>
             </div>
           </div>
         </div>
@@ -69,7 +69,10 @@
             <div class="d-flex flex-column justify-content-between align-items-end" v-if="type === 'admin'">
               <button class="btn btn-primary" @click="showPermitStatus(permit)">Ver estado del Permiso</button>
               <a v-if="permit.status === 'committed' || permit.status === 'valid'" class="btn btn-info mt-2" :href="`/dashboard/permissions/viewPermit/${permit.id}`">Imprimir Certificado</a>
-              <a v-if="!(permit.status === 'uploading_requeriments' || permit.status === 'committed' || permit.status === 'valid')" class="btn btn-primary mt-2" :href="'/dashboard/permissions/check/'+ selectedFormalite.id">Realizar Checkeo del Permiso</a>
+              <b-badge v-if="permit.status === 'printed'" class="p-2 mt-2" variant="success">
+                Certificado Impreso <font-awesome-icon :icon="['fa', 'clipboard']"></font-awesome-icon>
+              </b-badge>
+              <a v-if="!(permit.status === 'uploading_requeriments' || permit.status === 'committed' || permit.status === 'valid' || permit.status === 'printed')" class="btn btn-primary mt-2" :href="'/dashboard/permissions/check/'+ selectedFormalite.id">Realizar Validación del Permiso</a>
             </div>
           </div>
         </div>
@@ -82,6 +85,7 @@
           <b-badge v-if="selectedPermit.status === 'valid'" class="p-2" variant="success">Validado Correctamente</b-badge>
           <b-badge v-if="selectedPermit.status === 'committed'" class="p-2" variant="success">Entregado</b-badge>
           <b-badge v-if="selectedPermit.status === 'not_valid'" class="p-2" variant="danger">No Valido</b-badge>
+          <b-badge v-if="selectedPermit.status === 'printed'" class="p-2" variant="success">Certificado Impreso</b-badge>
         <b-badge v-if="selectedPermit.status === 'uploading_requeriments'" class="p-2" variant="danger">Falta subir Recaudos o pulsar el boton de finalizar proceso.</b-badge>
       </div>
       <div class="ml-4 mb-4">

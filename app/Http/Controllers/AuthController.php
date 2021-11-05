@@ -18,6 +18,11 @@ use App\Models\Institution;
 use App\Models\Phone;
 use App\Models\User;
 
+use Mail;
+
+use App\Notifications\restorePasswordEmailclient;
+use Illuminate\Support\Facades\Notification;
+
 
 
 class AuthController extends Controller
@@ -527,18 +532,47 @@ class AuthController extends Controller
         }
     }
 
+    public function viewRestortPassword(){
+        return view('auth.resetPasswordClient');
+    }
+    
     public function sendEmailResetPassword(Request $request ){
         $getEmailUser = $request->input('email');
 
-        $emailClient=Client::where("email", "=", $getEmailUser)->get();
+        $emailClient=Client::where("email", "=", $getEmailUser)->first();
 
-        
-        foreach ($emailClient as $value) {
-            $credentials = ["email"=>$value->email];
+        try{
+            if (! $token = JWTAuth::fromUser($emailClient)) {
+                return response()->json(['error' => 'invalid_credentials'], 401);
+            }
+        }catch (JWTException $e){
+            return response()->json(['error' => 'could_not_create_token'], 500);
         }
-        //return $credentials;
-        $token = $this->guard()->attempt($credentials);
-        return $token;
+        
+        setcookie("jwt_token", $token);
+
+        Mail::send('email.emailBody', ['token' => $token], function($message) use($request){
+            $message->to($request->input('email'));
+            $message->subject('Set Password');
+        });
+
+        return response('Email de configuración de contraseña enviado al correo del usuario', 200);
+    }
+
+    public function RestortPassword(Request $request){
+        $token = $request->route()->parameter('token');
+        return view('auth.setPasswordClient')->with(
+            ['token' => $token]
+        );
+    }
+
+    public function resetPasswordClient(Request $request){
+        
+        $client = Client::where("email", "=", $request->input('email'))->first();
+        $resetPassword = Client::find($client->id);
+        $resetPassword->password = $request->input('password');
+        $resetPassword->save();
+        return redirect('loginPermissions');
     }
     /**
      * Refresh a token.
@@ -576,9 +610,7 @@ class AuthController extends Controller
         return Auth::guard('api');
     }
 
-    public function viewRestortPassword(){
-        return view('auth.resetPasswordClient');
-    }
+    
 
     
     // 

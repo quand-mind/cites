@@ -25,10 +25,8 @@ export default {
   },
   methods:{
     changeDate (data) {
-      console.log(data)
       this.datasetsToPass = data.datasets
       this.labelsToPass = data.labels
-      // this.$refs.lineChart.update()
       this.$forceUpdate()
     }
   }

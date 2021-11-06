@@ -42,7 +42,7 @@ export default {
       axios
         .post(`/dashboard/permissions/graphics/selectDate`, {date1: this.date1Data, date2: this.date2Data})
         .then(res => {
-          this.makeToast(res.data)
+          this.makeToast('Gráfica Actualizada')
           this.$emit('changeDate', res.data)
         })
         .catch(err => {
@@ -51,7 +51,7 @@ export default {
     },
     makeToast(msg, variant = "success", delay = timeout, append = false) {
       this.$bvToast.toast(`${msg}`, {
-        title: 'Permmisos',
+        title: 'Gráfica',
         autoHideDelay: delay,
         appendToast: append,
         variant

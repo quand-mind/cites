@@ -49,12 +49,10 @@ export default {
   },
   watch: {
     datasets: function(newData, oldData) {
-      console.log('new data from watcher', newData)
       this.data.datasets = newData
       this.renderChart(this.data, this.options);
     },
     labels: function(newData, oldData) {
-      console.log('new labels from watcher', this.data.labels)
       this.data.labels = newData
       this.renderChart(this.data, this.options);
     }

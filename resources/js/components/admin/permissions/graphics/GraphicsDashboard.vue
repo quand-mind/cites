@@ -19,6 +19,13 @@
           Ver
         </b-button>
       </b-list-group-item>
+      <b-list-group-item class="d-flex justify-content-between align-items-center">
+        Gráfica de los tipos de permiso por fecha
+        <b-button variant="primary" href="/dashboard/permissions/graphics/permitsDateStatistics">
+          <font-awesome-icon :icon="['fa', 'eye']"></font-awesome-icon>
+          Ver
+        </b-button>
+      </b-list-group-item>
 
     </b-list-group>
   </div>

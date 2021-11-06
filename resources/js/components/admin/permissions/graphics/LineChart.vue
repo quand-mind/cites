@@ -4,28 +4,35 @@ const { reactiveProp } = mixins
 export default {
   extends: Line,
   mixins: [reactiveProp],
-  props:['values','labels', 'backgrounds', 'label', 'borders'],
+  props:['datasets','labels',],
   data: (vm) => ({
     data : {
         labels: vm.labels,
-        datasets: [{
-            label: vm.label,
-            data: vm.values,
-            borderColor: vm.borders,
-            backgroundColor: vm.backgrounds,
-            borderWidth: 3
-        }]
+        datasets: vm.datasets
     },
     options: {
+      chartArea: {width: '95%'},
+      responsive: true,
+      maintainAspectRatio: false,
       scales: {
-        y: {
-          beginAtZero: true
+        yAxes: [{
+          ticks: {
+            beginAtZero: true,
+            // forces step size to be 50 units
+            stepSize: 5
+          }
+        }]
+      },
+      legend: {
+        position: 'left',
+        display: true,
+        maxWidth: 10,
+        labels: {
+          // fontColor: 'rgb(, 99, 0)',
+          position: 'left',
         }
       },
       plugins: {
-        legend: {
-          position: 'top',
-        },
         title: {
           display: true,
           text: 'Chart.js Line Chart'
@@ -33,6 +40,25 @@ export default {
       }
     }
   }),
+  methods: {
+    update(chart) {
+      this.renderChart(this.data, this.options)
+      console.log('hola')
+      chart.update()
+    }
+  },
+  watch: {
+    datasets: function(newData, oldData) {
+      console.log('new data from watcher', newData)
+      this.data.datasets = newData
+      this.renderChart(this.data, this.options);
+    },
+    labels: function(newData, oldData) {
+      console.log('new labels from watcher', this.data.labels)
+      this.data.labels = newData
+      this.renderChart(this.data, this.options);
+    }
+  },
   mounted () {
     this.renderChart(this.data, this.options)
   }

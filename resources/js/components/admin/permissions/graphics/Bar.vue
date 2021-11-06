@@ -16,17 +16,16 @@ export default {
         }]
     },
     options: {
-      // responsive: true,
-      maintainAspectRatio: true,
+      responsive: true,
+      maintainAspectRatio: false,
       scales: {
-        y: {
-          min: 1,
-          max: 100,
+        yAxes: [{
           ticks: {
+            beginAtZero: true,
             // forces step size to be 50 units
-            stepSize: 10
+            stepSize: 5
           }
-        }
+        }]
       }
     }
   }),
@@ -36,13 +35,5 @@ export default {
 }
 </script>
 <style>
-  #bar > div {
-    display:flex;
-    justify-content:center;
-    align-items:center;
-  }
-  #bar-chart {
-    width: 70vw !important;
-    height: auto !important;
-  }
+  
 </style>

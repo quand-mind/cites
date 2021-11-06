@@ -146,6 +146,10 @@ Vue.component("doughnut", require("./components/admin/permissions/graphics/Dough
 
 Vue.component("line-chart", require("./components/admin/permissions/graphics/LineChart.vue").default);
 
+Vue.component("select-date", require("./components/admin/permissions/graphics/SelectDate.vue").default);
+
+Vue.component("graphic-template", require("./components/admin/permissions/graphics/GraphicTemplate.vue").default);
+
 Vue.component("page-template", require("./views/PageTemplate.vue").default);
 
 Vue.component("faqs", require("./views/Faqs.vue").default);

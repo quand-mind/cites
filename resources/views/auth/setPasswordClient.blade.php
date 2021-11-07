@@ -8,7 +8,7 @@
                 <div class="card-header">{{ __('Configurar Contraseña') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('solicitnate/Resetpassword') }}" aria-label="{{ __('Reset Password') }}">
+                    <form method="POST" action="{{ url('solicitante/saveNewPassword') }}" aria-label="{{ __('Reset Password') }}">
                         @csrf
 
                         <input type="hidden" name="token" value="{{ $token }}">

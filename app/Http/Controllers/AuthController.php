@@ -567,12 +567,12 @@ class AuthController extends Controller
     }
 
     public function resetPasswordClient(Request $request){
-        
         $client = Client::where("email", "=", $request->input('email'))->first();
         $resetPassword = Client::find($client->id);
         $resetPassword->password = $request->input('password');
         $resetPassword->save();
-        return redirect('loginPermissions');
+        // return redirect('loginPermissions');
+        return $this->authenticated($request, $this->guard()->user(), $token = $request->input('token'));
     }
     /**
      * Refresh a token.

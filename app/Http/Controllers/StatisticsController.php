@@ -107,6 +107,7 @@ class StatisticsController extends Controller
             $dataset->data = [];
             $dataset->backgroundColor = [];
             $dataset->borderColor = [];
+            $dataset->fill = false;
             $dataset->borderWidth = 1;
             $j = 1;
             array_push($dataset->backgroundColor, ($permitOptionsHexaColor));

@@ -2,7 +2,20 @@
   <div>
     <Graphic :title="titleToPass"></Graphic>
     <SelectDate @changeDate="changeDate" :date1="date1ToPass" :date2="date2ToPass" class="mb-5"></SelectDate>
-    <LineChart ref="lineChart" :labels="labelsToPass" :datasets="datasetsToPass"></LineChart>
+    <b-row>
+      <b-col lg="4" md="12">
+        <div v-for="dataset of datasetsToPass" :key="dataset.label">
+          <div class="d-flex m-3">
+            <div class="label-box" :style="`background-color:${dataset.borderColor}`"></div>
+            <span><small>{{dataset.label}}</small></span>
+          </div>
+        </div>
+      </b-col>
+      <b-col lg="8" md="12">
+        <LineChart ref="lineChart" :labels="labelsToPass" :datasets="datasetsToPass"></LineChart>
+      </b-col>
+      
+    </b-row>
   </div>
 </template>
 <script>
@@ -32,3 +45,13 @@ export default {
   }
 }
 </script>
+<style scoped>
+  .w-70 {
+    max-width: 70%;
+  }
+  .label-box {
+    min-width: 40px;
+    min-height:10px;
+    margin-right: 20px;
+  }
+</style>

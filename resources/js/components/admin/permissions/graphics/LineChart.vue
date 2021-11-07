@@ -25,16 +25,18 @@ export default {
       },
       legend: {
         position: 'left',
-        display: true,
+        display: false,
         maxWidth: 10,
         labels: {
+          display: false,
+          show: false,
           // fontColor: 'rgb(, 99, 0)',
           position: 'left',
         }
       },
       plugins: {
         title: {
-          display: true,
+          display: false,
           text: 'Chart.js Line Chart'
         }
       }

@@ -3,17 +3,11 @@ import { Bar } from 'vue-chartjs'
 
 export default {
   extends: Bar,
-  props:['values','labels', 'backgrounds', 'label'],
+  props:['datasets','labels',],
   data: (vm) => ({
     data : {
         labels: vm.labels,
-        datasets: [{
-            label: vm.label,
-            data: vm.values,
-            backgroundColor: vm.backgrounds,
-            borderColor: vm.backgrounds,
-            borderWidth: 1
-        }]
+        datasets: vm.datasets
     },
     options: {
       responsive: true,
@@ -31,7 +25,19 @@ export default {
   }),
   mounted () {
     this.renderChart(this.data, this.options)
-  }
+  },
+  watch: {
+    datasets: function(newData, oldData) {
+      this.data.datasets = newData
+      console.log(newData)
+      this.renderChart(this.data, this.options);
+    },
+    labels: function(newData, oldData) {
+      this.data.labels = newData
+      console.log(newData)
+      this.renderChart(this.data, this.options);
+    }
+  },
 }
 </script>
 <style>

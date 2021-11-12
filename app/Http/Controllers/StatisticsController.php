@@ -136,32 +136,81 @@ class StatisticsController extends Controller
         $data->labels = $labels;
         return $data;
     }
-
-    public function showSpeciesStatistics()
+    
+    public function selectSpecies(Request $request)
     {
-        $species = Specie::all();
-        $label = '# de Especies';
-        $title = 'Estadísticas por Especie';
-        $values = [];
-        $backgrounds = [];
-        $borders = [];
-        $labels = [];
+        $speciesIds= [];
+        $species = json_decode($request->input('species'));
+        // return $species;
         foreach ($species as $specie) {
+            array_push($speciesIds, $specie->id);
+        }
+        $data = $this->getSpecies($speciesIds);
+        $data->species = $species;
+        return $data;
+    }
+
+    public function showSpeciesStatistics(Request $request)
+    {
+
+        $title = 'Cantidad de Permisos por las fechas indicadas';
+        $species = Specie::get()->take(1);
+        $all_species = Specie::all();
+        // return $allSpecies;
+        $speciesIds = [];
+        foreach ($species as $specie) {
+            array_push($speciesIds, $specie->id);
+        }
+        // return $speciesIds;
+        
+        $data = $this->getSpecies($speciesIds);
+        // return $data;
+        $datasets = $data->datasets;
+        $labels = $data->labels;
+        
+        return view('panel.dashboard.permissions.bar', compact('datasets', 'labels', 'title', 'species', 'all_species'));
+
+    }
+
+    public function getSpecies($speciesIds)
+    {
+        $species = Specie::findMany($speciesIds);
+        $datasets = [];
+
+        $dataset = new stdClass();
+        $dataset->label = '# de Especies';
+        $dataset->data = [];
+        $dataset->backgroundColor = [];
+
+        $labels = [];
+
+        foreach ($species as $specie) {
+
             $faker = Faker::create();
             $permitOptionsHexaColor = $faker->hexcolor();        
             $permitOptionsName = $specie->name_common;
             $permitOptionsCount = 0;
+
+            
+            
+
             foreach ($specie->permits as $permit) {
                 $qty = $permit->pivot->qty;
                 $permitOptionsCount = $permitOptionsCount + $qty;
             }
-            array_push($values, ($permitOptionsCount));
-            array_push($backgrounds, ($permitOptionsHexaColor));
+            array_push($dataset->data, ($permitOptionsCount));
+            array_push($dataset->backgroundColor, ($permitOptionsHexaColor));
             array_push($labels, ($permitOptionsName));
-        } 
+        }
+        array_push($datasets, $dataset);
+
         // return $values;
-        return view('panel.dashboard.permissions.bar', compact('values', 'backgrounds', 'labels', 'label', 'title'));
+        $data = new stdClass();
+        $data->datasets = $datasets;
+        $data->labels = $labels;
+        return $data;
     }
+
     public function showPlantaeStatistics()
     {
         $species = Specie::where(['type' => 'Plantae'])->get();

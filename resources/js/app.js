@@ -148,7 +148,9 @@ Vue.component("line-chart", require("./components/admin/permissions/graphics/Lin
 
 Vue.component("select-date", require("./components/admin/permissions/graphics/SelectDate.vue").default);
 
-Vue.component("graphic-template", require("./components/admin/permissions/graphics/GraphicTemplate.vue").default);
+Vue.component("line-chart-template", require("./components/admin/permissions/graphics/LineChartTemplate.vue").default);
+
+Vue.component("bar-template", require("./components/admin/permissions/graphics/BarTemplate.vue").default);
 
 Vue.component("page-template", require("./views/PageTemplate.vue").default);
 

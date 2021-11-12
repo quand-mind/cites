@@ -235,6 +235,7 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         Route::get('/permissions/graphics', 'StatisticsController@index');
         Route::get('/permissions/graphics/permitTypeStatistics', 'StatisticsController@showPermitTypeStatistics');
         Route::get('/permissions/graphics/speciesStatistics', 'StatisticsController@showSpeciesStatistics');
+        Route::post('/permissions/graphics/selectSpecies', 'StatisticsController@selectSpecies');
         Route::get('/permissions/graphics/permitsDateStatistics', 'StatisticsController@showPermitForDateStatistics');
         Route::post('/permissions/graphics/selectDate', 'StatisticsController@selectDate');
     });

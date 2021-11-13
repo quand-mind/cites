@@ -88,6 +88,13 @@ import VueScrollTo  from 'vue-scrollto'
 
 Vue.use(VueScrollTo)
 
+// vue chart-doughnut
+
+import Donut from 'vue-css-donut-chart';
+import 'vue-css-donut-chart/dist/vcdonut.css';
+
+Vue.use(Donut);
+
 
 Vue.component("home-dashboard", require("./components/admin/HomeDashboard.vue").default);
 
@@ -129,11 +136,21 @@ Vue.component("requeriments-view", require("./components/admin/permissions/Reque
 
 Vue.component("permits-view", require("./components/admin/permissions/PermitsView.vue").default);
 
+Vue.component("graphics-dashboard", require("./components/admin/permissions/graphics/GraphicsDashboard.vue").default);
+
 Vue.component("graphic", require("./components/admin/permissions/graphics/Graphic.vue").default);
 
 Vue.component("bar", require("./components/admin/permissions/graphics/Bar.vue").default);
 
 Vue.component("doughnut", require("./components/admin/permissions/graphics/Doughnut.vue").default);
+
+Vue.component("line-chart", require("./components/admin/permissions/graphics/LineChart.vue").default);
+
+Vue.component("select-date", require("./components/admin/permissions/graphics/SelectDate.vue").default);
+
+Vue.component("line-chart-template", require("./components/admin/permissions/graphics/LineChartTemplate.vue").default);
+
+Vue.component("bar-template", require("./components/admin/permissions/graphics/BarTemplate.vue").default);
 
 Vue.component("page-template", require("./views/PageTemplate.vue").default);
 

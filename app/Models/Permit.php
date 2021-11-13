@@ -15,6 +15,7 @@ class Permit extends Model
         'special_conditions',
         'purpose',
         'status',
+        'stamp_number',
         'observations',
         'transportation_way',
         'consigned_to',

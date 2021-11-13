@@ -21,6 +21,9 @@ Descripción:
 
       <b-navbar-nav class=" w-20 d-flex align-items-center ml-auto">
         <a href="#" onclick="return false">
+          <img src="/images/logos/logo-minec.png" />
+        </a>
+        <a href="#" onclick="return false">
           <img src="/images/logos/bandera.png" />
         </a>
       </b-navbar-nav>

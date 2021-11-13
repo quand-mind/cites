@@ -19,7 +19,8 @@ class PanelAuthorization
         $userRole = Auth::user()->role;
         return  $userRole == 'admin'
                 || $userRole == 'writer'
-                || $userRole == 'superuser' ?
+                || $userRole == 'superuser' 
+                || $userRole == 'funcionario' ?
                 $next($request) : redirect('home');
         
     }

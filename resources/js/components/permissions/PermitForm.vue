@@ -76,13 +76,13 @@
               <b-form-input v-if="permit_type.type !== 'import'"  placeholder="Exportación de especies para Zoocriadero" v-model="permit.purpose" ></b-form-input>
             </b-col>
             <b-col>
-              <b-form-input placeholder="" v-model="permit.consigned_to" ></b-form-input>
+              <b-form-input placeholder="Pedro Pérez" v-model="permit.consigned_to" ></b-form-input>
             </b-col>
             <b-col>
-              <b-form-input placeholder="" v-model="permit.departure_place" ></b-form-input>
+              <b-form-input placeholder="Zoológico el Pinar" v-model="permit.departure_place" ></b-form-input>
             </b-col>
             <b-col>
-              <b-form-input placeholder="" v-model="permit.destiny_place" ></b-form-input>
+              <b-form-input placeholder="Zoo Aquarium de Madrid" v-model="permit.destiny_place" ></b-form-input>
             </b-col>
           </b-row>
         </b-card-text>
@@ -112,6 +112,7 @@ import SelectedSpeciesList from '../permissions/SelectedSpeciesList.vue';
 import AddSpecie from '../permissions/AddSpecie.vue';
 
 import {mapActions, mapGetters} from 'vuex'
+import timeout from '../../setTimeout';
 
 export default {
   props:['permit_type', 'client_data', 'type'],
@@ -120,6 +121,7 @@ export default {
     AddSpecie
   },
   data: () => ({
+    timeout: timeout,
     personals: {
       phone: null,
       mobile: null,
@@ -176,7 +178,7 @@ export default {
         .then(res => {
           this.makeToast(res.data)
           this.loading = false
-          setTimeout(() => window.location.assign('/solicitante/permissions'), 2000)
+          setTimeout(() => window.location.assign('/solicitante/permissions'), timeout)
         })
         .catch(err => {
           this.loading = false
@@ -198,7 +200,7 @@ export default {
         });
     },
 
-    makeToast(msg, variant = "success", delay = 3000, append = false) {
+    makeToast(msg, variant = "success", delay = timeout, append = false) {
       this.$bvToast.toast(`${msg}`, {
         title: 'Planilla',
         autoHideDelay: delay,

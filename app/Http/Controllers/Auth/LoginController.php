@@ -49,6 +49,7 @@ class LoginController extends Controller
             case 'admin':
             case 'superuser':
             case 'writer':
+            case 'funcionario':
                 return '/dashboard';
                 break;
             // case 'writer':

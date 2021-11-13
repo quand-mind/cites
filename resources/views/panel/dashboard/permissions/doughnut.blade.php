@@ -3,6 +3,6 @@
     <div id="doughnut">
     	<graphic :title="{{json_encode($title)}}"></graphic>
 
-    	<doughnut :values="{{json_encode($values)}}" :labels="{{json_encode($labels)}}" :label="{{json_encode($label)}}" :backgrounds="{{json_encode($backgrounds)}}"></doughnut>
+    	<doughnut :data="{{json_encode($data)}}" :subtitle="{{json_encode($subtitle)}}" :label="{{json_encode($label)}}" :total="{{json_encode($total)}}"></doughnut>
     </div>
 @endsection

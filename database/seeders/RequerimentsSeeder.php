@@ -110,7 +110,7 @@ class RequerimentsSeeder extends Seeder
 
 
         /**
-         * requerimientos 92 reexportacion
+         * recaudos 92 reexportacion
          */
 
         DB::table('requeriments')->insert([

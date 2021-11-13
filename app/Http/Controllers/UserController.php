@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Official;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
@@ -19,7 +20,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
+        $users = Official::with(['user'])->get();
         return view('panel.dashboard.users', compact('users'));
     }
 
@@ -30,7 +31,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return response('Todo bien', 200);
     }
 
     /**
@@ -43,30 +44,72 @@ class UserController extends Controller
     {
         // Validate data 
         if ($request->validate([
-            'username' => 'required|unique:users|alpha_dash',
+            'username' => 'required|unique:officials',
             'name' => 'required|string',
-            'email' => 'required|unique:users|email',
+            'address' => 'required|string',
+            'domicile' => 'required|string',
+            'dni' => 'required|string|',
+            'email' => 'required|unique:officials|email',
             'is_active' => 'required|boolean',
             'photo' =>  'nullable|sometimes|mimes:jpeg,jpg,png|image|max:1024',
-            'role' => 'required|in:admin,writer,perosna_juridica,persona_natural',
+            'role' => 'required|in:admin,writer,funcionario',
             'password' => 'required|confirmed'
         ])) {
             if ($request->hasFile('photo')) {
                 // handle user picture
-                $values = $request->except(['photo', 'password_confirmation']);
+                $valuesUser = $request->except(['photo', 'password', 'password_confirmation', 'username', 'email', 'role']);
 
                 // Save picture
                 $path = $request->file('photo')->store('images');
                 $path = '/storage/' . $path;
 
-                $values['photo'] = $path;
+                $valuesUser['photo'] = $path;
             } else {
-                $values = $request->except('password_confirmation');
+                $valuesUser = $request->except(['password_confirmation', 'password', 'username', 'email', 'role']);
             }
 
             try {
-                $values['password'] = \bcrypt($values['password']);
-                User::create($values);
+                $findedUserWithDni = User::where(['dni' => $request->dni])->get()->first();
+                if (!$findedUserWithDni) {
+                    $user = User::create($valuesUser);
+
+                    $official = new Official;
+                    $official->username = $request->username;
+                    $official->email = $request->email;
+                    $official->role = $request->role;
+                    $official->user_id = $user->id;
+                    $official->password = \bcrypt($request->password);
+                    $official->save();
+                } else {
+
+                    $findedOfficialWithId = Official::where(['user_id' => $findedUserWithDni->id])->get()->first();
+                    // return $findedUserWithDni;
+    
+                    if (!$findedOfficialWithId) {
+                        $official = new Official;
+                        $official->username = $request->username;
+                        $official->email = $request->email;
+                        $official->role = $request->role;
+                        $official->user_id = $findedUserWithDni->id;
+                        $official->password = \bcrypt($request->password);
+                        $official->save();
+                    } else {
+                        return response('Este usuario ya se encuentra registrado en el sistema administrador', 500);
+    
+                    }
+                }
+
+                // $user = User::create($valuesUser);
+
+                // $official = new Official;
+                // $official->username = $request->username;
+                // $official->email = $request->email;
+                // $official->role = $request->role;
+                // $official->user_id = $user->id;
+                // $official->password = \bcrypt($request->password);
+                // $official->save();
+
+                
                 return response('Usuario creado', 200);
 
             } catch (Exception $err) {
@@ -112,14 +155,17 @@ class UserController extends Controller
             'username' => 'alpha_dash',
             'name' => 'string',
             'email' => 'email',
+            'dni' => 'string',
+            'domicile' => 'string',
+            'address' => 'string',
             'is_active' => 'boolean',
             'photo' =>  'nullable|mimes:jpeg,jpg,png|image|max:2048',
-            'role' => 'in:admin,writer,perosna_juridica,persona_natural'
+            'role' => 'in:admin,writer,funcionario'
         ])) {
 
             if ($request->hasFile('photo')) {
                 // handle user picture
-                $values = $request->except('photo');
+                $valuesUser = $request->except(['photo', 'username', 'email', 'role']);
 
                 // Save picture
                 $path = $request->file('photo')->store('images');
@@ -127,23 +173,41 @@ class UserController extends Controller
 
                 // Delete prev picture if exist
 
-                $values['photo'] = $path;
+                $valuesUser['photo'] = $path;
             } else {
-                $values = $request->all();
+                $valuesUser = $request->except(['username', 'email', 'role']);
+                // $values = $request->all();
             }
 
-            $user = User::where('username', $request->username)->first();
-            if ($user && $user->id != $id) {
+            // return $valuesUser;
+
+            $official = Official::where('username', $request->username)->first();
+            // return $id;
+            if ($official && $official->id != $id) {
                 return response('Este nombre de usuario ya existe', 400);
             }
+            // return $official;
 
-            $user = User::where('email', $request->email)->first();
-            if ($user && $user->id != $id) {
+            $official = Official::where('email', $request->email)->first();
+            if ($official && $official->id != $id) {
                 return response('Ya existe un usuario con este correo', 400);
             }
 
+            // return $official;
+
             try {
-                User::find($id)->update($values);
+                $official = Official::find($id);
+                // return $official->user_id;
+
+                User::find($official->user_id)->update($valuesUser);
+
+                $official->username = $request->username;
+                $official->email = $request->email;
+                $official->role = $request->role;
+                // $official->user_id = $user->id;
+                $official->password = \bcrypt($request->password);
+                $official->save();
+                
             } catch (Exception $err) {
                 return response($err->getMessage(), 500);
             }
@@ -161,7 +225,7 @@ class UserController extends Controller
     public function destroy($id)
     {
         try {
-            User::find($id)->delete();
+            Official::find($id)->delete();
             return response('Usuario eliminado', 200);
         } catch (Exception $err) {
             return response($err->getMessage(), 500);
@@ -182,6 +246,7 @@ class UserController extends Controller
 
             try {
                 $user = User::find($id);
+                // return $user;
                 $user->is_active = $request->input('is_active');
                 $user->save();
                 return response('Usuario actualizado', 200);

@@ -21,7 +21,7 @@
           </b-col>
         </b-row>
         <b-row class="mt-4 mb-2">
-          <b-col cols="4">Tipo de Requerimiento:</b-col>
+          <b-col cols="4">Tipo de Recaudo:</b-col>
         </b-row>
         <b-row>
           <b-col cols="4">
@@ -29,7 +29,7 @@
               :options="options"></b-form-select>
           </b-col>
           <b-col cols="8">
-            <b-btn variant="primary" @click="addRequeriment()">Guardar Nuevo Requerimiento</b-btn>
+            <b-btn variant="primary" @click="addRequeriment()">Guardar Nuevo Recaudo</b-btn>
           </b-col>
         </b-row>
       </b-card-text>

@@ -123,9 +123,12 @@
   </div>
 </template>
 <script>
+import timeout from '../../setTimeout.js'
+
 export default {
   props: ['client'],
   data: () => ({
+    timeout: timeout,
     changePassword: false,
     newPassword: null,
     dni:null
@@ -140,13 +143,13 @@ export default {
         .post(`/solicitante/editUser`, form)
         .then(res => {
           this.makeToast(res.data)
-          setTimeout(() => window.location.reload(), 2000)
+          setTimeout(() => window.location.reload(), timeout)
         })
         .catch(err => {
           this.makeToast(err.toString(), 'danger')
         });
     },
-    makeToast(msg, variant = "success", delay = 3000, append = false) {
+    makeToast(msg, variant = "success", delay = timeout, append = false) {
       this.$bvToast.toast(`${msg}`, {
         title: 'Editar Usuario',
         autoHideDelay: delay,

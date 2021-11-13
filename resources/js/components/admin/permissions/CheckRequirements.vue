@@ -16,8 +16,13 @@
       <h4 class="ml-4 mb-4">Hoja de Checkeo de Requisitos</h4>
       <div class="card" v-for="(permit, index) of formalitie.permits" :key="index">
         <h3 class="ml-4 mt-3">Permiso N° {{permit.request_permit_no}}</h3>
-        <div class="ml-5 mb-4">
+        <div class="ml-5 mr-5 mb-4">
           <hr>
+          <b-row>
+            <b-col>
+              <b-form-input :key="permit.stamp_number" v-model="permit.stamp_number" placeholder="Número De Timbre Fiscal" @change="checkValidRequirements()"></b-form-input>
+            </b-col>
+          </b-row>
           <b-row class=" mb-2 mt-2">
             <b-col md="6">Cliente: <span class="ml-2">{{formalitie.client.user.name}}</span></b-col>
             <b-col md="6">Nacionalidad: <span class="ml-2">{{formalitie.client.user.nationality}}</span></b-col>
@@ -130,8 +135,7 @@
 </template>
 <script>
 
-import Vue from 'vue';
-// Vue.forceUpdate();
+import timeout from '../../../setTimeout.js'
 import SelectedSpecies from '../permissions/SelectedSpecies.vue';
 export default {
   props: ['formalitie','type', 'official'],
@@ -139,8 +143,9 @@ export default {
     SelectedSpecies
   },
   data: () => ({
+    timeout: timeout,
     columns: [
-      "Requerimiento",
+      "Recaudo",
       "Archivo",
       "Validación"
     ],
@@ -207,13 +212,17 @@ export default {
             this.$forceUpdate();
           }
         }
+        this.length++
+        if (permit.stamp_number){
+          this.count++
+          this.$forceUpdate();
+        }
       }
-      if(this.length === this.count) {
+      if (this.length === this.count) {
         if (this.formalitie.sistra) {
           this.isValid = true
           this.$forceUpdate();
-        }
-        else {
+        } else {
           this.isValid = false
           this.$forceUpdate();
         }
@@ -241,7 +250,7 @@ export default {
           console.log(res.data)
           this.makeToast('Archivo Guardado')
           requeriment.pivot.file_url = res.data
-          setTimeout(() => window.location.reload(), 2000)
+          setTimeout(() => window.location.reload(), timeout)
         })
         .catch(err => {
           this.makeToast(err.toString(), 'danger')
@@ -254,7 +263,6 @@ export default {
         .post(`/dashboard/permissions/check/`+permit.id, {requeriment: JSON.stringify(requeriment), permit: permit, index: index})
         .then(res => {
           this.makeToast(res.data)
-          // setTimeout(() => window.location.reload(), 1200)
         })
         .catch(err => {
           this.makeToast(err.toString(), 'danger')
@@ -263,10 +271,10 @@ export default {
     validPermit(){
       console.log(this.formalitie.sistra)
       axios
-        .post(`/dashboard/permissions/validPermit/`+ this.formalitie.id, {official_id: this.official.id, sistra: this.formalitie.sistra})
+        .post(`/dashboard/permissions/validPermit/`+ this.formalitie.id, {official_id: this.official.id, sistra: this.formalitie.sistra, permits: JSON.stringify(this.formalitie.permits)})
         .then(res => {
           this.makeToast(res.data)
-          setTimeout(() => window.location.assign('/dashboard/permissions/'), 2000)
+          // setTimeout(() => window.location.assign('/dashboard/permissions/'), timeout)
         })
         .catch(err => {
           this.makeToast(err.toString(), 'danger')
@@ -277,7 +285,7 @@ export default {
         .post(`/dashboard/permissions/sendErrors/`+ this.formalitie.id, {official_id: this.official.id, observations: this.formalitie.observations})
         .then(res => {
           this.makeToast(res.data)
-          setTimeout(() => window.location.assign('/dashboard/permissions/'), 2000)
+          setTimeout(() => window.location.assign('/dashboard/permissions/'), timeout)
         })
         .catch(err => {
           this.makeToast(err.toString(), 'danger')
@@ -289,9 +297,9 @@ export default {
     deleteFile(file){
       console.log(file)
     },
-    makeToast(msg, variant = "success", delay = 3000, append = false) {
+    makeToast(msg, variant = "success", delay = timeout, append = false) {
       this.$bvToast.toast(`${msg}`, {
-        title: 'Validación de Requerimientos',
+        title: 'Validación de Recaudos',
         autoHideDelay: delay,
         appendToast: append,
         variant

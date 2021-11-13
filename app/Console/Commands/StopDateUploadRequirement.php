@@ -55,6 +55,6 @@ class StopDateUploadRequirement extends Command
                 //$formalitie->client->email
             }
         }
-        Log::info('Se han combrobado la fecha limite para cargar los requerimientos de los permisos');
+        Log::info('Se han combrobado la fecha limite para cargar los recaudos de los permisos');
     }
 }

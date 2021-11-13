@@ -146,6 +146,7 @@ class PermissionController extends Controller
             $GcodeQr = QrCode::generate($host.'/permitInfo/'.$permit->request_permit_no, storage_path('app/files/qrcodes/'.$permit->request_permit_no.'.svg'));
             $codeQr = base64_encode(file_get_contents(storage_path('app/files/qrcodes/'.$permit->request_permit_no.'.svg')));
             $pdf->loadView('permissions.aproved_permit', [ 'permit' => $permit, 'logo' => $image, 'codeQr' => $codeQr]);
+            Log::info('El funcionario con la cedula de identidad '.$this->returnUser().'a impreso el trámite n° '.$permit->request_permit_no.' | El trámite se ha impreso desde la direccion: '.request()->ip());
             return $pdf->stream();
         } else {
             return view('errors.404');
@@ -392,7 +393,7 @@ class PermissionController extends Controller
         }
         // return $formalitie->permits[0]->requeriments;
         // return $speciesIdsWithPivot;
-        Log::info('El solicitante con la cedula de identidad '.$this->returnUser().'a solicitado un nuevo permiso | El permiso se ha solicitado desde la direccion: '. request()->ip());
+        Log::info('El solicitante con la cedula de identidad '.$this->returnUser().'ha iniciado el proceso para lo solicitud un nuevo trámite | El permiso se ha solicitado desde la dirección: '. request()->ip());
         Mail::to(auth()->user()->email)->send(new createFormaliteMail($formalitie));
         return response('Se ha solicitado el permiso, dirijase a la oficina del MINEC para entregar los recaudos.', 200);
     }
@@ -453,6 +454,7 @@ class PermissionController extends Controller
             // $permit->requeriments->save();
         }
         $formalitie->save();
+        Log::info('El solicitante con la cedula de identidad '.$this->returnUser().'ha subido todos los archivos del trámite n° '.$formalitie->request_formalitie_no.' y ha solicitado la revisión del mismo | El proceso se ha realizado desde la dirección: '. request()->ip());
         return response('Solicitud de Permiso finalizada', 200);
     }
 
@@ -465,6 +467,7 @@ class PermissionController extends Controller
         $permit = Permit::find($permit_id);
         $permit->requeriments[$index]->pivot->file_url = $url;
         $permit->push();
+        Log::info('El solicitante con la cedula de identidad '.$this->returnUser().'ha subido un archivo personal | Lo ha subido desde la dirección: '. request()->ip());
         return $url;
     }
 
@@ -482,7 +485,7 @@ class PermissionController extends Controller
         $permit->requeriments[$index]->pivot->file_url = $url;
         $permit->push();
         
-        Log::info('El solicitante con la cedula de identidad '.$this->returnUser().'a cargado un archivo | El archivo se ha cargado desde la direccion: '. request()->ip());
+        Log::info('El solicitante con la cedula de identidad '.$this->returnUser().'ha cargado un archivo al permiso n° '.$permit->request_permit_no.' | El archivo se ha cargado desde la dirección: '. request()->ip());
         return $url;
     }
 
@@ -498,7 +501,7 @@ class PermissionController extends Controller
         $permit = Permit::find($id);
         $permit->requeriments[$requeriment_id -1]->pivot->file_url = null;
         $permit->push();
-        Log::info('El solicitante con la cedula de identidad '.$this->returnUser().'a eliminado un archivo | El archivo se ha eliminado desde la direccion: '. request()->ip());
+        Log::info('El solicitante con la cedula de identidad '.$this->returnUser().'ha eliminado un archivo del permiso n° '.$permit->request_permit_no.' | El archivo se ha eliminado desde la direccion: '. request()->ip());
         return response('Archivo Eliminado', 200);
     }
 
@@ -559,7 +562,7 @@ class PermissionController extends Controller
             $pivot->is_valid = 0;
             $permit->requeriments[$index]->pivot->is_valid = $pivot->is_valid;
         }
-        Log::info('El usuario con la cedula de identidad '.$this->returnUser().'a verificado el permiso | desde la direccion: '. request()->ip());
+        Log::info('El funcionario con la cedula de identidad '.$this->returnUser().'a verificado el recaudo "'.$permit->requeriments[$index]->name.'" del permiso n° '.$permit->request_permit_no.' | Se ha verificado desde la dirección: '. request()->ip());
         $permit->push();
 
         return response('Estatus del Recaudo Actualizado.', 200);
@@ -582,7 +585,6 @@ class PermissionController extends Controller
         }
         
         $permit->push();
-        Log::info('El official con la cedula de identidad '.$this->returnUser().'a verificado el requerimineto  | desde la direccion: '. request()->ip());
         return response('Estatus del Recaudo Actualizado.', 200);
     }
 
@@ -612,7 +614,7 @@ class PermissionController extends Controller
         foreach ($emailClient as $client) {
             Mail::to($client->client->email)->send(new ValidFormaliteMail($formalitie));
         }
-        Log::info('El official con la cedula de identidad '.$this->returnUser().'a verificado el permiso  | el permiso de a verificado desde la direccion: '.request()->ip());
+        Log::info('El funcionario con la cedula de identidad '.$this->returnUser().'ha verificado el trámite n° '.$formalitie->request_formalitie_no.' como válido | El trámite se ha verificado desde la direccion: '.request()->ip());
         
         return response('Estatus del Recaudo Actualizado.', 200);
     }
@@ -636,12 +638,8 @@ class PermissionController extends Controller
         foreach ($emailClient as $client) {
             Mail::to($client->client->email)->send(new sendErrorsMail($formalitie));
         }
+        Log::info('El funcionario con la cedula de identidad '.$this->returnUser().'ha verificado el trámite n° '.$formalitie->request_formalitie_no.' con errores y se ha enviado un correo al solicitante para que los corrija | El trámite ha verificado desde la direccion: '.request()->ip());
         return response('Se ha enviado un correo con los problemas y se ha actualizado el estado', 200);
-    }
-
-    public function printAprovedPermit($id)
-    {
-        return response('Permiso Impreso.', 200);
     }
 
     // Utils

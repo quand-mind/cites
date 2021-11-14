@@ -25,6 +25,7 @@ RUN cp .env.example .env
 
 RUN php artisan key:generate
 RUN php artisan jwt:secret
+RUN php artisan migrate:fresh --seed
 RUN chmod 777 -R storage
 
 CMD php artisan serve --host=0.0.0.0 --port=8000

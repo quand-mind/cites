@@ -110,8 +110,15 @@ Route::get('filterOfficial', [PermissionController::class, 'filterOfficial']);
 Route::get('filterCountry', [PermissionController::class, 'filterCountry']);
 Route::get('filterDate', [PermissionController::class, 'filterDate']);
 
-Route::get('/TestExportExcel', 'StatisticsController@TestExportExcel');
+
 Route::get('/chartForcountry', 'StatisticsController@chartForcountry');
 Route::get('/chartForpermitType', 'StatisticsController@chartForpermitType');
+
+//Export to CVS
+
+Route::get('/PermitTypeStatisticsExport', 'StatisticsController@PermitTypeStatisticsExport');
+Route::get('/SpeciesStatisticsExport', 'StatisticsController@SpeciesStatisticsExport');
+Route::get('/PlantaeStatisticsExport', 'StatisticsController@PlantaeStatisticsExport');
+Route::get('/AnimaliaStatisticsExport', 'StatisticsController@AnimaliaStatisticsExport');
 
 Route::get("/testtoken", [ApiController::class, 'sendTokenApiExternal'] );

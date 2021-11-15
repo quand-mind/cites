@@ -15,21 +15,6 @@ class FormalitiesExport implements FromView
     
     public function view(): View
     {
-        // $permitStatus = Permit::get();
-        // $prelabels = [];
-        // foreach ($permitStatus as $permitStatu) {
-        //     $prelabels[]= $permitStatu->status;
-        // }
-        // $secondlabels = array_unique($prelabels);
-        
-        // $labels = [];
-        // $data = [];
-        // foreach ($secondlabels  as $secondlabel) {
-        //     $labels[]=$secondlabel;
-        // }
-        // foreach ($labels as $label) {
-        //     $data[] = Permit::where( 'status', '=', $label)->count();
-        // }
         $permitTypes = PermitType::all();
         $label = 'Gráfica de los Tipos de Permiso';
         $title = 'Estadisticas por Tipo de Permiso';

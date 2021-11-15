@@ -32,9 +32,19 @@ Route::post('/registerInstitution', [InstitutionController::class, 'storeInstitu
 Route::post('/loginPermissions', [AuthController::class, 'login']);
 Route::get('/users', [AuthController::class, 'user']);
 Route::get('/logout', [AuthController::class, 'logout'])->middleware('jwt.verify');
-
+ 
 Route::post('/tets', [AuthorizationController::class, 'createPermits'])->name('test');
 Route::post('/saveFile', [AuthorizationController::class, 'Nurseries']);
+
+/**
+ * reset password 
+ */
+
+Route::get('/resetPassword', [AuthController::class, 'viewRestortPassword']);
+Route::post('/sendEmailResetPassword', [AuthController::class, 'sendEmailResetPassword']);
+Route::get('/RestortPassword/{token}', [AuthController::class, 'RestortPassword'])->name('RestortPassword')->middleware('auth:api');
+Route::post('/saveNewPassword', [AuthController::class, 'resetPasswordClient']);
+
 
 Route::get('species', [ApiController::class, 'api_cites']);
 Route::get('countries', [ApiController::class, 'json_country']);
@@ -99,3 +109,16 @@ Route::get('filterApplicant', [PermissionController::class, 'filterApplicant']);
 Route::get('filterOfficial', [PermissionController::class, 'filterOfficial']);
 Route::get('filterCountry', [PermissionController::class, 'filterCountry']);
 Route::get('filterDate', [PermissionController::class, 'filterDate']);
+
+
+Route::get('/chartForcountry', 'StatisticsController@chartForcountry');
+Route::get('/chartForpermitType', 'StatisticsController@chartForpermitType');
+
+//Export to CVS
+
+Route::get('/PermitTypeStatisticsExport', 'StatisticsController@PermitTypeStatisticsExport');
+Route::get('/SpeciesStatisticsExport', 'StatisticsController@SpeciesStatisticsExport');
+Route::get('/PlantaeStatisticsExport', 'StatisticsController@PlantaeStatisticsExport');
+Route::get('/AnimaliaStatisticsExport', 'StatisticsController@AnimaliaStatisticsExport');
+
+Route::get("/testtoken", [ApiController::class, 'sendTokenApiExternal'] );

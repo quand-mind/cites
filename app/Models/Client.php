@@ -8,6 +8,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
+use App\Notifications\restorePasswordEmailclient;
+
 class Client extends Authenticatable implements JWTSubject
 {
     use HasFactory;
@@ -21,7 +23,7 @@ class Client extends Authenticatable implements JWTSubject
     ];
 
     protected $hidden = [
-        'password', 'remember_token',
+        'remember_token',
     ];
 
     public function user()
@@ -43,5 +45,10 @@ class Client extends Authenticatable implements JWTSubject
     public function permits()
     {
         return $this->hasMany(Permit::class);
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new CambiarPassword($token));
     }
 }

@@ -5,11 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\Permit;
 use App\Models\PermitType;
 use App\Models\Specie;
-use DateInterval;
-use DateTime;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\FormalitiesExport;
+use App\Exports\SpeciesStatistics;
+use App\Exports\PlantaeStatistics;
+use App\Exports\AnimaliaStatistics;
 use Illuminate\Http\Request;
 use Faker\Factory as Faker;
 use stdClass;
+
 
 class StatisticsController extends Controller
 {
@@ -250,6 +254,22 @@ class StatisticsController extends Controller
         } 
         // return $species[0];
         return view('panel.dashboard.permissions.bar', compact('values', 'backgrounds', 'labels', 'label', 'title'));
+    }
+
+
+    //Exports to  Excel
+
+    public function PermitTypeStatisticsExport(){
+        return Excel::download(new FormalitiesExport, 'test.xlsx');
+    }
+    public function SpeciesStatisticsExport(){
+        return Excel::download(new SpeciesStatistics, 'test.xlsx');
+    }
+    public function PlantaeStatisticsExport(){
+        return Excel::download(new PlantaeStatistics, 'test.xlsx');
+    }
+    public function AnimaliaStatisticsExport(){
+        return Excel::download(new AnimaliaStatistics, 'test.xlsx');
     }
 }
     

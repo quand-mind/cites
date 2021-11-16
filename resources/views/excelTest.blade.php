@@ -14,24 +14,32 @@
         <div class="row">
             <div class="col-md-10 offset-md-1">
                 <div class="panel panel-default">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                            <th scope="col">_</th>
-                            @foreach($labels as $label)
-                                    <th scope="col">{{$label}}</th>
-                            @endforeach
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>QTY</td>
-                                @foreach($data as $dato)
-                                    <td>{{$dato}}</td>
-                                @endforeach   
-                            </tr>
-                        </tbody>
-                    </table>
+                    @foreach($datasets as $dataset)
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>{{$title}}</th>
+                                </tr>
+                                <tr>
+                                    <th>{{$dataset->label}}</th>
+                                </tr>
+                                <tr>
+                                    <th scope="col">_</th>
+                                    @foreach($labels as $label)
+                                            <th scope="col">{{$label}}</th>
+                                    @endforeach
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>QTY</td>
+                                    @foreach($dataset->data as $value)
+                                        <td>{{$value}}</td>
+                                    @endforeach   
+                                </tr>
+                            </tbody>
+                        </table>
+                    @endforeach
                 </div>
             </div>
         </div>    

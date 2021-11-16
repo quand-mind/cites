@@ -41,7 +41,27 @@ export default {
       this.datasetsToPass = data.datasets
       this.labelsToPass = data.labels
       this.$forceUpdate()
-    }
+    },
+    saveData () {
+      let datasets = []
+      let count = 0
+      for (const dataset of this.datasetsToPass) {
+      
+        datasets.push({label: dataset.label, values:[]})
+        for (const value of dataset.data) {
+          datasets[count].values.push(value)
+        }
+        count++
+      }
+      axios
+        .post(`/dashboard/permissions/graphics/exportData`, {labels: JSON.stringify(this.labelsToPass), datasets: JSON.stringify(datasets), title: this.titleToPass})
+        .then(res => {
+          this.makeToast(res.data, 'success')
+        })
+        .catch(err => {
+          this.makeToast(err.toString(), 'danger')
+        });
+    },
   }
 }
 </script>

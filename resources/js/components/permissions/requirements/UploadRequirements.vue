@@ -256,6 +256,7 @@ export default {
       form.append("file", file)
       form.append("requeriment", JSON.stringify(requeriment));
       form.append("index", JSON.stringify(index));
+      form.append("client_id", JSON.stringify(this.client_data.id));
       this.loading = true
 
       axios

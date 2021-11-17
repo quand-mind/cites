@@ -165,11 +165,11 @@ class PermissionController extends Controller
         $Date_day = Carbon::now()->format('Y-m-d');
         $DateDay = Carbon::now()->format('ymd');
         $getSpecies = json_decode($request->input('species'));
-
+        
         $index = 0;
         
         $count = 0;
-
+        
         
         $searchedSpecies= [];
         $correctNames = [];
@@ -178,7 +178,9 @@ class PermissionController extends Controller
         $getPermitTypeId = $request->input('permit_type_id');
         $getPersonals = json_decode($request->input('personals'));
         $getPermit = json_decode($request->input('permit'));
+
         $getClientId = $request->input('client_id');
+        $client = Client::find($getClientId);
 
         $specieAlgo = null;
 
@@ -199,14 +201,16 @@ class PermissionController extends Controller
             break;
             case $permisos >= 100 :
                 $total_pemisos_dia = $formalities + 1; 
-                $formalitie->request_permit_no = 'VE-'.$DateDay.''.$total_pemisos_dia;
+                $formalitie->request_formalitie_no = 'VE-'.$DateDay.''.$total_pemisos_dia;
             break;
         }
         $formalitie->status = "uploading_requeriments";
         $formalitie->client_id = $request->input('client_id');
         $formalitie->collected_time = $this->dayMoreTen();
-        // return $formalitie;
+
         $formalitie->save();
+        
+               
         
         foreach ($getSpecies as $specie) {
             if ($index % 4 === 0) {
@@ -234,7 +238,10 @@ class PermissionController extends Controller
                         $permit->request_permit_no = 'VE-'.$DateDay.''.$total_pemisos_dia;
                     break;
                 }
+                $sub_url = 'requeriments/'. $client->username . '/'. $formalitie->request_formalitie_no .'/'. $permit->request_permit_no;
+                $url = $this->createFolder($sub_url);
 
+                $permit->folder_url = $url;
                 $permit->permit_type_id = $getPermitTypeId;
                 $permit->purpose = $getPermit->purpose;
                 $permit->transportation_way = $getPermit->transportation_way;
@@ -260,7 +267,6 @@ class PermissionController extends Controller
                     if ($requeriment->type === 'form') {
                         $requerimentsIdsWithPivot[$requeriment->id] = ["file_url" => null, "is_valid" => true,];
                     } else if ($requeriment->short_name === 'cedula') {
-                        $client = Client::find($getClientId);
                         if ($client->dni_file_url) {
                             $requerimentsIdsWithPivot[$requeriment->id] = ["file_url" => $client->dni_file_url, "is_valid" => true,];
                         } else {
@@ -463,6 +469,7 @@ class PermissionController extends Controller
         $requeriment = json_decode($request->input('requeriment'));
         $index = json_decode($request->input('index'));
         $url = json_decode($request->input('url'));
+        
         $permit_id = $requeriment->pivot->permit_id;
         $permit = Permit::find($permit_id);
         $permit->requeriments[$index]->pivot->file_url = $url;
@@ -476,13 +483,21 @@ class PermissionController extends Controller
         $file = $request->file('file');
         $requeriment = json_decode($request->input('requeriment'));
         $index = json_decode($request->input('index'));
-        $requeriment_id = $requeriment->id;
+        $client_id = json_decode($request->input('client_id'));
         $permit_id = $requeriment->pivot->permit_id;
-        // return $permit_id;
-        $nameFile = "permit_".$permit_id."_requeriment_".$requeriment_id."_file_".time().".".$file->guessExtension();
-        $url = $request->file('file')->storeAs('files/permissions', $nameFile);
         $permit = Permit::find($permit_id);
-        $permit->requeriments[$index]->pivot->file_url = $url;
+        $formalitie_id = $permit->formalitie_id;
+        $formalitie = Formalitie::find($formalitie_id);
+        $client = Client::find($client_id);
+
+        $nameFile = $requeriment->short_name."_file_".time().".".$file->guessExtension();
+
+        $sub_url = 'requeriments/'. $client->username . '/'. $formalitie->request_formalitie_no .'/'. $permit->request_permit_no;
+        $url = $this->createFolder($sub_url);
+
+        $file_url = $request->file('file')->storeAs($url, $nameFile);
+        $permit = Permit::find($permit_id);
+        $permit->requeriments[$index]->pivot->file_url = $file_url;
         $permit->push();
         
         Log::info('El solicitante con la cedula de identidad '.$this->returnUser().'ha cargado un archivo al permiso n° '.$permit->request_permit_no.' | El archivo se ha cargado desde la dirección: '. request()->ip());
@@ -540,11 +555,18 @@ class PermissionController extends Controller
         return response('Archivo Eliminado', 200);
     }
 
-    public function showFile($name)
+    public function showFile($user, $formalitie, $permit, $file_url)
     {
-        return Response::make(Storage::get('files/permissions/'. $name), 200, [
+        return Response::make(Storage::get('files/requeriments/'.$user.'/'.$formalitie.'/'.$permit.'/'. $file_url), 200, [
             'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'inline; filename="'.$name.'"'
+            'Content-Disposition' => 'inline; filename="'.$file_url.'"'
+        ]);
+    }  
+    public function showFilePersonal($user, $file_url)
+    {
+        return Response::make(Storage::get('files/requeriments/'.$user.'/personals/'. $file_url), 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="'.$file_url.'"'
         ]);
     }  
 
@@ -738,6 +760,12 @@ class PermissionController extends Controller
         }
         return $dayAddTen->toDateString();
         
+    }
+    public function createFolder($sub_url) 
+    {
+        $url = '/files/'. $sub_url. '';
+        Storage::makeDirectory($url);
+        return $url;
     }
 
     public function check_in_range($dayNow, $dayAddTen, $workingDay)

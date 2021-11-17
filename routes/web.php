@@ -99,6 +99,8 @@ Route::get('/recoveryPassword', 'Auth\ResetPasswordController@recoveryClientPass
 Route::post('/password/reset', 'Auth\ResetPasswordController@resetClientPassword')->name('resetPassword');
 
 Route::get('permitInfo/{id}', 'PermissionController@showPermitInfo')->name('showPermitInfo');
+Route::get('createFolder/', 'PermissionController@createFolder');
+Route::post('createFolder/', 'PermissionController@createFolder');
 
 Route::middleware('auth:api')->get('/home', 'HomeController@index')->name('home');
 
@@ -274,8 +276,9 @@ Route::get('/clear-app', function () {
     return "Clear the app deployment completed";
 });
 // Render files
-Route::get('/files/permissions/{name}', 'PermissionController@showFile');
-Route::get('/files/{name}', 'LegalFileController@show');
+Route::get('/files/requeriments/{user}/{formalitie}/{permit}/{file_url}', 'PermissionController@showFile');
+Route::get('/files/requeriments/{user}/personals/{file_url}', 'PermissionController@showFilePersonal');
+Route::get('/files/requeriments/{user}/{file_url}', 'LegalFileController@show');
 
 Route::get('/forums', ['uses' => '\DevDojo\Chatter\Controllers\ChatterController@index'])->name('chatter.home');         
 Route::get('/forums.atom', ['uses' => '\DevDojo\Chatter\Controllers\ChatterAtomController@index'])->name('chatter.atom');

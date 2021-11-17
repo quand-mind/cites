@@ -7,6 +7,7 @@ use App\Models\Client;
 use App\Models\Institution;
 use App\Models\Official;
 use App\Models\Phone;
+use Illuminate\Support\Facades\Storage;
 use App\Models\User;
 use Carbon\Carbon;
 
@@ -32,8 +33,10 @@ class ClientController extends Controller
         $oldClient->user->address = $client->user->address;
         $oldClient->user->fax = $client->user->fax;
         if ($file) {
-            $nameFile = "client".$client->id."_dni_".$client->user->dni."_file_".time().".".$file->guessExtension();
-            $url = $request->file('file')->storeAs('files/permissions', $nameFile);
+            $sub_url = 'requeriments/'. $client->username . '/personals';
+            $url = $this->createFolder($sub_url);
+            $nameFile = "dni_".$client->user->dni."_file_".time().".".$file->guessExtension();
+            $url = $request->file('file')->storeAs($url, $nameFile);
             $oldClient->dni_file_url = $url;
         }
         $oldClient->user->save();
@@ -63,5 +66,11 @@ class ClientController extends Controller
         
         $oldClient->save();
         return response('Usuario actualizado con éxito.', 200);
+    }
+    public function createFolder($sub_url) 
+    {
+        $url = '/files/'. $sub_url. '';
+        Storage::makeDirectory($url);
+        return $url;
     }
 }

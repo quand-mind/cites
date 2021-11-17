@@ -239,6 +239,7 @@ export default {
       var form = new FormData()
       form.append("file", file)
       form.append("requeriment", JSON.stringify(requeriment));
+      form.append("type", JSON.stringify('personal'));
 
       axios
         .post(`/dashboard/permissions/uploadFile/`, form, {

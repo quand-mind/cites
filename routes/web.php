@@ -93,7 +93,7 @@ Auth::routes();
 
 
 Route::get('/register', [AuthController::class, 'index'])->name('register');
-Route::get('/loginPermissions', 'Auth\PermissionsLoginController@showLoginForm')->name('loginPermissions');
+Route::get('/loginClient', 'Auth\PermissionsLoginController@showLoginForm')->name('loginClient');
 Route::get('/reset', 'Auth\ResetPasswordController@sendClientResetEmail')->name('emailToReset');
 Route::get('/recoveryPassword', 'Auth\ResetPasswordController@recoveryClientPassword')->name('recoveryPassword');
 Route::post('/password/reset', 'Auth\ResetPasswordController@resetClientPassword')->name('resetPassword');
@@ -245,6 +245,11 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         Route::post('/permissions/graphics/selectDate', 'StatisticsController@selectDate');
         Route::post('/permissions/graphics/exportData', 'StatisticsController@exportData');
         Route::get('/permissions/graphics/exportData', 'StatisticsController@exportData');
+
+        Route::post('/permissions/searchSpecie', 'ApiController@api_cites_filter');
+
+        Route::get('/permissions/species/speciesDetails', 'SpecieController@showSpeciesDetails');
+        Route::post('/permissions/species/registerSpecie', 'SpecieController@registerSpecie');
     });
 });
 Route::get('/dataQr/{id}', 'PermissionController@getDataQr');

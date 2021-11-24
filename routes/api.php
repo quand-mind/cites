@@ -29,7 +29,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 // Route::get('/registerClient', [AuthController::class, 'index']);
 Route::post('/registerClient', [AuthController::class, 'storeClient']);
 Route::post('/registerInstitution', [InstitutionController::class, 'storeInstitution']);
-Route::post('/loginPermissions', [AuthController::class, 'login']);
+Route::post('/loginClient', [AuthController::class, 'login']);
 Route::get('/users', [AuthController::class, 'user']);
 Route::get('/logout', [AuthController::class, 'logout'])->middleware('jwt.verify');
  

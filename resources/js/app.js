@@ -152,6 +152,8 @@ Vue.component("line-chart-template", require("./components/admin/permissions/gra
 
 Vue.component("bar-template", require("./components/admin/permissions/graphics/BarTemplate.vue").default);
 
+Vue.component("species-details", require("./components/admin/permissions/species/SpeciesDetails.vue").default);
+
 Vue.component("page-template", require("./views/PageTemplate.vue").default);
 
 Vue.component("faqs", require("./views/Faqs.vue").default);

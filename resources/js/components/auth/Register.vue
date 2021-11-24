@@ -267,7 +267,7 @@ export default {
         .then(res => {
           // console.log(res.data)
           this.makeToast(res.data)
-          setTimeout(() => window.location.assign('/loginPermissions'), 1200)
+          setTimeout(() => window.location.assign('/loginClient'), 1200)
         })
         .catch(err => {
           if (typeof(err.response.data) === 'object') {

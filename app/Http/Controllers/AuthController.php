@@ -516,7 +516,7 @@ class AuthController extends Controller
         Log::error('Fallo de autentificacion desde la siguente direccion: '. request()->ip());
         
         return redirect()->back()->with('errors', 'todo mal');
-       //return redirect('/loginPermissions')->withErrors(['las credenciales no concuerdan con nuestra data']);
+       //return redirect('/loginClient')->withErrors(['las credenciales no concuerdan con nuestra data']);
         return response()->json(['message' => "not found",], 401);
     }
 
@@ -578,7 +578,7 @@ class AuthController extends Controller
         $resetPassword = Client::find($client->id);
         $resetPassword->password = $request->input('password');
         $resetPassword->save();
-        // return redirect('loginPermissions');
+        // return redirect('loginClient');
         return $this->authenticated($request, $this->guard()->user(), $token = $request->input('token'));
     }
     /**

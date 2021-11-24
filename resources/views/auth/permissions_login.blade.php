@@ -16,7 +16,7 @@
                         </ul>               
                     </div>
                 @endif
-                    <form method="POST" action="{{ url('/solicitante/loginPermissions') }}" aria-label="{{ __('Login') }}">
+                    <form method="POST" action="{{ url('/solicitante/loginClient') }}" aria-label="{{ __('Login') }}">
                         @csrf
 
                         <div class="form-group row">

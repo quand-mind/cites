@@ -761,6 +761,7 @@ class PermissionController extends Controller
         return $dayAddTen->toDateString();
         
     }
+    
     public function createFolder($sub_url) 
     {
         $url = '/files/'. $sub_url. '';

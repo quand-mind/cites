@@ -42,8 +42,7 @@ class AddFieldsInSpeciesTable extends Migration
             $table->dropColumn('general_appearance');
             $table->dropColumn('img');
             $table->dropColumn('measurements');
-            $table->dropColumn('aprox_min_weight');
-            $table->dropColumn('aprox_max_weight');
+            $table->dropColumn('aprox_weight');
             $table->dropColumn('pelage');
             $table->dropColumn('head_profile');
             $table->dropColumn('neck_mane');
@@ -52,7 +51,6 @@ class AddFieldsInSpeciesTable extends Migration
             $table->dropColumn('distribution');
             $table->dropColumn('wild_population');
             $table->dropColumn('captive_population');
-            $table->dropColumn('trade');
             $table->dropColumn('intraspecific_variation');
             $table->dropColumn('blibliography');
         });

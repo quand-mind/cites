@@ -66,6 +66,9 @@
       <a v-if="this.user.role !== 'writer'" href="/dashboard/permissions/graphics" class="list-group-item list-group-item-action">
         <font-awesome-icon :icon="['fas', 'chart-pie']"></font-awesome-icon>&nbsp;Gráficas
       </a>
+      <a v-if="this.user.role !== 'writer'" href="/dashboard/species/speciesDetails" class="list-group-item list-group-item-action">
+        <font-awesome-icon :icon="['fas', 'otter']"></font-awesome-icon>&nbsp;Tabla de Especies
+      </a>
     </div>
   </aside>
 </template>

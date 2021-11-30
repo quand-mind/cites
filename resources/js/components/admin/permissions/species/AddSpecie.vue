@@ -1,4 +1,4 @@
-<template>
+`<template>
   <div>
     <div>
 
@@ -25,54 +25,53 @@
         </b-col>
         <b-col md='8'>
           <b-row class="d-flex justify-content-center align-items-center">
-            <b-col sm="12" md="6" lg="6" class="input-group mb-3 ">
-              <vue-bootstrap-typeahead style="width: 87%;" @input="searchSpecie(specieName)"  @hit="onSelectSpecie"
+            <b-col sm="12" md="12" lg="12" class="input-group mb-3 ">
+              <vue-bootstrap-typeahead style="width: 94%;" @input="searchSpecie(specieName)"  @hit="onSelectSpecie"
               v-model="specieName" :data="species" placeholder="Busca la especie (Nombre Científico):"/>
               <b-spinner class="ml-3 mt-2" v-if="loadingSpecies" small variant="success" label="Spinning"></b-spinner>
             </b-col>
-            <b-col sm="12" md="6" lg="6" class="input-group mb-3">
-              <b-form-input :disabled="!newSpecie.name_common" v-model="newSpecie.general_appearance" placeholder="Apariencia General:"></b-form-input>
+            <b-col sm="12" md="12" lg="12" class="input-group mb-3">
+              <span>Nombre Común:</span>
             </b-col>
-            <b-col sm="12" md="6" lg="6" class="input-group mb-3">
-              <b-form-input :disabled="!newSpecie.name_common" v-model="newSpecie.measurements" placeholder="Medidas Estándar:"></b-form-input>
+            <b-col sm="12" md="12" lg="12" class="input-group mb-3">
+              <b-form-input :disabled="!newSpecie.name_scientific" v-model="newSpecie.name_common"></b-form-input>
+              <b-spinner class="ml-3 mt-2" v-if="loadingSpecieData" small variant="success" label="Spinning"></b-spinner>
             </b-col>
-            <b-col sm="12" md="6" lg="6" class="input-group mb-3">
-              <b-form-input type="text" :disabled="!newSpecie.name_common" v-model="newSpecie.pelage" placeholder="Pelaje:"></b-form-input>
+            <b-col sm="12" md="12" lg="12" class="input-group mb-3">
+              <span>Tipo:</span>
+            </b-col>
+            <b-col sm="12" md="12" lg="12" class="input-group mb-3">
+              <b-form-input :disabled="!newSpecie.name_scientific" v-model="newSpecie.type" ></b-form-input>
+              <b-spinner class="ml-3 mt-2" v-if="loadingSpecieData" small variant="success" label="Spinning"></b-spinner>
             </b-col>
           </b-row>
+          <b-col sm="12" md="12" lg="12" class="input-group mb-3">
+              <span>Apéndice:</span>
+            </b-col>
           <b-row class="d-flex justify-content-center align-items-center">
-            <b-col sm="12" md="6" lg="6" class="input-group mb-3">
-              <b-form-input :disabled="!newSpecie.name_common" type="number" v-model="newSpecie.aprox_weight" placeholder="Peso Estándar (kg):"></b-form-input>
+            <b-col sm="12" md="12" lg="12" class="input-group mb-3">
+              <b-form-input :disabled="!newSpecie.name_scientific" v-model="newSpecie.appendix"></b-form-input>
+              <b-spinner class="ml-3 mt-2" v-if="loadingSpecieData" small variant="success" label="Spinning"></b-spinner>
             </b-col>
-            <b-col sm="12" md="6" lg="6" class="input-group mb-3">
-              <b-form-input :disabled="!newSpecie.name_common" v-model="newSpecie.head_profile" placeholder="Perfíl de Rostro:"></b-form-input>
+            <b-col sm="12" md="12" lg="12" class="input-group mb-3">
+              <span>Clase:</span>
             </b-col>
-            <b-col sm="12" md="6" lg="6" class="input-group mb-3">
-              <b-form-input :disabled="!newSpecie.name_common" v-model="newSpecie.neck_mane" placeholder="Cuello y Melena:"></b-form-input>
+            <b-col sm="12" md="12" lg="12" class="input-group mb-3">
+              <b-form-input :disabled="!newSpecie.name_scientific" v-model="newSpecie.class"></b-form-input>
+              <b-spinner class="ml-3 mt-2" v-if="loadingSpecieData" small variant="success" label="Spinning"></b-spinner>
             </b-col>
-            <b-col sm="12" md="6" lg="6" class="input-group mb-3">
-              <b-form-input :disabled="!newSpecie.name_common" v-model="newSpecie.sexual_dimorphism" placeholder="Dimorfismo Sexual:"></b-form-input>
+            <b-col sm="12" md="12" lg="12" class="input-group mb-3">
+              <span>Familia:</span>
             </b-col>
-            <b-col sm="12" md="6" lg="6" class="input-group mb-3">
-              <b-form-input :disabled="!newSpecie.name_common" v-model="newSpecie.juvenile" placeholder="Juvenil:"></b-form-input>
+            <b-col sm="12" md="12" lg="12" class="input-group mb-3">
+              <b-form-input :disabled="!newSpecie.name_scientific" v-model="newSpecie.family"></b-form-input>
+              <b-spinner class="ml-3 mt-2" v-if="loadingSpecieData" small variant="success" label="Spinning"></b-spinner>
             </b-col>
-            <b-col sm="12" md="6" lg="6" class="input-group mb-3">
-              <b-form-input type="text" :disabled="!newSpecie.name_common" v-model="newSpecie.distribution" placeholder="Distribución Geográfica:"></b-form-input>
+            <b-col sm="12" md="12" lg="12" class="input-group mb-3">
+              <span>Descripción:</span>
             </b-col>
-          </b-row>
-
-          <b-row>
-            <b-col sm="12" md="6" lg="6" class="input-group mb-3">
-              <b-form-input :disabled="!newSpecie.name_common" v-model="newSpecie.wild_population" placeholder="Población Salvaje:"></b-form-input>
-            </b-col>
-            <b-col sm="12" md="6" lg="6" class="input-group mb-3">
-              <b-form-input :disabled="!newSpecie.name_common" v-model="newSpecie.captive_population" placeholder="Población Cautiva:"></b-form-input>
-            </b-col>
-            <b-col sm="12" md="6" lg="6" class="input-group mb-3">
-              <b-form-input :disabled="!newSpecie.name_common" v-model="newSpecie.intraspecific_variation" placeholder="Variación Intraespecífica:"></b-form-input>
-            </b-col>
-            <b-col sm="12" md="6" lg="6" class="input-group mb-3">
-              <b-form-input :disabled="!newSpecie.name_common" v-model="newSpecie.blibliography" placeholder="Bibliografía:"></b-form-input>
+            <b-col sm="12" md="12" lg="12" class="input-group mb-3">
+              <b-form-input type="text" placeholder="Ingrese una corta descripción:" :disabled="!newSpecie.name_scientific" v-model="newSpecie.description"></b-form-input>
             </b-col>
           </b-row>
         </b-col>
@@ -83,7 +82,7 @@
 
       <b-row class="d-flex justify-content-end align-items-center">
         <b-col sm="12" class="input-group mb-3 d-flex justify-content-end align-items-center">
-          <button class="w-100 btn btn-primary" :disabled="!validSpecie" @click="addSpecieToList()">Agregar Especie a la Lista</button>
+          <button class="w-100 btn btn-primary" :disabled="!validSpecie" @click="addSpecieToList()">Añadir Nueva Especie</button>
         </b-col>
       </b-row>
 
@@ -98,18 +97,13 @@ export default {
     newPhoto: null,
     newSpecie: {
       name_common: null,
-      general_appearance: null,
-      measurements: null,
-      pelage: null,
-      aprox_weight: null,
-      head_profile: null,
-      neck_mane: null,
-      juvenile: null,
-      distribution: null,
-      captive_population: null,
-      wild_population: null,
-      intraspecific_variation: null,
-      blibliography: null,
+      name_scientific: null,
+      type: null,
+      description: null,
+      appendix: null,
+      class: null,
+      family: null,
+      search_id:null
     },
     specieName:null,
     loading: false,
@@ -117,6 +111,7 @@ export default {
     selectedSpecie: "",
 
     loadingSpecies: false,
+    loadingSpecieData: false,
     
     species:[],
 
@@ -128,50 +123,17 @@ export default {
     newPhotoUrl() {
       return this.newPhoto ? URL.createObjectURL(this.newPhoto) : null;
     },
-    animalsSpecies(){
-      let speciesRaw = this.allSpecies.filter( specie => specie.higher_taxa.kingdom === 'Animalia')
-      let species = speciesRaw.map(specie => specie.common_names[1])
-      let names = []
-      const selec = { value: null, text: 'Especie', disabled: true }
-      names.push(selec)
-      for (const specie of species) {
-        if (specie){
-          let name = specie.name
-          names.push(name)
-        }
-      }
-      return names
-    },
-    plantSpecies(){
-      let speciesRaw = this.allSpecies.filter( specie => specie.higher_taxa.kingdom === 'Plantae')
-      let species = speciesRaw.map(specie => specie.common_names[1])
-      let names = []
-      const selec = { value: null, text: 'Especie', disabled: true }
-      names.push(selec)
-      for (const specie of species) {
-        if (specie){
-          let name = specie.name
-          names.push(name)
-        }
-      }
-      return names
-    },
     validSpecie(){
       let valid_name_common = Boolean(this.newSpecie.name_common)
-      let valid_measurements = Boolean(this.newSpecie.measurements)
-      let valid_neck_mane = Boolean(this.newSpecie.neck_mane)
-      let valid_pelage = Boolean(this.newSpecie.pelage)
-      let valid_general_appearance = Boolean(this.newSpecie.general_appearance)
-      let valid_aprox_weight = Boolean(this.newSpecie.aprox_weight)
-      let valid_juvenile = Boolean(this.newSpecie.juvenile)
-      let valid_head_profile = Boolean(this.newSpecie.head_profile)
-      let valid_distribution = Boolean(this.newSpecie.distribution)
-      let valid_wild_population = Boolean(this.newSpecie.wild_population)
-      let valid_captive_population = Boolean(this.newSpecie.captive_population)
-      let valid_intraspecific_variation = Boolean(this.newSpecie.intraspecific_variation)
+      let valid_type = Boolean(this.newSpecie.type)
+      let valid_family = Boolean(this.newSpecie.family)
+      let valid_description = Boolean(this.newSpecie.description)
+      let valid_name_scientific = Boolean(this.newSpecie.name_scientific)
+      let valid_appendix = Boolean(this.newSpecie.appendix)
+      let valid_class = Boolean(this.newSpecie.class)
       let valid_img = Boolean(this.newPhoto)
 
-      return valid_name_common && valid_aprox_weight && valid_measurements && valid_neck_mane && valid_general_appearance && valid_pelage && valid_head_profile && valid_juvenile && valid_distribution && valid_wild_population && valid_captive_population && valid_intraspecific_variation && valid_img
+      return valid_name_common && valid_appendix && valid_type && valid_family && valid_name_scientific && valid_description && valid_class && valid_img
     }
   },
   methods: {
@@ -179,22 +141,51 @@ export default {
       'fetchSpecies',
     ]),
     onSelectSpecie(specie) {
-      this.newSpecie.name_common = specie;
-    },
-    setSpecieData(){
-      if (this.newSpecie.kingdom === 'Animalia'){
-        this.species = this.animalsSpecies
-      }
-      else {
-        this.species = this.plants
-      }
-      this.showSpecies = true
+      this.loadingSpecieData = true
+      this.newSpecie.name_scientific = specie;
+      axios
+        .post(`/dashboard/species/searchSpecieData`, {name: this.newSpecie.name_scientific})
+        .then(res => {
+          console.log(res.data)
+          this.newSpecie.search_id = res.data.id
+          this.newSpecie.family = res.data.higher_taxa.family
+          if (!this.newSpecie.family){
+            this.newSpecie.family = 'No posee familia'
+          }
+          this.newSpecie.class = res.data.higher_taxa.class
+          if (!this.newSpecie.class){
+            this.newSpecie.class = 'No posee clase'
+          }
+          this.newSpecie.appendix = 'Apéndice ' + res.data.cites_listing
+          if (!this.newSpecie.appendix){
+            this.newSpecie.appendix = 'No posee apéndice'
+          }
+          this.newSpecie.type = res.data.higher_taxa.kingdom
+          let common_names = ''
+          let count = 0
+          for (const name of res.data.common_names) {
+            if(count > 0){
+              common_names = common_names + ', '
+            }
+            common_names = common_names + name.name
+          }
+          this.newSpecie.name_common = common_names
+          console.log(common_names)
+          // this.loading = false
+          this.loadingSpecieData = false
+          // setTimeout(() => window.location.reload(), timeout)
+        })
+        .catch(err => {
+          this.loadingSpecieData = false
+          this.makeToast(err.response.data, 'danger')
+        });
+      // console.log(this.newSpecie.name_common)
     },
     searchSpecie(wordToSearch){
       if (wordToSearch.length >= 3){
         this.loadingSpecies = true
         axios
-          .post(`/dashboard/permissions/searchSpecie`, {filter: wordToSearch})
+          .post(`/dashboard/searchSpecie`, {filter: wordToSearch})
           .then(res => {
             this.loadingSpecies = false
             for (const specieResult of res.data) {
@@ -203,7 +194,7 @@ export default {
           })
           .catch(err => {
             console.log(err.toString())
-            this.loadingSpecies = true
+            this.loadingSpecies = false
             this.makeToast(err.toString(), 'danger')
           });
       }
@@ -216,21 +207,15 @@ export default {
       this.$emit('addSpecie', this.newSpecie, this.newPhoto)
       // this.newSpecie = {
       //   name_common: null,
-      //   general_appearance: null,
-      //   measurements: null,
-      //   pelage: null,
-      //   aprox_weight: null,
-      //   head_profile: null,
-      //   neck_mane: null,
-      //   juvenile: null,
-      //   distribution: null,
-      //   captive_population: null,
-      //   wild_population: null,
-      //   intraspecific_variation: null,
-      //   blibliography: null,
+      //   name_scientific: null,
+      //   type: null,
+      //   description: null,
+      //   appendix: null,
+      //   class: null,
+      //   family: null,
       // }
       // this.closeAddSpecieDialog()
     },
   },
 }
-</script>
+</script>`

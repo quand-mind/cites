@@ -246,10 +246,12 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         Route::post('/permissions/graphics/exportData', 'StatisticsController@exportData');
         Route::get('/permissions/graphics/exportData', 'StatisticsController@exportData');
 
-        Route::post('/permissions/searchSpecie', 'ApiController@api_cites_filter');
+        Route::post('/searchSpecie', 'ApiController@api_cites_filter');
 
-        Route::get('/permissions/species/speciesDetails', 'SpecieController@showSpeciesDetails');
-        Route::post('/permissions/species/registerSpecie', 'SpecieController@registerSpecie');
+        Route::get('/species/speciesDetails', 'SpecieController@showSpeciesDetails');
+        Route::post('/species/registerSpecie', 'SpecieController@registerSpecie');
+        Route::post('/species/editSpecie', 'SpecieController@editSpecie');
+        Route::post('/species/searchSpecieData', 'SpecieController@api_cites');
     });
 });
 Route::get('/dataQr/{id}', 'PermissionController@getDataQr');

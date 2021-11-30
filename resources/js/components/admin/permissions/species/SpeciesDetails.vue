@@ -11,7 +11,7 @@
         <h1>Detalles de las Especies</h1>
       </b-col>
       <b-col md="3" sm="12" class="d-flex">
-        <b-btn @click="showSelectSpecie = true" class="w-100" variant="primary">
+        <b-btn @click="showAddSpecie = true" class="w-100" variant="primary">
           <font-awesome-icon class="mr-2" :icon="['fa', 'plus']"></font-awesome-icon>
           Agregar Nueva Especie
         </b-btn>
@@ -21,13 +21,9 @@
     <div class="d-flex justify-content-center align-items-center">
       <v-client-table :data="species" :columns="columns" :options="options" style="width: 90%;">
         <!-- actions slot -->
-        <div class="action-container" slot="acciones" slot-scope="props">
-          <a class="text-dark" @click.prevent="{editSpecie(props.row)}">
+        <div class="action-container" slot="editar" slot-scope="props">
+          <a class="text-dark" @click.prevent="{showEditSpecieData(props.row)}">
             <font-awesome-icon :icon="['fa', 'edit']"></font-awesome-icon>
-          </a>
-
-          <a class="text-danger" @click.prevent="{deleteSpecie(props.row)}">
-            <font-awesome-icon :icon="['fa', 'trash']"></font-awesome-icon>
           </a>
         </div>
 
@@ -56,10 +52,16 @@
       </v-client-table>
     </div>
 
-    <b-modal v-model="showSelectSpecie" size="xl" id="species-modal" title="Agregar Especie" hide-footer>
+    <b-modal v-model="showAddSpecie" size="xl" id="add-species-modal" title="Agregar Especie" hide-footer>
       <AddSpecie
       v-on:addSpecie="addSpecieToList"
       v-on:closeAddSpecieDialog="closeAddSpecieDialog"/>
+    </b-modal>
+    <b-modal v-model="showEditSpecie" size="xl" id="edit-species-modal" title="Editar Especie" hide-footer>
+      <EditSpecie
+      :specieEditable="selectedSpecie"
+      v-on:editSpecie="editSpecie"
+      v-on:closeEditSpecieDialog="closeEditSpecieDialog"/>
     </b-modal>
     
   </div>
@@ -67,6 +69,7 @@
 <script>
 import timeout from '../../../../setTimeout';
 import AddSpecie from '../species/AddSpecie.vue';
+import EditSpecie from '../species/EditSpecie.vue';
 export default {
   props: ['species'],
   data: () => ({
@@ -76,22 +79,28 @@ export default {
       perPage: 10,
       perPageValues: [10, 20, 50]
     },
-    selectedSpecies: null,
-    showSelectSpecie: false,
-    columns:['imagen','nombre común', 'nombre científco', 'tipo', 'acciones'],
+    selectedSpecie: {},
+    showAddSpecie: false,
+    showEditSpecie: false,
+    columns:['imagen','nombre común', 'nombre científco', 'tipo', 'editar'],
   }),
   components: {
-    AddSpecie
+    AddSpecie,
+    EditSpecie
   },
   methods: {
+    showEditSpecieData(specie) {
+      console.log(specie)
+      this.selectedSpecie = specie
+      this.showEditSpecie = true
+    },
     addSpecieToList(newSpecie, img){
-      // this.selectedSpecies.push(newSpecie)
       let form = new FormData();
       form.append("specie", JSON.stringify(newSpecie));
       form.append("img", img);
       this.loading = true
       axios
-        .post(`/dashboard/permissions/species/registerSpecie`, form, {
+        .post(`/dashboard/species/registerSpecie`, form, {
           headers: {
             "Content-Type": "multipart/form-data"
           }
@@ -99,22 +108,49 @@ export default {
         .then(res => {
           this.makeToast(res.data)
           this.loading = false
+          this.closeEditSpecieDialog()
+          setTimeout(() => window.location.reload(), timeout)
+        })
+        .catch(err => {
+          this.loading = false
+          this.makeToast(err.response.data, 'danger')
+        });
+    },
+    editSpecie(specie, img, url, isNewPhoto){
+      let form = new FormData();
+      form.append("specie", JSON.stringify(specie));
+      if (isNewPhoto) {
+        form.append("img", img);
+      }
+      else {
+        form.append("img", url);
+      }
+      form.append("isNewPhoto", isNewPhoto);
+      this.loading = true
+      axios
+        .post(`/dashboard/species/editSpecie`, form, {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        })
+        .then(res => {
+          this.makeToast(res.data)
+          this.loading = false
+          // this.closeAddSpecieDialog()
           // setTimeout(() => window.location.reload(), timeout)
         })
         .catch(err => {
           this.loading = false
           this.makeToast(err.response.data, 'danger')
         });
-      // this.closeAddSpecieDialog()
+      
     },
-    deleteSpecie(specie, index){
-      console.log(specie)
-      this.selectedSpecies.splice(index)
-      this.makeToast('Especie Eliminada')
-      this.closeSpecieListDialog()
-    },
+    
     closeAddSpecieDialog(){
-      this.showSelectSpecie = false
+      this.showAddSpecie = false
+    },
+    closeEditSpecieDialog(){
+      this.showEditSpecie = false
     },
     makeToast(msg, variant = "success", delay = timeout, append = false) {
       this.$bvToast.toast(`${msg}`, {

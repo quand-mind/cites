@@ -243,8 +243,9 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         Route::get('/permissions/graphics/permitsDateStatistics', 'StatisticsController@showPermitForDateStatistics');
 
         Route::post('/permissions/graphics/selectDate', 'StatisticsController@selectDate');
-        Route::post('/permissions/graphics/exportData', 'StatisticsController@exportData');
-        Route::get('/permissions/graphics/exportData', 'StatisticsController@exportData');
+        Route::post('/permissions/graphics/exportSpeciesData', 'StatisticsController@exportSpeciesData');
+        Route::get('/permissions/graphics/exportSpeciesData', 'StatisticsController@exportSpeciesData');
+        Route::get('/permissions/graphics/exportPermitsData', 'StatisticsController@exportPermitsData');
 
         Route::post('/searchSpecie', 'ApiController@api_cites_filter');
 

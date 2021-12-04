@@ -52,9 +52,11 @@ export default {
 
       let speciesIdsArray = this.speciesToPass.map(specie => specie.id)
       let speciesIds = speciesIdsArray.join(',')
-      console.log(speciesIds)
+      // console.log(speciesIds)
+      let date = new Date()
+      let documentTitleToPass = 'grafica_especies' + date
 
-      window.location.assign(`/dashboard/permissions/graphics/exportData?speciesIds=${speciesIds}&title=${this.titleToPass}`)
+      window.location.assign(`/dashboard/permissions/graphics/exportSpeciesData?speciesIds=${speciesIds}&title=${this.titleToPass}&documentTitle=${documentTitleToPass}`)
     },
     makeToast(msg, variant = "success", delay = timeout, append = false) {
       this.$bvToast.toast(`${msg}`, {

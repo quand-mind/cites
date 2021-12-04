@@ -6,11 +6,13 @@ use App\Models\Permit;
 use App\Models\PermitType;
 use App\Models\Specie;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\FormalitiesExport;
-use App\Exports\SpeciesStatistics;
-use App\Exports\PlantaeStatistics;
-use App\Exports\AnimaliaStatistics;
+use App\Exports\GraphicsStatistics;
+// use App\Exports\SpeciesStatistics;
+// use App\Exports\PlantaeStatistics;
+// use App\Exports\AnimaliaStatistics;
 use Illuminate\Http\Request;
+use DateTime;
+use DateInterval;
 use Faker\Factory as Faker;
 use stdClass;
 
@@ -263,11 +265,12 @@ class StatisticsController extends Controller
     //Exports to  Excel
     // Esta es la funcion que vamos a usar
 
-    public function exportData(Request $request)
+    public function exportSpeciesData(Request $request)
     {
         // return $request->query('speciesIds');
         $speciesIds = $request->query('speciesIds');
         $title = $request->query('title');
+        $documentTitle = $request->query('documentTitle');
         $speciesIds = preg_split("/\,/", $speciesIds);
         
         $data = $this->getSpecies($speciesIds);
@@ -276,10 +279,11 @@ class StatisticsController extends Controller
 
         // return $datasets[0];
 
-        $documentTitle = 'test.xlsx';
+        $documentTitle = $documentTitle . '.xlsx';
 
         // return $speciesIds;
-        return Excel::download($this->exportToExcel($labels, $datasets, $title), $documentTitle);
+        return Excel::download(new GraphicsStatistics($labels, $datasets, $title, $documentTitle), $documentTitle);
+        // return Excel::download($this->exportToExcel($labels, $datasets, $title), $documentTitle);
     }
     // public function SpeciesStatisticsExport()
     // {

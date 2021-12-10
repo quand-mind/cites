@@ -116,7 +116,7 @@ export default {
           this.makeToast(err.response.data, 'danger')
         });
     },
-    editSpecie(specie, img, url, isNewPhoto){
+    editSpecie(specie, img, url, isNewPhoto, obtained_img_url){
       let form = new FormData();
       form.append("specie", JSON.stringify(specie));
       if (isNewPhoto) {
@@ -124,6 +124,7 @@ export default {
       }
       else {
         form.append("img", url);
+        form.append("obtained_img_url", obtained_img_url);
       }
       form.append("isNewPhoto", isNewPhoto);
       this.loading = true
@@ -136,8 +137,8 @@ export default {
         .then(res => {
           this.makeToast(res.data)
           this.loading = false
-          // this.closeAddSpecieDialog()
-          // setTimeout(() => window.location.reload(), timeout)
+          this.closeAddSpecieDialog()
+          setTimeout(() => window.location.reload(), timeout)
         })
         .catch(err => {
           this.loading = false

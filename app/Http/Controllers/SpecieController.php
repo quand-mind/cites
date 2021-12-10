@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Specie;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client as ClientSpecie;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
 class SpecieController extends Controller
@@ -60,12 +61,16 @@ class SpecieController extends Controller
     public function editSpecie(Request $request)
     {
         $specie = json_decode($request->input('specie'));
+        $obtained_img_url = json_decode($request->input('obtained_img_url'));
+        // File::delete(storage_path($obtained_img_url));
+        // return response ('Especie Editada', 200);
         $isNewPhoto = $request->input('isNewPhoto');
         $findedSpecie = Specie::where(['name_scientific' => $specie->name_scientific])->get()->first();
         if ($isNewPhoto == 'false') {
             $img = $request->input('img');
             $file_url = $img;
         } else {
+            
             $img = $request->file('img');
             $nameFile = $specie->name_common."_img_".time().".".$img->guessExtension();
             $sub_url = 'species/'. $specie->name_common;

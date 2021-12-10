@@ -114,6 +114,7 @@ export default {
       family: vm.specieEditable.family,
       search_id:vm.specieEditable.search_id
     },
+    obtained_img_url: vm.specieEditable.img,
     specieName:vm.specieEditable.name_scientific,
     loading: false,
     showSpecies: false,
@@ -218,7 +219,7 @@ export default {
       this.$emit('closeEditSpecieDialog')
     },
     editSpecie(){
-      this.$emit('editSpecie', this.specieToEdit, this.newPhoto, this.newPhotoUrl, this.isNewPhoto)
+      this.$emit('editSpecie', this.specieToEdit, this.newPhoto, this.newPhotoUrl, this.isNewPhoto, this.obtained_img_url)
       // this.specieToEdit = {
       //   name_common: null,
       //   name_scientific: null,

@@ -24,25 +24,37 @@ class SpecieController extends Controller
     {
         $specie = json_decode($request->input('specie'));
         // return $specie;
-        $img = $request->file('img');
+        $male_img = $request->file('male_img');
+        $female_img = $request->file('female_img');
+        // return $female_img;
 
         $findedSpecie = Specie::where(['name_scientific' => $specie->name_scientific])->get()->first();
 
         if ($findedSpecie) {
             return response('La especie ya se encuentra agregada', 500);
         } else {
-            $nameFile = $specie->name_common."_img_".time().".".$img->guessExtension();
-            $sub_url = 'species/'. $specie->name_common;
-            $url = $this->createFolder($sub_url);
-            $file_url = $request->file('img')->storeAs($url, $nameFile);
-            $file_url = '/storage/' . $file_url;
+            $maleNameFile = $specie->name_common."_img_".time() . '_male' . ".".$male_img->guessExtension();
+            $male_sub_url = 'species/'. $specie->name_common;
+            $male_url = $this->createFolder($male_sub_url);
+            $male_file_url = $request->file('male_img')->storeAs($male_url, $maleNameFile);
+            // return $male_file_url;
+            $male_file_url = '/storage/' . $male_file_url;
+            
+            $femaleNameFile = $specie->name_common."_img_".time() . '_female' . ".".$female_img->guessExtension();
+            $female_sub_url = 'species/'. $specie->name_common;
+            $female_url = $this->createFolder($female_sub_url);
+            $female_file_url = $request->file('female_img')->storeAs($female_url, $femaleNameFile);
+            $female_file_url = '/storage/' . $female_file_url;
             // return $file_url;
 
             $newSpecie = new Specie();
             $newSpecie->type = $specie->type;
             $newSpecie->appendix = $specie->appendix;       
-            $newSpecie->img = $file_url;       
+            $newSpecie->male_img = $male_file_url;       
+            $newSpecie->female_img = $female_file_url;       
             $newSpecie->description = $specie->description;       
+            $newSpecie->features = $specie->features;       
+            $newSpecie->geographic_distribution = $specie->geographic_distribution;       
             $newSpecie->family = $specie->family;    
             $newSpecie->class = $specie->class;    
             $newSpecie->name_scientific = $specie->name_scientific;       
@@ -61,27 +73,44 @@ class SpecieController extends Controller
     public function editSpecie(Request $request)
     {
         $specie = json_decode($request->input('specie'));
-        $obtained_img_url = json_decode($request->input('obtained_img_url'));
         // File::delete(storage_path($obtained_img_url));
         // return response ('Especie Editada', 200);
-        $isNewPhoto = $request->input('isNewPhoto');
+        $isNewMalePhoto = $request->input('isNewMalePhoto');
+        // return $isNewMalePhoto;
+        $isNewFemalePhoto = $request->input('isNewFemalePhoto');
         $findedSpecie = Specie::where(['name_scientific' => $specie->name_scientific])->get()->first();
-        if ($isNewPhoto == 'false') {
-            $img = $request->input('img');
-            $file_url = $img;
+        
+        if ($isNewFemalePhoto == 'false') {
+            $female_img = $request->input('female_img');
+            $female_file_url = $female_img;
         } else {
             
-            $img = $request->file('img');
-            $nameFile = $specie->name_common."_img_".time().".".$img->guessExtension();
-            $sub_url = 'species/'. $specie->name_common;
-            $url = $this->createFolder($sub_url);
-            $file_url = $request->file('img')->storeAs($url, $nameFile);
-            $file_url = '/storage/' . $file_url;
+            $female_img = $request->file('female_img');
+            $femaleNameFile = $specie->name_common."_img_".time().'_female'.".".$female_img->guessExtension();
+            $female_sub_url = 'species/'. $specie->name_common;
+            $female_url = $this->createFolder($female_sub_url);
+            $female_file_url = $request->file('female_img')->storeAs($female_url, $femaleNameFile);
+            $female_file_url = '/storage/' . $female_file_url;
         }
+
+        if ($isNewMalePhoto == 'false') {
+            $male_img = $request->input('male_img');
+            $male_file_url = $male_img;
+        } else {
+            
+            $male_img = $request->file('male_img');
+            $maleNameFile = $specie->name_common."_img_".time().'_male'.".".$male_img->guessExtension();
+            $male_sub_url = 'species/'. $specie->name_common;
+            $male_url = $this->createFolder($male_sub_url);
+            $male_file_url = $request->file('male_img')->storeAs($male_url, $maleNameFile);
+            $male_file_url = '/storage/' . $male_file_url;
+        }
+        
         // return $file_url;
         $findedSpecie->type = $specie->type;
         $findedSpecie->appendix = $specie->appendix;       
-        $findedSpecie->img = $file_url;       
+        $findedSpecie->male_img = $male_file_url;       
+        $findedSpecie->female_img = $female_file_url;       
         $findedSpecie->description = $specie->description;       
         $findedSpecie->family = $specie->family;    
         $findedSpecie->class = $specie->class;    

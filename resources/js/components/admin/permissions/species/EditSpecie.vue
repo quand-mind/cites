@@ -5,22 +5,43 @@
       <b-row>
         <b-col md='4'>
           <b-row class="pl-4 d-flex justify-content-start align-items-center">
+            <span class="mb-3">Ejemplar Fememino:</span>
             <picture>
               <b-img
                 thumbnail
                 fluid
-                :src="newPhotoUrl || '/images/default-user.png'"
+                :src="femaleNewPhotoUrl || '/images/default-user.png'"
                 alt="user photo"
               ></b-img>
             </picture>
             <b-form-file
               accept="image/*"
-              v-model="newPhoto"
+              v-model="femaleNewPhoto"
               :disabled="!specieToEdit.name_common"
               placeholder="Escoge una foto (Max. 2MB)"
               drop-placeholder="Subir archivo aquí..."
             ></b-form-file>
-            <div class="mt-3">Selected file: {{ newPhoto ? newPhoto.name : newPhotoUrl }}</div>
+            <div class="mt-3">Archivo seleccionado: {{ femaleNewPhoto ? femaleNewPhoto.name : femaleNewPhotoUrl }}</div>
+          </b-row>
+          <hr>
+          <b-row class="pl-4 d-flex justify-content-start align-items-center">
+            <span class="mb-3">Ejemplar Masculino:</span>
+            <picture>
+              <b-img
+                thumbnail
+                fluid
+                :src="maleNewPhotoUrl || '/images/default-user.png'"
+                alt="user photo"
+              ></b-img>
+            </picture>
+            <b-form-file
+              accept="image/*"
+              v-model="maleNewPhoto"
+              :disabled="!specieToEdit.name_common"
+              placeholder="Escoge una foto (Max. 2MB)"
+              drop-placeholder="Subir archivo aquí..."
+            ></b-form-file>
+            <div class="mt-3 mb-3">Archivo seleccionado: {{ maleNewPhoto ? maleNewPhoto.name : maleNewPhotoUrl }}</div>
           </b-row>
         </b-col>
         <b-col md='8'>
@@ -98,23 +119,30 @@
 </template>
 <script>
 import {mapActions, mapGetters} from 'vuex'
+import timeout from '../../../../setTimeout';
 export default {
   props: ['specieEditable'],
   data: (vm) =>({
-    newPhoto: null,
-    isNewPhoto: false,
-    newPhotoUrl: vm.specieEditable.img,
+    femaleNewPhoto: null,
+    maleNewPhoto: null,
+    isNewMalePhoto: false,
+    isNewFemalePhoto: false,
+    femaleNewPhotoUrl: vm.specieEditable.female_img,
+    maleNewPhotoUrl: vm.specieEditable.male_img,
     specieToEdit: {
       name_common: vm.specieEditable.name_common,
       name_scientific: vm.specieEditable.name_scientific,
       type: vm.specieEditable.type,
       description: vm.specieEditable.description,
+      features: vm.specieEditable.features,
+      geographic_distribution: vm.specieEditable.geographic_distribution,
       appendix: vm.specieEditable.appendix,
       class: vm.specieEditable.class,
       family: vm.specieEditable.family,
       search_id:vm.specieEditable.search_id
     },
-    obtained_img_url: vm.specieEditable.img,
+    obtained_male_img_url: vm.specieEditable.male_img,
+    obtained_female_img_url: vm.specieEditable.female_img,
     specieName:vm.specieEditable.name_scientific,
     loading: false,
     showSpecies: false,
@@ -138,22 +166,30 @@ export default {
       let valid_type = Boolean(this.specieToEdit.type)
       let valid_family = Boolean(this.specieToEdit.family)
       let valid_description = Boolean(this.specieToEdit.description)
+      let valid_features = Boolean(this.specieToEdit.features)
+      let valid_geographic_distribution = Boolean(this.specieToEdit.geographic_distribution)
       let valid_name_scientific = Boolean(this.specieToEdit.name_scientific)
       let valid_appendix = Boolean(this.specieToEdit.appendix)
       let valid_class = Boolean(this.specieToEdit.class)
-      let valid_img = Boolean(this.newPhotoUrl)
+      let valid_female_img = Boolean(this.femaleNewPhotoUrl)
+      let valid_male_img = Boolean(this.maleNewPhotoUrl)
 
-      return valid_name_common && valid_appendix && valid_type && valid_family && valid_name_scientific && valid_description && valid_class && valid_img
+      return valid_name_common && valid_appendix && valid_type && valid_family && valid_name_scientific && valid_description && valid_geographic_distribution && valid_features && valid_class && valid_female_img && valid_male_img
     }
   },
   methods: {
     ...mapActions([
       'fetchSpecies',
     ]),
-    setNewPhoto () {
-      this.isNewPhoto = true
-      let url = URL.createObjectURL(this.newPhoto)
-      this.newPhotoUrl = url
+    setMaleNewPhoto () {
+      this.isNewMalePhoto = true
+      let url = URL.createObjectURL(this.maleNewPhoto)
+      this.maleNewPhotoUrl = url
+    },
+    setFemaleNewPhoto () {
+      this.isNewFemalePhoto = true
+      let url = URL.createObjectURL(this.femaleNewPhoto)
+      this.femaleNewPhotoUrl = url
     },
     onSelectSpecie(specie) {
       this.loadingSpecieData = true
@@ -219,7 +255,7 @@ export default {
       this.$emit('closeEditSpecieDialog')
     },
     editSpecie(){
-      this.$emit('editSpecie', this.specieToEdit, this.newPhoto, this.newPhotoUrl, this.isNewPhoto, this.obtained_img_url)
+      this.$emit('editSpecie', this.specieToEdit, this.maleNewPhoto, this.femaleNewPhoto, this.maleNewPhotoUrl, this.femaleNewPhotoUrl, this.isNewMalePhoto, this.isNewFemalePhoto)
       // this.specieToEdit = {
       //   name_common: null,
       //   name_scientific: null,
@@ -231,10 +267,21 @@ export default {
       // }
       // this.closeAddSpecieDialog()
     },
+     makeToast(msg, variant = "success", delay = timeout, append = false) {
+      this.$bvToast.toast(`${msg}`, {
+        title: 'Buscar Especie',
+        autoHideDelay: delay,
+        appendToast: append,
+        variant
+      });
+    },
   },
   watch: {
-    newPhoto: function(newData, oldData) {
-      this.setNewPhoto()
+    maleNewPhoto: function(newData, oldData) {
+      this.setMaleNewPhoto()
+    },
+    femaleNewPhoto: function(newData, oldData) {
+      this.setFemaleNewPhoto()
     },
   }
 }

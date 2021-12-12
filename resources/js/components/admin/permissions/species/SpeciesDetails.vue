@@ -31,10 +31,19 @@
         <b-img
           thumbnail
           fluid
-          slot="imagen"
-          class="profile-img"
+          slot="especimen masculino"
           slot-scope="props"
-          :src="props.row.img || '/images/default-user.png'"
+          class="profile-img"
+          :src="props.row.male_img || '/images/default-user.png'"
+          alt="specie photo"  
+        ></b-img>
+        <b-img
+          thumbnail
+          fluid
+          slot="especimen femenino"
+          slot-scope="props"
+          class="profile-img"
+          :src="props.row.female_img || '/images/default-user.png'"
           alt="specie photo"  
         ></b-img>
 
@@ -82,7 +91,7 @@ export default {
     selectedSpecie: {},
     showAddSpecie: false,
     showEditSpecie: false,
-    columns:['imagen','nombre común', 'nombre científco', 'tipo', 'editar'],
+    columns:['especimen masculino', 'especimen femenino','nombre común', 'nombre científco', 'tipo', 'editar'],
   }),
   components: {
     AddSpecie,
@@ -94,10 +103,12 @@ export default {
       this.selectedSpecie = specie
       this.showEditSpecie = true
     },
-    addSpecieToList(newSpecie, img){
+    addSpecieToList(newSpecie, male_img, female_img){
       let form = new FormData();
       form.append("specie", JSON.stringify(newSpecie));
-      form.append("img", img);
+      form.append("male_img", male_img);
+      form.append("female_img", female_img);
+      console.log(male_img)
       this.loading = true
       axios
         .post(`/dashboard/species/registerSpecie`, form, {
@@ -116,17 +127,25 @@ export default {
           this.makeToast(err.response.data, 'danger')
         });
     },
-    editSpecie(specie, img, url, isNewPhoto, obtained_img_url){
+    editSpecie(specie, male_img, female_img, male_url, female_url, isNewMalePhoto, isNewFemalePhoto){
       let form = new FormData();
       form.append("specie", JSON.stringify(specie));
-      if (isNewPhoto) {
-        form.append("img", img);
+      form.append("isNewMalePhoto", isNewMalePhoto);
+        form.append("isNewFemalePhoto", isNewFemalePhoto);
+      if (isNewMalePhoto) {
+        form.append("male_img", male_img);
+        form.append("female_img", female_img);
       }
       else {
-        form.append("img", url);
-        form.append("obtained_img_url", obtained_img_url);
+        form.append("male_img", male_url);
       }
-      form.append("isNewPhoto", isNewPhoto);
+      if (isNewFemalePhoto) {
+        form.append("male_img", male_img);
+        form.append("female_img", female_img);
+      }
+      else {        
+        form.append("female_img", female_url);
+      }
       this.loading = true
       axios
         .post(`/dashboard/species/editSpecie`, form, {

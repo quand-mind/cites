@@ -265,6 +265,28 @@ class StatisticsController extends Controller
     //Exports to  Excel
     // Esta es la funcion que vamos a usar
 
+    public function exportPermitsData(Request $request)
+    {
+        // return $request->query('speciesIds');
+        $labels = $request->query('labels');
+        $title = $request->query('title');
+        $documentTitle = $request->query('documentTitle');
+        $labels = preg_split("/\,/", $labels);
+        $date1 = $labels[0];
+        $date2 = $labels[count($labels) - 1];
+        
+        $data = $this->getPermitCountFromDate($date1, $date2);
+        $datasets = $data->datasets;
+        $labels = $data->labels;
+
+        // return $datasets[0];
+
+        $documentTitle = $documentTitle . '.xlsx';
+
+        // return $speciesIds;
+        return Excel::download(new GraphicsStatistics($labels, $datasets, $title, $documentTitle), $documentTitle);
+    }
+
     public function exportSpeciesData(Request $request)
     {
         // return $request->query('speciesIds');
@@ -283,19 +305,6 @@ class StatisticsController extends Controller
 
         // return $speciesIds;
         return Excel::download(new GraphicsStatistics($labels, $datasets, $title, $documentTitle), $documentTitle);
-        // return Excel::download($this->exportToExcel($labels, $datasets, $title), $documentTitle);
     }
-    // public function SpeciesStatisticsExport()
-    // {
-    //     return Excel::download($this->exportToExcel($labels, $values), 'test.xlsx');
-    // }
-    // public function PlantaeStatisticsExport()
-    // {
-    //     return Excel::download($this->exportToExcel($labels, $values), 'test.xlsx');
-    // }
-    // public function AnimaliaStatisticsExport()
-    // {
-    //     return Excel::download($this->exportToExcel($labels, $values), 'test.xlsx');
-    // }
 }
     

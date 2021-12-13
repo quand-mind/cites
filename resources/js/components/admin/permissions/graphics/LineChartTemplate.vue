@@ -14,6 +14,8 @@
       <b-col lg="8" md="12">
         <LineChart ref="lineChart" :labels="labelsToPass" :datasets="datasetsToPass"></LineChart>
       </b-col>
+
+      <b-btn @click="saveData">Guardar datos de la gráfica</b-btn>
       
     </b-row>
   </div>
@@ -21,6 +23,7 @@
 <script>
 import LineChart from './LineChart.vue';
 import Graphic from './Graphic.vue';
+import timeout from '../../../../setTimeout';
 import SelectDate from './SelectDate.vue';
 export default {
   props:['title', 'datasets', 'labels', 'date1', 'date2'],
@@ -53,14 +56,22 @@ export default {
         }
         count++
       }
-      axios
-        .post(`/dashboard/permissions/graphics/exportData`, {labels: JSON.stringify(this.labelsToPass), datasets: JSON.stringify(datasets), title: this.titleToPass})
-        .then(res => {
-          this.makeToast(res.data, 'success')
-        })
-        .catch(err => {
-          this.makeToast(err.toString(), 'danger')
-        });
+
+      let speciesIdsArray = this.speciesToPass.map(specie => specie.id)
+      let speciesIds = speciesIdsArray.join(',')
+      // console.log(speciesIds)
+      let date = new Date()
+      let documentTitleToPass = 'grafica_permisos_por_fecha' + date
+
+      window.location.assign(`/dashboard/permissions/graphics/exportPermitsData?speciesIds=${speciesIds}&title=${this.titleToPass}&documentTitle=${documentTitleToPass}`)
+    },
+    makeToast(msg, variant = "success", delay = timeout, append = false) {
+      this.$bvToast.toast(`${msg}`, {
+        title: 'Guardar Datos',
+        autoHideDelay: delay,
+        appendToast: append,
+        variant
+      });
     },
   }
 }

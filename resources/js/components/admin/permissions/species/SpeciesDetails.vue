@@ -134,13 +134,11 @@ export default {
         form.append("isNewFemalePhoto", isNewFemalePhoto);
       if (isNewMalePhoto) {
         form.append("male_img", male_img);
-        form.append("female_img", female_img);
       }
       else {
         form.append("male_img", male_url);
       }
       if (isNewFemalePhoto) {
-        form.append("male_img", male_img);
         form.append("female_img", female_img);
       }
       else {        

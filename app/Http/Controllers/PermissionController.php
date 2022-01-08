@@ -165,6 +165,8 @@ class PermissionController extends Controller
         $Date_day = Carbon::now()->format('Y-m-d');
         $DateDay = Carbon::now()->format('ymd');
         $getSpecies = json_decode($request->input('species'));
+
+        // return $getSpecies;
         
         $index = 0;
         
@@ -438,7 +440,7 @@ class PermissionController extends Controller
     public function requestPermit($id)
     {
         $formalitie = Formalitie::find($id);
-        return $formalitie;
+        // return $formalitie;
         $formalitie->status = 'requested';
         $formalitie->save();
         $fileUrls = [];
@@ -501,7 +503,7 @@ class PermissionController extends Controller
         $permit->push();
         
         Log::info('El solicitante con la cedula de identidad '.$this->returnUser().'ha cargado un archivo al permiso n° '.$permit->request_permit_no.' | El archivo se ha cargado desde la dirección: '. request()->ip());
-        return $url;
+        return $file_url;
     }
 
     public function deleteFile($id, Request $request)
@@ -578,10 +580,10 @@ class PermissionController extends Controller
         $pivot = $newRequeriment->pivot;
         $requeriment_id = $newRequeriment->id;
         if ($pivot->is_valid) {
-            $pivot->is_valid = 1;
+            $pivot->is_valid = 0;
             $permit->requeriments[$index]->pivot->is_valid = $pivot->is_valid;
         } else {
-            $pivot->is_valid = 0;
+            $pivot->is_valid = 1;
             $permit->requeriments[$index]->pivot->is_valid = $pivot->is_valid;
         }
         Log::info('El funcionario con la cedula de identidad '.$this->returnUser().'a verificado el recaudo "'.$permit->requeriments[$index]->name.'" del permiso n° '.$permit->request_permit_no.' | Se ha verificado desde la dirección: '. request()->ip());
@@ -613,7 +615,6 @@ class PermissionController extends Controller
     public function validPermit(Request $request, $id)
     {
         $formalitie = Formalitie::find($id);
-        $formalitie->sistra= $request->input('sistra');
         $formalitie->status= 'valid';
         $formalitie->official_id= $request->input('official_id');
         $formalitie->save();
@@ -624,7 +625,6 @@ class PermissionController extends Controller
         $date = strtotime("+180 day");
         foreach ($formalitie->permits as $permit) {
             $permit->valid_until = date('M d, Y', $date);
-            $permit->sistra= $request->input('sistra');
             $permit->stamp_number= $permits[$index]->stamp_number;
             $permit->status= 'valid';
             array_push($data, $permit);
@@ -638,7 +638,7 @@ class PermissionController extends Controller
         }
         Log::info('El funcionario con la cedula de identidad '.$this->returnUser().'ha verificado el trámite n° '.$formalitie->request_formalitie_no.' como válido | El trámite se ha verificado desde la direccion: '.request()->ip());
         
-        return response('Estatus del Recaudo Actualizado.', 200);
+        return response('Estatus del Trámite y los Permisos Actualizado.', 200);
     }
 
     public function sendErrors(Request $request, $id)

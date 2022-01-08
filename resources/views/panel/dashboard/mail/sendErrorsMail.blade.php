@@ -18,7 +18,7 @@
                 <p> El tramite <strong>{{ $formalitie->request_formalitie_no }}</strong> posee las siguientes observaciones:</p>
                 <p><li><ul>{{ $formalitie->observations}}</ul></li></p>
                 <p>Usted tiene hasta el día {{ $formalitie->collected_time }} para parfa cumplir con las observaciones dadas.</p>
-                <p>Att: MNEC</p>
+                <p>Att: MINEC</p>
                 <br/>
             </div>
             <div style="display:flex; justify-content:center">

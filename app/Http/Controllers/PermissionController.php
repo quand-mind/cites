@@ -134,7 +134,7 @@ class PermissionController extends Controller
     {
         $permit = Permit::where(['id' => $id])->with(['requeriments', 'permit_type', 'formalitie.client.user',
         'formalitie.official.user', 'species'])->get()->first();
-        if ( $permit->status === 'valid' ) {
+        if ( $permit->status ) {
             $permit->status = 'printed';
             $permit->save();
             // return $permit->status; 
@@ -142,6 +142,7 @@ class PermissionController extends Controller
             $pdf->setOptions(['dpi' => 150, 'defaultFont' => 'sans-serif']);
             $image = base64_encode(file_get_contents(public_path('/images/logos/logo-minec.png')));
             $logo = $image;
+            // $customPaper = array(0,0,567.00,283.80);
             $host = $_SERVER["HTTP_HOST"];
             $GcodeQr = QrCode::generate($host.'/permitInfo/'.$permit->request_permit_no, storage_path('app/files/qrcodes/'.$permit->request_permit_no.'.svg'));
             $codeQr = base64_encode(file_get_contents(storage_path('app/files/qrcodes/'.$permit->request_permit_no.'.svg')));
@@ -614,8 +615,10 @@ class PermissionController extends Controller
 
     public function validPermit(Request $request, $id)
     {
+        $sistra = $request->input('sistra');
         $formalitie = Formalitie::find($id);
         $formalitie->status= 'valid';
+        $formalitie->sistra= $sistra;
         $formalitie->official_id= $request->input('official_id');
         $formalitie->save();
         $index= 0;
@@ -627,6 +630,7 @@ class PermissionController extends Controller
             $permit->valid_until = date('M d, Y', $date);
             $permit->stamp_number= $permits[$index]->stamp_number;
             $permit->status= 'valid';
+            $permit->sistra= $sistra;
             array_push($data, $permit);
             $permit->save();
         }

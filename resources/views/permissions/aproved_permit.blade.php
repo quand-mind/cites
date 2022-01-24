@@ -7,7 +7,9 @@
     <title>{{ env('APP_NAME') }} :: Administracion de Permisos</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
-
+    <style>
+      @page { size: 31cm 21cm landscape; }
+    </style>
     <!-- Styles -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" integrity="sha384-REHJTs1r2ErKBuJB0fCK99gCYsVjwxHrSU0N7I1zl9vZbggVJXRMsv/sLlOAGb4M" crossorigin="anonymous">
 </head>
@@ -28,8 +30,8 @@
 
     <div id="app">
       <div style="width:100%">
-        <div style="position: absolute; top:0; left:0; width:45%; display:inline;">
-          <img src="data:image/png;base64,{{ $logo }}" style="margin-right: 10px; display:inline; width: 10%;"/>
+        <div style="position: absolute; top:0; left:0; width:40%; display:inline;">
+          <img src="data:image/png;base64,{{ $logo }}" style="margin-right: 10px; display:inline; width: 15%;"/>
           <h6 class="absolute" style="width: 100%;margin-top: 0px; top: 0;">CONVENCION SOBRE EL COMERCIO INTERNACIONAL DE ESPECIES AMENAZADAS DE FAUNA Y FLORA SILVESTRES</h6>
         </div>
         <div style="border-left: 2px solid; border-bottom: 1px solid; position: absolute; padding:5px; top:0; left:269; width:50%; height: 71px; display:inline;">
@@ -63,19 +65,19 @@
         <div style="position: absolute; padding:5px; top:78; border:1px solid; height: 30px; left:0; width:50%; display:inline;">
           <h6 class="absolute" style="width: 100%;margin-top: 0px; top: 0;">País de Importación</h6>
           @if ($permit->permit_type->type =="import")
-            <span class="absolute" style="width: 20%;margin-top: 0px; left:80; top: 3 ; font-size: 16px; ">Venezuela, VE</span>
+            <span class="absolute" style="width: 80%;margin-top: 0px; left:80; top: 3 ; font-size: 16px; ">Venezuela, VE</span>
           @endif
           @if ($permit->permit_type->type =="export" || $permit->permit_type->type =="reexport")
-            <span class="absolute" style="width: 20%;margin-top: 0px; left:80; top: 3 ; font-size: 16px; ">{{$permit->country}}, {{$permit->country_code}}</span>
+            <span class="absolute" style="width: 80%;margin-top: 0px; left:80; top: 3 ; font-size: 16px; ">{{$permit->country}}, {{$permit->country_code}}</span>
           @endif
         </div>
         <div style="position: absolute; padding:5px; top:78;  border:1px solid; height: 30px; left:269; width:50%; display:inline;">
           <h6 class="absolute" style="width: 100%;margin-top: 0px; top: 0;">País de Exportación</h6>
           @if ($permit->permit_type->type =="import")
-            <span class="absolute" style="width: 20%;margin-top: 0px; left:80; top: 3 ; font-size: 16px; ">{{$permit->country}}, {{$permit->country_code}}</span>
+            <span class="absolute" style="width: 80%;margin-top: 0px; left:80; top: 3 ; font-size: 16px; ">{{$permit->country}}, {{$permit->country_code}}</span>
           @endif
           @if ($permit->permit_type->type =="export" || $permit->permit_type->type =="reexport")
-            <span class="absolute" style="width: 20%;margin-top: 0px; left:80; top: 3 ; font-size: 16px; ">Venezuela, VE</span>
+            <span class="absolute" style="width: 80%;margin-top: 0px; left:80; top: 3 ; font-size: 16px; ">Venezuela, VE</span>
           @endif
         </div>
 
@@ -455,7 +457,7 @@
           <h6 class="absolute" style="text-align:center; border-top:1px solid; width:15%; height:60px; margin-top: -5px; top:72; font-size: 14px; left:330;">Firma</h6>
           <h6 class="absolute" style="text-align:center; border-top:1px solid; width:15%; height:60px; margin-top: -5px; top:72; font-size: 14px; left:430;">Sello y cargo oficiales</h6>
         </div>
-        <img src="data:image/png;base64,{{ $codeQr }}"  style="margin-right: 10px; margin-top: 790px; display:inline; width: 10%;"/>  
+        <img src="data:image/png;base64,{{ $codeQr }}"  style="margin-right: 10px; margin-top: 805px; display:inline; width: 10%;"/>  
         <h4 class="absolute" style="width:50%; height:60px; margin-top: 0px; top: {{$final + 220}}; left:340;">Permiso/Certificado N°: {{$permit->request_permit_no}}</h4>
         
       </div>

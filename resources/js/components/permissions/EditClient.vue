@@ -119,7 +119,7 @@
         </b-card-text>
     </b-card>
     <button class="btn btn-primary mt-4" @click="editUser()">Actualizar Datos</button>
-    <button class="btn btn-primary mt-4" @click="backToPermisions()">Regresar a Permisos</button>
+    <button class="btn btn-primary mt-4" @click="returnBack()">Regresar a Permisos</button>
   </div>
 </template>
 <script>
@@ -148,6 +148,9 @@ export default {
         .catch(err => {
           this.makeToast(err.toString(), 'danger')
         });
+    },
+    returnBack(){
+      history.back();
     },
     makeToast(msg, variant = "success", delay = timeout, append = false) {
       this.$bvToast.toast(`${msg}`, {

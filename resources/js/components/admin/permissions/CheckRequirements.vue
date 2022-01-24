@@ -275,7 +275,7 @@ export default {
         .post(`/dashboard/permissions/validPermit/`+ this.formalitie.id, {official_id: this.official.id, sistra: this.formalitie.sistra, permits: JSON.stringify(this.formalitie.permits)})
         .then(res => {
           this.makeToast(res.data)
-          // setTimeout(() => window.location.assign('/dashboard/permissions/'), timeout)
+          setTimeout(() => window.location.assign('/dashboard/permissions/'), timeout)
         })
         .catch(err => {
           this.makeToast(err.toString(), 'danger')

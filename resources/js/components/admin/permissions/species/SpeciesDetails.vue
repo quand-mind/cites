@@ -61,13 +61,15 @@
       </v-client-table>
     </div>
 
-    <b-modal v-model="showAddSpecie" size="xl" id="add-species-modal" title="Agregar Especie" hide-footer>
+    <b-modal v-model="showAddSpecie" size="xl" id="add-species-modal" title="Agregar Especie" hide-footer class="p-5">
       <AddSpecie
+      class="p-4"
       v-on:addSpecie="addSpecieToList"
       v-on:closeAddSpecieDialog="closeAddSpecieDialog"/>
     </b-modal>
-    <b-modal v-model="showEditSpecie" size="xl" id="edit-species-modal" title="Editar Especie" hide-footer>
+    <b-modal v-model="showEditSpecie" size="xl" id="edit-species-modal" title="Editar Especie" hide-footer class="p-5">
       <EditSpecie
+      class="p-4"
       :specieEditable="selectedSpecie"
       v-on:editSpecie="editSpecie"
       v-on:closeEditSpecieDialog="closeEditSpecieDialog"/>
@@ -103,12 +105,13 @@ export default {
       this.selectedSpecie = specie
       this.showEditSpecie = true
     },
-    addSpecieToList(newSpecie, male_img, female_img){
+    addSpecieToList(newSpecie, male_img, female_img, female_title, male_title){
       let form = new FormData();
       form.append("specie", JSON.stringify(newSpecie));
       form.append("male_img", male_img);
       form.append("female_img", female_img);
-      console.log(male_img)
+      form.append("male_title", male_title);
+      form.append("female_title", female_title);
       this.loading = true
       axios
         .post(`/dashboard/species/registerSpecie`, form, {
@@ -119,7 +122,7 @@ export default {
         .then(res => {
           this.makeToast(res.data)
           this.loading = false
-          this.closeEditSpecieDialog()
+          this.closeAddSpecieDialog()
           setTimeout(() => window.location.reload(), timeout)
         })
         .catch(err => {
@@ -154,7 +157,7 @@ export default {
         .then(res => {
           this.makeToast(res.data)
           this.loading = false
-          this.closeAddSpecieDialog()
+          this.closeEditSpecieDialog()
           setTimeout(() => window.location.reload(), timeout)
         })
         .catch(err => {

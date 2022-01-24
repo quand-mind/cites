@@ -24,8 +24,10 @@ class SpecieController extends Controller
     {
         $specie = json_decode($request->input('specie'));
         // return $specie;
-        $male_img = $request->file('male_img');
         $female_img = $request->file('female_img');
+        $male_img = $request->file('male_img');
+        $male_title = $request->input('male_title');
+        $female_title = $request->input('female_title');
         // return $female_img;
 
         $findedSpecie = Specie::where(['name_scientific' => $specie->name_scientific])->get()->first();
@@ -33,18 +35,25 @@ class SpecieController extends Controller
         if ($findedSpecie) {
             return response('La especie ya se encuentra agregada', 500);
         } else {
-            $maleNameFile = $specie->name_common."_img_".time() . '_male' . ".".$male_img->guessExtension();
-            $male_sub_url = 'species/'. $specie->name_common;
-            $male_url = $this->createFolder($male_sub_url);
-            $male_file_url = $request->file('male_img')->storeAs($male_url, $maleNameFile);
-            // return $male_file_url;
-            $male_file_url = '/storage/' . $male_file_url;
-            
-            $femaleNameFile = $specie->name_common."_img_".time() . '_female' . ".".$female_img->guessExtension();
-            $female_sub_url = 'species/'. $specie->name_common;
-            $female_url = $this->createFolder($female_sub_url);
-            $female_file_url = $request->file('female_img')->storeAs($female_url, $femaleNameFile);
-            $female_file_url = '/storage/' . $female_file_url;
+            if ($male_img) {
+                $maleNameFile = $specie->name_common."_img_".time() . '_male' . ".".$male_img->guessExtension();
+                $male_sub_url = 'species/'. $specie->name_common;
+                $male_url = $this->createFolder($male_sub_url);
+                $male_file_url = $request->file('male_img')->storeAs($male_url, $maleNameFile);
+                // return $male_file_url;
+                $male_file_url = '/storage/' . $male_file_url;
+            } else {
+                $male_file_url = null;
+            }
+            if ($female_img) {
+                $femaleNameFile = $specie->name_common."_img_".time() . '_female' . ".".$female_img->guessExtension();
+                $female_sub_url = 'species/'. $specie->name_common;
+                $female_url = $this->createFolder($female_sub_url);
+                $female_file_url = $request->file('female_img')->storeAs($female_url, $femaleNameFile);
+                $female_file_url = '/storage/' . $female_file_url;
+            } else {
+                $female_file_url = null;
+            }
             // return $file_url;
 
             $newSpecie = new Specie();
@@ -52,6 +61,8 @@ class SpecieController extends Controller
             $newSpecie->appendix = $specie->appendix;       
             $newSpecie->male_img = $male_file_url;       
             $newSpecie->female_img = $female_file_url;       
+            $newSpecie->male_title = $male_title;       
+            $newSpecie->female_title = $female_title;       
             $newSpecie->description = $specie->description;       
             $newSpecie->features = $specie->features;       
             $newSpecie->geographic_distribution = $specie->geographic_distribution;       
@@ -112,6 +123,8 @@ class SpecieController extends Controller
         $findedSpecie->male_img = $male_file_url;       
         $findedSpecie->female_img = $female_file_url;       
         $findedSpecie->description = $specie->description;       
+        $findedSpecie->male_title = $specie->male_title;       
+        $findedSpecie->female_title = $specie->female_title;       
         $findedSpecie->family = $specie->family;    
         $findedSpecie->class = $specie->class;    
         $findedSpecie->name_scientific = $specie->name_scientific;       

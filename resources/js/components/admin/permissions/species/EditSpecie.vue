@@ -22,6 +22,10 @@
               drop-placeholder="Subir archivo aquí..."
             ></b-form-file>
             <div class="mt-3">Archivo seleccionado: {{ femaleNewPhoto ? femaleNewPhoto.name : femaleNewPhotoUrl }}</div>
+
+            <div class="w-100 mt-3">
+              <b-form-input :disabled="!femaleNewPhoto && !obtained_female_img_url" placeholder="Título y Autor de la Imagen:" v-model="specieToEdit.female_title" ></b-form-input>
+            </div>
           </b-row>
           <hr>
           <b-row class="pl-4 d-flex justify-content-start align-items-center">
@@ -42,6 +46,10 @@
               drop-placeholder="Subir archivo aquí..."
             ></b-form-file>
             <div class="mt-3 mb-3">Archivo seleccionado: {{ maleNewPhoto ? maleNewPhoto.name : maleNewPhotoUrl }}</div>
+
+            <div class="mb-3 w-100 mt-3">
+              <b-form-input :disabled="!maleNewPhoto && !obtained_male_img_url" placeholder="Título y Autor de la Imagen:" v-model="specieToEdit.male_title" ></b-form-input>
+            </div>
           </b-row>
         </b-col>
         <b-col md='8'>
@@ -134,6 +142,8 @@ export default {
       name_scientific: vm.specieEditable.name_scientific,
       type: vm.specieEditable.type,
       description: vm.specieEditable.description,
+      female_title: vm.specieEditable.female_title,
+      male_title: vm.specieEditable.male_title,
       features: vm.specieEditable.features,
       geographic_distribution: vm.specieEditable.geographic_distribution,
       appendix: vm.specieEditable.appendix,
@@ -171,10 +181,22 @@ export default {
       let valid_name_scientific = Boolean(this.specieToEdit.name_scientific)
       let valid_appendix = Boolean(this.specieToEdit.appendix)
       let valid_class = Boolean(this.specieToEdit.class)
-      let valid_female_img = Boolean(this.femaleNewPhotoUrl)
-      let valid_male_img = Boolean(this.maleNewPhotoUrl)
+      let valid_female_img = Boolean(this.femaleNewPhotoUrl || this.obtained_female_img_url)
+      let valid_male_img = Boolean(this.maleNewPhotoUrl || this.obtained_male_img_url)
 
-      return valid_name_common && valid_appendix && valid_type && valid_family && valid_name_scientific && valid_description && valid_geographic_distribution && valid_features && valid_class && valid_female_img && valid_male_img
+      let valid_female_title = Boolean(this.specieToEdit.female_title)
+      let valid_male_title = Boolean(this.specieToEdit.male_title)
+      let valid_img = true
+
+      if (valid_female_img || valid_male_img){
+        if (valid_female_title || valid_male_title) {
+          valid_img = true
+        } else {
+          valid_img = false
+        }
+      }
+
+      return valid_name_common && valid_appendix && valid_type && valid_family && valid_name_scientific && valid_description && valid_geographic_distribution && valid_features && valid_class && valid_img
     }
   },
   methods: {

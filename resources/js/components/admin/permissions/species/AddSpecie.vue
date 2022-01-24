@@ -22,7 +22,11 @@
               drop-placeholder="Subir archivo aquí..."
             ></b-form-file>
             <div class="mt-3">Archivo seleccionado: {{ femaleNewPhoto ? femaleNewPhoto.name : '' }}</div>
-          </b-row>
+
+            <div class="w-100 mt-3">
+              <b-form-input :disabled="!femaleNewPhoto" placeholder="Título y Autor de la Imagen:" v-model="femaleTitle" ></b-form-input>
+            </div>
+          </b-row> 
           <hr>
           <b-row class="pl-4 d-flex justify-content-start align-items-center">
             <span class="mb-3">Ejemplar Masculino:</span>
@@ -41,7 +45,11 @@
               placeholder="Escoge una foto (Max. 2MB)"
               drop-placeholder="Subir archivo aquí..."
             ></b-form-file>
-            <div class="mt-3 mb-3">Archivo seleccionado: {{ maleNewPhoto ? maleNewPhoto.name : '' }}</div>
+            <div class="mt-3 ">Archivo seleccionado: {{ maleNewPhoto ? maleNewPhoto.name : '' }}</div>
+
+            <div class="mb-3 w-100 mt-3">
+              <b-form-input :disabled="!maleNewPhoto" placeholder="Título y Autor de la Imagen:" v-model="maleTitle" ></b-form-input>
+            </div>
           </b-row>
         </b-col>
         <b-col md='8'>
@@ -131,6 +139,10 @@ import timeout from '../../../../setTimeout';
 export default {
   data: () =>({
     femaleNewPhoto: null,
+    femaleTitle: null,
+    maleTitle: null,
+    femaleAutor: null,
+    maleAutor: null,
     maleNewPhoto: null,
     newSpecie:  {
       name_common: null,
@@ -177,8 +189,19 @@ export default {
       let valid_class = Boolean(this.newSpecie.class)
       let valid_female_img = Boolean(this.femaleNewPhoto)
       let valid_male_img = Boolean(this.maleNewPhoto)
+      let valid_female_title = Boolean(this.femaleTitle)
+      let valid_male_title = Boolean(this.maleTitle)
+      let valid_img = true
 
-      return valid_name_common && valid_appendix && valid_type && valid_family && valid_name_scientific && valid_description && valid_geographic_distribution && valid_features && valid_class && valid_female_img && valid_male_img
+      if (valid_female_img || valid_male_img){
+        if (valid_female_title || valid_male_title) {
+          valid_img = true
+        } else {
+          valid_img = false
+        }
+      }
+
+      return valid_name_common && valid_appendix && valid_type && valid_family && valid_name_scientific && valid_description && valid_geographic_distribution && valid_features && valid_class && valid_img
     }
   },
   methods: {
@@ -208,11 +231,15 @@ export default {
           this.newSpecie.type = res.data.higher_taxa.kingdom
           let common_names = ''
           let count = 0
-          for (const name of res.data.common_names) {
-            if(count > 0){
-              common_names = common_names + ', '
+          if(res.data.common_names.length > 0) {
+            for (const name of res.data.common_names) {
+              if(count > 0){
+                common_names = common_names + ', '
+              }
+              common_names = common_names + name.name
             }
-            common_names = common_names + name.name
+          } else {
+            common_names = this.newSpecie.name_scientific
           }
           this.newSpecie.name_common = common_names
           console.log(common_names)
@@ -249,7 +276,7 @@ export default {
       this.$emit('closeAddSpecieDialog')
     },
     addSpecieToList(){
-      this.$emit('addSpecie', this.newSpecie, this.maleNewPhoto, this.femaleNewPhoto)
+      this.$emit('addSpecie', this.newSpecie, this.maleNewPhoto, this.femaleNewPhoto, this.femaleTitle, this.maleTitle)
       // this.newSpecie = {
       //   name_common: null,
       //   name_scientific: null,

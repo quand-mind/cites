@@ -254,6 +254,8 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         Route::post('/permissions/graphics/exportSpeciesData', 'StatisticsController@exportSpeciesData');
         Route::get('/permissions/graphics/exportSpeciesData', 'StatisticsController@exportSpeciesData');
         Route::get('/permissions/graphics/exportPermitsData', 'StatisticsController@exportPermitsData');
+        
+        Route::get('/permissions/annual-report/export', 'StatisticsController@exportAnnualReport');
 
         Route::post('/searchSpecie', 'ApiController@api_cites_filter');
 

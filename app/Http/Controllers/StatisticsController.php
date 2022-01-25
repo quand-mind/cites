@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
 use App\Models\Permit;
 use App\Models\PermitType;
 use App\Models\Specie;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\GraphicsStatistics;
+use App\Exports\AnnualExport;
 // use App\Exports\SpeciesStatistics;
 // use App\Exports\PlantaeStatistics;
 // use App\Exports\AnimaliaStatistics;
@@ -310,6 +312,58 @@ class StatisticsController extends Controller
 
         // return $speciesIds;
         return Excel::download(new GraphicsStatistics($labels, $datasets, $title, $documentTitle), $documentTitle);
+    }
+
+    public function exportAnnualReport(Request $request)
+    {
+        $year = $request->query('year');
+        $documentTitle = $request->query('documentTitle');
+        $title = $request->query('title');
+        // return gettype($year);
+        
+        $datasets = DB::table('species')
+                ->join('permit_specie', 'species.id', '=', 'permit_specie.specie_id')
+                ->join('permits', 'permit_specie.permit_id', '=', 'permits.id')
+                ->join('permit_types', 'permits.permit_type_id', '=', 'permit_types.id')
+                ->select(
+                    'species.appendix',
+                    'species.name_scientific',
+                    'permit_specie.description',
+                    'permit_specie.qty',
+                    'permit_specie.origin_country',
+                    'permits.country',
+                    'permit_types.type',
+                    'permits.request_permit_no',
+                    'permits.stamp_number',
+                    'permits.purpose',
+                    'permit_specie.origin'
+                )
+                ->whereYear('permits.created_at', $year)
+                ->where(['permits.status'=> 'valid'])
+                ->orWhere(['permits.status'=> 'printed'])
+                ->get();
+        // return $datasets;
+        // $datasets = [];
+        $labels = [
+            'Apéndice',
+            'Especie',
+            'Descripción',
+            'Cantidad',
+            'País de Origen de la Especie',
+            'País de Exportación o Importación',
+            'Tipo de Permiso',
+            'N° de Permiso',
+            'N° de Estampilla',
+            'Objeto del Permiso',
+            'Origen de los Especímenes',
+        ];
+
+        // return $datasets[0];
+
+        $documentTitle = $documentTitle . '.xlsx';
+
+        // return $speciesIds;
+        return Excel::download(new AnnualExport($labels, $datasets, $title, $documentTitle), $documentTitle);
     }
 }
     

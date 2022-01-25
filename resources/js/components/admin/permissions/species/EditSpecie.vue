@@ -229,7 +229,7 @@ export default {
           if (!this.specieToEdit.class){
             this.specieToEdit.class = 'No posee clase'
           }
-          this.specieToEdit.appendix = 'Apéndice ' + res.data.cites_listing
+          this.specieToEdit.appendix = res.data.cites_listing
           if (!this.specieToEdit.appendix){
             this.specieToEdit.appendix = 'No posee apéndice'
           }

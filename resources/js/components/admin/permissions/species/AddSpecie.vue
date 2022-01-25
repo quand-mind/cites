@@ -224,7 +224,7 @@ export default {
           if (!this.newSpecie.class){
             this.newSpecie.class = 'No posee clase'
           }
-          this.newSpecie.appendix = 'Apéndice ' + res.data.cites_listing
+          this.newSpecie.appendix = res.data.cites_listing
           if (!this.newSpecie.appendix){
             this.newSpecie.appendix = 'No posee apéndice'
           }

@@ -49,7 +49,7 @@
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('loginClient') }}">{{ __('Sistema de Permisos MINEC') }}</a>
+                                <a class="nav-link" href="{{ route('login') }}">{{ __('Sistema de Permisos MINEC') }}</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('register') }}">{{ __('Registro de Solicitantes') }}</a>

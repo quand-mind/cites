@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use GuzzleHttp\Client as CountriesClient;
 use App\Models\Client;
 use App\Models\Institution;
+use App\Models\Official;
 use App\Models\Phone;
 use App\Models\User;
 
@@ -542,8 +543,12 @@ class AuthController extends Controller
     public function viewRestortPassword(){
         return view('auth.resetPasswordClient');
     }
+
+    public function viewRestoreOfficialPassword(){
+        return view('auth.resetPasswordOfficial');
+    }
     
-    public function sendEmailResetPassword(Request $request ){
+    public function sendEmailClientResetPassword(Request $request ){
         $getEmailUser = $request->input('email');
 
         $emailClient=Client::where("email", "=", $getEmailUser)->first();
@@ -565,6 +570,30 @@ class AuthController extends Controller
 
         return response('Email de configuración de contraseña enviado al correo del usuario', 200);
     }
+    
+    public function sendEmailOfficialResetPassword(Request $request) {
+        $getEmailUser = $request->input('email');
+        return $getEmailUser;
+        $emailOfficial=Official::where("email", "=", $getEmailUser)->first();
+        return $emailOfficial;
+
+        // try{
+        //     if (! $token = JWTAuth::fromUser($emailOfficial)) {
+        //         return response()->json(['error' => 'invalid_credentials'], 401);
+        //     }
+        // }catch (JWTException $e){
+        //     return response()->json(['error' => 'could_not_create_token'], 500);
+        // }
+        
+        // setcookie("jwt_token", $token);
+
+        // Mail::send('email.emailBody', ['token' => $token], function($message) use($request){
+        //     $message->to($request->input('email'));
+        //     $message->subject('Set Password');
+        // });
+
+        return response('Email de configuración de contraseña enviado al correo del usuario', 200);
+    }
 
     public function RestortPassword(Request $request){
         $token = $request->route()->parameter('token');
@@ -572,8 +601,22 @@ class AuthController extends Controller
             ['token' => $token]
         );
     }
+    public function restoreOfficialPassword(Request $request){
+        $token = $request->route()->parameter('token');
+        return view('auth.setPasswordOfficial')->with(
+            ['token' => $token]
+        );
+    }
 
     public function resetPasswordClient(Request $request){
+        $client = Client::where("email", "=", $request->input('email'))->first();
+        $resetPassword = Client::find($client->id);
+        $resetPassword->password = $request->input('password');
+        $resetPassword->save();
+        // return redirect('loginClient');
+        return $this->authenticated($request, $this->guard()->user(), $token = $request->input('token'));
+    }
+    public function resetPasswordOfficial(Request $request){
         $client = Client::where("email", "=", $request->input('email'))->first();
         $resetPassword = Client::find($client->id);
         $resetPassword->password = $request->input('password');

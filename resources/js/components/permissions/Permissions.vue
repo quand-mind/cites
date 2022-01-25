@@ -19,7 +19,8 @@
           <div class="d-flex justify-content-between align-items-center">
             <span>N° de Permisos en este trámite: {{formalitie.permits.length}}</span>
             <div v-if="type === 'client'">
-              <a v-if="formalitie.status !== 'committed' || formalitie.status !== 'valid'" class="btn btn-info" :href="`/solicitante/permissions/uploadRequirements/${formalitie.id}`">Subir Recaudos</a>
+              <a v-if="formalitie.status === 'uploading_requeriments'" class="btn btn-info" :href="`/solicitante/permissions/uploadRequirements/${formalitie.id}`">Subir Recaudos</a>
+              <a v-if="formalitie.status !== 'uploading_requeriments'" class="btn btn-info" :href="`/solicitante/permissions/uploadRequirements/${formalitie.id}`">Ver Información de los Recaudos</a>
               <button class="btn btn-primary" @click="showFormaliteStatus(formalitie)">Ver estado del Trámite</button>
             </div>
             <div v-if="type === 'admin'">

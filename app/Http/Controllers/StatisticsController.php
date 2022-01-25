@@ -178,6 +178,11 @@ class StatisticsController extends Controller
 
     }
 
+    public function showAnnualReport()
+    {
+        return view('panel.dashboard.permissions.annual_report');
+    }
+
     public function getSpecies($speciesIds)
     {
         $species = Specie::findMany($speciesIds);

@@ -41,7 +41,7 @@ Route::post('/saveFile', [AuthorizationController::class, 'Nurseries']);
  */
 
 Route::get('/resetPassword', [AuthController::class, 'viewRestortPassword']);
-Route::post('/sendEmailResetPassword', [AuthController::class, 'sendEmailResetPassword']);
+Route::post('/sendEmailResetPassword', [AuthController::class, 'sendEmailClientResetPassword']);
 Route::get('/RestortPassword/{token}', [AuthController::class, 'RestortPassword'])->name('RestortPassword')->middleware('auth:api');
 Route::post('/saveNewPassword', [AuthController::class, 'resetPasswordClient']);
 

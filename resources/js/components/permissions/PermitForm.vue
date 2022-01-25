@@ -128,7 +128,7 @@ export default {
       fax: null
     },
     rawCountries: [],
-    countries: [{text:'Selecciona un país', value : null, disabled: true}],
+    countries: [{text:'País de origen de la especie', value : null, disabled: true}],
     loading: false,
     loadingCountries: false,
     permit:{

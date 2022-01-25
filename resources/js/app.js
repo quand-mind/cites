@@ -132,6 +132,8 @@ Vue.component("aside-manager", require("./components/admin/AsideManager.vue").de
 
 Vue.component("check-requirements", require("./components/admin/permissions/CheckRequirements.vue").default);
 
+Vue.component("annual-report", require("./components/admin/permissions/AnnualReport.vue").default);
+
 Vue.component("requeriments-view", require("./components/admin/permissions/RequerimentsView.vue").default);
 
 Vue.component("permits-view", require("./components/admin/permissions/PermitsView.vue").default);

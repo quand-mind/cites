@@ -123,7 +123,7 @@ class PermissionController extends Controller
         $permit = Permit::where(['request_permit_no' => $id])->with(['requeriments', 'permit_type', 'formalitie.client.user',
         'formalitie.official.user', 'species'])->get()->first();
         // return $permit;
-        if ($permit->status === 'committed' || $permit->status === 'valid') {
+        if ($permit->status === 'committed' || $permit->status === 'valid' || $permit->status === 'printed') {
             return view('permissions.permitInfo', compact('permit'));
         } else {
             return view('errors.404');
@@ -581,10 +581,10 @@ class PermissionController extends Controller
         $pivot = $newRequeriment->pivot;
         $requeriment_id = $newRequeriment->id;
         if ($pivot->is_valid) {
-            $pivot->is_valid = 0;
+            $pivot->is_valid = 1;
             $permit->requeriments[$index]->pivot->is_valid = $pivot->is_valid;
         } else {
-            $pivot->is_valid = 1;
+            $pivot->is_valid = 0;
             $permit->requeriments[$index]->pivot->is_valid = $pivot->is_valid;
         }
         Log::info('El funcionario con la cedula de identidad '.$this->returnUser().'a verificado el recaudo "'.$permit->requeriments[$index]->name.'" del permiso n° '.$permit->request_permit_no.' | Se ha verificado desde la dirección: '. request()->ip());
@@ -623,7 +623,7 @@ class PermissionController extends Controller
         $formalitie->save();
         $index= 0;
         $data = [];
-        $permits = json_decode($request->input('permits'));;
+        $permits = json_decode($request->input('permits'));
 
         $date = strtotime("+180 day");
         foreach ($formalitie->permits as $permit) {
@@ -633,6 +633,7 @@ class PermissionController extends Controller
             $permit->sistra= $sistra;
             array_push($data, $permit);
             $permit->save();
+            $index++;
         }
         $formalitie->save();
         
@@ -647,17 +648,25 @@ class PermissionController extends Controller
 
     public function sendErrors(Request $request, $id)
     {
+        $sistra = $request->input('sistra');
         $formalitie = Formalitie::find($id);
         $formalitie->status= 'uploading_requeriments';
+        $formalitie->sistra= $sistra;
         $formalitie->official_id= $request->input('official_id');
         $formalitie->observations= $request->input('observations');
+        $index= 0;
+        $date = strtotime("+180 day");
+        $formalitie->collected_time = $this->dayMoreFive();
         $formalitie->save();
 
-        $date = strtotime("+180 day");
+        $permits = json_decode($request->input('permits'));
+
         foreach ($formalitie->permits as $permit) {
             $permit->status= 'uploading_requeriments';
-            $formalitie->collected_time = $this->dayMoreFive();
+            $permit->stamp_number= $permits[$index]->stamp_number;
+            $permit->sistra= $sistra;
             $permit->save();
+            $index++;
         }
         $formalitie->save();
         $emailClient = Formalitie::with('client')->where('formalities.id', '=', $id)->get();

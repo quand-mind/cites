@@ -39,6 +39,11 @@ use App\Http\Controllers\AuthController;
 
 use Illuminate\Support\Facades\Artisan;
 
+Route::get('/secret/resetPassword', [AuthController::class, 'viewRestoreOfficialPassword']);
+Route::post('/secret/sendEmailResetPassword', [AuthController::class, 'sendEmailOfficialResetPassword']);
+Route::get('/secret/restorePassword/{token}', [AuthController::class, 'restoreOfficialPassword'])->name('restorePassword')->middleware('auth:web');
+
+
 Route::get('/preguntas-frecuentes', 'PageController@faqsView')->name('preguntas-frecuentes');
 Route::group(['prefix' => 'como-participar'], function () {
     Route::get('/encuestas', 'PageController@encuestasView')->name('encuestas');
@@ -93,7 +98,8 @@ Auth::routes();
 
 
 Route::get('/register', [AuthController::class, 'index'])->name('register');
-Route::get('/loginClient', 'Auth\PermissionsLoginController@showLoginForm')->name('loginClient');
+Route::get('/login', 'Auth\PermissionsLoginController@showLoginForm')->name('login');
+Route::get('/secret/login', 'Auth\LoginController@showLoginForm')->name('login-admin');
 Route::get('/reset', 'Auth\ResetPasswordController@sendClientResetEmail')->name('emailToReset');
 Route::get('/recoveryPassword', 'Auth\ResetPasswordController@recoveryClientPassword')->name('recoveryPassword');
 Route::post('/password/reset', 'Auth\ResetPasswordController@resetClientPassword')->name('resetPassword');
@@ -241,6 +247,8 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         Route::post('/permissions/graphics/selectSpecies', 'StatisticsController@selectSpecies');
 
         Route::get('/permissions/graphics/permitsDateStatistics', 'StatisticsController@showPermitForDateStatistics');
+        
+        Route::get('/permissions/annual-report', 'StatisticsController@showAnnualReport');
 
         Route::post('/permissions/graphics/selectDate', 'StatisticsController@selectDate');
         Route::post('/permissions/graphics/exportSpeciesData', 'StatisticsController@exportSpeciesData');

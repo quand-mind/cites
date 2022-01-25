@@ -92,7 +92,7 @@
         </div>
         <div style="position: absolute; padding:5px; top:170; border:1px solid; height: 50px; left:0; width:24%; display:inline;">
           <h6 class="absolute" style="width: 100%;margin-top: 0px; top: 0;">Fin de la Transacción</h6>
-          <span class="absolute" style="width: 20%;margin-top: 0px; left:3; top: 17 ; font-size: 16px; ">{{$permit->purpose}}</span>
+          <span class="absolute" style="width: 80%;margin-top: 0px; left:3; top: 17 ; font-size: 16px; ">{{$permit->purpose}}</span>
         </div>
         <div style="position: absolute; padding:5px; top:170; border:1px solid; height: 50px; left:132; width:25%; display:inline;">
           <h6 class="absolute" style="width: 100%;margin-top: 0px; top: 0;">N° de Estampilla de Seguridad</h6>

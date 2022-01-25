@@ -283,7 +283,7 @@ export default {
     },
     sendErrors(){
       axios
-        .post(`/dashboard/permissions/sendErrors/`+ this.formalitie.id, {official_id: this.official.id, observations: this.formalitie.observations})
+        .post(`/dashboard/permissions/sendErrors/`+ this.formalitie.id, {official_id: this.official.id, observations: this.formalitie.observations, sistra: this.formalitie.sistra, permits: JSON.stringify(this.formalitie.permits)})
         .then(res => {
           this.makeToast(res.data)
           setTimeout(() => window.location.assign('/dashboard/permissions/'), timeout)

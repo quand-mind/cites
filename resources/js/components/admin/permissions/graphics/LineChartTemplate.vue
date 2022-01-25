@@ -14,8 +14,6 @@
       <b-col lg="8" md="12">
         <LineChart ref="lineChart" :labels="labelsToPass" :datasets="datasetsToPass"></LineChart>
       </b-col>
-
-      <b-btn @click="saveData">Guardar datos de la gráfica</b-btn>
       
     </b-row>
   </div>
@@ -57,7 +55,7 @@ export default {
         count++
       }
 
-      let speciesIdsArray = this.speciesToPass.map(specie => specie.id)
+      let speciesIdsArray = this.labelsToPass.map(specie => specie.id)
       let speciesIds = speciesIdsArray.join(',')
       // console.log(speciesIds)
       let date = new Date()

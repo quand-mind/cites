@@ -9,8 +9,9 @@
 
                 <div class="card-body">
                     
-
-                    <form method="POST" action="{{ url('/secret/sendEmailResetPassword') }}">
+                  
+                    <form method="POST" action="{{ url('/test/sendEmailResetPassword') }}">
+                      @csrf
                         <div class="form-group row">
                             <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('Correo Electrónico') }}</label>
 

@@ -40,8 +40,9 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Artisan;
 
 Route::get('/secret/resetPassword', [AuthController::class, 'viewRestoreOfficialPassword']);
-Route::post('/secret/sendEmailResetPassword', [AuthController::class, 'sendEmailOfficialResetPassword']);
-Route::get('/secret/restorePassword/{token}', [AuthController::class, 'restoreOfficialPassword'])->name('restorePassword')->middleware('auth:web');
+Route::post('/test/sendEmailResetPassword', [AuthController::class, 'sendEmailOfficialResetPassword']);
+Route::get('/secret/restorePassword/{token}', [AuthController::class, 'restoreOfficialPassword'])->name('restorePassword');
+Route::post('/secret/saveNewPassword', [AuthController::class, 'resetPasswordOfficial']);
 
 
 Route::get('/preguntas-frecuentes', 'PageController@faqsView')->name('preguntas-frecuentes');
@@ -98,8 +99,9 @@ Auth::routes();
 
 
 Route::get('/register', [AuthController::class, 'index'])->name('register');
-Route::get('/login', 'Auth\PermissionsLoginController@showLoginForm')->name('login');
-Route::get('/secret/login', 'Auth\LoginController@showLoginForm')->name('login-admin');
+// Route::get('/login', 'Auth\PermissionsLoginController@showLoginForm')->name('login');
+Route::get('/loginClient', 'Auth\PermissionsLoginController@showLoginForm')->name('loginClient');
+Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::get('/reset', 'Auth\ResetPasswordController@sendClientResetEmail')->name('emailToReset');
 Route::get('/recoveryPassword', 'Auth\ResetPasswordController@recoveryClientPassword')->name('recoveryPassword');
 Route::post('/password/reset', 'Auth\ResetPasswordController@resetClientPassword')->name('resetPassword');

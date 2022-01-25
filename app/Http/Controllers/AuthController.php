@@ -571,26 +571,29 @@ class AuthController extends Controller
         return response('Email de configuración de contraseña enviado al correo del usuario', 200);
     }
     
-    public function sendEmailOfficialResetPassword(Request $request) {
+    public function sendEmailOfficialResetPassword(Request $request)
+    {
         $getEmailUser = $request->input('email');
-        return $getEmailUser;
+        // return $getEmailUser;
         $emailOfficial=Official::where("email", "=", $getEmailUser)->first();
-        return $emailOfficial;
+        // return $emailOfficial;
 
-        // try{
-        //     if (! $token = JWTAuth::fromUser($emailOfficial)) {
-        //         return response()->json(['error' => 'invalid_credentials'], 401);
-        //     }
-        // }catch (JWTException $e){
-        //     return response()->json(['error' => 'could_not_create_token'], 500);
-        // }
+        try{
+            if (! $token = JWTAuth::fromUser($emailOfficial)) {
+                return response()->json(['error' => 'invalid_credentials'], 401);
+            }
+        }catch (JWTException $e){
+            return response()->json(['error' => 'could_not_create_token'], 500);
+        }
         
-        // setcookie("jwt_token", $token);
+        setcookie("jwt_token", $token);
 
-        // Mail::send('email.emailBody', ['token' => $token], function($message) use($request){
-        //     $message->to($request->input('email'));
-        //     $message->subject('Set Password');
-        // });
+        // return $token;
+
+        Mail::send('email.emailBodyOfficial', ['token' => $token], function($message) use($request){
+            $message->to($request->input('email'));
+            $message->subject('Set Password');
+        });
 
         return response('Email de configuración de contraseña enviado al correo del usuario', 200);
     }
@@ -609,20 +612,31 @@ class AuthController extends Controller
     }
 
     public function resetPasswordClient(Request $request){
-        $client = Client::where("email", "=", $request->input('email'))->first();
-        $resetPassword = Client::find($client->id);
-        $resetPassword->password = $request->input('password');
-        $resetPassword->save();
-        // return redirect('loginClient');
-        return $this->authenticated($request, $this->guard()->user(), $token = $request->input('token'));
+        $client = Client::where("email", "=", $request->input('email'))->get()->first();
+        $newPassword = $request->input('password');
+        $confirmNewPassword = $request->input('password_confirmation');
+        if ($newPassword === $confirmNewPassword) {
+            $client->password = Hash::make($newPassword);
+            $client->save();
+            // return redirect('loginClient');
+            return $this->authenticated($request, $this->guard()->user(), $token = $request->input('token'));
+        } else {
+            return response('las contraseñas no coinciden');
+        }
     }
     public function resetPasswordOfficial(Request $request){
-        $client = Client::where("email", "=", $request->input('email'))->first();
-        $resetPassword = Client::find($client->id);
-        $resetPassword->password = $request->input('password');
-        $resetPassword->save();
-        // return redirect('loginClient');
-        return $this->authenticated($request, $this->guard()->user(), $token = $request->input('token'));
+        $official = Official::where("email", "=", $request->input('email'))->get()->first();
+        $newPassword = $request->input('password');
+        $confirmNewPassword = $request->input('password_confirmation');
+        // return $confirmNewPassword;
+        if ( $newPassword === $confirmNewPassword ) { 
+            $official->password = Hash::make($newPassword);
+            // return $official->password;
+            $official->save();
+            return redirect('/secret/login');
+        } else {
+            return response('las contraseñas no coinciden');
+        }
     }
     /**
      * Refresh a token.

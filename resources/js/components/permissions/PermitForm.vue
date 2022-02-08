@@ -87,7 +87,7 @@
           </b-row>
         </b-card-text>
       </b-card>
-      <button class="mt-4 w-100 btn btn-primary" @click="requestPermit()">Enviar Planilla</button>
+      <button :disabled="!validForm" class="mt-4 w-100 btn btn-primary" @click="requestPermit()">Enviar Planilla</button>
     </div>
     <b-modal v-model="showSelectSpecie" size="xl" id="species-modal" title="Agregar Especie" hide-footer>
       <AddSpecie
@@ -146,6 +146,20 @@ export default {
     showSelectSpecie:  false,
     showSelectedSpecies: false
   }),
+  computed:{
+    validForm () {
+      const validCountry = Boolean(this.permit.country)
+      const validTransport = Boolean(this.permit.transportation_way)
+      const validShipment = Boolean(this.permit.shipment_port)
+      const validLanding = Boolean(this.permit.landing_port)
+      const validPurpose = Boolean(this.permit.purpose)
+      const validConsignedTo = Boolean(this.permit.consigned_to)
+      const validDestinyPlace = Boolean(this.permit.destiny_place)
+      const validDeparturePlace = Boolean(this.permit.departure_place)
+      const lengthSpecie = this.selectedSpecies.length
+      return validCountry && validTransport && validShipment && validLanding && validPurpose && validConsignedTo && validDestinyPlace && validDeparturePlace && lengthSpecie > 0
+    }
+  },
   methods:{
     ...mapActions([
       'fetchSpecies',

@@ -91,7 +91,7 @@ Route::group(['prefix' => 'recursos'], function () {
 
 // // Frontend routes for "Transgénico"
 // Route::get('/transgenico', function () {
-//     return view('welcome');
+//     return view('welcome'); 
 // });
 
 // Route::get('/register', ['AuthController@index']);

@@ -167,7 +167,7 @@ class PermissionController extends Controller
         $DateDay = Carbon::now()->format('ymd');
         $getSpecies = json_decode($request->input('species'));
 
-        return $getSpecies;
+        return gettype($getSpecies);
         
         $index = 0;
         

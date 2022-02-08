@@ -167,7 +167,7 @@ class PermissionController extends Controller
         $DateDay = Carbon::now()->format('ymd');
         $getSpecies = json_decode($request->input('species'));
 
-        return gettype($getSpecies);
+        // return gettype($getSpecies);
         
         $index = 0;
         
@@ -402,6 +402,7 @@ class PermissionController extends Controller
         }
         // return $formalitie->permits[0]->requeriments;
         // return $speciesIdsWithPivot;
+        return $index;
         Log::info('El solicitante con la cedula de identidad '.$this->returnUser().'ha iniciado el proceso para lo solicitud un nuevo trámite | El permiso se ha solicitado desde la dirección: '. request()->ip());
         Mail::to(auth()->user()->email)->send(new createFormaliteMail($formalitie));
         return response('Se ha solicitado el permiso, dirijase a la oficina del MINEC para entregar los recaudos.', 200);

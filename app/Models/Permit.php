@@ -28,6 +28,7 @@ class Permit extends Model
         'departure_place',
         'departure_date',
         'created_at',
+        'updated_at',
         'departament_id'
     ];
 

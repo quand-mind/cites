@@ -18,6 +18,8 @@ class Formalitie extends Model
         'observations',
         'collected_time',
         'official_id',
+        'created_at',
+        'updated_at',
         'client_id',
     ];
 

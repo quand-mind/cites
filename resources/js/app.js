@@ -138,6 +138,8 @@ Vue.component("requeriments-view", require("./components/admin/permissions/Reque
 
 Vue.component("permits-view", require("./components/admin/permissions/PermitsView.vue").default);
 
+Vue.component("permissions-table", require("./components/admin/permissions/PermissionsTable.vue").default);
+
 Vue.component("graphics-dashboard", require("./components/admin/permissions/graphics/GraphicsDashboard.vue").default);
 
 Vue.component("graphic", require("./components/admin/permissions/graphics/Graphic.vue").default);

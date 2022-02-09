@@ -1,7 +1,12 @@
 <template>
   <div>
-    <h1 class="mb-4">Trámites:</h1>
-    <div v-if="formalities.data.length === 0">
+    <div class="d-flex justify-content-between align-items-center">
+      <h1 class="mb-4">Trámites:</h1>
+      <a href="/dashboard/permissions/table" class="btn btn-secondary" v-if="type === 'admin'">Vista de Tabla
+        <font-awesome-icon class="ml-2" :icon="['fa', 'table']"></font-awesome-icon>
+      </a>
+    </div>
+    <div  v-if="type === 'client' && formalities.data.length === 0">
       <span>No hay tramites solicitados. Solicite sus permisos <a href="/solicitante/permissions/list">Aquí.</a></span>
     </div>
     <!-- <div class="formalitie-container" v-for="(formalitie, index) of formalities" v-bind:key="index">

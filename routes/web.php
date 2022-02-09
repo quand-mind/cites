@@ -216,6 +216,8 @@ Route::middleware(['auth', 'panel.auth'])->group(function () {
         // Permissions Routes
         Route::get('/permissions', 'PermissionController@getList');
 
+        Route::get('/permissions/table', 'PermissionController@showPermitsTableView');
+
         Route::get('/permissions/check/{id}', 'PermissionController@showChecklist');
 
         Route::get('/permissions/requerimentsView', 'RequerimentController@index');

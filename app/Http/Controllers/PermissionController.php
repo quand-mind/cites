@@ -84,6 +84,19 @@ class PermissionController extends Controller
         return view('panel.dashboard.permissions.permits_view', compact('permit_types'));
     }
 
+    public function showPermitsTableView()
+    {
+        $clientData = Client::with('user')->where('id', '=', auth()->user()->id)->get()->first();
+        if ($clientData) {
+            $clientId = $clientData->id;
+        } else {
+            $clientId = -1;
+        }
+        $formalities = Formalitie::with(['permits.requeriments', 'permits.permit_type', 'permits.species', 'client.user'])->whereNotIn('client_id', [$clientId])->get();
+        // $permissions = Permit::with(['requeriments', 'permit_type', 'species', 'client.user'])->whereNotIn('client_id', [$clientId])->get();
+        return view('panel.dashboard.permissions.permissions_table', compact('formalities'));
+    }
+
     public function getList()
     {
         $clientData = Client::with('user')->where('id', '=', auth()->user()->id)->get()->first();

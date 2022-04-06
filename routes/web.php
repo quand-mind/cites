@@ -53,6 +53,7 @@ Route::group(['prefix' => 'como-participar'], function () {
 });
 
 Route::get('/legislacion/{title}', 'PageController@laws');
+Route::get('/glosario', 'PageController@glosaryView');
 
 Route::group(['prefix' => 'recursos'], function () {
     Route::get('/glosario', 'PageController@glosaryView');

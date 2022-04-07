@@ -28,7 +28,7 @@
       <span slot="tipo" slot-scope="props">{{props.row.type}}</span>
 
       <!-- preview slot -->
-      <span slot="ver_archivo" slot-scope="props"><a :href="'storage/' + props.row.path" target="_blank"><font-awesome-icon :icon="['fa', 'eye']"></font-awesome-icon> Ver archivo</a></span>
+      <span slot="ver_archivo" slot-scope="props"><a :href="'/storage' + props.row.path" target="_blank"><font-awesome-icon :icon="['fa', 'eye']"></font-awesome-icon> Ver archivo</a></span>
     </v-client-table>
 
     <!-- Delete modal -->

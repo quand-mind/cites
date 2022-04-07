@@ -52,7 +52,7 @@ Route::group(['prefix' => 'como-participar'], function () {
     Route::get('/{slug}', 'PageController@newQuestionView')->name('pregunta-adicional');
 });
 
-Route::get('/legislacion/{title}', 'PageController@laws');
+Route::get('/legislacion', 'PageController@laws');
 Route::get('/glosario', 'PageController@glosaryView');
 
 Route::group(['prefix' => 'recursos'], function () {

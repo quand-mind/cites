@@ -419,10 +419,11 @@ class PageController extends Controller
 
     public function laws () {
         
+        $title = 'legislacion-nacional';
+        
         $page = Page::where('slug', $title)->first();
         $links = $this->getMenuLinks();
         $socialLinks = LinkController::getVisibleLinks();
-
         $filesData = LegalFile::where('type', 'nac')->get();
 
         return view('frontend.legal', compact('page', 'links', 'filesData', 'socialLinks'));

@@ -12,7 +12,7 @@
     <!-- <div class="formalitie-container" v-for="(formalitie, index) of formalities" v-bind:key="index">
       <h4 class=" mb-3">N° de Trámite: {{formalitie.request_formalitie_no}}</h4> -->
       <div class="ml-4" v-for="(formalitie, index) of formalities.data" v-bind:key="index">
-        <div class="formalitie-container">
+        <div v-if="formalitie.permits.length > 0" class="formalitie-container">
           <div class="d-flex justify-content-between align-items-center">
             <h5 class=" mb-3">N° de Trámite: {{formalitie.request_formalitie_no}}</h5>
             <div>

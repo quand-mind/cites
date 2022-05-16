@@ -13,8 +13,8 @@ class ChangeDefinitionGlosary extends Migration
      */
     public function up()
     {
-        Schema::create('glosary', function (Blueprint $table) {
-            $table->longText('description');
+        Schema::table('glosary', function (Blueprint $table) {
+            $table->longText('description')->change();
         });
     }
 
@@ -25,8 +25,8 @@ class ChangeDefinitionGlosary extends Migration
      */
     public function down()
     {
-        Schema::create('glosary', function (Blueprint $table) {
-            $table->string('description', 100);
+        Schema::table('glosary', function (Blueprint $table) {
+            $table->string('description', 100)->change();
         });
     }
 }

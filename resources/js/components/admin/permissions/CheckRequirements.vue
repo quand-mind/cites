@@ -13,7 +13,7 @@
         </b-col>
         <div></div>
       </b-row>
-      <h4 class="ml-4 mb-4">Hoja de Checkeo de Requisitos</h4>
+      <h4 class="ml-4 mb-4">Hoja de Chequeo de Requisitos</h4>
       <div class="card" v-for="(permit, index) of formalitie.permits" :key="index">
         <h3 class="ml-4 mt-3">Permiso N° {{permit.request_permit_no}}</h3>
         <div class="ml-5 mr-5 mb-4">

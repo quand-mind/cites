@@ -74,7 +74,7 @@
         <h4 class=" mb-3">N° de Trámite: {{selectedFormalite.request_permit_no}}</h4>
         <div>
           <b-badge class="p-2" variant="info">{{moment(selectedFormalite.created_at).format("DD-MM-YYYY")}}</b-badge>
-          <b-badge v-if="selectedFormalite.status === 'requested'" class="p-2" variant="info">Por Validar</b-badge>
+          <b-badge v-if="selectedFormalite.status === 'requested'" class="p-2" variant="warning">Por Validar</b-badge>
           <b-badge v-if="selectedFormalite.status === 'valid'" class="p-2" variant="success">Validado Correctamente</b-badge>
           <b-badge v-if="selectedFormalite.status === 'committed'" class="p-2" variant="success">Entregado</b-badge>
           <b-badge v-if="selectedFormalite.status === 'not_valid'" class="p-2" variant="danger">No Valido</b-badge>
@@ -101,7 +101,7 @@
               <b-badge class="p-2" v-if="permit.permit_type.type === 'import'" variant="success">Importación</b-badge>
               <b-badge class="p-2" v-if="permit.permit_type.type === 'reexport'" variant="success">Reexportación</b-badge>
               <b-badge v-if="permit.status === 'uploading_requeriments'" class="p-2" variant="warning">Recaudos Por Subir</b-badge>
-              <b-badge v-if="permit.status === 'requested'" class="p-2" variant="info">Por Validar</b-badge>
+              <b-badge v-if="permit.status === 'requested'" class="p-2" variant="warning">Por Validar</b-badge>
               <b-badge v-if="permit.status === 'valid'" class="p-2" variant="success">Validado Correctamente</b-badge>
               <b-badge v-if="permit.status === 'committed'" class="p-2" variant="success">Entregado</b-badge>
               <b-badge v-if="permit.status === 'not_valid'" class="p-2" variant="danger">No Valido</b-badge>
@@ -127,7 +127,7 @@
     <b-modal v-if="showPermit" v-model="showPermit" size="xl" id="species-modal" title="Estado del Permiso" hide-footer> 
       <div class="ma-5 d-flex justify-content-between align-items-center">
         <h4 class=" mb-3">N° de Permiso: {{selectedPermit.request_permit_no}}</h4>
-        <b-badge v-if="selectedPermit.status === 'requested'" class="p-2" variant="info">Por Validar</b-badge>
+        <b-badge v-if="selectedPermit.status === 'requested'" class="p-2" variant="warning">Por Validar</b-badge>
           <b-badge v-if="selectedPermit.status === 'valid'" class="p-2" variant="success">Validado Correctamente</b-badge>
           <b-badge v-if="selectedPermit.status === 'committed'" class="p-2" variant="success">Entregado</b-badge>
           <b-badge v-if="selectedPermit.status === 'not_valid'" class="p-2" variant="danger">No Valido</b-badge>

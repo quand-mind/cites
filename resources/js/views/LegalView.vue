@@ -12,7 +12,7 @@
                 {{file.description}}
                 </b-card-text>
 
-                <a :href="file.path" target="_blank" class="url card-link">Descargar aquí</a>
+                <a :href="'/storage' + file.path" target="_blank" class="url card-link">Descargar aquí</a>
             </b-card>
         </div>
     </div>

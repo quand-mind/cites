@@ -38,8 +38,8 @@ class GlosaryController extends Controller
     public function store(Request $request)
     {
         if ($request->validate([
-            'word' => 'required|max:10',
-            'description' => 'required|max:100'
+            'word' => 'required|max:100',
+            'description' => 'required|max:800'
         ])) {
             $glosary = new Glosary($request->all());
             $glosary->save();
@@ -58,8 +58,8 @@ class GlosaryController extends Controller
     public function update(Request $request, $id)
     {
         if ($request->validate([
-            'word' => 'required|max:10',
-            'description' => 'required|max:100'
+            'word' => 'required|max:100',
+            'description' => 'required|max:800'
         ])) {
             $glosary = Glosary::find($id);
             $glosary->update($request->all());

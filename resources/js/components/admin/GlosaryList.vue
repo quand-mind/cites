@@ -83,10 +83,12 @@
 <script>
 import axios from "axios";
 import moment from "moment";
+import timeout from '../../setTimeout.js'
 
 export default {
    props: ["words"],
   data: () => ({
+    timeout: timeout,
     tableSettings: {
       data: [],
       columns: [
@@ -132,7 +134,7 @@ export default {
         .post(`/dashboard/glosary`, {...this.form})
         .then(res => {
           this.makeToast(res.data)
-          setTimeout(() => window.location.reload(), 300)
+          setTimeout(() => window.location.reload(), timeout)
         })
         .catch(err => {
           console.log(err)
@@ -146,7 +148,7 @@ export default {
         .post(`/dashboard/glosary/edit/${this.selectedWord.id}`, this.form)
         .then(res => {
           this.makeToast(res.data)
-          setTimeout(() => window.location.reload(), 300)
+          setTimeout(() => window.location.reload(), timeout)
         })
         .catch(err => {
           this.makeToast(err.toString(), 'danger')
@@ -159,14 +161,14 @@ export default {
         .delete(`/dashboard/glosary/${row.id}`)
         .then(res => {
           this.makeToast(res.data)
-          setTimeout(() => window.location.reload(), 300)
+          setTimeout(() => window.location.reload(), timeout)
         })
         .catch(err => {
           _this.makeToast(err.response.data, 'danger')
         })
     },
     onResetEdit() {},
-    makeToast(msg, variant = "success", delay = 3000, append = false) {
+    makeToast(msg, variant = "success", delay = timeout, append = false) {
       // Create a new toast
       this.$bvToast.toast(`${msg}`, {
         title: "Actualización de la palabra",

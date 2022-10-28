@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Faker\Factory as Faker;
 
 class UsersTableSeeder extends Seeder
 {
@@ -15,40 +16,42 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
+        $faker = Faker::create();
         DB::table('users')->insert([
             'name'      => 'Admin',
-            'email'     => 'admin@mail.com',
-            'password'  => bcrypt('admin123'),
-            'username'  => 'admin',
-            'role'      => 'admin'
+            'nationality'=> 'Venezolano',
+            'dni'       => '27647120',
+            'domicile'  => 'Caracas',
+            'address'   => 'Av urdaneta edificio dorsay',
+            'fax'       => $faker->tollFreePhoneNumber,
         ]);
 
         DB::table('users')->insert([
             'name'      => 'Super',
-            'email'     => 'superuser@mail.com',
-            'password'  => bcrypt('super123'),
-            'username'  => 'superuser',
-            'role'      => 'superuser'
+            'nationality'=> 'Venezolano',
+            'dni'       => '27647121',
+            'domicile'  => 'Caracas',
+            'address'   => 'Av urdaneta edificio dorsay',
+            'fax'       => $faker->tollFreePhoneNumber,
         ]);
 
         DB::table('users')->insert([
             'name'      => 'Writer Tester',
-            'email'     => 'writer@mail.com',
-            'password'  => bcrypt('writer123'),
-            'username'  => 'writertester',
-            'role'      => 'writer'
+            'nationality'=> 'Venezolano',
+            'dni'       => '27647122',
+            'domicile'  => 'Caracas',
+            'address'   => 'Av urdaneta edificio dorsay',
+            'fax'       => $faker->tollFreePhoneNumber,
         ]);
 
-        User::factory()->count(20)->create([
-            'role' => 'writer'
+        User::factory()->count(10)->create([
+            'nationality' => 'Venezolano'
         ]);
 
-        User::factory()->count(5)->create([
-            'role' => 'admin'
+        User::factory()->count(10)->create([
+            'nationality' => 'Extranjero'
         ]);
-
-        User::factory()->count(50)->create([
-            'role' => 'client'
-        ]);
+        
+        
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 
@@ -37,7 +38,7 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
-
+    
     public function redirectTo(){
 
         // User role
@@ -48,6 +49,7 @@ class LoginController extends Controller
             case 'admin':
             case 'superuser':
             case 'writer':
+            case 'funcionario':
                 return '/dashboard';
                 break;
             // case 'writer':

@@ -76,7 +76,7 @@
               </b-form-checkbox>
             </b-form-group>
             <b-form-group label="" label-for="input-3">
-              <b-form-checkbox v-model="pageData.is_onMenu" :checked="pageData.is_onMenu" name="check-button" switch @change="pageData.is_onMenu = Number(!pageData.is_onMenu)">
+              <b-form-checkbox v-model="pageData.is_onMenu" :checked="pageData.is_onMenu" name="check-button" switch>
                 Agregar al menú principal
               </b-form-checkbox>
             </b-form-group>
@@ -173,6 +173,7 @@ import { VueEditor } from "vue2-editor";
 import Datepicker from "vuejs-datepicker/dist/vuejs-datepicker.esm.js";
 import * as lang from "vuejs-datepicker/src/locale";
 import moment from "moment";
+import timeout from '../../setTimeout.js'
 
 export default {
   props: ["page", "mainpages"],
@@ -182,6 +183,7 @@ export default {
     Datepicker
   },
   data: () => ({
+    timeout: timeout,
     pageData: {
       title: "",
       meta_description: "",
@@ -224,7 +226,7 @@ export default {
         .post(`/dashboard/pages/create`, formData)
         .then(res => {
           _this.makeToast(res.data);
-          setTimeout(() => window.location.replace("/dashboard/pages"), 300);
+          setTimeout(() => window.location.replace("/dashboard/pages"), timeout);
         })
         .catch(err => {
           let { data } = err.response
@@ -245,7 +247,7 @@ export default {
         .post(`/dashboard/pages/edit/${_this.page.id}`, formData)
         .then(res => {
           _this.makeToast(res.data);
-          setTimeout(() => window.location.replace("/dashboard/pages"), 300);
+          setTimeout(() => window.location.replace("/dashboard/pages"), timeout);
         })
         .catch(async err => {
           let { data } =  err.response
@@ -342,7 +344,7 @@ export default {
           }
         });
     },
-    makeToast(msg, variant = "success", delay = 3000, append = false) {
+    makeToast(msg, variant = "success", delay = timeout, append = false) {
       this.$bvToast.toast(`${msg}`, {
         title: "Actualización de la página",
         autoHideDelay: delay,

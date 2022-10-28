@@ -28,7 +28,7 @@
       <span slot="tipo" slot-scope="props">{{props.row.type}}</span>
 
       <!-- preview slot -->
-      <span slot="ver_archivo" slot-scope="props"><a :href="props.row.path" target="_blank"><font-awesome-icon :icon="['fa', 'eye']"></font-awesome-icon> Ver archivo</a></span>
+      <span slot="ver_archivo" slot-scope="props"><a :href="'/storage' + props.row.path" target="_blank"><font-awesome-icon :icon="['fa', 'eye']"></font-awesome-icon> Ver archivo</a></span>
     </v-client-table>
 
     <!-- Delete modal -->
@@ -110,10 +110,12 @@
 
 <script>
 import axios from "axios";
+import timeout from '../../setTimeout.js'
 
 export default {
   props: ["laws"],
   data: () => ({
+    timeout: timeout,
     columns: [
       "nombre",
       "descripcion",
@@ -194,7 +196,7 @@ export default {
           if (res.status === 200) {
             _this.makeToast(res.data);
             _this.hideEditModal();
-            setTimeout(() => window.location.reload(), 3000);
+            setTimeout(() => window.location.reload(), timeout);
           }
         })
         .catch(err => {
@@ -221,7 +223,7 @@ export default {
       };
     },
 
-    makeToast(msg, variant = "success", delay = 3000, append = false) {
+    makeToast(msg, variant = "success", delay = timeout, append = false) {
       this.$bvToast.toast(`${msg}`, {
         title: "Evento de actualización de archivo",
         autoHideDelay: delay,
@@ -256,7 +258,7 @@ export default {
           if (res.status === 200) {
             _this.makeToast(res.data);
             _this.hideEditModal();
-            setTimeout(() => window.location.reload(), 300);
+            setTimeout(() => window.location.reload(), timeout);
           }
         })
         .catch(err => {
@@ -282,7 +284,7 @@ export default {
           if (res.status === 200) {
             _this.makeToast(res.data);
             _this.hideDeleteModal();
-            setTimeout(() => window.location.reload(), 300);
+            setTimeout(() => window.location.reload(), timeout);
           }
         })
         .catch(err => {

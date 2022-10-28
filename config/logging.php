@@ -40,8 +40,13 @@ return [
 
         'single' => [
             'driver' => 'single',
-            'path' => storage_path('logs/laravel.log'),
+            'path' => storage_path('logs/auditoria.log'),
             'level' => 'debug',
+            'formatter' => Monolog\Formatter\LineFormatter::class,
+            'formatter_with' => [
+                'format' => "[%datetime%] %message%\n",
+                'dateFormat' => 'Y-m-d H:i:s.v',
+            ],
         ],
 
         'daily' => [

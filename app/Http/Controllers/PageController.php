@@ -417,22 +417,14 @@ class PageController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function laws ($title) {
+    public function laws () {
+        
+        $title = 'legislacion-nacional';
         
         $page = Page::where('slug', $title)->first();
         $links = $this->getMenuLinks();
         $socialLinks = LinkController::getVisibleLinks();
-
-        if ($title === 'legislacion-internacional') {
-            
-            $filesData = LegalFile::where('type', 'int')->get();
-        } else if ($title === 'legislacion-nacional') {
-
-            $filesData = LegalFile::where('type', 'nac')->get();
-        } else {
-
-            return view('errors.404', compact('links', 'socialLinks'));
-        }
+        $filesData = LegalFile::where('type', 'nac')->get();
 
         return view('frontend.legal', compact('page', 'links', 'filesData', 'socialLinks'));
     }

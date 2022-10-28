@@ -166,6 +166,7 @@ import { VueEditor } from "vue2-editor";
 import Datepicker from "vuejs-datepicker/dist/vuejs-datepicker.esm.js";
 import * as lang from "vuejs-datepicker/src/locale";
 import moment from "moment";
+import timeout from '../../setTimeout.js'
 
 export default {
   props: ["post"],
@@ -174,6 +175,7 @@ export default {
     Datepicker
   },
   data: () => ({
+    timeout: timeout,
     postData: {
       title: "",
       meta_description: "",
@@ -254,7 +256,7 @@ export default {
         .then(res => {
           // save image
           _this.makeToast(res.data);
-          setTimeout(() => window.location.replace("/dashboard/posts"), 300);
+          setTimeout(() => window.location.replace("/dashboard/posts"), timeout);
         })
         .catch(err => _this.makeToast(err.response.data, "danger"));
     },
@@ -345,7 +347,7 @@ export default {
           _this.makeToast(err.response.data, "danger");
         });
     },
-    makeToast(msg, variant = "success", delay = 3000, append = false) {
+    makeToast(msg, variant = "success", delay = timeout, append = false) {
       this.$bvToast.toast(`${msg}`, {
         title: "Actualización del post",
         autoHideDelay: delay,

@@ -92,7 +92,7 @@ export default {
 
 <style lang="scss">
 .image-aside img {
-  height: 80px;
+  max-height: 80px;
   margin: 10px;
 }
 

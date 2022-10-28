@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Cviebrock\EloquentSluggable\Sluggable;
 
-class User extends Authenticatable
+class User extends Model
 {
-    use Notifiable;
+    
     use HasFactory;
 
     /**
@@ -17,7 +17,16 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'username', 'is_active', 'photo', 'role'
+        'name', 
+        'dni', 
+        'nationality', 
+        'domicile', 
+        'address', 
+        'phone', 
+        'mobile', 
+        'fax', 
+        'is_active', 
+        'photo'
     ];
 
     /**
@@ -25,9 +34,9 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $hidden = [
+    /*protected $hidden = [
         'password', 'remember_token',
-    ];
+    ];*/
 
     public function questionsAnswered()
     {
@@ -53,10 +62,32 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Models\Survey');
     }
-
+    
+    public function official()
+    {
+        return $this->hasOne(Official::class);
+    }
+    public function client()
+    {
+        return $this->hasOne(Client::class);
+    }
+    public function phones(){
+        return $this->belongsToMany(Phone::class,
+                                        'phone_user',
+                                        'user_id',
+                                        'phone_id');
+    }
     // methods
     public function isWriter()
     {
         return $this->role == 'writer';
+    }
+    public function isPersonLegal()
+    {
+        return $this->role == 'juridica';
+    }
+    public function isNaturalPerson()
+    {
+        return $this->role == 'natural';
     }
 }

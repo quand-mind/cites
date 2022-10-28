@@ -37,10 +37,12 @@ Descripción:
 <script>
 import axios from "axios";
 import moment from "moment";
+import timeout from '../setTimeout';
 
 export default {
   props: ["questions"],
   data: () => ({
+    timeout: timeout,
     form: {
       asked_by: "",
       question: "",
@@ -57,7 +59,7 @@ export default {
       axios
         .post(`/question`, formData)
         .then(res => {
-          setTimeout(_this.onReset, 500)
+          setTimeout(_this.onReset, timeout)
           _this.makeToast(res.data);
         })
         .catch(err => console.log(err.response));
@@ -66,7 +68,7 @@ export default {
       this.form.asked_by = ""
       this.form.question = ""
     },
-    makeToast(msg, variant = "success", delay = 3000, append = false) {
+    makeToast(msg, variant = "success", delay = timeout, append = false) {
       this.$bvToast.toast(`${msg}`, {
         title: "¡Gracias por preguntar!",
         autoHideDelay: delay,

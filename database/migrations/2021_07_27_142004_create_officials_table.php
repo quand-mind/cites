@@ -13,16 +13,18 @@ class CreateOfficialsTable extends Migration
      */
     public function up()
     {
-        Schema::create('officials', function (Blueprint $table) {
-            $table->id();
-            $table->string('username');
-            $table->string('email')->unique();
-            $table->enum('role', ['admin', 'writer', 'superuser']);
-            $table->string('password');
-            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->rememberToken();
-            $table->timestamps();
-        });
+        Schema::create(
+            'officials', function (Blueprint $table) {
+                $table->id();
+                $table->string('username');
+                $table->string('email')->unique();
+                $table->enum('role', ['admin', 'writer', 'superuser', 'funcionario']);
+                $table->string('password');
+                $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
+                $table->rememberToken();
+                $table->timestamps();
+            }
+        );
     }
 
     /**

@@ -14,7 +14,7 @@ class AddFuncionarioToEnumInOfficialRole extends Migration
      */
     public function up()
     {
-        DB::statement("ALTER TABLE officials CHANGE role role ENUM('admin', 'writer', 'superuser', 'funcionario')");
+        DB::statement("ALTER TABLE officials CHANGE role ENUM('admin', 'writer', 'superuser', 'funcionario')");
     }
 
     /**
@@ -24,6 +24,6 @@ class AddFuncionarioToEnumInOfficialRole extends Migration
      */
     public function down()
     {
-        DB::statement("ALTER TABLE officials CHANGE role role ENUM('admin', 'writer', 'superuser')");
+        DB::statement("ALTER TABLE officials CHANGE role ENUM('admin', 'writer', 'superuser')");
     }
 }
